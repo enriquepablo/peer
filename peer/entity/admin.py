@@ -26,42 +26,18 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-from django.contrib.auth.models import User
-from django.db import models
-from django.utils.translation import ugettext
-from django.utils.translation import ugettext_lazy as _
+from django.contrib import admin
 
-from domain.models import Domain
+from entity.models import Entity, PermissionDelegation
 
 
-class Entity(models.Model):
-
-    name = models.CharField(_(u'Entity name'), max_length=100)
-    owner = models.ForeignKey(User, verbose_name=_('Owner'),
-                              blank=True, null=True)
-    domain = models.ForeignKey(Domain, verbose_name=_('Domain'))
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _(u'Entity')
-        verbose_name_plural = _(u'Entities')
+class EntityAdmin(admin.ModelAdmin):
+    pass
 
 
-class PermissionDelegation(models.Model):
+class PermissionDelegationAdmin(admin.ModelAdmin):
+    pass
 
-    entity = models.ForeignKey(Entity, verbose_name=_(u'Entity'))
-    delegator = models.ForeignKey(User, verbose_name=_('Delegator'),
-                                  related_name='permission_delegator')
-    delegates = models.ManyToManyField(User, verbose_name=_('Delegates'),
-                                       related_name='permission_delegated')
 
-    def __unicode__(self):
-        return ugettext(
-            u'%(user)s delegates permissions for %(entity)s entity') % {
-            'user': self.delegator.username, 'entity': self.entity.name}
-
-    class Meta:
-        verbose_name = _(u'Permission delegation')
-        verbose_name_plural = _(u'Permission delegations')
+admin.site.register(Entity, EntityAdmin)
+admin.site.register(PermissionDelegation, PermissionDelegationAdmin)
