@@ -56,6 +56,6 @@ setup(
         'Django>=1.3',
         'South',
         'psycopg2',
-        'django-registration',
+        'django-registration==0.7',
         ],
 )
