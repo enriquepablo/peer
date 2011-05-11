@@ -36,8 +36,8 @@ class Domain(models.Model):
     name = models.CharField(_(u'Domain name'), max_length=100)
     owner = models.ForeignKey(User, verbose_name=_('Identified domain owner'),
                               blank=True, null=True)
-    validate = models.BooleanField(
-        _(u'Validate'), default=False,
+    validated = models.BooleanField(
+        _(u'Validated'), default=False,
         help_text=_(u'Used to know if the owner actual owns the domain'))
 
     def __unicode__(self):

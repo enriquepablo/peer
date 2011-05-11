@@ -11,7 +11,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('owner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True)),
-            ('validate', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('validated', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('domain', ['Domain'])
 
@@ -61,7 +61,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
-            'validate': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'validated': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
         }
     }
 
