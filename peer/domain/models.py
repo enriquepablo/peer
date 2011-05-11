@@ -26,8 +26,12 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import datetime
+import hashlib
+
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import signals
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -48,3 +52,17 @@ class Domain(models.Model):
     class Meta:
         verbose_name = _(u'Domain')
         verbose_name_plural = _(u'Domains')
+
+
+def generate_validation_key(sender, instance, created, **kwargs):
+    if not instance.validation_key:
+        m = hashlib.md5()
+        m.update(instance.name)
+        # add also current datetime for more security
+        m.update(datetime.datetime.now().isoformat())
+        if instance.owner:
+            m.update(instance.owner.username)
+        instance.validation_key = m.hexdigest()
+        instance.save()
+
+signals.post_save.connect(generate_validation_key, sender=Domain)
