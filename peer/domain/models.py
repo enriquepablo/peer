@@ -43,7 +43,7 @@ CONNECTION_TIMEOUT = 2
 
 class Domain(models.Model):
 
-    name = models.CharField(_(u'Domain name'), max_length=100)
+    name = models.CharField(_(u'Domain name'), max_length=100, unique=True)
     owner = models.ForeignKey(User, verbose_name=_('Identified domain owner'),
                               blank=True, null=True)
     validated = models.BooleanField(
