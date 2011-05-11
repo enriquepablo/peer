@@ -28,11 +28,17 @@
 
 import datetime
 import hashlib
+import urlparse
+
+import httplib2
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import signals
 from django.utils.translation import ugettext_lazy as _
+
+
+CONNECTION_TIMEOUT = 2
 
 
 class Domain(models.Model):
@@ -45,6 +51,24 @@ class Domain(models.Model):
         help_text=_(u'Used to know if the owner actual owns the domain'))
     validation_key = models.CharField(_('Domain validation key'),
                                       max_length=100, blank=True, null=True)
+
+    @property
+    def validation_url(self):
+        domain = 'http://%s' % self.name
+        return urlparse.urljoin(domain, self.validation_key)
+
+    def validate_ownership(self):
+        http = httplib2.Http(timeout=CONNECTION_TIMEOUT)
+        try:
+            response = http.request(self.validation_url)
+        except httplib2.ServerNotFoundError:
+            return False
+        if response[0]['status']:
+            self.validated = True
+            self.save()
+            return True
+        else:
+            return False
 
     def __unicode__(self):
         return self.name
