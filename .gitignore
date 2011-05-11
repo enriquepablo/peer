@@ -1,1 +1,2 @@
 *.pyc
+peer/local_settings.py
