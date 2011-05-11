@@ -26,4 +26,29 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-# Create your views here.
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.utils.translation import ugettext as _
+
+from domain.forms import DomainForm
+
+
+@login_required
+def domain_add(request):
+    if request.method == 'POST':
+        form = DomainForm(request.POST)
+        if form.is_valid():
+            messages.success(request, _(u'Domain created'))
+            instance = form.save(commit=False)
+            instance.owner = request.user
+            instance.save()
+    else:
+        form = DomainForm()
+
+    return render_to_response('domain/add.html', {
+            'form': form,
+            }, context_instance=RequestContext(request))
