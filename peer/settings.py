@@ -159,6 +159,14 @@ INSTALLED_APPS = (
 ACCOUNT_ACTIVATION_DAYS = 2
 LOGIN_REDIRECT_URL = '/'
 
+# Email settings. Commented by security, but should be rewrite on a local or production settings
+# EMAIL_HOST = 'smtp.example.com'
+# EMAIL_PORT = 25
+
+# reCaptcha keys. Not filled for security
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.

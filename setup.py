@@ -57,5 +57,6 @@ setup(
         'South',
         'psycopg2',
         'django-registration==0.7',
+        'django-recaptcha',
         ],
 )
