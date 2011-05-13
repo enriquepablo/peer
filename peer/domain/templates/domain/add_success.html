@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<p>{% trans "You just register the  domain" %} <em>{{ domain.name }}</em></p>
+
+<p>{% trans "The next step is checks that you actually have the ownership of this domain. To do this, follow the next steps:" %}</p>
+
+<ul>
+  <li>{% trans "Add a file with the following name on your domain:" %}
+    <em>{{ domain.validation_key}}</em></li>
+  <li>{% trans "This way, if we request for the service" %} <em>{{ domain.validation_url }}</em>
+    {% trans "we should obtain that request successfully." %}</li>
+  <li>{% trans "Once you have that file uploaded to your domain, click on <em>validate</em> to perfom the actual validation." %}</li>
+</ul>

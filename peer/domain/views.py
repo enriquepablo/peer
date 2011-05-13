@@ -30,7 +30,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
@@ -58,10 +58,19 @@ def domain_add(request):
             instance.owner = request.user
             instance.save()
             return HttpResponseRedirect(
-                reverse('domain.views.domain_list'))
+                reverse('domain.views.domain_add_success', kwargs={'domain_id': instance.id}))
     else:
         form = DomainForm()
 
     return render_to_response('domain/add.html', {
             'form': form,
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def domain_add_success(request, domain_id):
+    domain = get_object_or_404(Domain, id=domain_id)
+
+    return render_to_response('domain/add_success.html', {
+            'domain': domain,
             }, context_instance=RequestContext(request))

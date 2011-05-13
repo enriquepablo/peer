@@ -33,4 +33,6 @@ urlpatterns = patterns(
     'domain.views',
     url(r'^$', 'domain_list', name='domain_list'),
     url(r'^add$', 'domain_add', name='domain_add'),
+    url(r'^add/success/(?P<domain_id>\d+)$', 'domain_add_success',
+        name='domain_add_success'),
 )
