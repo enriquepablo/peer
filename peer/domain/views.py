@@ -29,12 +29,23 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from domain.forms import DomainForm
+from domain.models import Domain
+
+
+@login_required
+def domain_list(request):
+    user = request.user
+    domains = Domain.objects.filter(owner=user)
+
+    return render_to_response('domain/list.html', {
+            'domains': domains,
+            }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -46,6 +57,8 @@ def domain_add(request):
             instance = form.save(commit=False)
             instance.owner = request.user
             instance.save()
+            return HttpResponseRedirect(
+                reverse('domain.views.domain_list'))
     else:
         form = DomainForm()
 

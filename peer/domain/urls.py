@@ -31,5 +31,6 @@ from django.conf.urls.defaults import patterns, url
 
 urlpatterns = patterns(
     'domain.views',
+    url(r'^$', 'domain_list', name='domain_list'),
     url(r'^add$', 'domain_add', name='domain_add'),
 )
