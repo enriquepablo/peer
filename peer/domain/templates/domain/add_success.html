@@ -9,5 +9,10 @@
     <em>{{ domain.validation_key}}</em></li>
   <li>{% trans "This way, if we request for the service" %} <em>{{ domain.validation_url }}</em>
     {% trans "we should obtain that request successfully." %}</li>
-  <li>{% trans "Once you have that file uploaded to your domain, click on <em>validate</em> to perfom the actual validation." %}</li>
+  <li>{% trans "Once you have that file uploaded to your domain, click on <em>verify ownership</em> to perfom the actual validation." %}</li>
 </ul>
+
+
+<a class="button" href="{% url domain_verification domain.id %}">
+  {% trans "Verify ownership" %}
+</a>

@@ -14,7 +14,11 @@
     <tr>
       <td>{{ domain.name }}</td>
       <td>{{ domain.validated }}</td>
-      <td></td>
+      <td>
+        <a class="button" href="{% url domain_verification domain.id %}">
+          {% trans "Verify ownership" %}
+        </a>
+      </td>
     </tr>
     {% endfor %}
   </tbody>
