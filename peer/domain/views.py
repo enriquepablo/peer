@@ -26,10 +26,12 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
@@ -74,3 +76,14 @@ def domain_add_success(request, domain_id):
     return render_to_response('domain/add_success.html', {
             'domain': domain,
             }, context_instance=RequestContext(request))
+
+
+@login_required
+def domain_verification(request, domain_id):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if domain.validate_ownership():
+        messages.success(request, _(u'The domain ownership was successfully verified'))
+    else:
+        messages.error(request,
+                       _(u'Error while checking domain ownership'))
+    return HttpResponseRedirect(reverse('domain.views.domain_list'))
