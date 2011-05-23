@@ -44,9 +44,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'terena-peer',                      # Or path to database file if using sqlite3.
-        'USER': 'terena-peer',                      # Not used with sqlite3.
-        'PASSWORD': 'terena-peer',                  # Not used with sqlite3.
+        'NAME': 'peer',                      # Or path to database file if using sqlite3.
+        'USER': 'peer',                      # Not used with sqlite3.
+        'PASSWORD': 'peer',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
