@@ -26,12 +26,10 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-import json
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
