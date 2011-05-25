@@ -26,25 +26,13 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from django.forms import ModelForm
 
-from django.conf.urls.defaults import patterns, include, url
-from django.contrib import admin
-
-from captcha.forms import RegistrationFormCaptcha
-from registration import urls as registration_urls
-
-admin.autodiscover()
+from entity.models import Entity
 
 
-urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
+class EntityForm(ModelForm):
 
-    url(r'^accounts/register/$',
-        'registration.views.register',
-        {'form_class': RegistrationFormCaptcha},
-        name='registration_register'),
-    (r'^accounts/', include(registration_urls)),
-
-    (r'^domain/', include('domain.urls')),
-    (r'^entities/', include('entity.urls')),
-)
+    class Meta:
+        model = Entity
+        fields = ('name', 'domain')

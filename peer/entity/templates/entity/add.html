@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Add entity" %}</h2>
+
+<form action="{% url entity_add %}" method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <p class="actionRow">
+    <input class="button" type="submit" value="{% trans "Create entity" %}" />
+  </p>
+</form>
+{% endblock %}

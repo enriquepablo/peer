@@ -26,25 +26,12 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-
-from django.conf.urls.defaults import patterns, include, url
-from django.contrib import admin
-
-from captcha.forms import RegistrationFormCaptcha
-from registration import urls as registration_urls
-
-admin.autodiscover()
+from django.conf.urls.defaults import patterns, url
 
 
-urlpatterns = patterns('',
-    url(r'^admin/', include(admin.site.urls)),
-
-    url(r'^accounts/register/$',
-        'registration.views.register',
-        {'form_class': RegistrationFormCaptcha},
-        name='registration_register'),
-    (r'^accounts/', include(registration_urls)),
-
-    (r'^domain/', include('domain.urls')),
-    (r'^entities/', include('entity.urls')),
+urlpatterns = patterns(
+    'entity.views',
+    url(r'^$', 'entities_list', name='entities_list'),
+    url(r'^add$', 'entity_add', name='entity_add'),
+    url(r'^(?P<entity_id>\d+)$', 'entity_view', name='entity_view'),
 )

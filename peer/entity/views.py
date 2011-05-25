@@ -26,4 +26,66 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-# Create your views here.
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response, get_object_or_404
+from django.template import RequestContext
+from django.utils.translation import ugettext as _
+
+from entity.forms import EntityForm
+from entity.models import Entity
+
+
+def get_entities_per_page():
+    if hasattr(settings, 'ENTITIES_PER_PAGE'):
+        return settings.ENTITIES_PER_PAGE
+    else:
+        return 10
+
+
+def entities_list(request):
+    entities = Entity.objects.all()
+    paginator = Paginator(entities, get_entities_per_page())
+
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    try:
+        entities = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        entities = paginator.page(paginator.num_pages)
+
+    return render_to_response('entity/list.html', {
+            'entities': entities,
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def entity_add(request):
+    if request.method == 'POST':
+        form = EntityForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Entity created succesfully'))
+            return HttpResponseRedirect(reverse('entity_list'))
+
+    else:
+        form = EntityForm()
+
+    return render_to_response('entity/add.html', {
+            'form': form,
+            }, context_instance=RequestContext(request))
+
+
+def entity_view(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+    return render_to_response('entity/view.html', {
+            'entity': entity,
+            }, context_instance=RequestContext(request))
+
