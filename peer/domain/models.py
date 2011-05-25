@@ -63,7 +63,7 @@ class Domain(models.Model):
             response = http.request(self.validation_url)
         except httplib2.ServerNotFoundError:
             return False
-        if response[0]['status']:
+        if response[0]['status'] == '200':
             self.validated = True
             self.save()
             return True
