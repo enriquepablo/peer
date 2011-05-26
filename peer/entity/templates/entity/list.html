@@ -5,7 +5,7 @@
 
 <ul>
 {% for entity in entities.object_list %}
-  <li>{{ entity }},/li>
+  <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
 {% endfor %}
 </ul>
 

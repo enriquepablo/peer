@@ -46,6 +46,10 @@ class Entity(models.Model):
     def __unicode__(self):
         return self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('entity_view', (str(self.id), ))
+
     class Meta:
         verbose_name = _(u'Entity')
         verbose_name_plural = _(u'Entities')
