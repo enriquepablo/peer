@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block content %}
-<h2>Entities list</h2>
+<h2>{% trans "Entities list" %}</h2>
+
+<a href="{% url entity_add %}">{% trans "Add entity" %}</a>
 
 <ul>
 {% for entity in entities.object_list %}
@@ -10,13 +14,13 @@
 </ul>
 
 {% if entities.has_previous %}
-  <a href="?page={{ entities.previous_page_number }}">previous</a>
+  <a href="?page={{ entities.previous_page_number }}">{% trans "previous" %}</a>
 {% endif %}
 
 Page {{ entities.number }} of {{ entities.paginator.num_pages }}
 
 {% if entities.has_next %}
-  <a href="?page={{ entities.next_page_number }}">next</a>
+  <a href="?page={{ entities.next_page_number }}">{% trans "next" %}</a>
 {% endif %}
 
 
