@@ -73,7 +73,7 @@ def entity_add(request):
         if form.is_valid():
             form.save()
             messages.success(request, _('Entity created succesfully'))
-            return HttpResponseRedirect(reverse('entity_list'))
+            return HttpResponseRedirect(reverse('entities_list'))
 
     else:
         form = EntityForm()
