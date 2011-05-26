@@ -6,4 +6,6 @@
 <h2>{% trans "Entity details" %}</h2>
 
 <p>{{ entity }}</p>
+
+<p><a href="{% url entity_remove entity.id %}">{% trans "Remove entity" %}</a></p>
 {% endblock %}

@@ -89,3 +89,14 @@ def entity_view(request, entity_id):
             'entity': entity,
             }, context_instance=RequestContext(request))
 
+
+def entity_remove(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+    if request.method == 'POST':
+        entity.delete()
+        messages.success(request, _('Entity removed succesfully'))
+        return HttpResponseRedirect(reverse('entities_list'))
+
+    return render_to_response('entity/remove.html', {
+            'entity': entity,
+            }, context_instance=RequestContext(request))
