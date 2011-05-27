@@ -80,7 +80,7 @@ class Domain(models.Model):
 
 def generate_validation_key(sender, instance, created, **kwargs):
     if not instance.validation_key:
-        m = hashlib.md5()
+        m = hashlib.sha256()
         m.update(instance.name)
         # add also current datetime for more security
         m.update(datetime.datetime.now().isoformat())
