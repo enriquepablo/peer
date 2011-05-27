@@ -1,6 +1,12 @@
+{% extends "base.html" %}
+
 {% load i18n %}
 
-<form id="sing-in-from" action="." method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <input class="button" type="submit" value="{% trans "Login" %}" />
-</form>
+{% block content %}
+  <h2>{% trans "Login" %}</h2>
+
+  <form id="sing-in-from" action="." method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input class="button" type="submit" value="{% trans "Login" %}" />
+  </form>
+{% endblock %}

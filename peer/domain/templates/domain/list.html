@@ -1,25 +1,30 @@
+{% extends "base.html" %}
+
 {% load i18n %}
 
-<table class="domains">
-  <caption>{% trans "List of user's domains" %}</caption>
-  <thead>
-    <tr>
-      <th>{% trans "Name" %}</th>
-      <th>{% trans "Verified" %}</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for domain in domains %}
-    <tr>
-      <td>{{ domain.name }}</td>
-      <td>{{ domain.validated }}</td>
-      <td>
-        <a class="button" href="{% url domain_verification domain.id %}">
-          {% trans "Verify ownership" %}
-        </a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% block content %}
+<h2>{% trans "Domains list" %}</h2>
+  <table class="domains">
+    <caption>{% trans "List of user's domains" %}</caption>
+    <thead>
+      <tr>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Verified" %}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for domain in domains %}
+        <tr>
+          <td>{{ domain.name }}</td>
+          <td>{{ domain.validated }}</td>
+          <td>
+            <a class="button" href="{% url domain_verification domain.id %}">
+              {% trans "Verify ownership" %}
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

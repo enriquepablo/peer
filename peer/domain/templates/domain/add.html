@@ -1,8 +1,14 @@
+{% extends "base.html" %}
+
 {% load i18n %}
 
-<form action="{% url domain_add %}" method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <p class="actionRow">
-    <input class="button" type="submit" value="{% trans "Save changes" %}" />
-  </p>
-</form>
+{% block content %}
+<h2>{% trans "Add domain" %}</h2>
+
+  <form action="{% url domain_add %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p class="actionRow">
+      <input class="button" type="submit" value="{% trans "Save changes" %}" />
+    </p>
+  </form>
+{% endblock %}
