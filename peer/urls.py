@@ -45,6 +45,6 @@ urlpatterns = patterns('',
         name='registration_register'),
     (r'^accounts/', include(registration_urls)),
 
-    (r'^domain/', include('domain.urls')),
+    (r'^domains/', include('domain.urls')),
     (r'^entities/', include('entity.urls')),
 )
