@@ -43,12 +43,12 @@ urlpatterns = patterns('',
             'document_root': settings.MEDIA_ROOT,
         }),
 
-    url(r'^accounts/register/$',
-        'registration.views.register',
-        {'form_class': RegistrationFormCaptcha},
-        name='registration_register'),
+    url(r'^accounts/register/$', 'registration.views.register', {
+            'form_class': RegistrationFormCaptcha
+            }, name='registration_register'),
     (r'^accounts/', include(registration_urls)),
 
     (r'^domains/', include('domain.urls')),
     (r'^entities/', include('entity.urls')),
 )
+
