@@ -30,6 +30,7 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from captcha.forms import RegistrationFormCaptcha
 from registration import urls as registration_urls
@@ -39,9 +40,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-            'document_root': settings.MEDIA_ROOT,
-        }),
 
     url(r'^accounts/register/$', 'registration.views.register', {
             'form_class': RegistrationFormCaptcha
@@ -52,3 +50,12 @@ urlpatterns = patterns('',
     (r'^entities/', include('entity.urls')),
 )
 
+if settings.DEBUG:
+    urlpatterns += patterns(
+        '',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                'document_root': settings.MEDIA_ROOT,
+                }),
+        )
+
+    urlpatterns += staticfiles_urlpatterns()
