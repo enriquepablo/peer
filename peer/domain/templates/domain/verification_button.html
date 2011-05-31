@@ -1,7 +1,5 @@
 {% load i18n %}
 
-<div class="verification-button">
-  <form action="{% url domain_verification domain.id %}" method="post">{% csrf_token %}
-    <input class="button" type="submit" value="{% trans "Verift ownership" %}" />
-  </form>
-</div>
+<form action="{% url domain_verification domain.id %}" method="post">{% csrf_token %}
+  <input class="button" type="submit" value="{% trans "Verift ownership" %}" />
+</form>
