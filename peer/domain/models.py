@@ -35,6 +35,7 @@ import httplib2
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import signals
+from django.utils.encoding import smart_str
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -81,7 +82,7 @@ class Domain(models.Model):
 def generate_validation_key(sender, instance, created, **kwargs):
     if not instance.validation_key:
         m = hashlib.sha256()
-        m.update(instance.name)
+        m.update(smart_str(instance.name))
         # add also current datetime for more security
         m.update(datetime.datetime.now().isoformat())
         if instance.owner:
