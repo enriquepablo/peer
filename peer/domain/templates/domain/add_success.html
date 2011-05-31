@@ -3,14 +3,16 @@
 {% load i18n %}
 
 {% block content %}
-  <p>{% trans "You just register the  domain" %} <em>{{ domain.name }}</em></p>
+  {% blocktrans with domain=domain.name %}
+     <p>You just register the domain <em>{{ domain }}</em></p>
+  {% endblocktrans %}
 
   <p>{% trans "The next step is checks that you actually have the ownership of this domain. To do this, follow the next steps:" %}</p>
 
   <ul>
     <li>{% trans "Add a file with the following name on your domain:" %}
       <em>{{ domain.validation_key}}</em></li>
-    <li>{% trans "This way, if we request for the service" %} <em>{{ domain.validation_url }}</em>
+    <li>{% trans "This way, if we request for the service" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>
       {% trans "we should obtain that request successfully." %}</li>
     <li>{% trans "Once you have that file uploaded to your domain, click on <em>verify ownership</em> to perfom the actual validation." %}</li>
   </ul>
