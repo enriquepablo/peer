@@ -3,14 +3,15 @@
 {% blocktrans with name=site.name domain=site.domain%}
    Hello,
 
-   Thanks for registry on {{ name }}.
+   Thanks for register yourself at {{ domain }}.
 
-   In order to complete your registration, you should go to the following link:
+   In order to complete your registration, you must click in the following link:
 
    http://{{domain}}/accounts/activate/{{activation_key}}
 
-   You have {{ expiration_days }} to complete the registry with this key.
+   You have {{ expiration_days }} days to complete the registration process with this key.
 
    Best regards,
-   {{ name }} team.
+
+   the {{ domain }} team.
 {% endblocktrans %}
