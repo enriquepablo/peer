@@ -26,38 +26,10 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-
-from django.conf.urls.defaults import patterns, include, url
-from django.conf import settings
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-from captcha.forms import RegistrationFormCaptcha
-from registration import urls as registration_urls
-
-admin.autodiscover()
+from django.conf.urls.defaults import patterns, url
 
 
 urlpatterns = patterns(
-    '',
-    url(r'^', include('portal.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-
-    url(r'^accounts/register/$', 'registration.views.register', {
-            'form_class': RegistrationFormCaptcha
-            }, name='registration_register'),
-    (r'^accounts/', include(registration_urls)),
-
-    (r'^domains/', include('domain.urls')),
-    (r'^entities/', include('entity.urls')),
+    'portal.views',
+    url(r'^$', 'index', name='index'),
 )
-
-if settings.DEBUG:
-    urlpatterns += patterns(
-        '',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                'document_root': settings.MEDIA_ROOT,
-                }),
-        )
-
-    urlpatterns += staticfiles_urlpatterns()

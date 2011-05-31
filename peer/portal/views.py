@@ -26,38 +26,16 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
-from django.conf.urls.defaults import patterns, include, url
-from django.conf import settings
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-from captcha.forms import RegistrationFormCaptcha
-from registration import urls as registration_urls
-
-admin.autodiscover()
+from entity.models import Entity
+from entity.views import get_entities_per_page
 
 
-urlpatterns = patterns(
-    '',
-    url(r'^', include('portal.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+def index(request):
+    entities = Entity.objects.all()[:get_entities_per_page()]
 
-    url(r'^accounts/register/$', 'registration.views.register', {
-            'form_class': RegistrationFormCaptcha
-            }, name='registration_register'),
-    (r'^accounts/', include(registration_urls)),
-
-    (r'^domains/', include('domain.urls')),
-    (r'^entities/', include('entity.urls')),
-)
-
-if settings.DEBUG:
-    urlpatterns += patterns(
-        '',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                'document_root': settings.MEDIA_ROOT,
-                }),
-        )
-
-    urlpatterns += staticfiles_urlpatterns()
+    return render_to_response('portal/index.html', {
+           'entities': entities,
+           }, context_instance=RequestContext(request))

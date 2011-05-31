@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     'south',
     'domain',
     'entity',
+    'portal',
 )
 
 # needed for django-registration
