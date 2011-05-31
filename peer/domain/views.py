@@ -78,10 +78,11 @@ def domain_add_success(request, domain_id):
 
 @login_required
 def domain_verification(request, domain_id):
-    domain = get_object_or_404(Domain, id=domain_id)
-    if domain.validate_ownership():
-        messages.success(request, _(u'The domain ownership was successfully verified'))
-    else:
-        messages.error(request,
-                       _(u'Error while checking domain ownership'))
+    if request.method == 'POST':
+        domain = get_object_or_404(Domain, id=domain_id)
+        if domain.validate_ownership():
+            messages.success(request, _(u'The domain ownership was successfully verified'))
+        else:
+            messages.error(request,
+                           _(u'Error while checking domain ownership'))
     return HttpResponseRedirect(reverse('domain.views.domain_list'))
