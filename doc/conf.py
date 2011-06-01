@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Terena PEER'
-copyright = u'2011, Yaco SL'
+copyright = u'2011, Terena'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -179,7 +179,7 @@ htmlhelp_basename = 'TerenaPEERdoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'TerenaPEER.tex', u'Terena PEER Documentation',
-   u'Yaco SL', 'manual'),
+   u'Terena', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -212,5 +212,5 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'terenapeer', u'Terena PEER Documentation',
-     [u'Yaco SL'], 1)
+     [u'Terena'], 1)
 ]
