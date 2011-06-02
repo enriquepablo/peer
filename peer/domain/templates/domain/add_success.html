@@ -7,14 +7,14 @@
      <p>You just register the domain <em>{{ domain }}</em></p>
   {% endblocktrans %}
 
-  <p>{% trans "The next step is checks that you actually have the ownership of this domain. To do this, follow the next steps:" %}</p>
+  <p>{% trans "The next step is to check that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
 
   <ul>
-    <li>{% trans "Add a file with the following name on your domain:" %}
+    <li>{% trans "Add a file with the following name to the root of the HTTP service of your domain:" %}
       <em>{{ domain.validation_key}}</em></li>
-    <li>{% trans "This way, if we request for the service" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>
-      {% trans "we should obtain that request successfully." %}</li>
-    <li>{% trans "Once you have that file uploaded to your domain, click on <em>verify ownership</em> to perfom the actual validation." %}</li>
+    <li>{% trans "This way, if we request the URL" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>
+      {% trans "we should get a response with a success (200 OK) code." %}</li>
+    <li>{% trans "Once you set that up for your domain, click on <em>verify ownership</em> to perfom the actual validation." %}</li>
   </ul>
 
   {% verification_button domain %}
