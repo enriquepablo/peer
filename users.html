@@ -1,0 +1,136 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>User authentication and authorization &mdash; Terena PEER v0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Terena PEER v0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to Terena PEER’s user documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Terena PEER’s user documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Terena PEER v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="user-authentication-and-authorization">
+<h1>User authentication and authorization<a class="headerlink" href="#user-authentication-and-authorization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="registration">
+<h2>Registration<a class="headerlink" href="#registration" title="Permalink to this headline">¶</a></h2>
+<p>An unidentified (anonymous) user of the site is always (in every page of the site) presented with 2 links, labelled &#8220;Sign up&#8221; and &#8220;Sign in&#8221;.</p>
+<p>The <a class="reference external" href="TERENAPEERDOMAIN/accounts/register/">Sign up</a> link leads the user to a registration form. In this form, the user has to fill in a username, an email address, a password, and a captcha (from <a class="reference external" href="http://www.google.com/recaptcha">recaptcha</a>). All fields are required. The username is validated to ensure that it is unique within the system, and obviously the captcha is also validated.</p>
+<p>Once the user submits a valid registration form, the system sends an email to the address entered in the form, containing a link to a confirmation page within the site. Only when the user follows this link and visits the confirmation page, is her account activated.</p>
+</div>
+<div class="section" id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<p>If a user has an active account on the site, she can log in to the site, following the <a class="reference external" href="TERENAPEERDOMAIN/accounts/login/">Sign in</a> link mentioned above and filling in her username and password in the presented form. Once identified, the &#8220;Sign up&#8221; and &#8220;Sign in&#8221; links dissapear, and are replaced by one labelled &#8220;Logout&#8221; and another labelled with the user&#8217;s full name (or username if the full name is not available). Following the <a class="reference external" href="TERENAPEERDOMAIN/accounts/logout/">Logout</a> link invalidates the authentication tokens produced through signing in, so that the user becomes anonymous once again.</p>
+</div>
+<div class="section" id="user-profile">
+<h2>User profile<a class="headerlink" href="#user-profile" title="Permalink to this headline">¶</a></h2>
+<p>The identified user can follow the link labelled with her name, to edit her user profile. In the presented form, she can change her email and her password, and can also enter a first and a last name. Her full name is a combination of her first and last names.</p>
+</div>
+<div class="section" id="authorization">
+<h2>Authorization<a class="headerlink" href="#authorization" title="Permalink to this headline">¶</a></h2>
+<p>There are 3 types of users in the system: administrators, regular users, and anonymous users. Administrators are authorized to do anything that the other 2 types of users are, and regular users can do anything that an anonymous user can (except, of course, signing up).</p>
+<blockquote>
+<div><ul class="simple">
+<li>Administrator users. Users of this type can access the <a class="reference external" href="TERENAPEERDOMAIN/admin/">django admin interface</a>, and through this interface they can manage other users&#8217; accounts (create, modify and delete them). Administrators can also create entities and assign another user as its owner.</li>
+<li>Regular users. These users can create entities, of which they become owners. They can also assign ownership of their own entities to another user (thereby relinquishing ownership themselves), and delegate management of their entities to (sets of) other users. An entity can only have one owner, that can delegate the management of it to any number of other users.</li>
+<li>Anonymous users. These users can retrieve entities (there are no private entities).</li>
+</ul>
+</div></blockquote>
+<p>So, to modify or remove an entity, a user has to be either its owner, an administrator, or a delegate manager for it. Anybody can retrieve entities.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">User authentication and authorization</a><ul>
+<li><a class="reference internal" href="#registration">Registration</a></li>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#user-profile">User profile</a></li>
+<li><a class="reference internal" href="#authorization">Authorization</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Terena PEER&#8217;s user documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/users.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Terena PEER’s user documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Terena PEER v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Terena.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
