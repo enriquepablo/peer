@@ -1,2 +1,14 @@
-*.pyc
 peer/local_settings.py
+.installed.cfg
+bin
+develop-eggs
+downloads
+eggs
+include
+lib
+parts
+*.egg-info
+*.pyc
+*.pyo
+*.swp
+_build
