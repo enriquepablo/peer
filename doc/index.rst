@@ -15,3 +15,4 @@ Contents:
 
    users
    domains
+   entities
