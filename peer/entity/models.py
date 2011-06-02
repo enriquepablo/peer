@@ -38,7 +38,8 @@ class Entity(models.Model):
 
     name = models.CharField(_(u'Entity name'), max_length=100)
     metadata = models.FileField(verbose_name=_(u'Entity metadata'),
-                              upload_to='entities')
+                                upload_to='entities',
+                                blank=True, null=True)
     owner = models.ForeignKey(User, verbose_name=_('Owner'),
                               blank=True, null=True)
     domain = models.ForeignKey(Domain, verbose_name=_('Domain'))
