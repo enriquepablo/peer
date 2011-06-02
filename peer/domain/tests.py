@@ -32,13 +32,48 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
+import httplib2
 
 from django.test import TestCase
 
+import fudge
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+from domain.validation import validate_ownership
+
+
+class ValidationTest(TestCase):
+
+    @fudge.patch('httplib2.Http')
+    def test_validate_ownership(self, FakeHttp):
+        url = 'http://www.example.com/non_valid_key'
+        (FakeHttp.expects_call()
+                 .returns_fake()
+                 .expects('request')
+                 .with_args(url)
+                 .returns(
+                   ({'status': '404'}, '')
+                 ))
+        self.assertEquals(False, validate_ownership(url))
+
+        url = 'http://www.example.com/valid_key'
+        (FakeHttp.expects_call()
+                 .returns_fake()
+                 .expects('request')
+                 .with_args(url)
+                 .returns(
+                   ({'status': '200'}, '')
+                 ))
+
+        self.assertEquals(True, validate_ownership(url))
+
+        url = 'http://www.invalid-domain.com/garbage'
+        (FakeHttp.expects_call()
+                 .returns_fake()
+                 .expects('request')
+                 .with_args(url)
+                 .raises(httplib2.ServerNotFoundError())
+                 .returns(
+                   ({'status': '200'}, '')
+                 ))
+
+        self.assertEquals(False, validate_ownership(url))

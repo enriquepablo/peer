@@ -59,5 +59,6 @@ setup(
         'django-registration==0.7',
         'django-recaptcha',
         'httplib2',
+        'fudge',
         ],
 )
