@@ -38,7 +38,7 @@ from django.test import TestCase
 
 import fudge
 
-from domain.validation import validate_ownership
+from domain.validation import validate_ownership, generate_validation_key
 
 
 class ValidationTest(TestCase):
@@ -63,7 +63,6 @@ class ValidationTest(TestCase):
                  .returns(
                    ({'status': '200'}, '')
                  ))
-
         self.assertEquals(True, validate_ownership(url))
 
         url = 'http://www.invalid-domain.com/garbage'
@@ -74,3 +73,23 @@ class ValidationTest(TestCase):
                  .raises(httplib2.ServerNotFoundError()))
 
         self.assertEquals(False, validate_ownership(url))
+
+    @fudge.patch('hashlib.sha256')
+    def test_generate_validation_key(self, fake_sha256):
+        (fake_sha256.expects_call()
+                    .returns_fake()
+                    .provides('update')
+                    .times_called(2)  # initial and datetime
+                    .provides('hexdigest')
+                    .calls(lambda: 'ValidationKey'))
+        self.assertEquals('ValidationKey',
+                          generate_validation_key('www.example.com'))
+
+        (fake_sha256.expects_call()
+                    .returns_fake()
+                    .provides('update')
+                    .times_called(3)  # initial, datetime and owner
+                    .provides('hexdigest')
+                    .calls(lambda: 'ValidationKeyWithOwnerInfo'))
+        self.assertEquals('ValidationKeyWithOwnerInfo',
+                          generate_validation_key('www.example.com', 'owner'))
