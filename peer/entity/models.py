@@ -37,7 +37,7 @@ from domain.models import Domain
 class Entity(models.Model):
 
     name = models.CharField(_(u'Entity name'), max_length=100)
-    entity = models.FileField(verbose_name=_(u'Entity content'),
+    metadata = models.FileField(verbose_name=_(u'Entity metadata'),
                               upload_to='entities')
     owner = models.ForeignKey(User, verbose_name=_('Owner'),
                               blank=True, null=True)
