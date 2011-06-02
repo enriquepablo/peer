@@ -43,13 +43,13 @@ urlpatterns = patterns(
     url(r'^', include('portal.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^accounts/register/$', 'registration.views.register', {
+    url(r'^account/register/$', 'registration.views.register', {
             'form_class': RegistrationFormCaptcha
             }, name='registration_register'),
-    (r'^accounts/', include(registration_urls)),
+    (r'^account/', include(registration_urls)),
 
-    (r'^domains/', include('domain.urls')),
-    (r'^entities/', include('entity.urls')),
+    (r'^domain/', include('domain.urls')),
+    (r'^entity/', include('entity.urls')),
 )
 
 if settings.DEBUG:
