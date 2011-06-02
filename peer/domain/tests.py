@@ -71,9 +71,6 @@ class ValidationTest(TestCase):
                  .returns_fake()
                  .expects('request')
                  .with_args(url)
-                 .raises(httplib2.ServerNotFoundError())
-                 .returns(
-                   ({'status': '200'}, '')
-                 ))
+                 .raises(httplib2.ServerNotFoundError()))
 
         self.assertEquals(False, validate_ownership(url))
