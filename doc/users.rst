@@ -7,14 +7,14 @@ Registration
 
 An unidentified (anonymous) user of the site is always (in every page of the site) presented with 2 links, labelled "Sign up" and "Sign in".
 
-The `Sign up <TERENAPEERDOMAIN/accounts/register/>`_ link leads the user to a registration form. In this form, the user has to fill in a username, an email address, a password, and a captcha (from `recaptcha <http://www.google.com/recaptcha>`_). All fields are required. The username is validated to ensure that it is unique within the system, and obviously the captcha is also validated.
+The `Sign up <TERENAPEERDOMAIN/account/register/>`_ link leads the user to a registration form. In this form, the user has to fill in a username, an email address, a password, and a captcha (from `recaptcha <http://www.google.com/recaptcha>`_). All fields are required. The username is validated to ensure that it is unique within the system, and obviously the captcha is also validated.
 
 Once the user submits a valid registration form, the system sends an email to the address entered in the form, containing a link to a confirmation page within the site. Only when the user follows this link and visits the confirmation page, is her account activated.
 
 Authentication
 --------------
 
-If a user has an active account on the site, she can log in to the site, following the `Sign in <TERENAPEERDOMAIN/accounts/login/>`_ link mentioned above and filling in her username and password in the presented form. Once identified, the "Sign up" and "Sign in" links dissapear, and are replaced by one labelled "Logout" and another labelled with the user's full name (or username if the full name is not available). Following the `Logout <TERENAPEERDOMAIN/accounts/logout/>`_ link invalidates the authentication tokens produced through signing in, so that the user becomes anonymous once again.
+If a user has an active account on the site, she can log in to the site, following the `Sign in <TERENAPEERDOMAIN/account/login/>`_ link mentioned above and filling in her username and password in the presented form. Once identified, the "Sign up" and "Sign in" links dissapear, and are replaced by one labelled "Logout" and another labelled with the user's full name (or username if the full name is not available). Following the `Logout <TERENAPEERDOMAIN/account/logout/>`_ link invalidates the authentication tokens produced through signing in, so that the user becomes anonymous once again.
 
 User profile
 ------------
