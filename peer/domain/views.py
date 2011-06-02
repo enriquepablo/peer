@@ -36,6 +36,7 @@ from django.utils.translation import ugettext as _
 
 from domain.forms import DomainForm
 from domain.models import Domain
+from domain.validation import validate_ownership
 
 
 @login_required
@@ -80,9 +81,12 @@ def domain_add_success(request, domain_id):
 def domain_verification(request, domain_id):
     if request.method == 'POST':
         domain = get_object_or_404(Domain, id=domain_id)
-        if domain.validate_ownership():
-            messages.success(request, _(u'The domain ownership was successfully verified'))
+        if validate_ownership(domain.validation_url):
+            domain.validated = True
+            domain.save()
+            messages.success(
+                request, _(u'The domain ownership was successfully verified'))
         else:
-            messages.error(request,
-                           _(u'Error while checking domain ownership'))
+            messages.error(
+                request, _(u'Error while checking domain ownership'))
     return HttpResponseRedirect(reverse('domain.views.domain_list'))

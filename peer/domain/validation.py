@@ -26,45 +26,40 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-import urlparse
+import datetime
+import hashlib
+import httplib2
 
-from django.contrib.auth.models import User
-from django.db import models
-from django.db.models import signals
-from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import smart_str
 
-from domain.validation import generate_validation_key
-
-
-class Domain(models.Model):
-
-    name = models.CharField(_(u'Domain name'), max_length=100, unique=True)
-    owner = models.ForeignKey(User, verbose_name=_('Identified domain owner'),
-                              blank=True, null=True)
-    validated = models.BooleanField(
-        _(u'Validated'), default=False,
-        help_text=_(u'Used to know if the owner actual owns the domain'))
-    validation_key = models.CharField(_('Domain validation key'),
-                                      max_length=100, blank=True, null=True)
-
-    @property
-    def validation_url(self):
-        domain = 'http://%s' % self.name
-        return urlparse.urljoin(domain, self.validation_key)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _(u'Domain')
-        verbose_name_plural = _(u'Domains')
+CONNECTION_TIMEOUT = 10
 
 
-def pre_save_handler(sender, instance, **kwargs):
-    if not instance.validation_key:
-        instance.validation_key = generate_validation_key(
-            instance.name,
-            instance.owner and instance.owner.username)
-        instance.save()
+def validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
+    """ True if the validation_url exists and returns a 200 status code.
 
-signals.post_save.connect(pre_save_handler, sender=Domain)
+    False otherwise
+    """
+    http = httplib2.Http(timeout=timeout)
+    try:
+        response = http.request(validation_url)
+    except httplib2.ServerNotFoundError:
+        return False
+
+    if response[0]['status'] == '200':
+        return True
+    else:
+        return False
+
+
+def generate_validation_key(domain_name, domain_owner=None):
+    """ Generates a unique validation key """
+    m = hashlib.sha256()
+    m.update(smart_str(domain_name))
+
+    # add also current datetime and owner for more security
+    m.update(datetime.datetime.now().isoformat())
+    if domain_owner:
+        m.update(domain_owner)
+
+    return m.hexdigest()
