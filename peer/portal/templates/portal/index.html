@@ -3,16 +3,43 @@
 {% load i18n %}
 
 {% block content %}
-<section>
-<h1>{% trans "Latest entities" %}</h1>
+<section class="welcome">
+  <header>
+    <h1>{% trans "Nice to meet you!!" %}</h1>
+    <h2>{% trans "Say hello to federated worldwide services" %}</h2>
+  </header>
 
-<ul>
-{% for entity in entities %}
-  <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
-{% endfor %}
-</ul>
+  <form id="search" method="get">
+    <input type="text" name="query" id="query" autofocus="autofocus" />
+  </form>
 
-<p><a href="{% url entities_list %}">{% trans "Full list of entities" %}</a></p>
+  <div class="shadow right clear">
+    <div id="filters">
+      <h3>{% trans "By something" %}</h3>
+      <ul>
+        <li class="current"><a href="#">{% trans "All" %}</a></li>
+        <li><a href="#">Item 1</a></li>
+        <li><a href="#">Item 2</a></li>
+        <li><a href="#">Item 3</a></li>
+      </ul>
+
+      <h3>{% trans "By something else" %}</h3>
+      <ul>
+        <li class="current"><a href="#">{% trans "All" %}</a></li>
+        <li><a href="#">Item 1</a></li>
+        <li><a href="#">Item 2</a></li>
+        <li><a href="#">Item 3</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <ul>
+    {% for entity in entities %}
+    <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="{% url entities_list %}">{% trans "Full list of entities" %}</a></p>
 
 </section>
 
