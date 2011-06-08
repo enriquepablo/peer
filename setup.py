@@ -60,5 +60,6 @@ setup(
         'django-recaptcha',
         'httplib2',
         'fudge',
+        'django-vff',
         ],
 )

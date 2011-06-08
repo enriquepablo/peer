@@ -31,15 +31,19 @@ from django.db import models
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 
+from vff.field import VersionedFileField
+
 from domain.models import Domain
 
 
 class Entity(models.Model):
 
     name = models.CharField(_(u'Entity name'), max_length=100)
-    metadata = models.FileField(verbose_name=_(u'Entity metadata'),
-                                upload_to='entities',
-                                blank=True, null=True)
+    metadata = VersionedFileField(verbose_name=_(u'Entity metadata'),
+                                blank=True, null=True,)
+    vff_commit_msg = models.CharField(_('Commit message'),
+                                max_length=255,
+                                blank=True, null=True,)
     owner = models.ForeignKey(User, verbose_name=_('Owner'),
                               blank=True, null=True)
     domain = models.ForeignKey(Domain, verbose_name=_('Domain'))
