@@ -61,5 +61,6 @@ setup(
         'httplib2',
         'fudge',
         'django-vff',
+        'lxml',
         ],
 )
