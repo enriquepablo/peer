@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'registration',
     'south',
+    'account',
     'domain',
     'entity',
     'portal',

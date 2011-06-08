@@ -26,39 +26,16 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from django import template
 
-from django.conf.urls.defaults import patterns, include, url
-from django.conf import settings
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+register = template.Library()
 
-from captcha.forms import RegistrationFormCaptcha
-from registration import urls as registration_urls
+@register.simple_tag
+def safefullname(user):
+    if user.first_name:
+        if user.last_name:
+            return u'%s %s' % (user.first_name, self.last_name)
 
-admin.autodiscover()
+        return user.first_name
 
-
-urlpatterns = patterns(
-    '',
-    url(r'^', include('portal.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-
-    url(r'^account/$', 'account.views.index', name='account_index'),
-    url(r'^account/register/$', 'registration.views.register', {
-            'form_class': RegistrationFormCaptcha
-            }, name='registration_register'),
-    (r'^account/', include(registration_urls)),
-
-    (r'^domain/', include('domain.urls')),
-    (r'^entity/', include('entity.urls')),
-)
-
-if settings.DEBUG:
-    urlpatterns += patterns(
-        '',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                'document_root': settings.MEDIA_ROOT,
-                }),
-        )
-
-    urlpatterns += staticfiles_urlpatterns()
+    return user.username
