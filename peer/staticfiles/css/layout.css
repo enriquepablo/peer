@@ -27,6 +27,29 @@ a {
     color: #999999;
 }
 
+nav ul {
+    padding: 12px;
+    width: 176px;
+    background-color: #ffffff;
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    list-style: none;
+}
+
+nav ul li {
+    border-bottom: 1px solid #d3d3d3;
+    padding: 6px 0;
+}
+
+nav ul li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+}
+
 header hgroup {
     float: left;
 }
@@ -107,7 +130,6 @@ section {
     color: #ff7b33;
     border-left: 4px solid #ff7b33;
 }
-
 
 footer {
     clear: both;

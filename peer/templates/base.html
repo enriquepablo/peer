@@ -31,6 +31,7 @@
             <li><a class="button" href="{% url registration_register %}">{% trans "Sing up" %}</a></li>
             <li><a class="button" href="{% url auth_login %}">{% trans "Sing in" %}</a></li>
           {% else %}
+            <li><a class="button" href="{% url account_index %}">{{ user }}</a></li>
             <li><a class="button" href="{% url auth_logout %}">{% trans "Logout" %}</a></li>
           {% endif %}
         {% endblock %}

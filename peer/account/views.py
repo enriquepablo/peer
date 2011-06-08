@@ -26,39 +26,16 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 
-from django.conf.urls.defaults import patterns, include, url
-from django.conf import settings
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-from captcha.forms import RegistrationFormCaptcha
-from registration import urls as registration_urls
-
-admin.autodiscover()
+from domain.models import Domain
 
 
-urlpatterns = patterns(
-    '',
-    url(r'^', include('portal.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-
-    url(r'^account/$', 'account.views.index', name='account_index'),
-    url(r'^account/register/$', 'registration.views.register', {
-            'form_class': RegistrationFormCaptcha
-            }, name='registration_register'),
-    (r'^account/', include(registration_urls)),
-
-    (r'^domain/', include('domain.urls')),
-    (r'^entity/', include('entity.urls')),
-)
-
-if settings.DEBUG:
-    urlpatterns += patterns(
-        '',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                'document_root': settings.MEDIA_ROOT,
-                }),
-        )
-
-    urlpatterns += staticfiles_urlpatterns()
+@login_required
+def index(request):
+    domains = Domain.objects.filter(owner=request.user)
+    return render_to_response('account/index.html', {
+            'domains': domains,
+            }, context_instance=RequestContext(request))

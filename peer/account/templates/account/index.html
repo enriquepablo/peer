@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load i18n account verification_tags %}
+
+{% block content %}
+<section>
+  {% include "account/menu.html" %}
+
+  <hgroup>
+    <h1>{% trans "Welcome" %}, {% safefullname user %}</h1>
+    <h2>{% trans "Your domains and entities" %}</h2>
+  </hgroup>
+
+  <ul>
+    {% for domain in domains %}
+    <li{% if domain.validated %} class="validated"{% endif %}>
+      <a href="{{ domain.get_absolute_url }}">{{ domain }}</a>
+      {% if not domain.validated %}
+        {% verification_button domain %}
+      {% else %}
+        <ul>
+          {% for entity in domain.entity_set.all %}
+          <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
+          {% endfor %}
+        </ul>
+        <a href="{% url entity_add %}">{% trans "Add entity" %}</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="{% url domain_add %}">{% trans "Add domain" %}</a></p>
+
+</section>
+{% endblock %}
