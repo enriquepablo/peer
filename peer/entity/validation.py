@@ -35,17 +35,21 @@ def validate(doc):
     Call all validators defined in in settings.METADATA_VALIDATORS
     on the xml given as a sttring (doc).
 
-    Each entry in METADATA_VALIDATORS is a dict with to items
-     * module: the path to a module given as a string
-     * function: The name of a validation function defined in the module.
-       This function must accept a string as input and has to return a list
-       of strings describing errors, or an empty list on no errors.
+    Each entry in METADATA_VALIDATORS is a string with the import path
+    to a callable that accepts a string as input and returns a list
+    of strings describing errors, or an empty list on no errors.
     """
-    validators = settings.METADATA_VALIDATORS
+    try:
+        validators = settings.METADATA_VALIDATORS
+    except AttributeError:
+        validators = []
     errors = []
     for v in validators:
-        module = __import__(v['module'], globals(), locals(), ['*'])
-        validator = getattr(module, v['function'])
+        val_list = v.split('.')
+        mname = val_list[:-1].join('.')
+        cname = val_list[-1]
+        module = __import__(mname, globals(), locals(), ['*'])
+        validator = getattr(module, cname)
         errors += validator(doc)
     return errors
 

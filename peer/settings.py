@@ -194,6 +194,11 @@ LOGGING = {
     }
 }
 
+# ENTITY METADATA VALIDATION
+METADATA_VALIDATORS =(
+    'entity.validation.validate_xml_syntax',
+)
+
 try:
     from local_settings import *
 except ImportError:
