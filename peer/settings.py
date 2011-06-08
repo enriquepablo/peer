@@ -200,6 +200,9 @@ METADATA_VALIDATORS =(
     'entity.validation.validate_xml_syntax',
 )
 
+# VFF VERSIONED FILE BACKEND
+VERSIONEDFILE_BACKEND = 'vff.git_backend.GitBackend'
+
 try:
     from local_settings import *
 except ImportError:
