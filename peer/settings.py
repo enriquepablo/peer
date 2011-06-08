@@ -157,7 +157,6 @@ INSTALLED_APPS = (
     'domain',
     'entity',
     'portal',
-    'gunicorn',
 )
 
 # needed for django-registration
