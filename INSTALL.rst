@@ -31,4 +31,4 @@ Development install
 
  * Start the server::
 
-   $ bin/django run_gunicorn
+   $ bin/django runserver
