@@ -33,4 +33,5 @@ class SafeCharField(models.CharField):
     """This field make sure fields with just spaces won't validate"""
 
     def to_python(self, value):
-        return super(SafeCharField, self).to_python(value).strip()
+        return super(SafeCharField, self).to_python(
+            value and value.strip() or value)
