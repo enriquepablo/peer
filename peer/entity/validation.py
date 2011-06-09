@@ -66,4 +66,4 @@ def validate_xml_syntax(doc):
         return [u'XML syntax error: ' + e.msg]
     else:
         return []
-    
+

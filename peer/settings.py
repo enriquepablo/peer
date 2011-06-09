@@ -196,7 +196,7 @@ LOGGING = {
 }
 
 # ENTITY METADATA VALIDATION
-METADATA_VALIDATORS =(
+METADATA_VALIDATORS = (
     'entity.validation.validate_xml_syntax',
 )
 
