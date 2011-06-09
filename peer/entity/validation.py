@@ -46,7 +46,7 @@ def validate(doc):
     errors = []
     for v in validators:
         val_list = v.split('.')
-        mname = val_list[:-1].join('.')
+        mname = '.'.join(val_list[:-1])
         cname = val_list[-1]
         module = __import__(mname, globals(), locals(), ['*'])
         validator = getattr(module, cname)
