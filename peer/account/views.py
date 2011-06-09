@@ -34,8 +34,8 @@ from domain.models import Domain
 
 
 @login_required
-def index(request):
+def profile(request):
     domains = Domain.objects.filter(owner=request.user)
-    return render_to_response('account/index.html', {
+    return render_to_response('account/profile.html', {
             'domains': domains,
             }, context_instance=RequestContext(request))

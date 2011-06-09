@@ -43,11 +43,11 @@ urlpatterns = patterns(
     url(r'^', include('portal.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^account/$', 'account.views.index', name='account_index'),
-    url(r'^account/register/$', 'registration.views.register', {
+    url(r'^accounts/profile/$', 'account.views.profile', name='account_profile'),
+    url(r'^accounts/register/$', 'registration.views.register', {
             'form_class': RegistrationFormCaptcha
             }, name='registration_register'),
-    (r'^account/', include(registration_urls)),
+    (r'^accounts/', include(registration_urls)),
 
     (r'^domain/', include('domain.urls')),
     (r'^entity/', include('entity.urls')),
