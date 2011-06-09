@@ -26,7 +26,8 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
+from django.utils.translation import ugettext as _
 
 from entity.models import Entity
 
@@ -36,3 +37,17 @@ class EntityForm(ModelForm):
     class Meta:
         model = Entity
         fields = ('name', 'domain')
+
+
+    def clean(self):
+        name = self.cleaned_data.get('name')
+        domain = self.cleaned_data.get('domain')
+
+        if name and domain:
+            try:
+                Entity.objects.get(name=name, domain=domain)
+                raise ValidationError(_('There is already an entity with that name for that domain'))
+            except Entity.DoesNotExist:
+                pass
+
+        return self.cleaned_data
