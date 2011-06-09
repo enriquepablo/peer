@@ -4,6 +4,10 @@ INSTALL
 
 Development install
 +++++++++++++++++++
+ * Previous requirements of the machine:
+
+   $ sudo apt-get install libxml2-dev libxml2
+   $ sudo apt-get install libxslt1-dev libxslt1.1
 
  * Download the code (rw) from github, substituting <username> with your github username::
 
