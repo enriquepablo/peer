@@ -43,10 +43,15 @@ urlpatterns = patterns(
     url(r'^', include('portal.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^accounts/profile/$', 'account.views.profile', name='account_profile'),
+    url(r'^accounts/profile/$', 'account.views.profile',
+        name='account_profile'),
+    url(r'^accounts/profile/edit/$', 'account.views.profile_edit',
+        name='account_profile_edit'),
     url(r'^accounts/register/$', 'registration.views.register', {
             'form_class': RegistrationFormCaptcha
             }, name='registration_register'),
+    url(r'^accounts/password_change/$',
+        'django.contrib.auth.views.password_change', name='password_change'),
     (r'^accounts/', include(registration_urls)),
 
     (r'^domain/', include('domain.urls')),

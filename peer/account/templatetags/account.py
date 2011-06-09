@@ -34,7 +34,7 @@ register = template.Library()
 def safefullname(user):
     if user.first_name:
         if user.last_name:
-            return u'%s %s' % (user.first_name, self.last_name)
+            return u'%s %s' % (user.first_name, user.last_name)
 
         return user.first_name
 

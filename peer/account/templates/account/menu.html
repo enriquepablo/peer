@@ -3,8 +3,8 @@
   <nav class="shadow right clear">
     <ul>
       <li><a href="{% url account_profile %}">{% trans "Domains / Entities" %}</a></li>
-      <li><a href="#">{% trans "Personal information" %}</a></li>
-      <li><a href="#">{% trans "Change password" %}</a></li>
+      <li><a href="{% url account_profile_edit %}">{% trans "Personal information" %}</a></li>
+      <li><a href="{% url password_change %}">{% trans "Change password" %}</a></li>
     </ul>
   </nav>
 

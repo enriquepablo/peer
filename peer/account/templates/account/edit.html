@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load i18n account verification_tags %}
+
+{% block content %}
+<section>
+  {% include "account/menu.html" %}
+
+  <hgroup>
+    <h1>{% trans "Change personal information" %}</h1>
+  </hgroup>
+
+  <form action="{% url account_profile_edit %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p class="actionRow">
+      <input class="button" type="submit" value="{% trans "Save changes" %}" />
+    </p>
+  </form>
+
+</section>
+{% endblock %}

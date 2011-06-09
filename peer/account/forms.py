@@ -26,38 +26,14 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.utils.translation import ugettext as _
 
-from account.forms import PersonalInformationForm
-from domain.models import Domain
+from django.contrib.auth.models import User
+from django.forms import ModelForm
 
 
-@login_required
-def profile(request):
-    domains = Domain.objects.filter(owner=request.user)
-    return render_to_response('account/profile.html', {
-            'domains': domains,
-            }, context_instance=RequestContext(request))
+class PersonalInformationForm(ModelForm):
 
-
-@login_required
-def profile_edit(request):
-    if request.method == 'POST':
-        form = PersonalInformationForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, _('Changes saved succesfully'))
-            return HttpResponseRedirect(reverse('account_profile'))
-    else:
-        form = PersonalInformationForm(instance=request.user)
-
-    return render_to_response('account/edit.html', {
-            'form': form,
-            }, context_instance=RequestContext(request))
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
 
