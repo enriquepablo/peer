@@ -26,46 +26,11 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-import urlparse
-
-from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import signals
-from django.utils.translation import ugettext_lazy as _
-
-from customfields import SafeCharField
-from domain.validation import generate_validation_key
 
 
-class Domain(models.Model):
+class SafeCharField(models.CharField):
+    """This field make sure fields with just spaces won't validate"""
 
-    name = SafeCharField(_(u'Domain name'), max_length=100, unique=True)
-    owner = models.ForeignKey(User, verbose_name=_('Identified domain owner'),
-                              blank=True, null=True)
-    validated = models.BooleanField(
-        _(u'Validated'), default=False,
-        help_text=_(u'Used to know if the owner actual owns the domain'))
-    validation_key = models.CharField(_('Domain validation key'),
-                                      max_length=100, blank=True, null=True)
-
-    @property
-    def validation_url(self):
-        domain = 'http://%s' % self.name
-        return urlparse.urljoin(domain, self.validation_key)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _(u'Domain')
-        verbose_name_plural = _(u'Domains')
-
-
-def pre_save_handler(sender, instance, **kwargs):
-    if not instance.validation_key:
-        instance.validation_key = generate_validation_key(
-            instance.name,
-            instance.owner and instance.owner.username)
-        instance.save()
-
-signals.post_save.connect(pre_save_handler, sender=Domain)
+    def to_python(self, value):
+        return super(SafeCharField, self).to_python(value).strip()
