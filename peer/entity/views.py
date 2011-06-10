@@ -26,18 +26,29 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from tempfile import NamedTemporaryFile
+import httplib2
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.files.base import File
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
+from django.templates.loader import render_to_string
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from entity.forms import EntityForm
+from entity.forms import EntityForm, MetadataTextEditForm
+from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity
+
+from vff.storage import create_fname
+
+CONNECTION_TIMEOUT = 10
 
 
 def get_entities_per_page():
@@ -100,3 +111,96 @@ def entity_remove(request, entity_id):
     return render_to_response('entity/remove.html', {
             'entity': entity,
             }, context_instance=RequestContext(request))
+
+# METADATA EDIT
+
+
+def _get_edit_metadata_form(request, entity, edit_mode):
+    if edit_mode == 'text':
+        fname = create_fname(entity, 'metadata')
+        text = entity.metadata.storage.get_revision(fname)
+        form = MetadataTextEditForm({'metadata': text})
+    elif edit_mode == 'file':
+        # XXX siempre vacia, imborrable, required
+        form = MetadataFileEditForm()
+    elif edit_mode == 'remote':
+        form = MetadataRemoteEditForm()
+
+    context_instance = RequestContext(request)
+    return render_to_string('entity/simple_edit_metadata.html', {
+        'edit': edit_mode,
+        'entity': entity,
+        'form': form,
+    }, context_instance=context_instance)
+
+def text_edit_metadata(request, entity_id):
+    entity = Entity.objects.get(pk=entity_id)
+    if request.method == 'POST':
+        form = MetadataTextEditForm(request.POST)
+        if form.is_valid():
+            text = form['metadata'].data
+            tmp = NamedTemporaryFile(delete=True)
+            tmp.write(text.encode('utf8'))
+            tmp.seek(0)
+            content = File(tmp)
+            name = entity.metadata.name
+            entity.metadata.save(name, content)
+            entity.vff_commit_msg = form['commit_msg'].data.encode('utf8')
+            entity.save()
+    else:
+        html = _get_edit_metadata_form(request, entity, 'text')
+        return HttpResponse(html)
+
+def file_edit_metadata(request, entity_id):
+    entity = Entity.objects.get(pk=entity_id)
+    if request.method == 'POST':
+        form = MetadataFileEditForm(request.POST, request.FILES)
+        if form.is_valid():
+            content = form['metadata'].data
+            name = entity.metadata.name
+            entity.metadata.save(name, content)
+            entity.vff_commit_msg = form['commit_msg'].data.encode('utf8')
+            entity.save()
+    else:
+        html = _get_edit_metadata_form(request, entity, 'file')
+        return HttpResponse(html)
+
+def remote_edit_metadata(request, entity_id):
+    entity = Entity.objects.get(pk=entity_id)
+    if request.method == 'POST':
+        form = MetadataRemoteEditForm(request.POST)
+        content_url = form['metadata_url'].data
+        http = httplib2.Http(timeout=CONNECTION_TIMEOUT)
+        try:
+            resp, text = http.request(content_url)
+        except httplib2.ServerNotFoundError:
+            form.errors['metadata_url'] = _('Server not found')
+        else:
+            if resp.status != 200:
+                form.errors['metadata_url'] = [_(
+                                      'Error getting the data: %s'
+                                                ) % resp.reason]
+        try:
+            encoding = resp['content-type'].split('=')[1]
+        except (KeyError, IndexError):
+            encoding = ''
+        if form.is_valid():
+            tmp = NamedTemporaryFile(delete=True)
+            if encoding:
+                text = text.decode(encoding).encode('utf8')
+            tmp.write(text)
+            tmp.seek(0)
+            content = File(tmp)
+            name = entity.metadata.name
+            entity.metadata.save(name, content)
+            entity.vff_commit_msg = form['commit_msg'].data.encode('utf8')
+            entity.save()
+    else:
+        html = _get_edit_metadata_form(request, entity, 'remote')
+        return HttpResponse(html)
+
+def edit_metadata(request, entity_id):
+    entity = Entity.objects.get(pk=entity_id)
+    text_html = _get_edit_metadata_form(request, entity, 'text')
+    file_html = _get_edit_metadata_form(request, entity, 'file')
+    remote_html = _get_edit_metadata_form(request, entity, 'remote')

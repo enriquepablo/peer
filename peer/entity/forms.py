@@ -26,18 +26,16 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-from django.forms import ModelForm, ValidationError
+from django import forms
 from django.utils.translation import ugettext as _
-
 from entity.models import Entity
 
 
-class EntityForm(ModelForm):
+class EntityForm(forms.ModelForm):
 
     class Meta:
         model = Entity
         fields = ('name', 'domain')
-
 
     def clean(self):
         name = self.cleaned_data.get('name')
@@ -46,8 +44,26 @@ class EntityForm(ModelForm):
         if name and domain:
             try:
                 Entity.objects.get(name=name, domain=domain)
-                raise ValidationError(_('There is already an entity with that name for that domain'))
+                raise forms.ValidationError(_('There is already an entity with that name for that domain'))
             except Entity.DoesNotExist:
                 pass
 
         return self.cleaned_data
+
+
+class MetadataTextEditForm(forms.Form):
+
+    metadata = forms.CharField('metadata', widget=forms.Textarea())
+    commit_msg = forms.CharField('Commit message')
+
+
+class MetadataFileEditForm(forms.Form):
+
+    metadata = forms.FileField('metadata')
+    commit_msg = forms.CharField('Commit message')
+
+
+class MetadataRemoteEditForm(forms.Form):
+
+    metadata_url = forms.URLField('metadata_url')
+    commit_msg = forms.CharField('Commit message')
