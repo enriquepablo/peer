@@ -40,7 +40,8 @@ class EntityForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(EntityForm, self).__init__(*args, **kwargs)
         self.user = user
-        self.fields['domain'].queryset = self.fields['domain'].queryset.filter(owner=self.user)
+        self.fields['domain'].queryset = self.fields['domain'].queryset.filter(
+            owner=self.user, validated=True)
 
     def clean_domain(self):
         domain = self.cleaned_data.get('domain')
