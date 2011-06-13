@@ -30,6 +30,23 @@ a {
     text-decoration: none;
 }
 
+h1 {
+    color: #fd7b2f;
+    font-size: 16pt;
+    margin: 0.5em 0;
+}
+
+h2 {
+    font-size: 12pt;
+    margin: 0.5em 0;
+}
+
+section {
+    clear: both;
+    border-top: 1px solid #d3d3d3;
+    padding-bottom: 10px;
+}
+
 nav ul {
     padding: 12px;
     width: 176px;
@@ -74,7 +91,7 @@ header #user-actions {
     margin-right: 1em;
 }
 
-#user-actions li a {
+a.button {
     display: block;
     width: 106px;
     text-align: center;
@@ -90,14 +107,14 @@ header #user-actions {
     -webkit-box-shadow: 1px 1px 1px #c5c5c5;
 }
 
-section {
-    clear: both;
-}
-
 header#header hgroup h2 {
     font-weight: normal;
     text-shadow: 1px 1px 1px white;
     margin: -21px 0 6px 1em;
+}
+
+.welcome {
+    border-top: none;
 }
 
 .welcome header {
@@ -136,6 +153,7 @@ header#header hgroup h2 {
 }
 
 #home-content {
+    border-top: none;
     clear: none;
     margin-right: 220px;
     margin-bottom: 1em;
@@ -237,4 +255,32 @@ footer ul li a {
 
 footer ul li:last-child a {
     border-right: none;
+}
+
+
+/* Styles for specific views */
+
+.domainList {
+    list-style: none;
+    margin-left: 20px;
+}
+
+.domainList li {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.domainList li p {
+    font-weight: normal;
+}
+
+.domainList ul {
+    list-style: none;
+    margin-left: 20px;
+}
+
+.domainList ul li {
+    font-weight: normal;
+    margin: 5px 0;
+    list-style: disc;
 }

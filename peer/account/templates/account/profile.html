@@ -11,7 +11,7 @@
     <h2>{% trans "Your domains and entities" %}</h2>
   </hgroup>
 
-  <ul>
+  <ul class="domainList">
     {% for domain in domains %}
     <li{% if domain.validated %} class="validated"{% endif %}>
       {{ domain }}
@@ -24,13 +24,10 @@
           <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
           {% endfor %}
         </ul>
-        <a href="{% url entity_add_with_domain domain.name %}">{% trans "Add entity" %}</a>
       {% endif %}
     </li>
     {% endfor %}
   </ul>
-
-  <p><a href="{% url domain_add %}">{% trans "Add domain" %}</a></p>
 
 </section>
 {% endblock %}
