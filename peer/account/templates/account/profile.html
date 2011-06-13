@@ -24,7 +24,7 @@
           <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
           {% endfor %}
         </ul>
-        <a href="{% url entity_add %}">{% trans "Add entity" %}</a>
+        <a href="{% url entity_add_with_domain domain.name %}">{% trans "Add entity" %}</a>
       {% endif %}
     </li>
     {% endfor %}

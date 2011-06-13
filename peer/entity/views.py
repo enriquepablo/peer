@@ -41,6 +41,7 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
+from domain.models import Domain
 from entity.forms import EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity
@@ -78,15 +79,27 @@ def entities_list(request):
 
 @login_required
 def entity_add(request):
+    return entity_add_with_domain(request, None, 'entities_list')
+
+
+@login_required
+def entity_add_with_domain(request, domain_name=None,
+                           return_view_name='account_profile'):
+    if domain_name is None:
+        entity = None
+    else:
+        domain = get_object_or_404(Domain, name=domain_name)
+        entity = Entity(domain=domain)
+
     if request.method == 'POST':
-        form = EntityForm(request.user, request.POST)
+        form = EntityForm(request.user, request.POST, instance=entity)
         if form.is_valid():
             form.save()
             messages.success(request, _('Entity created succesfully'))
-            return HttpResponseRedirect(reverse('entities_list'))
+            return HttpResponseRedirect(reverse(return_view_name))
 
     else:
-        form = EntityForm(request.user)
+        form = EntityForm(request.user, instance=entity)
 
     return render_to_response('entity/add.html', {
             'form': form,
