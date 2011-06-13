@@ -21,6 +21,8 @@ body {
     background-color: #e6e6e4;
     padding: 0 30px;
     margin: 0 auto;
+    font-family: arial;
+    font-size: 11pt;
 }
 
 a {
@@ -33,6 +35,8 @@ nav ul {
     background-color: #ffffff;
     border: 1px solid #d3d3d3;
     border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     list-style: none;
 }
 
@@ -60,30 +64,73 @@ header #user-actions {
 
 #user-actions {
     list-style: none;
+    margin-top: 78px;
 }
 
 #user-actions li {
-    display: inline;
+    display: block;
+    float: left;
+    margin-right: 1em;
+}
+
+#user-actions li a {
+    display: block;
+    width: 106px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    text-decoration: none;
+    background: #69c7ac;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 1px 1px 1px #c5c5c5;
+    -moz-box-shadow: 1px 1px 1px #c5c5c5;
+    -webkit-box-shadow: 1px 1px 1px #c5c5c5;
 }
 
 section {
     clear: both;
 }
 
+header#header hgroup h2 {
+    font-weight: normal;
+    text-shadow: 1px 1px 1px white;
+    margin: -21px 0 6px 1em;
+}
+
 .welcome header {
-    padding: 24px;
-    height: 226px;
-    background: #fbfbfb;
+    overflow: auto;
     border-radius: 9px;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
     border: 1px solid #c3c3c3;
+    background: transparent url(../images/welcome_repeat_back.png) repeat-x left top;
+}
+
+.welcome hgroup {
+    padding: 24px;
+    width: 969px;
+    height: 226px;
+    background: transparent url(../images/welcome_back.png) no-repeat right top;
 }
 
 .welcome header h1 {
     color: #ff7b33;
-    font-size: 28pt;
+    font-size: 40pt;
+    line-height: 29pt;
+    letter-spacing: 1.1pt;
+    margin-top: 110px;
+    margin-bottom: 15px;
 }
 
 .welcome header h1, .welcome header h2 {
+    font-weight: normal;
+}
+
+.welcome header h2 {
+    font-size: 20pt;
+    line-height: 21pt;
     width: 390px;
 }
 
@@ -97,6 +144,8 @@ section {
     background: #fbfbfb url(../images/search-icon.png) no-repeat 198px center;
     border: 1px solid #c3c3c3;
     border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     padding: 0 18px 0 2px;
     width: 195px;
 }
@@ -107,6 +156,8 @@ section {
     background-color: #ffffff;
     border: 1px solid #d3d3d3;
     border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 #filters h3 {

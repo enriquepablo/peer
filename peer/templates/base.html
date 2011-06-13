@@ -6,7 +6,7 @@
     <title>PEER</title>
     <meta name="description" content="Public Endpoint Entities Registry">
     <meta name="author" content="Terena">
-    <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/favicon.ico">
 
 <!--[if lt IE 9]>
     <script type="text/javascript" src="{{ STATIC_URL }}js/html5.js"></script>
@@ -18,10 +18,10 @@
   </head>
 
   <body>
-    <header>
+    <header id="header">
       {% block header %}
       <hgroup>
-        <h1><a href="{% url index %}">PEER</a></h1>
+        <h1><a href="{% url index %}"><img src="{{ STATIC_URL }}images/logo_peer.png" alt="PEER"/></a></h1>
         <h2>{% trans "Public Endpoint Entities Registry" %}</h2>
       </hgroup>
 
