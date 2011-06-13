@@ -136,8 +136,8 @@ header#header hgroup h2 {
 }
 
 #home-content {
-    float: left;
-    width: 78%;
+    clear: none;
+    margin-right: 220px;
     margin-bottom: 1em;
 }
 
