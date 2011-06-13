@@ -14,7 +14,7 @@
   <ul>
     {% for domain in domains %}
     <li{% if domain.validated %} class="validated"{% endif %}>
-      <a href="{{ domain.get_absolute_url }}">{{ domain }}</a>
+      {{ domain }}
       {% if not domain.validated %}
         {% verification_button domain %}
         <p>{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
