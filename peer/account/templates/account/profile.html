@@ -17,6 +17,7 @@
       <a href="{{ domain.get_absolute_url }}">{{ domain }}</a>
       {% if not domain.validated %}
         {% verification_button domain %}
+        <p>{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
       {% else %}
         <ul>
           {% for entity in domain.entity_set.all %}

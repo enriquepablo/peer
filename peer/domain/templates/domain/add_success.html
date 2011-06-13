@@ -11,17 +11,12 @@
     {% endblocktrans %}
   </hgroup>
 
-  <p>{% trans "The next step is to check that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
+  <p>{% trans "Now you have to proof that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
 
   <ol>
-    <li>{% trans "Add a file with the following name to the root of the HTTP service of your domain:" %}
-      <em>{{ domain.validation_key}}</em></li>
-    <li>{% trans "This way, if we request the URL" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>
-      {% trans "we should get a response with a success (200 OK) code." %}</li>
-    <li>{% trans "Once you set that up for your domain, click on <em>verify ownership</em> to perfom the actual validation." %}</li>
+    <li>{% trans "Make sure this link is not broken:" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a> {% trans "A HTTP request to that resource should return an HTTP 200 response" %}</li>
+    <li>{% trans "Click on the verification button:" %} {% verification_button domain %}</li>
   </ol>
-
-  {% verification_button domain %}
 
 </section>
 {% endblock %}
