@@ -3,10 +3,18 @@
 {% load i18n %}
 
 {% block content %}
-  <h2>{% trans "User registration" %}</h2>
+<section>
+  <hgroup>
+    <h1>{% trans "User registration" %}</h1>
+  </hgroup>
+
   <form id="sing-up-from" action="." method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input class="button" type="submit" value="{% trans "Register" %}" />
+    <p class="actionRow">
+      <input class="button" type="submit" value="{% trans "Register" %}" />
+    </p>
   </form>
+
+</section>
 {% endblock %}
 
