@@ -2,6 +2,7 @@
 .mr.developer.cfg
 bin/
 buildout.cfg
+local_settings.py
 develop-eggs/
 downloads/
 eggs/
