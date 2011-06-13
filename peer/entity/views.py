@@ -79,14 +79,14 @@ def entities_list(request):
 @login_required
 def entity_add(request):
     if request.method == 'POST':
-        form = EntityForm(request.POST)
+        form = EntityForm(request.user, request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, _('Entity created succesfully'))
             return HttpResponseRedirect(reverse('entities_list'))
 
     else:
-        form = EntityForm()
+        form = EntityForm(request.user)
 
     return render_to_response('entity/add.html', {
             'form': form,

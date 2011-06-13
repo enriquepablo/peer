@@ -37,6 +37,17 @@ class EntityForm(forms.ModelForm):
         model = Entity
         fields = ('name', 'domain')
 
+    def __init__(self, user, *args, **kwargs):
+        super(EntityForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def clean_domain(self):
+        domain = self.cleaned_data.get('domain')
+        if domain and (domain.owner != self.user):
+            raise forms.ValidationError(_('You are not the domain owner'))
+
+        return domain
+
     def clean(self):
         name = self.cleaned_data.get('name')
         domain = self.cleaned_data.get('domain')
