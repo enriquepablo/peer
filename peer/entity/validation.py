@@ -65,7 +65,8 @@ def validate_xml_syntax(doc):
         etree.XML(doc)
     except etree.XMLSyntaxError, e:
         # XXX sin traducir (como traducimos e.msg?)
-        return [u'XML syntax error: ' + e.msg]
+        error = e.msg or 'Unknown error, perhaps an empty doc?'
+        return [u'XML syntax error: ' + error]
     else:
         return []
 

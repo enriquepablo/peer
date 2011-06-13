@@ -45,6 +45,7 @@ from domain.models import Domain
 from entity.forms import EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity
+from entity.validation import validate
 
 from vff.storage import create_fname
 
@@ -153,8 +154,12 @@ def text_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
     if request.method == 'POST':
         form = MetadataTextEditForm(request.POST)
+        text = form['metadata_text'].data
+        if not text:
+            form.errors['metadata_text'] = [_('Empty metadata not allowed')]
+        else:
+            form.errors['metadata_text'] = validate(text)
         if form.is_valid():
-            text = form['metadata_text'].data
             tmp = NamedTemporaryFile(delete=True)
             tmp.write(text.encode('utf8'))
             tmp.seek(0)
@@ -175,8 +180,15 @@ def file_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
     if request.method == 'POST':
         form = MetadataFileEditForm(request.POST, request.FILES)
+        content = form['metadata_file'].data
+        if content is not None:
+            text = content.read()
+            content.seek(0)
+            if not text:
+                form.errors['metadata_file'] = [_('Empty metadata not allowed')]
+            else:
+                form.errors['metadata_file'] = validate(text)
         if form.is_valid():
-            content = form['metadata_file'].data
             name = entity.metadata.name
             entity.metadata.save(name, content)
             entity.vff_commit_msg = form['commit_msg_file'].data.encode('utf8')
@@ -207,6 +219,10 @@ def remote_edit_metadata(request, entity_id):
                 form.errors['metadata_url'] = [_(
                                       'Error getting the data: %s'
                                                 ) % resp.reason]
+            if not text:
+                form.errors['metadata_remote'] = [_('Empty metadata not allowed')]
+            else:
+                form.errors['metadata_remote'] = validate(text)
             try:
                 encoding = resp['content-type'].split('=')[1]
             except (KeyError, IndexError):
