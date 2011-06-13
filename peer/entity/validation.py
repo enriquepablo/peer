@@ -27,6 +27,7 @@
 # either expressed or implied, of Terena.
 
 from lxml import etree
+from django.utils.importlib import import_module
 from django.conf import settings
 
 
@@ -48,7 +49,7 @@ def validate(doc):
         val_list = v.split('.')
         mname = '.'.join(val_list[:-1])
         cname = val_list[-1]
-        module = __import__(mname, globals(), locals(), ['*'])
+        module = import_module(mname)
         validator = getattr(module, cname)
         errors += validator(doc)
     return errors
