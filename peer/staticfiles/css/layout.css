@@ -21,7 +21,7 @@ body {
     background-color: #e6e6e4;
     padding: 0 30px;
     margin: 0 auto;
-    font-family: arial;
+    font-family: "helvetica neue",arial;
     font-size: 11pt;
 }
 
@@ -120,8 +120,8 @@ header#header hgroup h2 {
     color: #ff7b33;
     font-size: 40pt;
     line-height: 29pt;
-    letter-spacing: 1.1pt;
-    margin-top: 110px;
+    letter-spacing: 0.7pt;
+    margin-top: 85px;
     margin-bottom: 15px;
 }
 
@@ -186,6 +186,9 @@ header#header hgroup h2 {
 #filters h3 {
     color: #62c3a2;
     font-size: 10pt;
+    font-style: italic;
+    font-weight: normal;
+    margin: 1em 0 0.8em 0;
 }
 
 #filters ul {
@@ -196,6 +199,10 @@ header#header hgroup h2 {
 
 #filters ul li a {
     padding-left: 8px;
+}
+
+#filters ul li {
+    line-height: 18px;
 }
 
 #filters ul li.current a {
