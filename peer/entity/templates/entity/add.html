@@ -3,12 +3,16 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% trans "Add entity" %}</h2>
+<section>
+  <hgroup>
+    <h1>{% trans "Add entity" %}</h1>
+  </hgroup>
 
-<form action="{% url entity_add %}" method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <p class="actionRow">
-    <input class="button" type="submit" value="{% trans "Create entity" %}" />
-  </p>
-</form>
+  <form action="{% url entity_add %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p class="actionRow">
+      <input class="button" type="submit" value="{% trans "Create entity" %}" />
+    </p>
+  </form>
+</section>
 {% endblock %}

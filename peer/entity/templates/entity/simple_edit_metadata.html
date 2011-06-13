@@ -3,11 +3,18 @@
 {% load i18n %}
 
 {% block content %}
+<section>
+  <hgroup>
+    <h1>{% trans "Metadata edit" %}</h1>
+    <h2>{{ entity }}</h2>
+  </hgroup>
 
-<form enctype="multipart/form-data" action="/entity/{{ entity.id }}/{{ edit }}_edit_metadata/" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Submit" />
-</form>
+  <form enctype="multipart/form-data" action="/entity/{{ entity.id }}/{{ edit }}_edit_metadata/" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <p class="actionRow">
+      <input type="submit" value="Submit" />
+    </p>
+  </form>
 
+</section>
 {% endblock %}

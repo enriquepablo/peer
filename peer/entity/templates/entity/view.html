@@ -3,9 +3,13 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% trans "Entity details" %}</h2>
+<section>
+  <hgroup>
+    <h1>{% trans "Entity details" %}</h1>
+  </hgroup>
 
-<p>{{ entity }}</p>
+  <p>{{ entity }}</p>
 
-<p><a href="{% url entity_remove entity.id %}">{% trans "Remove entity" %}</a></p>
+  <p><a href="{% url entity_remove entity.id %}">{% trans "Remove entity" %}</a></p>
+</section>
 {% endblock %}
