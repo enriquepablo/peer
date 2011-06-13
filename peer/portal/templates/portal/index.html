@@ -35,13 +35,15 @@
     </div>
   </div>
 
-  <ul>
-    {% for entity in entities %}
-    <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
-    {% endfor %}
-  </ul>
+  <div id="home-content">
+    <ul>
+      {% for entity in entities %}
+      <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
+      {% endfor %}
+    </ul>
 
-  <p><a href="{% url entities_list %}">{% trans "Full list of entities" %}</a></p>
+    <p><a href="{% url entities_list %}">{% trans "Full list of entities" %}</a></p>
+  </div>
 
 </section>
 
