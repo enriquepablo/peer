@@ -100,6 +100,7 @@ def entity_view(request, entity_id):
             }, context_instance=RequestContext(request))
 
 
+@login_required
 def entity_remove(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
     if request.method == 'POST':
