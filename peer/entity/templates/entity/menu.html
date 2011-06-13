@@ -1,0 +1,11 @@
+{% load i18n %}
+
+  <nav class="shadow right clear">
+    <ul>
+      <li><a href="{% url entity_view entity.id %}">{% trans "Details" %}</a></li>
+      <li><a href="#">{% trans "Modify" %}</a></li>
+      <li><a href="{% url entity_remove entity.id %}">{% trans "Remove" %}</a></li>
+      <li><a href="#">{% trans "Team permissions" %}</a></li>
+    </ul>
+  </nav>
+
