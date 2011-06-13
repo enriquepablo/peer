@@ -53,17 +53,35 @@ class EntityForm(forms.ModelForm):
 
 class MetadataTextEditForm(forms.Form):
 
-    metadata = forms.CharField('metadata', widget=forms.Textarea())
-    commit_msg = forms.CharField('Commit message')
+    metadata_text = forms.CharField('metadata_text',
+                label=_('Metadata'),
+            help_text=_('Edit the metadata for this entity'),
+        widget=forms.Textarea())
+    commit_msg_text = forms.CharField('commit_msg_text',
+                    required=True,
+                label=_('Commit message'),
+            help_text=_('Short description of the commited changes'))
 
 
 class MetadataFileEditForm(forms.Form):
 
-    metadata = forms.FileField('metadata')
-    commit_msg = forms.CharField('Commit message')
+    metadata_file = forms.FileField('metadata_file',
+                label=_('Metadata'),
+            help_text=_('Upload a file with the metadata for this entity'))
+    commit_msg_file = forms.CharField('commit_msg_file',
+                    required=True,
+                label=_('Commit message'),
+            help_text=_('Short description of the commited changes'))
 
 
 class MetadataRemoteEditForm(forms.Form):
 
-    metadata_url = forms.URLField('metadata_url')
-    commit_msg = forms.CharField('Commit message')
+    metadata_url = forms.URLField('metadata_url',
+                    required=True,
+                label=_('Metadata'),
+            help_text=_('Enter the URL of an XML document'
+                        ' with the metadata for this entity'))
+    commit_msg_remote = forms.CharField('commit_msg_remote',
+                    required=True,
+                label=_('Commit message'),
+            help_text=_('Short description of the commited changes'))

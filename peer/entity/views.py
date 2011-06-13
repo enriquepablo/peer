@@ -115,16 +115,17 @@ def entity_remove(request, entity_id):
 # METADATA EDIT
 
 
-def _get_edit_metadata_form(request, entity, edit_mode):
-    if edit_mode == 'text':
-        fname = create_fname(entity, 'metadata')
-        text = entity.metadata.storage.get_revision(fname)
-        form = MetadataTextEditForm({'metadata': text})
-    elif edit_mode == 'file':
-        # XXX siempre vacia, imborrable, required
-        form = MetadataFileEditForm()
-    elif edit_mode == 'remote':
-        form = MetadataRemoteEditForm()
+def _get_edit_metadata_form(request, entity, edit_mode, form=None):
+    if form is None:
+        if edit_mode == 'text':
+            fname = create_fname(entity, 'metadata')
+            text = entity.metadata.storage.get_revision(fname)
+            form = MetadataTextEditForm(initial={'metadata_text': text})
+        elif edit_mode == 'file':
+            # XXX siempre vacia, imborrable, required
+            form = MetadataFileEditForm()
+        elif edit_mode == 'remote':
+            form = MetadataRemoteEditForm()
 
     context_instance = RequestContext(request)
     return render_to_string('entity/simple_edit_metadata.html', {
@@ -138,32 +139,41 @@ def text_edit_metadata(request, entity_id):
     if request.method == 'POST':
         form = MetadataTextEditForm(request.POST)
         if form.is_valid():
-            text = form['metadata'].data
+            text = form['metadata_text'].data
             tmp = NamedTemporaryFile(delete=True)
             tmp.write(text.encode('utf8'))
             tmp.seek(0)
             content = File(tmp)
             name = entity.metadata.name
             entity.metadata.save(name, content)
-            entity.vff_commit_msg = form['commit_msg'].data.encode('utf8')
+            entity.vff_commit_msg = form['commit_msg_text'].data.encode('utf8')
             entity.save()
+            messages.success(request, _('Entity metadata has been modified'))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
     else:
-        html = _get_edit_metadata_form(request, entity, 'text')
-        return HttpResponse(html)
+        form = None
+    return edit_metadata(request, entity.id, text_form=form)
 
 def file_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
     if request.method == 'POST':
         form = MetadataFileEditForm(request.POST, request.FILES)
         if form.is_valid():
-            content = form['metadata'].data
+            content = form['metadata_file'].data
             name = entity.metadata.name
             entity.metadata.save(name, content)
-            entity.vff_commit_msg = form['commit_msg'].data.encode('utf8')
+            entity.vff_commit_msg = form['commit_msg_file'].data.encode('utf8')
             entity.save()
+            messages.success(request, _('Entity metadata has been modified'))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
     else:
-        html = _get_edit_metadata_form(request, entity, 'file')
-        return HttpResponse(html)
+        form = None
+    return edit_metadata(request, entity.id, accordion_activate=1,
+                                              file_form=form)
 
 def remote_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
@@ -174,16 +184,18 @@ def remote_edit_metadata(request, entity_id):
         try:
             resp, text = http.request(content_url)
         except httplib2.ServerNotFoundError:
-            form.errors['metadata_url'] = _('Server not found')
+            form.errors['metadata_url'] = [_('Server not found')]
+        except httplib2.RelativeURIError:
+            form.errors['metadata_url'] = [_('Relative URLs are not allowed')]
         else:
             if resp.status != 200:
                 form.errors['metadata_url'] = [_(
                                       'Error getting the data: %s'
                                                 ) % resp.reason]
-        try:
-            encoding = resp['content-type'].split('=')[1]
-        except (KeyError, IndexError):
-            encoding = ''
+            try:
+                encoding = resp['content-type'].split('=')[1]
+            except (KeyError, IndexError):
+                encoding = ''
         if form.is_valid():
             tmp = NamedTemporaryFile(delete=True)
             if encoding:
@@ -193,14 +205,28 @@ def remote_edit_metadata(request, entity_id):
             content = File(tmp)
             name = entity.metadata.name
             entity.metadata.save(name, content)
-            entity.vff_commit_msg = form['commit_msg'].data.encode('utf8')
+            entity.vff_commit_msg = form['commit_msg_remote'].data.encode('utf8')
             entity.save()
+            messages.success(request, _('Entity metadata has been modified'))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
     else:
-        html = _get_edit_metadata_form(request, entity, 'remote')
-        return HttpResponse(html)
+        form = None
+    return edit_metadata(request, entity.id, accordion_activate=2,
+                                             remote_form=form)
 
-def edit_metadata(request, entity_id):
+def edit_metadata(request, entity_id, accordion_activate=0,
+                  text_form=None, file_form=None, remote_form=None):
     entity = Entity.objects.get(pk=entity_id)
-    text_html = _get_edit_metadata_form(request, entity, 'text')
-    file_html = _get_edit_metadata_form(request, entity, 'file')
-    remote_html = _get_edit_metadata_form(request, entity, 'remote')
+    context = {'entity': entity}
+    context['text_html'] = _get_edit_metadata_form(request, entity, 'text',
+                                                        form=text_form)
+    context['file_html'] = _get_edit_metadata_form(request, entity, 'file',
+                                                        form=file_form)
+    context['remote_html'] = _get_edit_metadata_form(request, entity,
+                                                'remote', form=remote_form)
+    context['activate'] = accordion_activate
+
+    return render_to_response('entity/edit_metadata.html',
+            context, context_instance=RequestContext(request))
