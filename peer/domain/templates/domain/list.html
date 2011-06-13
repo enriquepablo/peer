@@ -3,7 +3,11 @@
 {% load i18n verification_tags %}
 
 {% block content %}
-<h2>{% trans "Domains list" %}</h2>
+<section>
+  <hgroup>
+    <h1>{% trans "Domains list" %}</h1>
+  </hgroup>
+
   <table class="domains">
     <caption>{% trans "Your domains" %}</caption>
     <thead>
@@ -25,4 +29,6 @@
       {% endfor %}
     </tbody>
   </table>
+</section>
+
 {% endblock %}
