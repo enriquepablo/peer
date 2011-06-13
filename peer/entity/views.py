@@ -125,12 +125,14 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
             form = MetadataFileEditForm()
         elif edit_mode == 'remote':
             form = MetadataRemoteEditForm()
+    form_action = reverse('%s_edit_metadata' % edit_mode, args=(entity.id, ))
 
     context_instance = RequestContext(request)
     return render_to_string('entity/simple_edit_metadata.html', {
         'edit': edit_mode,
         'entity': entity,
         'form': form,
+        'form_action': form_action,
     }, context_instance=context_instance)
 
 def text_edit_metadata(request, entity_id):
