@@ -91,6 +91,11 @@ fieldset {
     padding: 1em 0;
 }
 
+.helptext {
+    display: block;
+    font-size: 9pt;
+}
+
 header hgroup {
     float: left;
 }
@@ -171,10 +176,13 @@ header#header hgroup h2 {
     width: 390px;
 }
 
+.mainContent {
+    margin-right: 240px;
+    clear: left;
+}
+
 #home-content {
     border-top: none;
-    clear: none;
-    margin-right: 220px;
     margin-bottom: 1em;
 }
 
@@ -302,4 +310,8 @@ footer ul li:last-child a {
     font-weight: normal;
     margin: 5px 0;
     list-style: disc;
+}
+
+.accordion input[type=text], .accordion textarea {
+    width: 80%;
 }

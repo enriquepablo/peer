@@ -3,23 +3,38 @@
 {% load i18n %}
 
 {% block content %}
-<section id="edit_metadata">
-    <div id="accordion">
+{% include "entity/menu.html" %}
+<section class="mainContent">
 
-        <h3><a href="#">{% trans "Edit text" %}</a></h3>
-        <div>{{ text_html|safe }}</div>
+  <hgroup>
+    <h1>{% trans "Edit metadata" %}</h1>
+    <h2>{{ entity.name }}</h2>
+  </hgroup>
 
-        <h3><a href="#">{% trans "Upload file" %}</a></h3>
-        <div>{{ file_html|safe }}</div>
+  <div class="accordion">
 
-        <h3><a href="#">{% trans "Remote file" %}</a></h3>
-        <div>{{ remote_html|safe }}</div>
-    
-    </div>
-    <form><input type="hidden" id="active_fold" value="{{ activate }}" /></form>
+    <h3><a href="#">{% trans "By text editing ..." %}</a></h3>
+    <div>{{ text_html|safe }}</div>
+
+    <h3><a href="#">{% trans "By uploading a file ..." %}</a></h3>
+    <div>{{ file_html|safe }}</div>
+
+    <h3><a href="#">{% trans "By fetching a remote URL ..." %}</a></h3>
+    <div>{{ remote_html|safe }}</div>
+
+  </div>
+  <form><input type="hidden" id="active_fold" value="{{ activate }}" /></form>
 </section>
 {% endblock %}
 
 {% block extrajs %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.accordion.js"></script>
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function(){
+        $(".accordion").accordion();
+        var active = parseInt($("#active_fold").val(), 10);
+        $(".accordion").accordion("activate", active);
+    });
+})(jQuery);
+</script>
 {% endblock %}
