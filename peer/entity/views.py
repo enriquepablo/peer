@@ -168,8 +168,9 @@ def text_edit_metadata(request, entity_id):
             content = File(tmp)
             name = entity.metadata.name
             entity.metadata.save(name, content)
-            cimsg = form['commit_msg_text'].data.encode('utf8')
-            entity.vff_commit_msg = form['commit_msg_text'].data.encode('utf8')
+            cimsg = u'%s: %s' % (request.user.username,
+                                 form['commit_msg_text'].data)
+            entity.vff_commit_msg = cimsg.encode('utf8')
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
         else:
@@ -196,7 +197,9 @@ def file_edit_metadata(request, entity_id):
         if form.is_valid():
             name = entity.metadata.name
             entity.metadata.save(name, content)
-            entity.vff_commit_msg = form['commit_msg_file'].data.encode('utf8')
+            cimsg = u'%s: %s' % (request.user.username,
+                                 form['commit_msg_file'].data)
+            entity.vff_commit_msg = cimsg.encode('utf8')
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
         else:
@@ -243,7 +246,9 @@ def remote_edit_metadata(request, entity_id):
             content = File(tmp)
             name = entity.metadata.name
             entity.metadata.save(name, content)
-            entity.vff_commit_msg = form['commit_msg_remote'].data.encode('utf8')
+            cimsg = u'%s: %s' % (request.user.username,
+                                 form['commit_msg_remote'].data)
+            entity.vff_commit_msg = cimsg.encode('utf8')
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
         else:
