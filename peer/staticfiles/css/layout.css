@@ -25,6 +25,10 @@ body {
     font-size: 11pt;
 }
 
+p {
+    margin: 0.5em 0;
+}
+
 a {
     color: #999999;
     text-decoration: none;
