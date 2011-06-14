@@ -158,7 +158,9 @@ def text_edit_metadata(request, entity_id):
         if not text:
             form.errors['metadata_text'] = [_('Empty metadata not allowed')]
         else:
-            form.errors['metadata_text'] = validate(text)
+            errors = validate(text)
+            if errors:
+                form.errors['metadata_text'] = errors
         if form.is_valid():
             tmp = NamedTemporaryFile(delete=True)
             tmp.write(text.encode('utf8'))
@@ -166,6 +168,8 @@ def text_edit_metadata(request, entity_id):
             content = File(tmp)
             name = entity.metadata.name
             entity.metadata.save(name, content)
+            cimsg = form['commit_msg_text'].data.encode('utf8')
+            import pdb;pdb.set_trace()
             entity.vff_commit_msg = form['commit_msg_text'].data.encode('utf8')
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
@@ -187,7 +191,9 @@ def file_edit_metadata(request, entity_id):
             if not text:
                 form.errors['metadata_file'] = [_('Empty metadata not allowed')]
             else:
-                form.errors['metadata_file'] = validate(text)
+                errors = validate(text)
+                if errors:
+                    form.errors['metadata_file'] = errors
         if form.is_valid():
             name = entity.metadata.name
             entity.metadata.save(name, content)
@@ -222,7 +228,9 @@ def remote_edit_metadata(request, entity_id):
             if not text:
                 form.errors['metadata_remote'] = [_('Empty metadata not allowed')]
             else:
-                form.errors['metadata_remote'] = validate(text)
+                errors = validate(text)
+                if errors:
+                    form.errors['metadata_file'] = errors
             try:
                 encoding = resp['content-type'].split('=')[1]
             except (KeyError, IndexError):
