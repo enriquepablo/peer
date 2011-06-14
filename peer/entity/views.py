@@ -150,6 +150,7 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
         'form_action': form_action,
     }, context_instance=context_instance)
 
+@login_required
 def text_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
     if request.method == 'POST':
@@ -181,6 +182,7 @@ def text_edit_metadata(request, entity_id):
     return edit_metadata(request, entity.id, text_form=form,
                          accordion_activate='text')
 
+@login_required
 def file_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
     if request.method == 'POST':
@@ -211,6 +213,7 @@ def file_edit_metadata(request, entity_id):
     return edit_metadata(request, entity.id, accordion_activate='upload',
                                               file_form=form)
 
+@login_required
 def remote_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
     if request.method == 'POST':
@@ -260,6 +263,7 @@ def remote_edit_metadata(request, entity_id):
     return edit_metadata(request, entity.id, accordion_activate='remote',
                                              remote_form=form)
 
+@login_required
 def edit_metadata(request, entity_id, accordion_activate='text',
                   text_form=None, file_form=None, remote_form=None):
     entity = Entity.objects.get(pk=entity_id)
