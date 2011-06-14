@@ -9,10 +9,12 @@
   </hgroup>
 
   <form id="sing-up-from" action="." method="post">{% csrf_token %}
+    <fieldset>
     {{ form.as_p }}
-    <p class="actionRow">
+    </fieldset>
+    <fieldset class="actionRow">
       <input class="button" type="submit" value="{% trans "Register" %}" />
-    </p>
+    </fieldset>
   </form>
 
 </section>

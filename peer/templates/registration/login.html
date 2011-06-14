@@ -9,11 +9,13 @@
   </hgroup>
 
   <form id="sing-in-from" action="." method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ next }}" />
-    <p class="actionRow">
+    <fieldset>
+      {{ form.as_p }}
+      <input type="hidden" name="next" value="{{ next }}" />
+    </fieldset>
+    <fieldset class="actionRow">
       <input class="button" type="submit" value="{% trans "Login" %}" />
-    </p>
+    </fieldset>
   </form>
 
 </section>
