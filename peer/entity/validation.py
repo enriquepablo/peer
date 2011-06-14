@@ -54,8 +54,8 @@ def validate(doc):
         errors += validator(doc)
     return errors
 
-# example validator function
 
+# example validator function
 def validate_xml_syntax(doc):
     """
     Check that the provided string contains synctactically valid xml,
@@ -69,4 +69,3 @@ def validate_xml_syntax(doc):
         return [u'XML syntax error: ' + error]
     else:
         return []
-

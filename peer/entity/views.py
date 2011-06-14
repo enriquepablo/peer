@@ -150,6 +150,7 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
         'form_action': form_action,
     }, context_instance=context_instance)
 
+
 @login_required
 def text_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
@@ -182,6 +183,7 @@ def text_edit_metadata(request, entity_id):
     return edit_metadata(request, entity.id, text_form=form,
                          accordion_activate='text')
 
+
 @login_required
 def file_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
@@ -211,7 +213,8 @@ def file_edit_metadata(request, entity_id):
     else:
         form = None
     return edit_metadata(request, entity.id, accordion_activate='upload',
-                                              file_form=form)
+                         file_form=form)
+
 
 @login_required
 def remote_edit_metadata(request, entity_id):
@@ -261,20 +264,22 @@ def remote_edit_metadata(request, entity_id):
     else:
         form = None
     return edit_metadata(request, entity.id, accordion_activate='remote',
-                                             remote_form=form)
+                         remote_form=form)
+
 
 @login_required
 def edit_metadata(request, entity_id, accordion_activate='text',
                   text_form=None, file_form=None, remote_form=None):
     entity = Entity.objects.get(pk=entity_id)
-    context = {'entity': entity}
-    context['text_html'] = _get_edit_metadata_form(request, entity, 'text',
-                                                        form=text_form)
-    context['file_html'] = _get_edit_metadata_form(request, entity, 'file',
-                                                        form=file_form)
-    context['remote_html'] = _get_edit_metadata_form(request, entity,
-                                                'remote', form=remote_form)
-    context['activate'] = accordion_activate
 
-    return render_to_response('entity/edit_metadata.html',
-            context, context_instance=RequestContext(request))
+    return render_to_response('entity/edit_metadata.html', {
+            'entity': entity,
+            'text_html': _get_edit_metadata_form(request, entity, 'text',
+                                                 form=text_form),
+            'file_html': _get_edit_metadata_form(request, entity, 'file',
+                                                 form=file_form),
+            'remote_html': _get_edit_metadata_form(request, entity, 'remote',
+                                                   form=remote_form),
+            'activate': accordion_activate,
+
+            }, context_instance=RequestContext(request))
