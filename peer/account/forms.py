@@ -27,13 +27,26 @@
 # either expressed or implied, of Terena.
 
 
+from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
-from django.forms import ModelForm
+from django import forms
 
 
-class PersonalInformationForm(ModelForm):
+class PersonalInformationForm(forms.ModelForm):
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+
+class FriendInvitationForm(forms.Form):
+
+    destinatary = forms.EmailField('destinatary',
+                    required=True,
+                label=_(u'Destinatary'),
+            help_text=_(u'Email address to send the invitation to'))
+
+    body_text = forms.CharField('body_text',
+                label=_(u'Body text'),
+            help_text=_(u'Text to be sent as the body of the email'),
+        widget=forms.Textarea())

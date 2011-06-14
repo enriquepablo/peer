@@ -52,6 +52,8 @@ urlpatterns = patterns(
             }, name='registration_register'),
     url(r'^accounts/password_change/$',
         'django.contrib.auth.views.password_change', name='password_change'),
+    url(r'^accounts/invite_friend/$',
+        'account.views.invite_friend', name='invite_friend'),
     (r'^accounts/', include(registration_urls)),
 
     (r'^domain/', include('domain.urls')),
