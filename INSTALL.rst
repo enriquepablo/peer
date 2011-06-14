@@ -32,3 +32,6 @@ Development install
  * Start the server::
 
    $ bin/django runserver
+
+'''Note:''' The (system) user that own the apache proccesses must have write permission on the
+<buildout_dir>/peer/peer/media/ directory, where the versions repository is placed.
