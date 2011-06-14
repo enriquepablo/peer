@@ -83,7 +83,7 @@ def invite_friend(request):
                                         'site': get_current_site(request),
                                         'user': sendername,
                                         }
-        form = FriendInvitationForm({'body_text': body})
+        form = FriendInvitationForm(initial={'body_text': body})
 
     return render_to_response('account/invite_friend.html', {
             'form': form,
