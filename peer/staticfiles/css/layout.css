@@ -72,6 +72,25 @@ nav ul li a {
     text-decoration: none;
 }
 
+label {
+    color: #459d84;
+    display: block;
+    font-weight: bold;
+    margin-top: 1em;
+}
+
+fieldset {
+    border-top: 1px solid #d3d3d3;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    padding: 0 0 1em 0;
+}
+
+.actionRow {
+    padding: 1em 0;
+}
+
 header hgroup {
     float: left;
 }

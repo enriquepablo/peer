@@ -11,10 +11,12 @@
   </hgroup>
 
   <form action="{% url account_profile_edit %}" method="post">{% csrf_token %}
+    <fieldset>
     {{ form.as_p }}
-    <p class="actionRow">
+    </fieldset>
+    <fieldset class="actionRow">
       <input class="button" type="submit" value="{% trans "Save changes" %}" />
-    </p>
+    </fieldset>
   </form>
 
 </section>

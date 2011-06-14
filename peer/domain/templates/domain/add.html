@@ -9,10 +9,12 @@
   </hgroup>
 
   <form action="{% url domain_add %}" method="post">{% csrf_token %}
+    <fieldset>
     {{ form.as_p }}
-    <p class="actionRow">
+    </fieldset>
+    <fieldset class="actionRow">
       <input class="button" type="submit" value="{% trans "Add domain" %}" />
-    </p>
+    </fieldset>
   </form>
 </section>
 {% endblock %}

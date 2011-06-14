@@ -9,10 +9,12 @@
   </hgroup>
 
   <form action="{% url entity_add %}" method="post">{% csrf_token %}
+    <fieldset>
     {{ form.as_p }}
-    <p class="actionRow">
+    </fieldset>
+    <fieldset class="actionRow">
       <input class="button" type="submit" value="{% trans "Create entity" %}" />
-    </p>
+    </fieldset>
   </form>
 </section>
 {% endblock %}
