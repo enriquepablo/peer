@@ -13,17 +13,19 @@
 
   <div class="accordion">
 
-    <h3><a href="#">{% trans "By text editing ..." %}</a></h3>
+    <h3{% ifequal activate "text" %} class="active"{% endifequal %}>
+      <a href="#">{% trans "By text editing ..." %}</a></h3>
     <div>{{ text_html|safe }}</div>
 
-    <h3><a href="#">{% trans "By uploading a file ..." %}</a></h3>
+    <h3{% ifequal activate "upload" %} class="active"{% endifequal %}>
+      <a href="#">{% trans "By uploading a file ..." %}</a></h3>
     <div>{{ file_html|safe }}</div>
 
-    <h3><a href="#">{% trans "By fetching a remote URL ..." %}</a></h3>
+    <h3{% ifequal activate "remote" %} class="active"{% endifequal %}>
+      <a href="#">{% trans "By fetching a remote URL ..." %}</a></h3>
     <div>{{ remote_html|safe }}</div>
 
   </div>
-  <form><input type="hidden" id="active_fold" value="{{ activate }}" /></form>
 </section>
 {% endblock %}
 
@@ -31,9 +33,7 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function(){
-        $(".accordion").accordion();
-        var active = parseInt($("#active_fold").val(), 10);
-        $(".accordion").accordion("activate", active);
+        $(".accordion").accordion({active: ".active"});
     });
 })(jQuery);
 </script>

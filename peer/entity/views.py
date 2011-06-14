@@ -178,7 +178,8 @@ def text_edit_metadata(request, entity_id):
                                       ' indicated below'))
     else:
         form = None
-    return edit_metadata(request, entity.id, text_form=form)
+    return edit_metadata(request, entity.id, text_form=form,
+                         accordion_activate='text')
 
 def file_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
@@ -207,7 +208,7 @@ def file_edit_metadata(request, entity_id):
                                       ' indicated below'))
     else:
         form = None
-    return edit_metadata(request, entity.id, accordion_activate=1,
+    return edit_metadata(request, entity.id, accordion_activate='upload',
                                               file_form=form)
 
 def remote_edit_metadata(request, entity_id):
@@ -256,10 +257,10 @@ def remote_edit_metadata(request, entity_id):
                                       ' indicated below'))
     else:
         form = None
-    return edit_metadata(request, entity.id, accordion_activate=2,
+    return edit_metadata(request, entity.id, accordion_activate='remote',
                                              remote_form=form)
 
-def edit_metadata(request, entity_id, accordion_activate=0,
+def edit_metadata(request, entity_id, accordion_activate='text',
                   text_form=None, file_form=None, remote_form=None):
     entity = Entity.objects.get(pk=entity_id)
     context = {'entity': entity}
