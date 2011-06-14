@@ -169,7 +169,6 @@ def text_edit_metadata(request, entity_id):
             name = entity.metadata.name
             entity.metadata.save(name, content)
             cimsg = form['commit_msg_text'].data.encode('utf8')
-            import pdb;pdb.set_trace()
             entity.vff_commit_msg = form['commit_msg_text'].data.encode('utf8')
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
