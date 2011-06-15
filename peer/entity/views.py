@@ -169,10 +169,11 @@ def text_edit_metadata(request, entity_id):
             tmp.seek(0)
             content = File(tmp)
             name = entity.metadata.name
-            entity.metadata.save(name, content)
-            entity.vff_username = '%s <%s>' % (request.user.username,
+            username = '%s <%s>' % (request.user.username,
                     request.user.email or request.user.username)
-            entity.vff_commit_msg = form['commit_msg_text'].data.encode('utf8')
+            username = username.encode('utf8')
+            commit_msg = form['commit_msg_text'].data.encode('utf8')
+            entity.metadata.save(name, content, username, commit_msg)
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
         else:
@@ -252,10 +253,10 @@ def remote_edit_metadata(request, entity_id):
             tmp.seek(0)
             content = File(tmp)
             name = entity.metadata.name
-            entity.metadata.save(name, content)
-            entity.vff_username = '%s <%s>' % (request.user.username,
+            username = '%s <%s>' % (request.user.username,
                     request.user.email or request.user.username)
-            entity.vff_commit_msg = form['commit_msg_remote'].data.encode('utf8')
+            commit_msg = form['commit_msg_remote'].data.encode('utf8')
+            entity.metadata.save(name, content, username, commit_msg)
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
         else:
