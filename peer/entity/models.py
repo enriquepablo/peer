@@ -44,6 +44,9 @@ class Entity(models.Model):
     vff_commit_msg = SafeCharField(_('Commit message'),
                                    max_length=255,
                                    blank=True, null=True,)
+    vff_username = SafeCharField(_('VFF username'),
+                                   max_length=255,
+                                   blank=True, null=True,)
     owner = models.ForeignKey(User, verbose_name=_('Owner'),
                               blank=True, null=True)
     domain = models.ForeignKey(Domain, verbose_name=_('Domain'))
