@@ -42,9 +42,10 @@ setup(
     license='BSD',
     description=('Public Endpoint Ent[ities Registry'),
     long_description=(read('README') + '\n\n' + read('CHANGES')),
-    author='Yaco Sistemas <lgs@yaco.es>',
+    author='Terena',
     classifiers=[
-        'Development Status :: early stages',
+        'Development Status :: 2 - Pre-Alpha',
+        'Environment :: Web Environment',
         'Framework :: Django',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
