@@ -1,9 +1,9 @@
-
-INSTALL
-#######
+Installation
+============
 
 Development install
-+++++++++++++++++++
+-------------------
+
  * Previous requirements of the machine:
 
    $ sudo apt-get install libxml2-dev libxml2

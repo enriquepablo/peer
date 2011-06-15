@@ -1,0 +1,7 @@
+CHANGES
+=======
+
+0.1.0 (2011-06-15)
+------------------
+ - Initial version which includes user registration, domain ownership proof, domain creation,
+   entities creation, basic metadata edition and user invitation.

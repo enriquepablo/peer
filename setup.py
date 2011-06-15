@@ -37,11 +37,11 @@ def read(*rnames):
 
 setup(
     name='peer',
-    version='0.0.1',
+    version='0.1.0',
     url='https://github.com/Yaco-Sistemas/peer',
     license='BSD',
-    description=('Public Endpoint Entities Registry'),
-    long_description=(read('README')),
+    description=('Public Endpoint Ent[ities Registry'),
+    long_description=(read('README') + '\n\n' + read('CHANGES')),
     author='Yaco Sistemas <lgs@yaco.es>',
     classifiers=[
         'Development Status :: early stages',
