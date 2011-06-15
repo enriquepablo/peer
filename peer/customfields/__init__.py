@@ -28,6 +28,12 @@
 
 from django.db import models
 
+HAS_SOUTH = True
+try:
+    from south.modelsinspector import add_introspection_rules
+except ImportError:
+    HAS_SOUTH = False
+
 
 class SafeCharField(models.CharField):
     """This field make sure fields with just spaces won't validate"""
@@ -36,3 +42,12 @@ class SafeCharField(models.CharField):
         if value is not None:
             value = value.strip()
         return super(SafeCharField, self).to_python(value)
+
+if HAS_SOUTH:
+    add_introspection_rules([
+        (
+            [SafeCharField],
+            [],
+            {},
+        ),
+    ], ["^customfields\.SafeCharField"])
