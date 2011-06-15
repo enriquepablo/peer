@@ -203,15 +203,6 @@ METADATA_VALIDATORS = (
 # VFF VERSIONED FILE BACKEND
 VERSIONEDFILE_BACKEND = 'vff.git_backend.GitBackend'
 
-# BODY FOR INVITATION EMAILS
-
-INVITATION_EMAIL_BODY = u'''
-%(user)s invites you to the TERENA peer site.
-
-http://%(site)s
-http://%(site)s/accounts/register/
-'''
-
 try:
     from local_settings import *
 except ImportError:

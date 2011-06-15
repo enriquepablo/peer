@@ -33,6 +33,7 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 from django.conf import settings
@@ -79,10 +80,11 @@ def invite_friend(request):
                                 _('Invitation message sent to %s') % email)
             return HttpResponseRedirect(reverse('account_profile'))
     else:
-        body = _(settings.INVITATION_EMAIL_BODY) % {
+        body = render_to_string('account/invitation_email.txt',
+                                       {
                                         'site': get_current_site(request),
                                         'user': sendername,
-                                        }
+                                        })
         form = FriendInvitationForm(initial={'body_text': body})
 
     return render_to_response('account/invite_friend.html', {
