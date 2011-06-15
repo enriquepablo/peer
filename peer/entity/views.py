@@ -235,11 +235,11 @@ def remote_edit_metadata(request, entity_id):
                                       'Error getting the data: %s'
                                                 ) % resp.reason]
             if not text:
-                form.errors['metadata_remote'] = [_('Empty metadata not allowed')]
+                form.errors['metadata_url'] = [_('Empty metadata not allowed')]
             else:
                 errors = validate(text)
                 if errors:
-                    form.errors['metadata_file'] = errors
+                    form.errors['metadata_url'] = errors
             try:
                 encoding = resp['content-type'].split('=')[1]
             except (KeyError, IndexError):
