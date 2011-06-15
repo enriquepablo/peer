@@ -11,6 +11,7 @@ identity. The service is not intended to be a replacement for federation
 or inter-federation, but is intended to be a tool supporting such activities.
 
 Project home: https://github.com/Yaco-Sistemas/peer
+
 Mailing list: http://lists.iay.org.uk/listinfo.cgi/peer-iay.org.uk
 
 Please read the documentation in the doc directory for more information. You
