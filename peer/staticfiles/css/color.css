@@ -1,0 +1,95 @@
+body {
+    color: #999999;
+    background-color: #e6e6e4;
+}
+
+h1 {
+    color: #fd7b2f;
+}
+
+header#header h1 a {
+    color: #fb813e;
+}
+
+a,
+header#header h1 a span {
+    color: #5db39a;
+}
+
+.shadow {
+    background-color: #dbdbd9;
+}
+
+section,
+fieldset {
+    border-top: 1px solid #d3d3d3;
+}
+
+nav ul,
+#filters {
+    border: 1px solid #d3d3d3;
+    background-color: #ffffff;
+}
+
+nav ul li {
+    border-bottom: 1px solid #d3d3d3;
+}
+
+label {
+    color: #459d84;
+}
+
+a.button {
+    background: #69c7ac;
+    box-shadow: 1px 1px 1px #c5c5c5;
+    -moz-box-shadow: 1px 1px 1px #c5c5c5;
+    -webkit-box-shadow: 1px 1px 1px #c5c5c5;
+}
+
+header#header hgroup h2 {
+    text-shadow: 1px 1px 1px white;
+}
+
+.welcome header {
+    border: 1px solid #c3c3c3;
+}
+
+.welcome header h1,
+#filters ul li.current a  {
+    color: #ff7b33;
+}
+
+#home-content ul li {
+    border-bottom: 1px solid #c5c7c6;
+    box-shadow: 0px 1px 0 white;
+}
+
+#home-content ul li:hover {
+    background-color: #fbfbfb;
+}
+
+#search input {
+    border: 1px solid #c3c3c3;
+    background-color: #fbfbfb;
+}
+
+#filters h3 {
+    color: #62c3a2;
+}
+
+#filters ul li.current a {
+    border-left: 4px solid #ff7b33;
+}
+
+footer {
+    border-top: 1px solid #66c4a9;
+}
+
+footer ul li {
+    border-top: 4px solid #66c4a9;
+}
+
+footer ul li a {
+    color: #999999;
+    border-right: 1px solid #999999;
+}

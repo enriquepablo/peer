@@ -11,14 +11,11 @@
 }
 
 .shadow {
-    background-color: #dbdbd9;
     padding: 10px;
 }
 
 body {
     max-width: 1024px;
-    color: #999999;
-    background-color: #e6e6e4;
     padding: 0 30px;
     margin: 0 auto;
     font-family: "helvetica neue",arial;
@@ -30,12 +27,10 @@ p {
 }
 
 a {
-    color: #999999;
     text-decoration: none;
 }
 
 h1 {
-    color: #fd7b2f;
     font-size: 16pt;
     margin: 0.5em 0;
 }
@@ -47,15 +42,12 @@ h2 {
 
 section {
     clear: both;
-    border-top: 1px solid #d3d3d3;
     padding-bottom: 10px;
 }
 
 nav ul {
     padding: 12px;
     width: 176px;
-    background-color: #ffffff;
-    border: 1px solid #d3d3d3;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -63,7 +55,6 @@ nav ul {
 }
 
 nav ul li {
-    border-bottom: 1px solid #d3d3d3;
     padding: 6px 0;
 }
 
@@ -77,17 +68,13 @@ nav ul li a {
 }
 
 label {
-    color: #459d84;
     display: block;
     font-weight: bold;
     margin-top: 1em;
 }
 
 fieldset {
-    border-top: 1px solid #d3d3d3;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
+    border: none;
     padding: 0 0 1em 0;
 }
 
@@ -126,18 +113,21 @@ a.button {
     line-height: 20px;
     color: white;
     text-decoration: none;
-    background: #69c7ac;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    box-shadow: 1px 1px 1px #c5c5c5;
-    -moz-box-shadow: 1px 1px 1px #c5c5c5;
-    -webkit-box-shadow: 1px 1px 1px #c5c5c5;
+}
+
+header#header h1 a {
+    display: block;
+    font-weight: normal;
+    font-size: 18pt;
+    padding: 40px 0 20px 70px;
+    background: transparent url(../images/logo_peer.png) no-repeat left top;
 }
 
 header#header hgroup h2 {
     font-weight: normal;
-    text-shadow: 1px 1px 1px white;
     margin: -21px 0 6px 1em;
 }
 
@@ -150,7 +140,6 @@ header#header hgroup h2 {
     border-radius: 9px;
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px;
-    border: 1px solid #c3c3c3;
     background: transparent url(../images/welcome_repeat_back.png) repeat-x left top;
 }
 
@@ -162,7 +151,6 @@ header#header hgroup h2 {
 }
 
 .welcome header h1 {
-    color: #ff7b33;
     font-size: 40pt;
     line-height: 29pt;
     letter-spacing: 0.7pt;
@@ -198,13 +186,8 @@ header#header hgroup h2 {
 #home-content ul li {
     display: block;
     padding: 1em 0 0.5em 1em;
-    border-bottom: 1px solid #c5c7c6;
-    box-shadow: 0px 1px 0 white;
 }
 
-#home-content ul li:hover {
-    background-color: #fbfbfb;
-}
 
 #search {
     margin-top: 15px;
@@ -213,8 +196,7 @@ header#header hgroup h2 {
 }
 
 #search input {
-    background: #fbfbfb url(../images/search-icon.png) no-repeat 198px center;
-    border: 1px solid #c3c3c3;
+    background: transparent url(../images/search-icon.png) no-repeat 198px center;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -225,15 +207,12 @@ header#header hgroup h2 {
 #filters {
     padding: 12px;
     width: 176px;
-    background-color: #ffffff;
-    border: 1px solid #d3d3d3;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
 
 #filters h3 {
-    color: #62c3a2;
     font-size: 10pt;
     font-style: italic;
     font-weight: normal;
@@ -256,13 +235,11 @@ header#header hgroup h2 {
 
 #filters ul li.current a {
     padding-left: 4px;
-    color: #ff7b33;
-    border-left: 4px solid #ff7b33;
 }
 
 footer {
     clear: both;
-    border-top: 1px solid #66c4a9;
+
 }
 
 footer ul {
@@ -274,13 +251,10 @@ footer ul {
 footer ul li {
     float: left;
     padding: 6px 0;
-    border-top: 4px solid #66c4a9;
 }
 
 footer ul li a {
     text-decoration: none;
-    color: #999999;
-    border-right: 1px solid #999999;
     padding: 0 10px;
 }
 

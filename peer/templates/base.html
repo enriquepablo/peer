@@ -14,6 +14,7 @@
     <link type="text/css" href="{{ STATIC_URL }}css/custom-theme/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
     <link type="text/css" href="{{ STATIC_URL }}css/reset.css" rel="Stylesheet" />
     <link type="text/css" href="{{ STATIC_URL }}css/layout.css" rel="Stylesheet" />
+    <link type="text/css" href="{{ STATIC_URL }}css/color.css" rel="Stylesheet" />
     {% block extracss %}
     {% endblock %}
   </head>
@@ -22,7 +23,7 @@
     <header id="header">
       {% block header %}
       <hgroup>
-        <h1><a href="{% url index %}"><img src="{{ STATIC_URL }}images/logo_peer.png" alt="PEER"/></a></h1>
+        <h1><a href="{% url index %}">P<span>EE</span>R</a></h1>
         <h2>{% trans "Public Endpoint Entities Registry" %}</h2>
       </hgroup>
 
