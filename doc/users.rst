@@ -27,8 +27,6 @@ The identified user can follow the link labelled with her username, to view her 
  * `Change password` will take her to a form that will allow her to change her password. In this form she will be required to enter her old password, and (twice) her new password. If the old password is correct, and the new password is identical both times she enters it, her password will be updated.
  * `Invite friend` will take her to a form that will allow her to invite people to sign up at the Terena PEER site. In this form she has to enter the email address of the person she wants to invite, and can also edit the email's body text offered by default. Clicking on "send invitation" will immediately send an email to the given address.
 
-In this 
-
 Authorization
 -------------
 
