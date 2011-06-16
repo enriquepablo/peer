@@ -14,7 +14,8 @@
     <link type="text/css" href="{{ STATIC_URL }}css/custom-theme/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
     <link type="text/css" href="{{ STATIC_URL }}css/reset.css" rel="Stylesheet" />
     <link type="text/css" href="{{ STATIC_URL }}css/layout.css" rel="Stylesheet" />
-
+    {% block extracss %}
+    {% endblock %}
   </head>
 
   <body>
