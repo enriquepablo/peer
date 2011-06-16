@@ -19,7 +19,15 @@ If a user has an active account on the site, she can log in to the site, followi
 User profile
 ------------
 
-The identified user can follow the link labelled with her name, to edit her user profile. In the presented form, she can change her email and her password, and can also enter a first and a last name. Her full name is a combination of her first and last names.
+The identified user can follow the link labelled with her username, to view her user profile. In that page she will see a list of her domains and entities, and a user's menu with a few links:
+
+ * `Add domain` will take her to a form that she can use to add new domains.
+ * `Add entity` will take her to a form that she can use to add new entities.
+ * `Personal information` will take her to a form where she can change her email and her password, and can also enter a first and a last name. Her full name is a combination of her first and last names.
+ * `Change password` will take her to a form that will allow her to change her password. In this form she will be required to enter her old password, and (twice) her new password. If the old password is correct, and the new password is identical both times she enters it, her password will be updated.
+ * `Invite friend` will take her to a form that will allow her to invite people to sign up at the Terena PEER site. In this form she has to enter the email address of the person she wants to invite, and can also edit the email's body text offered by default. Clicking on "send invitation" will immediately send an email to the given address.
+
+In this 
 
 Authorization
 -------------
