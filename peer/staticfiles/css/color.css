@@ -59,12 +59,14 @@ header#header hgroup h2 {
     color: #ff7b33;
 }
 
+section ul li,
 #home-content ul li {
     border-bottom: 1px solid #c5c7c6;
     box-shadow: 0px 1px 0 white;
 }
 
-#home-content ul li:hover {
+section ul li a.hover,
+#home-content ul li a:hover {
     background-color: #fbfbfb;
 }
 

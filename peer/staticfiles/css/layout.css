@@ -178,12 +178,14 @@ header#header hgroup h2 {
     margin-bottom: 1em;
 }
 
+section ul,
 #home-content ul {
     list-style: none;
     margin: 0 1em 1em 0;
 }
 
-#home-content ul li {
+section ul li a,
+#home-content ul li a {
     display: block;
     padding: 1em 0 0.5em 1em;
 }
