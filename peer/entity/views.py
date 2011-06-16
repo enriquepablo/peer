@@ -150,6 +150,10 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
         'form_action': form_action,
     }, context_instance=context_instance)
 
+def _get_username(request):
+    return u'%s <%s>' % (
+            request.user.get_full_name() or request.user.username,
+            request.user.email or request.user.username)
 
 @login_required
 def text_edit_metadata(request, entity_id):
@@ -169,9 +173,7 @@ def text_edit_metadata(request, entity_id):
             tmp.seek(0)
             content = File(tmp)
             name = entity.metadata.name
-            username = '%s <%s>' % (request.user.username,
-                    request.user.email or request.user.username)
-            username = username.encode('utf8')
+            username = _get_username(request)
             commit_msg = form['commit_msg_text'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
@@ -202,9 +204,7 @@ def file_edit_metadata(request, entity_id):
                     form.errors['metadata_file'] = errors
         if form.is_valid():
             name = entity.metadata.name
-            username = '%s <%s>' % (request.user.username,
-                    request.user.email or request.user.username)
-            username = username.encode('utf8')
+            username = _get_username(request)
             commit_msg = form['commit_msg_text'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
@@ -255,9 +255,7 @@ def remote_edit_metadata(request, entity_id):
             tmp.seek(0)
             content = File(tmp)
             name = entity.metadata.name
-            username = '%s <%s>' % (request.user.username,
-                    request.user.email or request.user.username)
-            username = username.encode('utf8')
+            username = _get_username(request)
             commit_msg = form['commit_msg_text'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
