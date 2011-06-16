@@ -28,7 +28,7 @@
 
 import datetime
 import hashlib
-import httplib2
+import urllib2
 
 from django.utils.encoding import smart_str
 
@@ -40,16 +40,19 @@ def validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
 
     False otherwise
     """
-    http = httplib2.Http(timeout=timeout)
+
     try:
-        response = http.request(validation_url)
-    except httplib2.ServerNotFoundError:
+        response = urllib2.urlopen(validation_url, None, timeout)
+    except (urllib2.URLError, urllib2.HTTPError):
         return False
 
-    if response[0]['status'] == '200':
-        return True
+    if response.getcode() == 200:
+        valid = True
     else:
-        return False
+        valid = False
+    response.close()
+    return valid
+
 
 
 def generate_validation_key(domain_name, domain_owner=None):

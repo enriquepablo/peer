@@ -27,7 +27,7 @@
 # either expressed or implied, of Terena.
 
 from tempfile import NamedTemporaryFile
-import httplib2
+import urllib2
 
 from django.conf import settings
 from django.contrib import messages
@@ -224,18 +224,18 @@ def remote_edit_metadata(request, entity_id):
     if request.method == 'POST':
         form = MetadataRemoteEditForm(request.POST)
         content_url = form['metadata_url'].data
-        http = httplib2.Http(timeout=CONNECTION_TIMEOUT)
         try:
-            resp, text = http.request(content_url)
-        except httplib2.ServerNotFoundError:
-            form.errors['metadata_url'] = [_('Server not found')]
-        except httplib2.RelativeURIError:
-            form.errors['metadata_url'] = [_('Relative URLs are not allowed')]
+            resp = urllib2.urlopen(content_url, None, CONNECTION_TIMEOUT)
+        except urllib2.URLError, e:
+            form.errors['metadata_url'] = ['URL Error: '+str(e)]
+        except urllib2.HTTPError, e:
+            form.errors['metadata_url'] = ['HTTP Error: '+str(e)]
         else:
-            if resp.status != 200:
+            if resp.getcode() != 200:
                 form.errors['metadata_url'] = [_(
                                       'Error getting the data: %s'
-                                                ) % resp.reason]
+                                                ) % resp.msg]
+            text = resp.read()
             if not text:
                 form.errors['metadata_url'] = [_('Empty metadata not allowed')]
             else:
@@ -243,9 +243,10 @@ def remote_edit_metadata(request, entity_id):
                 if errors:
                     form.errors['metadata_url'] = errors
             try:
-                encoding = resp['content-type'].split('=')[1]
+                encoding = resp.headers['content-type'].split('charset=')[1]
             except (KeyError, IndexError):
                 encoding = ''
+            resp.close()
         if form.is_valid():
             tmp = NamedTemporaryFile(delete=True)
             if encoding:
