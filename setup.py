@@ -59,7 +59,6 @@ setup(
         'psycopg2',
         'django-registration==0.7',
         'django-recaptcha',
-        'httplib2',
         'fudge',
         'django-vff',
         'lxml',

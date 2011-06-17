@@ -32,7 +32,7 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
-import httplib2
+import urllib2
 
 from django.test import TestCase
 
@@ -43,34 +43,33 @@ from domain.validation import validate_ownership, generate_validation_key
 
 class ValidationTest(TestCase):
 
-    @fudge.patch('httplib2.Http')
-    def test_validate_ownership(self, FakeHttp):
-        url = 'http://www.example.com/non_valid_key'
-        (FakeHttp.expects_call()
-                 .returns_fake()
-                 .expects('request')
-                 .with_args(url)
-                 .returns(
-                   ({'status': '404'}, '')
-                 ))
-        self.assertEquals(False, validate_ownership(url))
-
+    @fudge.patch('urllib2.urlopen')
+    def test_validate_ownership(self, urlopen):
+        data = None
+        timeout = 10
         url = 'http://www.example.com/valid_key'
-        (FakeHttp.expects_call()
-                 .returns_fake()
-                 .expects('request')
-                 .with_args(url)
-                 .returns(
-                   ({'status': '200'}, '')
+        (urlopen.expects_call()
+                .with_args(url, data, timeout)
+                .returns(
+                    (fudge.Fake('addinfourl')
+                          .expects('getcode')
+                          .returns(
+                              ( 200 )
+                              ))
                  ))
         self.assertEquals(True, validate_ownership(url))
 
         url = 'http://www.invalid-domain.com/garbage'
-        (FakeHttp.expects_call()
-                 .returns_fake()
-                 .expects('request')
-                 .with_args(url)
-                 .raises(httplib2.ServerNotFoundError()))
+        (urlopen.expects_call()
+                 .with_args(url, data, timeout)
+                 .raises(urllib2.URLError()))
+
+        self.assertEquals(False, validate_ownership(url))
+
+        url = 'http://www.example.com/non_valid_key'
+        (urlopen.expects_call()
+                 .with_args(url, data, timeout)
+                 .raises(urllib2.HTTPError()))
 
         self.assertEquals(False, validate_ownership(url))
 
