@@ -26,9 +26,11 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import re
 from tempfile import NamedTemporaryFile
 import urllib2
 
+from django import db
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -52,15 +54,7 @@ from vff.storage import create_fname
 CONNECTION_TIMEOUT = 10
 
 
-def get_entities_per_page():
-    if hasattr(settings, 'ENTITIES_PER_PAGE'):
-        return settings.ENTITIES_PER_PAGE
-    else:
-        return 10
-
-
-def entities_list(request):
-    entities = Entity.objects.all()
+def _paginated_list_of_entities(request, entities):
     paginator = Paginator(entities, get_entities_per_page())
 
     try:
@@ -72,9 +66,21 @@ def entities_list(request):
         entities = paginator.page(page)
     except (EmptyPage, InvalidPage):
         entities = paginator.page(paginator.num_pages)
+    return entities
+
+def get_entities_per_page():
+    if hasattr(settings, 'ENTITIES_PER_PAGE'):
+        return settings.ENTITIES_PER_PAGE
+    else:
+        return 10
+
+
+def entities_list(request):
+    entities = Entity.objects.all()
+    paginated_entities = _paginated_list_of_entities(request, entities)
 
     return render_to_response('entity/list.html', {
-            'entities': entities,
+            'entities': paginated_entities,
             }, context_instance=RequestContext(request))
 
 
@@ -284,4 +290,32 @@ def edit_metadata(request, entity_id, accordion_activate='text',
                                                    form=remote_form),
             'activate': accordion_activate,
 
+            }, context_instance=RequestContext(request))
+
+# ENTITY SEARCH
+
+def _search_entities(search_terms):
+    lang = getattr(settings, 'PG_FT_INDEX_LANGUAGE', u'english')
+    sql = u"select * from entity_entity where to_tsvector(%s, name) @@ to_tsquery(%s, %s)"
+    return Entity.objects.raw(sql, [lang, lang, search_terms])
+
+def search_entities(request):
+    search_terms_raw = request.GET.get('query', '')
+    op = getattr(settings, 'PG_FTS_OPERATOR', '&')
+    if db.database['ENGINE'] == 'django.db.backends.postgresql_psycopg2':
+        search_terms = re.sub(ur'\s+', op, search_terms_raw)
+        entities = _search_entities(search_terms)
+    else:
+        search_terms_list = search_terms_raw.split(' ')
+        where = (u' %s ' % op).join([u"name ilike '%s'"] * len(search_terms_list))
+        sql = u"select * from entity_entity where " + where
+        entities = Entity.objects.raw(sql, search_terms_list)
+        search_terms = op.join(search_terms)
+    entities = list(entities)
+    n = len(entities)
+    msg = _(u'Found %d entities matching "%s"') % (n, search_terms)
+    messages.success(request, msg)
+    paginated_entities = _paginated_list_of_entities(request, entities)
+    return render_to_response('entity/search_results.html', {
+            'entities': paginated_entities,
             }, context_instance=RequestContext(request))

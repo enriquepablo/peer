@@ -203,6 +203,16 @@ METADATA_VALIDATORS = (
 # VFF VERSIONED FILE BACKEND
 VERSIONEDFILE_BACKEND = 'vff.git_backend.GitBackend'
 
+# POSTGRESQL FULL TEXT SEARCH
+
+# What language to use for full text searches (only Postgresql)
+PG_FT_INDEX_LANGUAGE = u'english'
+
+# If the user enters various terms in a serch, do we join them
+# with OR or with AND
+# PG_FTS_OPERATOR = u'|'
+PG_FTS_OPERATOR = u'&'
+
 try:
     from local_settings import *
 except ImportError:
