@@ -321,6 +321,9 @@ footer ul li:last-child a {
     font-size: 12px;
 }
 
+.ui-accordion {
+    width: 680px;
+}
 .accordion input[type=text], .accordion textarea {
     width: 80%;
 }
