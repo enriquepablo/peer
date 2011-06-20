@@ -21,7 +21,7 @@ a {
 
 section,
 fieldset {
-    border-top: 1px solid #d3d3d3;
+    border-top: 1px solid #BFC7ED;
 }
 
 nav ul,
@@ -35,14 +35,7 @@ nav ul li {
 }
 
 label {
-    color: #459d84;
-}
-
-a.button {
-    background: #69c7ac;
-    box-shadow: 1px 1px 1px #c5c5c5;
-    -moz-box-shadow: 1px 1px 1px #c5c5c5;
-    -webkit-box-shadow: 1px 1px 1px #c5c5c5;
+    color: #1631bc;
 }
 
 header#header hgroup h2 {
