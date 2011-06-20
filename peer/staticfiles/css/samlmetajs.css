@@ -1,12 +1,10 @@
 /* Generic Section */
 .metadataForm #tabs fieldset {
-	border: 1px solid #ccc;
 	margin: 1em .3em 2.5em .3em;
 }
 .metadataForm #tabs fieldset legend {
-	border: 1px solid #ccc;
-	color: #999;
-	padding: .2em 1.5em .2em 20px;
+	color: #1631BC;
+	padding: 0.2em 1em 0.2em 0;
 	font-size: small;
 	background-repeat: no-repeat;
 	background-position: left;
@@ -16,6 +14,7 @@
 div#rawmetadata textarea{
 	height: 400px;
     width: 100%;
+    margin-bottom: 1em;
 }
 
 div#certs textarea{
@@ -27,11 +26,12 @@ div#certs textarea{
 	font-size: 90%;
 	width: 100%;
 	height: 70px;
-	border: 1px solid #ccc;
+    margin-left: 2px;
+	border: 1px solid #DADBE1
 }
 
 .metadataForm p {
-	font-size: small
+	font-size: small;
 }
 
 

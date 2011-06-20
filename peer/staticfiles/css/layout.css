@@ -106,18 +106,6 @@ header #user-actions {
     margin-right: 1em;
 }
 
-a.button {
-    display: block;
-    width: 106px;
-    text-align: center;
-    line-height: 20px;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-}
-
 header#header hgroup {
     padding: 15px 0 20px 80px;
     background: transparent url(../images/logo_peer.png) no-repeat left top;
@@ -298,6 +286,15 @@ footer ul li:last-child a {
     list-style: disc;
 }
 
+/* Ui styles modifications */
+.ui-widget {
+    font-size: 12px;
+}
+
 .accordion input[type=text], .accordion textarea {
     width: 80%;
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: 0.1em 0.6em;
 }
