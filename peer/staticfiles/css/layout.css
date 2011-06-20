@@ -97,7 +97,7 @@ header #user-actions {
 
 #user-actions {
     list-style: none;
-    margin-top: 78px;
+    margin-top: 40px;
 }
 
 #user-actions li {
@@ -118,17 +118,23 @@ a.button {
     -webkit-border-radius: 4px;
 }
 
+header#header hgroup {
+    padding: 15px 0 20px 80px;
+    background: transparent url(../images/logo_peer.png) no-repeat left top;
+}
+
+header#header h1 {
+    margin-bottom: 0;
+}
+
 header#header h1 a {
     display: block;
     font-weight: normal;
-    font-size: 18pt;
-    padding: 40px 0 20px 70px;
-    background: transparent url(../images/logo_peer.png) no-repeat left top;
 }
 
 header#header hgroup h2 {
     font-weight: normal;
-    margin: -21px 0 6px 1em;
+    margin: 0px 0 6px 0;
 }
 
 .welcome {
