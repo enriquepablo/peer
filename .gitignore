@@ -16,4 +16,5 @@ var/
 *.swp
 *.egg-info
 _build
+setup.py
 *.*~
