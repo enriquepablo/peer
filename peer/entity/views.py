@@ -229,30 +229,31 @@ def remote_edit_metadata(request, entity_id):
     entity = Entity.objects.get(pk=entity_id)
     if request.method == 'POST':
         form = MetadataRemoteEditForm(request.POST)
-        content_url = form['metadata_url'].data
-        try:
-            resp = urllib2.urlopen(content_url, None, CONNECTION_TIMEOUT)
-        except urllib2.URLError, e:
-            form.errors['metadata_url'] = ['URL Error: '+str(e)]
-        except urllib2.HTTPError, e:
-            form.errors['metadata_url'] = ['HTTP Error: '+str(e)]
-        else:
-            if resp.getcode() != 200:
-                form.errors['metadata_url'] = [_(
-                                      'Error getting the data: %s'
-                                                ) % resp.msg]
-            text = resp.read()
-            if not text:
-                form.errors['metadata_url'] = [_('Empty metadata not allowed')]
-            else:
-                errors = validate(text)
-                if errors:
-                    form.errors['metadata_url'] = errors
+        if form.is_valid():
+            content_url = form['metadata_url'].data
             try:
-                encoding = resp.headers['content-type'].split('charset=')[1]
-            except (KeyError, IndexError):
-                encoding = ''
-            resp.close()
+                resp = urllib2.urlopen(content_url, None, CONNECTION_TIMEOUT)
+            except urllib2.URLError, e:
+                form.errors['metadata_url'] = ['URL Error: '+str(e)]
+            except urllib2.HTTPError, e:
+                form.errors['metadata_url'] = ['HTTP Error: '+str(e)]
+            else:
+                if resp.getcode() != 200:
+                    form.errors['metadata_url'] = [_(
+                                          'Error getting the data: %s'
+                                                    ) % resp.msg]
+                text = resp.read()
+                if not text:
+                    form.errors['metadata_url'] = [_('Empty metadata not allowed')]
+                else:
+                    errors = validate(text)
+                    if errors:
+                        form.errors['metadata_url'] = errors
+                try:
+                    encoding = resp.headers['content-type'].split('charset=')[1]
+                except (KeyError, IndexError):
+                    encoding = ''
+                resp.close()
         if form.is_valid():
             tmp = NamedTemporaryFile(delete=True)
             if encoding:
