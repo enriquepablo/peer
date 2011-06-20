@@ -109,6 +109,19 @@ STATICFILES_DIRS = (
     os.path.join(BASEDIR, 'staticfiles'),
 )
 
+# Aditional theme custom styles 
+PEER_THEME = {
+    'LINK_COLOR': '#5db39a',
+    'LINK_HOVER': '',
+    'HEADING_COLOR': '',
+    'HEADER_BACKGROUND': '',
+    'CONTENT_BACKGROUND': '',
+    'FOOTER_BACKGROUND': '',
+    'HOME_TITLE': 'Nice to meet you!!',
+    'HOME_SUBTITLE': 'Say hello to federated worldwide services',
+    'JQUERY_UI_THEME': 'custom-theme',
+}
+
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -125,6 +138,19 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+
+
+# List of processors used by RequestContext to populate the context.
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+#    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'portal.context_processors.peer_theme',
 )
 
 MIDDLEWARE_CLASSES = (

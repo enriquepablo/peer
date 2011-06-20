@@ -11,12 +11,17 @@
 <!--[if lt IE 9]>
     <script type="text/javascript" src="{{ STATIC_URL }}js/html5.js"></script>
 <![endif]-->
-    <link type="text/css" href="{{ STATIC_URL }}css/custom-theme/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
+    <link type="text/css" href="{{ STATIC_URL }}css/{{ JQUERY_UI_THEME }}/jquery-ui-1.8.13.custom.css" rel="Stylesheet" />
     <link type="text/css" href="{{ STATIC_URL }}css/reset.css" rel="Stylesheet" />
     <link type="text/css" href="{{ STATIC_URL }}css/layout.css" rel="Stylesheet" />
     <link type="text/css" href="{{ STATIC_URL }}css/color.css" rel="Stylesheet" />
     {% block extracss %}
     {% endblock %}
+    <style type="text/css">
+      a {
+          color: {{ LINK_COLOR }};
+      } 
+    </style>
   </head>
 
   <body>
