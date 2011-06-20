@@ -8,6 +8,7 @@
 
 .right {
     float: right;
+    margin: 34px 40px 0 0;
 }
 
 .shadow {
@@ -18,8 +19,17 @@ body {
     max-width: 1024px;
     padding: 0 30px;
     margin: 0 auto;
-    font-family: "helvetica neue",arial;
+    font-family: "helvetica neue", Helvetica, sans-serif;
     font-size: 11pt;
+    background-image:  url(../images/light_content_bg.png), url(../images/body_bg.png);
+    background-position: 222px 90px, left top;
+    background-repeat: no-repeat, repeat;
+}
+
+#header {
+    background: url(../images/header_bg.png) left top no-repeat;
+    width: 100%;
+    height: 105px;
 }
 
 p {
@@ -33,6 +43,7 @@ a {
 h1 {
     font-size: 16pt;
     margin: 0.5em 0;
+    font-weight: normal;
 }
 
 h2 {
@@ -46,16 +57,17 @@ section {
 }
 
 nav ul {
-    padding: 12px;
+    padding: 12px 12px 39px;
     width: 176px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     list-style: none;
+    background: url(../images/actions_ribbon.png) no-repeat center bottom;
 }
 
 nav ul li {
-    padding: 6px 0;
+    padding: 8px 0;
 }
 
 nav ul li:last-child {
@@ -97,7 +109,7 @@ header #user-actions {
 
 #user-actions {
     list-style: none;
-    margin-top: 40px;
+    margin: 58px 40px 0 0;
 }
 
 #user-actions li {
@@ -107,8 +119,9 @@ header #user-actions {
 }
 
 header#header hgroup {
-    padding: 15px 0 20px 80px;
-    background: transparent url(../images/logo_peer.png) no-repeat left top;
+    padding: 28px 0 0 68px;
+    margin-left: 40px;
+    background: transparent url(../images/logo_peer.png) no-repeat left 21px;
 }
 
 header#header h1 {
@@ -118,11 +131,16 @@ header#header h1 {
 header#header h1 a {
     display: block;
     font-weight: normal;
+    font-size: 17px;
+    padding: 3px 0 0 1px;
+    letter-spacing: 0.8px;
 }
 
 header#header hgroup h2 {
     font-weight: normal;
-    margin: 0px 0 6px 0;
+    margin: 3px 0 6px;
+    letter-spacing: 0.4px;
+    font-size: 13px;
 }
 
 .welcome {
@@ -163,8 +181,10 @@ header#header hgroup h2 {
 }
 
 .mainContent {
-    margin-right: 240px;
     clear: left;
+    border: none;
+    margin: 34px 260px 0 40px;
+    padding-left: 20px;
 }
 
 #home-content {
@@ -222,19 +242,29 @@ section ul li a,
 }
 
 #filters ul li a {
-    padding-left: 8px;
+    padding: 0 0 0 8px;
+    font-size: 11px;
 }
 
 #filters ul li {
     line-height: 18px;
+    border: none;
 }
 
 #filters ul li.current a {
-    padding-left: 4px;
+    padding: 2px 4px;
+}
+
+#filters ul li.current {
+    border: none;
 }
 
 footer {
     clear: both;
+    width: 940px;
+    margin: 0 auto;
+    font-size: 10px;
+    text-shadow: 0.5px 0.5px 0 #F3F4F3;
 
 }
 

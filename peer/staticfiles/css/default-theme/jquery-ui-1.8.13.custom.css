@@ -58,7 +58,7 @@
 ----------------------------------*/
 .ui-widget { font-family: Helvetica,sans-serif; font-size: 1.1em; }
 .ui-widget .ui-widget { font-size: 1em; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Helvetica,sans-serif; font-size: 1em; margin: 1em 0;}
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Helvetica,sans-serif; font-size: 1em; margin: 1em;}
 .ui-widget-content {border: 1px solid #FFF; background: #edf0ff; color: #222222;}
 /*
 .ui-widget-content { border: none; background: #edf0ff; color: #222222; }
