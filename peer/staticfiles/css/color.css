@@ -8,6 +8,10 @@ h1 {
     text-shadow: 1px 1px 0 #F3F4F3;
 }
 
+h2 {
+    text-shadow: 1px 1px 0 #F3F4F3;
+}
+
 header#header h1 a {
     color: #1631bc;
 }
