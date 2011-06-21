@@ -140,7 +140,8 @@ header#header hgroup {
     margin-left: 50px;
 }
 
-header#header h1 {
+header#header h1,
+footer hgroup h1 {
     margin: 0;
 }
 
@@ -358,7 +359,7 @@ footer {
     clear: both;
     width: 940px;
     font-size: 10px;
-    overflow: auto;
+    float: left;
     text-shadow: 0.5px 0.5px 0 #F3F4F3;
 }
 
@@ -392,6 +393,23 @@ footer ul li:last-child a {
     border-right: none;
 }
 
+footer hgroup {
+    float: right;
+}
+
+footer hgroup h1 a {
+    font-size: 12px;
+    padding: 5px 0 5px 28px;
+    background:transparent url(../images/footer_logo_peer.png) no-repeat left 5px;
+}
+
+footer hgroup h2 {
+    margin: -9px 0 0 28px;
+}
+
+footer hgroup h2 a {
+    font-size: 8px;
+}
 /* Styles for specific views */
 
 .domainList {
