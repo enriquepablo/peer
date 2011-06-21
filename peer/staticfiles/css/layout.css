@@ -339,7 +339,6 @@ section ul li a:hover,
 }
 
 #filters ul li a:hover {
-    border:0;
     border-radius:0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
@@ -349,7 +348,8 @@ section ul li a:hover,
     border: none;
 }
 
-#filters ul li.current a {
+#filters ul li.current a,
+#filters ul li.current a:hover {
     line-height: 12px;
     border-bottom-width: 0;
     border-top-width: 0;

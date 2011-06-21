@@ -58,6 +58,7 @@ header#header hgroup h2 a {
 
 .welcome header {
     border: 1px solid #c3c3c3;
+    text-shadow: 1px 1px 0 white;
 }
 
 #filters ul li.current a  {
@@ -80,12 +81,16 @@ section ul li,
     box-shadow: 0px 1px 0 white;
 }
 
-#home-content #filters ul li {
-    border: none;
+#filters ul li a {
+    color: #7d7d7d;
 }
 
 section ul li a ,
 #home-content ul li a {
+    border: 5px solid transparent;
+}
+
+#filters ul li a:hover {
     border: 5px solid transparent;
 }
 
