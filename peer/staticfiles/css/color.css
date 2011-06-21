@@ -58,7 +58,9 @@ header#header hgroup h2 a {
 
 .welcome header {
     border: 1px solid #c3c3c3;
-    text-shadow: 1px 1px 0 white;
+    box-shadow: 1px 0.5px 0 white;
+    -moz-box-shadow: 1px 0.5px 0 white;
+    -webkit-box-shadow: 1px 0.5px 0 white;
 }
 
 #filters ul li.current a  {
