@@ -91,14 +91,18 @@ section ul li a.hover,
 
 footer {
     border-top: 1px solid #1631bc;
-    /* box shadow*/
-    box-shadow: rgba(255, 255, 255,1) 1px 1px 0;
-    -webkit-box-shadow: rgba(255, 255, 255,1) 1px 1px 0;
-    -moz-box-shadow: rgba(255, 255, 255,1) 1px 1px 0;
 }
 
-footer ul li > a {
+footer:after {
+   border-top: 1px solid white;
+} 
+
+footer ul li:first-child a {
     border-left: none;
+}
+
+footer ul li:last-child a {
+    border-right: none;
 }
 
 footer ul li {
@@ -106,8 +110,9 @@ footer ul li {
 }
 
 footer ul li a {
-    color: #999999;
+    color: #7a7a7a;
+    border-top: 1px solid white;
     border-right: 1px solid #999999;
     border-left: 1px solid white;
-    text-shadow: 1px 1px 0 #F3F4F3;
+    text-shadow: 0.5px 0.5px 0 #FFF;
 }
