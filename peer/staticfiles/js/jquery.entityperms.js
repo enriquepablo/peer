@@ -4,6 +4,7 @@
         $.get('/entity/'+entity_id+'/list_delegates/',
             function (html) {
                 $('#delegates-list').html(html);
+                $('form.change-owner-form').submit($.fn.change_owner);
             }
         );
     };
