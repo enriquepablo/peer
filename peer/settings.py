@@ -119,7 +119,7 @@ PEER_THEME = {
     'FOOTER_BACKGROUND': '',
     'HOME_TITLE': 'Nice to meet you!!',
     'HOME_SUBTITLE': 'Say hello to federated worldwide services',
-    'JQUERY_UI_THEME': 'custom-theme',
+    'JQUERY_UI_THEME': 'default-theme',
 }
 
 # List of finder classes that know how to find static files in
