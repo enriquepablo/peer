@@ -354,7 +354,7 @@ def add_delegate(request, entity_id, username):
     if entity and new_delegate:
         pd = PermissionDelegation.objects.filter(entity=entity, 
                                                 delegate=new_delegate)
-        if not pd:
+        if not pd and new_delegate != entity.owner:
             pd = PermissionDelegation(entity=entity, delegate=new_delegate)
             pd.save()
     return list_delegates(request, entity_id)
