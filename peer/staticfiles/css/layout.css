@@ -11,6 +11,9 @@
     position: relative;
     margin: 34px 40px 0 0;
 }
+.welcome .right {
+    margin: 0;
+} 
 
 .shadow {
     padding: 10px;
@@ -263,6 +266,8 @@ header#header hgroup h2 {
 #home-content {
     border-top: none;
     margin-bottom: 1em;
+    margin:20px 260px 15px 10px;
+    padding-left: 0;
 }
 
 section ul,
@@ -277,25 +282,33 @@ section ul li a,
     padding: 1em 0 0.5em 1em;
 }
 
+section ul li a:hover,
+#home-content ul li a:hover {
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
 
 #search {
     margin-top: 15px;
     margin-bottom: 15px;
     float: right;
+    padding-bottom: 8px;
+    background: transparent url(../images/searcher_shadow.png) no-repeat center bottom;
 }
 
 #search input {
-    background: transparent url(../images/search-icon.png) no-repeat 198px center;
+    background: transparent url(../images/search-icon.png) no-repeat 224px center;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    padding: 0 18px 0 2px;
-    width: 195px;
+    padding: 2px 4px;
+    width: 238px;
 }
 
 #filters {
-    padding: 12px;
-    width: 202px;
+    padding: 10px;
+    width: 200px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -305,7 +318,7 @@ section ul li a,
     font-size: 10pt;
     font-style: italic;
     font-weight: normal;
-    margin: 1em 0 0.8em 0;
+    margin: 0.2em 0 0.5em;
 }
 
 #filters ul {
@@ -319,13 +332,20 @@ section ul li a,
     font-size: 11px;
 }
 
+#filters ul li a:hover {
+    border-radius:0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+
 #filters ul li {
-    line-height: 18px;
     border: none;
 }
 
 #filters ul li.current a {
-    padding: 2px 4px;
+    line-height: 12px;
+    border-bottom-width: 0;
+    border-top-width: 0;
 }
 
 #filters ul li.current {

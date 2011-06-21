@@ -80,9 +80,16 @@ section ul li,
     border: none;
 }
 
+section ul li a ,
+#home-content ul li a {
+    border: 5px solid transparent;
+}
+
 section ul li a.hover,
 #home-content ul li a:hover {
-    background-color: #fbfbfb;
+    background-color: #FFF;
+    border: 5px solid #f0f0ef;
+    opacity: 0.75;
 }
 
 #search input {
