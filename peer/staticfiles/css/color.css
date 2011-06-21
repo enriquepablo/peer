@@ -143,3 +143,7 @@ footer ul li a {
     border-left: 1px solid white;
     text-shadow: 0.5px 0.5px 0 #FFF;
 }
+
+span.user-name {
+    color: #ff7b33;
+}

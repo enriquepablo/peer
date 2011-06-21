@@ -26,12 +26,17 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import json
+
 from django.contrib.sites.models import get_current_site
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -90,3 +95,25 @@ def invite_friend(request):
     return render_to_response('account/invite_friend.html', {
             'form': form,
             }, context_instance=RequestContext(request))
+
+def _user_search(q):
+    if q:
+        query = None
+        terms = q.split()
+        for term in terms:
+            queries = Q(username__icontains=term) | \
+                      Q(first_name__icontains=term) | \
+                      Q(last_name__icontains=term)
+            query = query and (query & queries) or queries
+
+        return User.objects.filter(query)
+    return []
+
+def search_users_auto(request):
+    q = request.GET.get('term', '')
+    users = _user_search(q)
+    names = [{'value': u.username,
+              'label': '%s (%s)' % (u.username,
+                                    u.get_full_name() or u.username)}
+            for u in users]
+    return HttpResponse(json.dumps(names))

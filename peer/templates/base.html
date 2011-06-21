@@ -38,13 +38,11 @@
         <h2><a href="{% url index %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
       </hgroup>
 
-      {% if messages %}
       <ul id="messages">
         {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
       </ul>
-      {% endif %}
 
       <ul id="user-actions">
         {% block user_actions %}

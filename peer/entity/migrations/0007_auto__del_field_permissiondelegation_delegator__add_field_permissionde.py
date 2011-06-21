@@ -1,25 +1,44 @@
-from south import db
+# encoding: utf-8
+import datetime
+from south.db import db
 from south.v2 import SchemaMigration
-from django.conf import settings
-
+from django.db import models
 
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        if db.engine == 'south.db.postgresql_psycopg2':
-            lang = getattr(settings, 'PG_FT_INDEX_LANGUAGE', 'english')
-            # XXX If we create a column of type tsvector on name (...)
-            # we avoid the call to to_tsvertor in the query and gain efficiency.
-            # We then have to add a trigger on inserts, see de pg docs:
-            # http://www.postgresql.org/docs/8.4/static/textsearch.html
-            db.db.execute("CREATE INDEX entity_entity_name_idx"
-                       " ON entity_entity"
-                       " USING gin(to_tsvector('%s', name));" % lang)
-            print "Just created a fulltext index on entity_entity.name..."
+        
+        # Deleting field 'PermissionDelegation.delegator'
+        db.delete_column('entity_permissiondelegation', 'delegator_id')
+
+        # Adding field 'PermissionDelegation.delegate'
+        db.add_column('entity_permissiondelegation', 'delegate', self.gf('django.db.models.fields.related.ForeignKey')(default=self.gf('django.contrib.auth.models.User').objects.get(username='admin').pk, related_name='permission_delegate', to=orm['auth.User']), keep_default=False)
+
+        # Adding field 'PermissionDelegation.date'
+        db.add_column('entity_permissiondelegation', 'date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now), keep_default=False)
+
+        # Removing M2M table for field delegates on 'PermissionDelegation'
+        db.delete_table('entity_permissiondelegation_delegates')
 
 
     def backwards(self, orm):
-        pass
+        
+        # User chose to not deal with backwards NULL issues for 'PermissionDelegation.delegator'
+        raise RuntimeError("Cannot reverse this migration. 'PermissionDelegation.delegator' and its values cannot be restored.")
+
+        # Deleting field 'PermissionDelegation.delegate'
+        db.delete_column('entity_permissiondelegation', 'delegate_id')
+
+        # Deleting field 'PermissionDelegation.date'
+        db.delete_column('entity_permissiondelegation', 'date')
+
+        # Adding M2M table for field delegates on 'PermissionDelegation'
+        db.create_table('entity_permissiondelegation_delegates', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('permissiondelegation', models.ForeignKey(orm['entity.permissiondelegation'], null=False)),
+            ('user', models.ForeignKey(orm['auth.user'], null=False))
+        ))
+        db.create_unique('entity_permissiondelegation_delegates', ['permissiondelegation_id', 'user_id'])
 
 
     models = {
@@ -69,6 +88,7 @@ class Migration(SchemaMigration):
         },
         'entity.entity': {
             'Meta': {'object_name': 'Entity'},
+            'delegates': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'permission_delegated'", 'symmetrical': 'False', 'through': "orm['entity.PermissionDelegation']", 'to': "orm['auth.User']"}),
             'domain': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['domain.Domain']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'metadata': ('vff.field.VersionedFileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
@@ -77,8 +97,8 @@ class Migration(SchemaMigration):
         },
         'entity.permissiondelegation': {
             'Meta': {'object_name': 'PermissionDelegation'},
-            'delegates': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'permission_delegated'", 'symmetrical': 'False', 'to': "orm['auth.User']"}),
-            'delegator': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'permission_delegator'", 'to': "orm['auth.User']"}),
+            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'delegate': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'permission_delegate'", 'to': "orm['auth.User']"}),
             'entity': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['entity.Entity']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         }

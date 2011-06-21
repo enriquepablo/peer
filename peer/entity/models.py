@@ -26,6 +26,8 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext
@@ -44,6 +46,9 @@ class Entity(models.Model):
     owner = models.ForeignKey(User, verbose_name=_('Owner'),
                               blank=True, null=True)
     domain = models.ForeignKey(Domain, verbose_name=_('Domain'))
+    delegates = models.ManyToManyField(User, verbose_name=_('Delegates'),
+                                       related_name='permission_delegated',
+                                       through='PermissionDelegation')
 
     def __unicode__(self):
         return self.name
@@ -60,15 +65,14 @@ class Entity(models.Model):
 class PermissionDelegation(models.Model):
 
     entity = models.ForeignKey(Entity, verbose_name=_(u'Entity'))
-    delegator = models.ForeignKey(User, verbose_name=_('Delegator'),
-                                  related_name='permission_delegator')
-    delegates = models.ManyToManyField(User, verbose_name=_('Delegates'),
-                                       related_name='permission_delegated')
+    delegate = models.ForeignKey(User, verbose_name=_('Delegate'),
+                                       related_name='permission_delegate')
+    date = models.DateTimeField(_(u'Delegation date'), default=datetime.now)
 
     def __unicode__(self):
         return ugettext(
             u'%(user)s delegates permissions for %(entity)s entity') % {
-            'user': self.delegator.username, 'entity': self.entity.name}
+            'user': self.entity.owner.username, 'entity': self.entity.name}
 
     class Meta:
         verbose_name = _(u'Permission delegation')

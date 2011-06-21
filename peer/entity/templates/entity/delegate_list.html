@@ -1,0 +1,35 @@
+{% load i18n %}
+
+{% if delegates %}
+
+  <p class="user-list-label">{% trans "Users that can edit this entity" %}:</p>
+  
+  <ul>
+    {% for delegate in delegates %}
+      <li>
+      <form action="{% url make_owner entity_id %}"
+            method="POST"
+            class="change-owner-form">
+          {% csrf_token %}
+          <input type="hidden"
+                 name="new_owner_id"
+                 value="{{ delegate.pk }}"
+                 />
+                 <span class="user-name">{{ delegate.username }} ({{ delegate.get_full_name }})</span>
+          <button type="button"
+                  onclick="$.fn.remove_delegate('{{ entity_id }}', '{{ delegate.pk }}');">
+            {% trans "Remove" %}
+          </button>
+          <button type="submit">
+            {% trans "Make owner" %}
+          </button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
+{% else %}
+
+  <p class="user-list-label">{% trans "No users but the owner can edit this entity" %}</p>
+
+{% endif %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block extracss %}
+{% endblock %}
+
+{% block content %}
+{% include "entity/menu.html" %}
+<section class="mainContent">
+
+  <hgroup>
+    <h1>{% trans "Team permissions for " %}"{{ entity.name }}"</h1>
+    <p>Owned by {{ entity.owner.username }} ({{ entity.owner.get_full_name }})
+  </hgroup>
+
+  <div id="searchusers-box">
+    <form>
+      <label for="q">{% trans "Search users" %}</label>
+      <input type="text"
+             name="q"
+             id="q"
+             />
+
+      <button type="button"
+              id="add-delegate"
+              onclick="$.fn.add_delegate('{{ entity_id }}', '{{ user.pk }}');"
+              disabled>
+        {% trans "Add" %}
+      </button>
+
+      <input type="hidden"
+             name="entity_id"
+             id="entity_id"
+             value="{{ entity.id }}"
+             />
+    </form>
+  </div>
+
+  <div id="searchusers-results"></div>
+
+  <div id="delegates-list"></div>
+
+  <p>
+    {% trans "Don't find your colleague?" %}
+    <a href="{% url invite_friend %}">{% trans "Invite him to peer!" %}</a>
+  </p>
+
+</section>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.entityperms.js"></script>
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function(){
+        $.fn.load_delegates('{{ entity.pk }}');
+        $('#q').autocomplete({source: '/accounts/search_users_auto/',
+                              close: $.fn.enable_add_delegate,
+                              change: $.fn.disable_add_delegate});
+        $('#q').keydown($.fn.disable_add_delegate);
+        $('button#add-delegate').click($.fn.add_selected_delegate);
+        $('div#searchusers-box form').submit($.fn.search_users);
+        $('form#change-owner-form').submit($.fn.change_owner);
+    });
+})(jQuery);
+</script>
+{% endblock %}
