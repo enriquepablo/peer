@@ -75,6 +75,11 @@ div.bottomMenu {
     background: url(../images/actions_ribbon.png) no-repeat center bottom;
 }
 
+div.bottomMenu:after {
+    content: "your actions";
+    visibility: hidden;
+}
+
 nav ul li {
     padding: 8px 0;
 }
@@ -333,6 +338,7 @@ footer {
     clear: both;
     width: 940px;
     font-size: 10px;
+    overflow: auto;
     text-shadow: 0.5px 0.5px 0 #F3F4F3;
 }
 
