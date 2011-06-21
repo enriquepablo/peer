@@ -23,8 +23,9 @@ body {
     max-width: 1024px;
     padding: 0 30px;
     margin: 0 auto;
-    font-family: "helvetica neue", Helvetica, sans-serif;
+    font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
     font-size: 11pt;
+    font-weight: 300;
     background-image:  url(../images/light_content_bg.png), url(../images/body_bg.png);
     background-position: center 90px, left top;
     background-repeat: no-repeat, repeat;
@@ -47,12 +48,14 @@ a {
 h1 {
     font-size: 16pt;
     margin: 0.5em 0;
-    font-weight: normal;
+    font-weight: 300;
 }
 
 h2 {
     font-size: 12pt;
     margin: 0.5em 0;
+    font-weight: 300;
+    letter-spacing: 0.6px;
 }
 
 section {
@@ -63,8 +66,8 @@ section {
 }
 
 nav ul {
-    padding: 12px 12px 70px;
-    width: 176px;
+    padding: 10px 10px 60px;
+    width: 200px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -74,8 +77,8 @@ nav ul {
 div.bottomMenu {
     position: absolute;
     height: 60px;
-    left: -16px;
-    bottom: 15px;
+    left: -18px;
+    bottom: 10px;
     width: 282px;
     background: url(../images/actions_ribbon.png) no-repeat center bottom;
 }
@@ -247,7 +250,6 @@ header#header hgroup h2 {
 
 .welcome header h1, 
 .welcome header h2 {
-    font-weight: normal;
     font-family: 'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Helvetica,sans-serif;
     font-weight: 300;
 }
@@ -307,7 +309,7 @@ section ul li a:hover,
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     padding: 2px 4px;
-    width: 238px;
+    width: 234px;
 }
 
 #filters {
@@ -446,7 +448,7 @@ footer hgroup h2 a {
 }
 
 .ui-accordion {
-    width: 680px;
+    width: 650px;
 }
 .accordion input[type=text], .accordion textarea {
     width: 80%;
@@ -454,4 +456,9 @@ footer hgroup h2 a {
 
 .ui-button-text-only .ui-button-text {
     padding: 0.1em 0.6em;
+}
+
+div.content input[type="checkbox"] {
+    float:left;
+    margin: 1em 0.5em 0;
 }

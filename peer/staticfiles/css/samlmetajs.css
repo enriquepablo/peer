@@ -1,6 +1,7 @@
 /* Generic Section */
 .metadataForm #tabs fieldset {
 	margin: 1.5em 0 0 0.3em;
+    padding: 0;
 }
 .metadataForm #tabs fieldset legend {
 	color: #1631BC;
@@ -12,8 +13,9 @@
 }
 
 div#rawmetadata textarea{
-	height: 400px;
+    height: 400px;
     width: 100%;
+    margin-top: 0;
     margin-bottom: 1em;
 }
 
@@ -26,7 +28,7 @@ div#certs textarea{
 	font-size: 90%;
 	width: 100%;
 	height: 70px;
-    margin-left: 2px;
+    margin-left: 0;
 	border: 1px solid #DADBE1
 }
 
