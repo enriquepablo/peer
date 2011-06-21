@@ -40,7 +40,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #e06c2d;
+    color: #e56e2e;
 }
 
 label {
@@ -56,9 +56,18 @@ header#header hgroup h2 a {
     border: 1px solid #c3c3c3;
 }
 
-.welcome header h1,
 #filters ul li.current a  {
     color: #5669ce;
+}
+
+.welcome header h1 {
+    color: #ff7b33;
+    text-shadow: 0.5px 0.5px 0 #e5e5e5;
+}
+
+.welcome header h2 {
+    color: #b0b0b0;
+    text-shadow: 0.5px 0.5px 0 #e5e5e5;
 }
 
 section ul li,

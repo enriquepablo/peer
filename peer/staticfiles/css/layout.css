@@ -154,6 +154,8 @@ header#header hgroup h2 {
 
 .welcome {
     border-top: none;
+    width: 960px;
+    margin: 0 auto;
 }
 
 .welcome header {
@@ -161,31 +163,88 @@ header#header hgroup h2 {
     border-radius: 9px;
     -moz-border-radius: 9px;
     -webkit-border-radius: 9px;
-    background: transparent url(../images/welcome_repeat_back.png) repeat-x left top;
+    background: -moz-linear-gradient(top, 
+	rgba(255,255,255,0) 0%, 
+	rgba(244,244,244,0.69) 19%, 
+	rgba(255,255,255,0.87) 39%, 
+	rgba(255,255,255,0.88) 40%, 
+	rgba(255,255,255,0.92) 50%, 
+	rgba(255,255,255,0.88) 61%, 
+	rgba(244,244,244,0.69) 86%, 
+	rgba(255,255,255,0) 100%); /* FF3.6+ */
+
+	background: -webkit-gradient(linear, left top, left bottom, 
+	color-stop(0%,rgba(255,255,255,0)), 
+	color-stop(19%,rgba(244,244,244,0.69)), 
+	color-stop(39%,rgba(255,255,255,0.87)), 
+	color-stop(40%,rgba(255,255,255,0.88)), 
+	color-stop(50%,rgba(255,255,255,0.92)), 
+	color-stop(61%,rgba(255,255,255,0.88)), 
+	color-stop(86%,rgba(244,244,244,0.69)), 
+	color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+
+	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,
+	rgba(244,244,244,0.69) 19%,
+	rgba(255,255,255,0.87) 39%,
+	rgba(255,255,255,0.88) 40%,
+	rgba(255,255,255,0.92) 50%,
+	rgba(255,255,255,0.88) 61%,
+	rgba(244,244,244,0.69) 86%,
+	rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+
+	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,
+	rgba(244,244,244,0.69) 19%,rgba(255,255,255,0.87) 39%,
+	rgba(255,255,255,0.88) 40%,rgba(255,255,255,0.92) 50%,
+	rgba(255,255,255,0.88) 61%,rgba(244,244,244,0.69) 86%,
+	rgba(255,255,255,0) 100%); /* Opera11.10+ */
+
+	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,
+	rgba(244,244,244,0.69) 19%,
+	rgba(255,255,255,0.87) 39%,
+	rgba(255,255,255,0.88) 40%,
+	rgba(255,255,255,0.92) 50%,
+	rgba(255,255,255,0.88) 61%,
+	rgba(244,244,244,0.69) 86%,
+	rgba(255,255,255,0) 100%); /* IE10+ */
+
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+	
+	background: linear-gradient(top, rgba(255,255,255,0) 0%,
+	rgba(244,244,244,0.69) 19%,
+	rgba(255,255,255,0.87) 39%,
+	rgba(255,255,255,0.88) 40%,
+	rgba(255,255,255,0.92) 50%,
+	rgba(255,255,255,0.88) 61%,
+	rgba(244,244,244,0.69) 86%,
+	rgba(255,255,255,0) 100%); /* W3C */
 }
 
 .welcome hgroup {
     padding: 24px;
-    width: 969px;
+    width: 900px;
     height: 226px;
     background: transparent url(../images/welcome_back.png) no-repeat right top;
 }
 
 .welcome header h1 {
-    font-size: 40pt;
+    font-size: 48px;
     line-height: 29pt;
     letter-spacing: 0.7pt;
-    margin-top: 85px;
+    margin-top: 75px;
     margin-bottom: 15px;
 }
 
-.welcome header h1, .welcome header h2 {
+.welcome header h1, 
+.welcome header h2 {
     font-weight: normal;
+    font-family: 'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Helvetica,sans-serif;
+    font-weight: 300;
 }
 
 .welcome header h2 {
-    font-size: 20pt;
-    line-height: 21pt;
+    font-size: 25px;
+    line-height: 29px;
+    letter-spacing: 0.6px;
     width: 390px;
 }
 
@@ -231,7 +290,7 @@ section ul li a,
 
 #filters {
     padding: 12px;
-    width: 176px;
+    width: 202px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
