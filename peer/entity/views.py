@@ -303,7 +303,7 @@ def _search_entities(search_terms):
     return Entity.objects.raw(sql, [lang, lang, search_terms])
 
 def search_entities(request):
-    search_terms_raw = request.GET.get('query', '')
+    search_terms_raw = request.GET.get('query', '').strip()
     op = getattr(settings, 'PG_FTS_OPERATOR', '&')
     if db.database['ENGINE'] == 'django.db.backends.postgresql_psycopg2':
         search_terms = re.sub(ur'\s+', op, search_terms_raw)
