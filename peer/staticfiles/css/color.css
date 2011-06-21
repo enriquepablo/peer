@@ -47,7 +47,7 @@ label {
     color: #1631bc;
 }
 
-header#header hgroup h2 {
+header#header hgroup h2 a {
     color: #535353;
     text-shadow: 1px 1px 0 #F3F4F3;
 }

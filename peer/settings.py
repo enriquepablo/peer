@@ -111,9 +111,9 @@ STATICFILES_DIRS = (
 
 # Aditional theme custom styles 
 PEER_THEME = {
-    'LINK_COLOR': '#5db39a',
-    'LINK_HOVER': '',
-    'HEADING_COLOR': '',
+    'LINK_COLOR': '#5669CE',
+    'LINK_HOVER': '#1631BC',
+    'HEADING_COLOR': '#1631BC',
     'HEADER_BACKGROUND': '',
     'CONTENT_BACKGROUND': '',
     'FOOTER_BACKGROUND': '',

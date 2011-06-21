@@ -8,6 +8,7 @@
 
 .right {
     float: right;
+    position: relative;
     margin: 34px 40px 0 0;
 }
 
@@ -57,12 +58,21 @@ section {
 }
 
 nav ul {
-    padding: 12px 12px 39px;
+    padding: 12px 12px 70px;
     width: 176px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     list-style: none;
+}
+
+div.bottomMenu {
+    position: absolute;
+    height: 60px;
+    left: -16px;
+    bottom: 15px;
+    width: 282px;
+    background: url(../images/actions_ribbon.png) no-repeat center bottom;
 }
 
 nav ul li {
@@ -118,26 +128,26 @@ header #user-actions {
 }
 
 header#header hgroup {
-    padding: 28px 0 0 69px;
+    position: relative;
     margin-left: 50px;
-    background: transparent url(../images/logo_peer.png) no-repeat left 21px;
 }
 
 header#header h1 {
-    margin-bottom: 0;
+    margin: 0;
 }
 
 header#header h1 a {
     display: block;
     font-weight: normal;
     font-size: 17px;
-    padding: 3px 0 0 1px;
+    padding: 40px 0 20px 75px;
     letter-spacing: 0.8px;
+    background: transparent url(../images/logo_peer.png) no-repeat left 21px;
 }
 
 header#header hgroup h2 {
     font-weight: normal;
-    margin: 3px 0 6px;
+    margin: -18px 0px 0 75px;
     letter-spacing: 0.4px;
     font-size: 13px;
 }
@@ -259,7 +269,6 @@ section ul li a,
 }
 
 footer {
-    position: absolute;
     bottom: 0;
     margin-left: 50px;
     clear: both;

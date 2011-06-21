@@ -20,7 +20,13 @@
     <style type="text/css">
       a {
           color: {{ LINK_COLOR }};
-      } 
+      }
+      a:hover  {
+          color: {{ LINK_HOVER }};
+      }
+      h1, h2{ 
+          color: {{ HEADING_COLOR }}
+      }
     </style>
   </head>
 
@@ -29,7 +35,7 @@
       {% block header %}
       <hgroup>
         <h1><a href="{% url index %}">PEER</a></h1>
-        <h2>{% trans "Public Endpoint Entities Registry" %}</h2>
+        <h2><a href="{% url index %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
       </hgroup>
 
       {% if messages %}
