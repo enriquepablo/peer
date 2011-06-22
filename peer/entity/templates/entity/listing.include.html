@@ -5,8 +5,9 @@
     {% for entity in entities.object_list %}
     <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
     {% endfor %}
-  </ul>
+</ul>
 
+{% if entities.paginator.count %}
   {% if entities.has_previous %}
   <a href="?page={{ entities.previous_page_number }}">{% trans "previous" %}</a>
   {% endif %}
@@ -16,3 +17,4 @@
   {% if entities.has_next %}
   <a href="?page={{ entities.next_page_number }}">{% trans "next" %}</a>
   {% endif %}
+{% endif %}
