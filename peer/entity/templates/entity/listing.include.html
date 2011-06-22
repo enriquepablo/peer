@@ -1,7 +1,7 @@
 
 {% load i18n %}
 
-<ul>
+<ul class="list">
     {% for entity in entities.object_list %}
     <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
     {% endfor %}
