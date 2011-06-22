@@ -43,6 +43,8 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.loader import render_to_string
 from django.template import RequestContext
+from django.db.utils import DatabaseError
+from django.db import transaction
 from django.utils.translation import ugettext as _
 
 from domain.models import Domain
@@ -50,7 +52,6 @@ from entity.forms import EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity, PermissionDelegation
 from entity.validation import validate
-from account.views import _user_search
 
 from vff.storage import create_fname
 
@@ -306,6 +307,7 @@ def _search_entities(search_terms):
 def search_entities(request):
     search_terms_raw = request.GET.get('query', '').strip()
     op = getattr(settings, 'PG_FTS_OPERATOR', '&')
+    sid = transaction.savepoint()
     if db.database['ENGINE'] == 'django.db.backends.postgresql_psycopg2':
         search_terms = re.sub(ur'\s+', op, search_terms_raw)
         entities = _search_entities(search_terms)
@@ -315,10 +317,17 @@ def search_entities(request):
         sql = u"select * from entity_entity where " + where
         entities = Entity.objects.raw(sql, search_terms_list)
         search_terms = op.join(search_terms)
-    entities = list(entities)
-    n = len(entities)
-    plural = n==1 and 'entity' or 'entities'
-    msg = _(u'Found %d %s matching "%s"') % (n, plural, search_terms_raw)
+    try:
+        entities = list(entities)
+    except DatabaseError:
+        transaction.savepoint_rollback(sid)
+        entities = []
+        msg = _(u'There seem to be illegal characters in your search.\n'
+                u'You should not use !, :, &, | or \\')
+    else:
+        n = len(entities)
+        plural = n==1 and 'entity' or 'entities'
+        msg = _(u'Found %d %s matching "%s"') % (n, plural, search_terms_raw)
     messages.success(request, msg)
     paginated_entities = _paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
