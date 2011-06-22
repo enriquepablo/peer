@@ -32,6 +32,7 @@
         $.get('/entity/'+entity_id+'/remove_delegate/'+user_id,
             function (html) {
                 $('div#delegates-list').html(html);
+                $('form.change-owner-form').submit($.fn.change_owner);
             }
         );
         return false;
@@ -49,6 +50,7 @@
                 } else {
                     $('div#delegates-list').html(html);
                     $('button#add-delegate').attr('disabled', true);
+                    $('form.change-owner-form').submit($.fn.change_owner);
                 }
             }
         );
