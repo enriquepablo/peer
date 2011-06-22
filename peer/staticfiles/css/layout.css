@@ -472,6 +472,10 @@ p.user-list-label {
     font-weight: 500;
 }
 
+input.button {
+    padding: 0 0.5em;
+}
+
 div#searchusers-box {
     margin-bottom: 20px;
 }
