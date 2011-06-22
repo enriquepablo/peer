@@ -317,7 +317,8 @@ def search_entities(request):
         search_terms = op.join(search_terms)
     entities = list(entities)
     n = len(entities)
-    msg = _(u'Found %d entities matching "%s"') % (n, search_terms)
+    plural = n==1 and 'entity' or 'entities'
+    msg = _(u'Found %d %s matching "%s"') % (n, plural, search_terms_raw)
     messages.success(request, msg)
     paginated_entities = _paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
