@@ -265,7 +265,7 @@ def remote_edit_metadata(request, entity_id):
             content = File(tmp)
             name = entity.metadata.name
             username = _get_username(request)
-            commit_msg = form['commit_msg_text'].data.encode('utf8')
+            commit_msg = form['commit_msg_remote'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
