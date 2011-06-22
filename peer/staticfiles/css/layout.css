@@ -24,7 +24,7 @@ body {
     padding: 0 30px;
     margin: 0 auto;
     font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
-    font-size: 11pt;
+    font-size: 12px;
     font-weight: 300;
     background-image:  url(../images/light_content_bg.png), url(../images/body_bg.png);
     background-position: center 90px, left top;
@@ -441,6 +441,21 @@ footer hgroup h2 a {
     font-weight: normal;
     margin: 5px 0;
     list-style: disc;
+}
+
+/* Forms */
+input {
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 2px 4px;
+}
+
+label {
+    font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    padding-bottom: 5px;
 }
 
 /* Ui styles modifications */

@@ -24,7 +24,6 @@ a {
     background-color: #dbdbd9;
 }
 
-section,
 fieldset {
     border-top: 1px solid #BFC7ED;
 }
@@ -48,7 +47,8 @@ nav ul li a:hover {
 }
 
 label {
-    color: #1631bc;
+    color: #535353;
+    text-shadow: 1px 1px 0 #F3F4F3;
 }
 
 header#header hgroup h2 a {
@@ -102,10 +102,14 @@ section ul.list li a:hover,
     border: 5px solid #f0f0ef;
     opacity: 0.75;
 }
-
+input,
 #search input {
     border: 1px solid #c3c3c3;
     background-color: #fbfbfb;
+}
+
+input {
+    box-shadow: 1px 1px 0 white;
 }
 
 #filters h3 {
