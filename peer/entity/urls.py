@@ -47,5 +47,4 @@ urlpatterns = patterns(
     url(r'^(?P<entity_id>\d+)/make_owner/$', 'make_owner', name='make_owner'),
     url(r'^(?P<entity_id>\d+)/remove_delegate/(?P<user_id>\d+)$', 'remove_delegate', name='remove_delegate'),
     url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>\w+)$', 'add_delegate', name='add_delegate'),
-    url(r'^(?P<entity_id>\d+)/search_users/$', 'search_users', name='search_users'),
 )

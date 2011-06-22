@@ -24,7 +24,6 @@
 
       <button type="button"
               id="add-delegate"
-              onclick="$.fn.add_delegate('{{ entity_id }}', '{{ user.pk }}');"
               disabled>
         {% trans "Add" %}
       </button>
@@ -36,8 +35,6 @@
              />
     </form>
   </div>
-
-  <div id="searchusers-results"></div>
 
   <div id="delegates-list"></div>
 
@@ -56,11 +53,11 @@
     $(document).ready(function(){
         $.fn.load_delegates('{{ entity.pk }}');
         $('#q').autocomplete({source: '/accounts/search_users_auto/',
-                              close: $.fn.enable_add_delegate,
-                              change: $.fn.disable_add_delegate});
+                              select: $.fn.enable_add_delegate,});
         $('#q').keydown($.fn.disable_add_delegate);
         $('button#add-delegate').click($.fn.add_selected_delegate);
-        $('div#searchusers-box form').submit($.fn.search_users);
+        $('div#searchusers-box form').submit($.fn.select_first_user);
+        $('ul#messages').css('display', 'none');
     });
 })(jQuery);
 </script>

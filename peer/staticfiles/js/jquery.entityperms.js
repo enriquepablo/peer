@@ -9,14 +9,20 @@
         );
     };
 
-    $.fn.search_users = function() {
-        $('#q').autocomplete('close');
-        $('button#add-delegate').attr('disabled', true);
-        var entity_id = $('input#entity_id').val()
-        var q = $('input#q').val()
-        $.get('/entity/'+entity_id+'/search_users/?q='+q,
-            function (html) {
-                $('div#searchusers-results').html(html);
+    $.fn.select_first_user = function() {
+        var q = $('input#q').val();
+        $.getJSON('/accounts/search_users_auto/?term='+q,
+            function (resp) {
+                for (i in resp) {
+                    if (resp[i]["value"] == q) {
+                        $.fn.add_selected_delegate();
+                        $('button#add-delegate').attr('disabled', true);
+                        return;
+                    }
+                }
+                $('input#q').val(resp[0]["value"]);
+                $('#q').autocomplete("close");
+                $('button#add-delegate').attr('disabled', false);
             }
         );
         return false;
@@ -31,42 +37,50 @@
         return false;
     };
 
-    $.fn.add_delegate = function(entity_id, username) {
-        $.get('/entity/'+entity_id+'/add_delegate/'+username,
-            function (html) {
-                $('div#delegates-list').html(html);
-                $('div#searchusers-results').html('');
-            }
-        );
-        return false;
-    };
-
     $.fn.add_selected_delegate = function() {
         var entity_id = $('input#entity_id').val()
         var username = $('input#q').val()
         $.get('/entity/'+entity_id+'/add_delegate/'+username,
             function (html) {
-                $('div#delegates-list').html(html);
+                if (html == 'delegate') {
+                    $.fn.team_perm_message(username+' can already edit this entity');
+                } else if (html == 'owner') {
+                    $.fn.team_perm_message(username+' is the owner this entity');
+                } else {
+                    $('div#delegates-list').html(html);
+                    $('button#add-delegate').attr('disabled', true);
+                }
             }
         );
         return false;
     };
 
     $.fn.enable_add_delegate = function () {
-        $('div#searchusers-results').html('');
         $('button#add-delegate').attr('disabled', false);
     };
 
-    $.fn.disable_add_delegate = function () {
-        $('button#add-delegate').attr('disabled', true);
+    $.fn.disable_add_delegate = function (event) {
+        if (event.keyCode != 13) {
+            $('button#add-delegate').attr('disabled', true);
+        }
     };
 
     $.fn.change_owner = function () {
-        if (confirm('Change ownership for this entity?')) {
+        if (confirm('Only the owner can edit the team permissions of an entity,\n'+
+                   'and there can be only one owner for each entity.\n'+
+                   'Therefore, you will not be able to undo this action.\n\n'+
+                   'Do you confirm that you want to hand over the ownership of this entity? ')) {
             return true;
         } else {
             return false;
         }
     };
+
+    $.fn.team_perm_message = function (msg) {
+        $('ul#messages').html('<li>'+msg+'</li>')
+                        .fadeIn()
+                        .delay(3000)
+                        .fadeOut();
+    }
 
 })( jQuery );

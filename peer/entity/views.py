@@ -39,6 +39,7 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.files.base import File
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -357,6 +358,10 @@ def add_delegate(request, entity_id, username):
         if not pd and new_delegate != entity.owner:
             pd = PermissionDelegation(entity=entity, delegate=new_delegate)
             pd.save()
+        elif pd:
+            return HttpResponse('delegate')
+        else:
+            return HttpResponse('owner')
     return list_delegates(request, entity_id)
 
 def make_owner(request, entity_id):
@@ -386,12 +391,3 @@ def make_owner(request, entity_id):
         msg = _('You must provide the user id of the new owner')
     messages.success(request, msg)
     return HttpResponseRedirect(reverse('entity_view', args=(entity_id,)))
-
-def search_users(request, entity_id):
-    entity = Entity.objects.get(pk=entity_id)
-    q = request.GET.get('q', '')
-    users = _user_search(q)
-    return render_to_response('entity/search_users_results.html', {
-            'users': users,
-            'entity_id': entity.pk,
-            }, context_instance=RequestContext(request))
