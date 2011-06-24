@@ -241,6 +241,12 @@ def remote_edit_metadata(request, entity_id):
                 form.errors['metadata_url'] = ['URL Error: '+str(e)]
             except urllib2.HTTPError, e:
                 form.errors['metadata_url'] = ['HTTP Error: '+str(e)]
+            except ValueError, e:
+                try:
+                    resp = urllib2.urlopen('http://'+content_url,
+                                                 None, CONNECTION_TIMEOUT)
+                except Exception:
+                    form.errors['metadata_url'] = ['Value Error: '+str(e)]
             else:
                 if resp.getcode() != 200:
                     form.errors['metadata_url'] = [_(
