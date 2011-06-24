@@ -247,7 +247,7 @@ def remote_edit_metadata(request, entity_id):
                                                  None, CONNECTION_TIMEOUT)
                 except Exception:
                     form.errors['metadata_url'] = ['Value Error: '+str(e)]
-            else:
+            if form.is_valid():
                 if resp.getcode() != 200:
                     form.errors['metadata_url'] = [_(
                                           'Error getting the data: %s'
