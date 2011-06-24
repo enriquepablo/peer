@@ -470,10 +470,6 @@ label {
     width: 80%;
 }
 
-.ui-button-text-only .ui-button-text {
-    padding: 0.1em 0.6em;
-}
-
 div.content input[type="checkbox"] {
     float:left;
     margin: 1em 0.5em 0;
@@ -487,11 +483,11 @@ p.user-list-label {
     font-weight: 500;
 }
 
-input.button {
-    padding: 0 0.5em;
-}
-
 div#searchusers-box {
     margin-bottom: 20px;
 }
 
+input.button,
+.ui-button-text-only .ui-button-text {
+    padding: 0.1em 0.6em;
+}
