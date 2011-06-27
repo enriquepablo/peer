@@ -479,7 +479,7 @@ label {
 
 div.content input[type="checkbox"] {
     float:left;
-    margin: 0.2em 0.5em 0;
+    margin: 1em 0.5em 0;
 }
 
 span.user-name {
@@ -525,26 +525,51 @@ input.button,
 .ui-widget button {
     margin: 0.5em 0;
 }
-.mainContent .metadataForm #tabs fieldset {
-    margin: 0;
-    padding: 0.5em 0 0 0.3em
+
+/* paginator */
+.paginator {
+    overflow: auto;
+    margin: 1em;
 }
 
-.ui-tabs .ui-tabs-nav {
-    padding: 0.5em 1px 0;
-}
-.ui-tabs .ui-tabs-panel {
-    padding: 0;
-}
-
-#tabs .ui-widget-content {
-    padding-top: 1px;
+.paginator a,
+.paginator span {
+    float: left;
+    margin: 0 0.5em;
 }
 
-#tabs label {
-    margin-top: 0.1em;
+.paginator .first,
+.paginator .previous {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-right: 5px solid #b2b3b5;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid transparent;   
 }
 
-#tabs .content {
-    padding-top: 0.5em;
+.paginator .first {
+    border-left-width: 0px;
+    box-shadow: -1px 0 0  #b2b3b5;
+    -moz-box-shadow: -1px 0 0 #b2b3b5;
+    -webkit-box-shadow: -1px 0 0 #b2b3b5;
+}
+
+.paginator .next,
+.paginator .last {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #b2b3b5;
+}
+
+.paginator .last {
+    border-right-width: 0px;
+    box-shadow: 1px 0 0  #b2b3b5;
+    -moz-box-shadow: 1px 0 0 #b2b3b5;
+    -webkit-box-shadow: 1px 0 0 #b2b3b5;
 }

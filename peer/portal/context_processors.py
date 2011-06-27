@@ -5,6 +5,7 @@ DEFAULT_THEME = {
     'LINK_COLOR': '#5db39a',
     'LINK_HOVER': '',
     'HEADING_COLOR': '',
+    'INDEX_HEADING_COLOR': '',
     'HEADER_BACKGROUND': '',
     'CONTENT_BACKGROUND': '',
     'FOOTER_BACKGROUND': '',

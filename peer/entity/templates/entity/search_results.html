@@ -3,14 +3,13 @@
 {% load i18n %}
 
 {% block content %}
-<section>
+<form id="search" method="get" action="{% url search_entities %}">
+  <input type="text" name="query" id="query" autofocus="autofocus" />
+</form>
+<section class="mainContent">
   <hgroup>
     <h1>{% trans "Search results" %}</h1>
   </hgroup>
-
-  <form id="search" method="get" action="{% url search_entities %}">
-    <input type="text" name="query" id="query" autofocus="autofocus" />
-  </form>
 
   {% include "entity/listing.include.html" %}
 

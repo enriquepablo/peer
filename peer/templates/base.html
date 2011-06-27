@@ -27,6 +27,27 @@
       h1, h2{ 
           color: {{ HEADING_COLOR }}
       }
+      .welcome header h1 {
+          color: {{ INDEX_HEADING_COLOR }};
+      }
+      .paginator a.next,
+      .paginator a.last {
+          border-left-color: {{ INDEX_HEADING_COLOR }};
+      }
+      .paginator a.last {
+          box-shadow: 1px 0 0 {{ INDEX_HEADING_COLOR }};
+          -moz-box-shadow: 1px 0 0 {{ INDEX_HEADING_COLOR }};
+          -webkit-box-shadow: 1px 0 0 {{ INDEX_HEADING_COLOR }};
+      }
+      .paginator a.previous,
+      .paginator a.first {
+          border-right-color:{{ INDEX_HEADING_COLOR }};
+      }
+      .paginator a.first {
+          box-shadow: -1px 0 0 {{ INDEX_HEADING_COLOR }};
+          -moz-box-shadow: -1px 0 0 {{ INDEX_HEADING_COLOR }};
+          -webkit-box-shadow: -1px 0 0 {{ INDEX_HEADING_COLOR }};
+      }
     </style>
   </head>
 
@@ -37,6 +58,12 @@
         <h1><a href="{% url index %}">PEER</a></h1>
         <h2><a href="{% url index %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
       </hgroup>
+
+      <ul id="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
 
       <ul id="user-actions">
         {% block user_actions %}
@@ -52,15 +79,7 @@
 
       {% endblock %}
     </header>
-    {% if messages %}
-    <div class="ui-widget">
-      <div class="ui-state-highlight ui-corner-all">
-        {% for message in messages %}
-        <p><span class="ui-icon ui-icon-info {% if message.tags %}{{ message.tags }}{% endif %}"></span><span>{{ message }}</span></p>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
+
     {% block content %}
     {% endblock %}
 

@@ -1,4 +1,3 @@
-
 {% load i18n %}
 
 <ul class="list">
@@ -8,13 +7,23 @@
 </ul>
 
 {% if entities.paginator.count %}
+<div class="paginator">
   {% if entities.has_previous %}
-  <a href="?page={{ entities.previous_page_number }}">{% trans "previous" %}</a>
+    <a class="first" href="?page=1" title="{% trans "first page" %}"></a>
+    <a class="previous" href="?page={{ entities.previous_page_number }}" title="{% trans "previous" %}"></a>
+  {% else %}
+    <span class="first" title="{% trans "first page" %}"></span>
+    <span class="previous" title="{% trans "previous" %}"></span>
   {% endif %}
 
-  Page {{ entities.number }} of {{ entities.paginator.num_pages }}
+  <span>Page {{ entities.number }} of {{ entities.paginator.num_pages }}</span>
 
   {% if entities.has_next %}
-  <a href="?page={{ entities.next_page_number }}">{% trans "next" %}</a>
+    <a class="next" href="?page={{ entities.next_page_number }}" title="{% trans "next" %}"></a>
+    <a class="last" href="?page={{ entities.paginator.num_pages }}" title="{% trans "last page" %}"></a>
+  {% else %}
+    <span class="next" title="{% trans "next" %}"></span>
+    <span class="last" title="{% trans "last page" %}"></span>
   {% endif %}
+</div>
 {% endif %}
