@@ -216,7 +216,7 @@ def file_edit_metadata(request, entity_id):
         if form.is_valid():
             name = entity.metadata.name
             username = _get_username(request)
-            commit_msg = form['commit_msg_text'].data.encode('utf8')
+            commit_msg = form['commit_msg_file'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
