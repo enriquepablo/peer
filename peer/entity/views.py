@@ -158,6 +158,7 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
         'entity': entity,
         'form': form,
         'form_action': form_action,
+        'form_id': edit_mode + '_edit_form',
     }, context_instance=context_instance)
 
 def _get_username(request):

@@ -1,7 +1,11 @@
 {% load i18n %}
 
 {% block content %}
-<form class="metadataForm" enctype="multipart/form-data" action="{{ form_action }}" method="post">{% csrf_token %}
+<form class="metadataForm"
+      id="{{ form_id }}"
+      enctype="multipart/form-data"
+      action="{{ form_action }}"
+      method="post">{% csrf_token %}
   <fieldset>
   {{ form.as_p }}
   </fieldset>

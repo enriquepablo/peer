@@ -44,6 +44,12 @@
     $(document).ready(function(){
         $(".accordion").accordion({active: ".active", autoHeight: false});
         $("textarea#id_metadata_text").SAMLmetaJS();
+        $("form#text_edit_form").submit(
+            function () {
+                $("a[href='#rawmetadata']").click();
+                return true;
+            }
+        );
     });
 })(jQuery);
 </script>
