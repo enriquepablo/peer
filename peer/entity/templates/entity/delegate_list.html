@@ -4,7 +4,7 @@
 
   <p class="user-list-label">{% trans "Users that can edit this entity" %}:</p>
   
-  <ul>
+  <ul id="delegate-list">
     {% for delegate in delegates %}
       <li>
       <form action="{% url make_owner entity_id %}"
@@ -33,6 +33,14 @@
       </li>
     {% endfor %}
   </ul>
+
+    <script type="text/javascript">
+      (function ($) {
+          $("#delegate-list").ready(function () {
+              $(".button").button();
+          });
+      }(jQuery));
+    </script>
 
 {% else %}
 

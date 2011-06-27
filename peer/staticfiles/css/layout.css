@@ -118,7 +118,11 @@ fieldset {
 
 .helptext {
     display: block;
-    font-size: 9pt;
+    font-size: 11px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+    color: #9A9A9A;
 }
 
 header hgroup {
@@ -467,6 +471,16 @@ label {
 
 p.invitation {
     margin-bottom: 8px;
+}
+
+.change-owner-form {
+    margin: 0.5em 0;
+    line-height: 19px;
+}
+
+#delegate-list .ui-widget {
+    font-size: 8px;
+    font-weight: normal;
 }
 
 /* Ui styles modifications */

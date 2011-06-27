@@ -11,11 +11,7 @@
 
   <hgroup>
     <h1>{% trans "Team permissions for " %}"{{ entity.name }}"</h1>
-    {% if entity.owner.get_full_name %}
-      <p>Owned by {{ entity.owner.username }} ({{ entity.owner.get_full_name }})</p>
-    {% else %}
-      <p>Owned by {{ entity.owner.username }}</p>
-    {% endif %}
+    <p>Owned by {{ entity.owner.username }} ({{ entity.owner.get_full_name }})
   </hgroup>
 
   <div id="searchusers-box">
@@ -28,7 +24,6 @@
 
       <button type="button"
               id="add-delegate"
-              class="button"
               disabled>
         {% trans "Add" %}
       </button>
