@@ -168,7 +168,7 @@ def _get_username(request):
 
 @login_required
 def text_edit_metadata(request, entity_id):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     if request.method == 'POST':
         form = MetadataTextEditForm(request.POST)
         text = form['metadata_text'].data
@@ -200,7 +200,7 @@ def text_edit_metadata(request, entity_id):
 
 @login_required
 def file_edit_metadata(request, entity_id):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     if request.method == 'POST':
         form = MetadataFileEditForm(request.POST, request.FILES)
         content = form['metadata_file'].data
@@ -231,7 +231,7 @@ def file_edit_metadata(request, entity_id):
 
 @login_required
 def remote_edit_metadata(request, entity_id):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     if request.method == 'POST':
         form = MetadataRemoteEditForm(request.POST)
         if form.is_valid():
@@ -292,7 +292,7 @@ def remote_edit_metadata(request, entity_id):
 @login_required
 def edit_metadata(request, entity_id, accordion_activate='text',
                   text_form=None, file_form=None, remote_form=None):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
 
     return render_to_response('entity/edit_metadata.html', {
             'entity': entity,
@@ -346,20 +346,20 @@ def search_entities(request):
 # SHARING ENTITY EDITION
 
 def sharing(request, entity_id):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     return render_to_response('entity/sharing.html', {
             'entity': entity,
             }, context_instance=RequestContext(request))
 
 def list_delegates(request, entity_id):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     return render_to_response('entity/delegate_list.html', {
             'delegates': entity.delegates.all(),
             'entity_id': entity.pk,
             }, context_instance=RequestContext(request))
 
 def remove_delegate(request, entity_id, user_id):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     delegate = User.objects.get(pk=user_id)
     if entity and delegate:
         delegations = PermissionDelegation.objects.filter(entity=entity,
@@ -369,7 +369,7 @@ def remove_delegate(request, entity_id, user_id):
     return list_delegates(request, entity_id)
 
 def add_delegate(request, entity_id, username):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     new_delegate = User.objects.get(username=username)
     if entity and new_delegate:
         pd = PermissionDelegation.objects.filter(entity=entity, 
@@ -384,7 +384,7 @@ def add_delegate(request, entity_id, username):
     return list_delegates(request, entity_id)
 
 def make_owner(request, entity_id):
-    entity = Entity.objects.get(pk=entity_id)
+    entity = get_object_or_404(Entity, id=entity_id)
     old_owner = entity.owner
     new_owner_id = request.POST.get('new_owner_id')
     if new_owner_id:
