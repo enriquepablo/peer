@@ -47,8 +47,8 @@ nav ul li a:hover {
 }
 
 label {
-    color: #535353;
-    text-shadow: 1px 1px 0 #F3F4F3;
+    color: #474747;
+    text-shadow: 0.5px 0.5px 0 #F3F4F3;
 }
 
 header#header hgroup h2 a {

@@ -412,16 +412,18 @@ footer ul li:last-child a {
 
 footer hgroup {
     float: right;
+    margin-top: -3px;
 }
 
 footer hgroup h1 a {
-    font-size: 12px;
-    padding: 5px 0 6px 28px;
-    background:transparent url(../images/footer_logo_peer.png) no-repeat left 5px;
+    font-size: 11px;
+    padding:5px 0 10px 28px;
+    background:transparent url(../images/footer_logo_peer.png) no-repeat left 8px;
 }
 
 footer hgroup h2 {
-    margin: -9px 0 0 28px;
+    margin: 1px 0 0 28px;
+    font-size: 10px;
 }
 
 footer hgroup h2 a {
@@ -467,6 +469,7 @@ label {
     font-size: 13px;
     font-weight: 300;
     padding-bottom: 5px;
+    letter-spacing: 0.5px;
 }
 
 p.invitation {
@@ -479,7 +482,8 @@ p.invitation {
 }
 
 #delegate-list .ui-widget {
-    font-size: 8px;
+    font-size: 9px;
+    letter-spacing: 0.3px;
     font-weight: normal;
 }
 
