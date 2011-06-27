@@ -514,3 +514,14 @@ input.button,
 .ui-state-highlight span {
     font-size: 12px;
 }
+
+.ui-tabs .ui-tabs-nav li a {
+    padding: 0.1em 0.3em;
+}
+
+.ui-widget input, 
+.ui-widget select, 
+.ui-widget textarea, 
+.ui-widget button {
+    margin: 0.5em 0;
+}
