@@ -122,6 +122,7 @@ input {
 
 footer {
     border-top: 1px solid #1631bc;
+    text-shadow: 0.5px 0.5px 0 #F3F4F3;
 }
 
 footer:after {
@@ -151,3 +152,4 @@ footer ul li a {
 span.user-name {
     color: #ff7b33;
 }
+

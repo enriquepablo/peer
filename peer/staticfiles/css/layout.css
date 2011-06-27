@@ -123,6 +123,7 @@ fieldset {
 
 header hgroup {
     float: left;
+    position: relative;
 }
 
 header #user-actions {
@@ -170,6 +171,12 @@ header#header hgroup h2 {
     border-top: none;
     width: 960px;
     margin: 0 auto;
+}
+
+.welcome img.hello {
+    position: absolute;
+    right: 260px;
+    bottom: 152px;
 }
 
 .welcome header {
@@ -366,7 +373,7 @@ footer {
     width: 940px;
     font-size: 10px;
     float: left;
-    text-shadow: 0.5px 0.5px 0 #F3F4F3;
+    margin-top: 21px;
 }
 
 footer:after {
