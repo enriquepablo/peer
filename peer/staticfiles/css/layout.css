@@ -271,8 +271,8 @@ header#header hgroup h2 {
 .mainContent {
     clear: left;
     border: none;
-    margin: 34px 260px 0 40px;
-    padding-left: 20px;
+    margin: 34px 260px 15px 40px;
+    max-width: 656px;
 }
 
 #home-content {
@@ -463,6 +463,10 @@ label {
     font-size: 13px;
     font-weight: 300;
     padding-bottom: 5px;
+}
+
+p.invitation {
+    margin-bottom: 8px;
 }
 
 /* Ui styles modifications */

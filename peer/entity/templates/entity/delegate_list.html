@@ -21,11 +21,12 @@
             <span class="user-name">{{ delegate.username }}</span>
           {%endif %}
           <button type="button"
-                  onclick="$.fn.remove_delegate('{{ entity_id }}', '{{ delegate.pk }}');">
+                  onclick="$.fn.remove_delegate('{{ entity_id }}', '{{ delegate.pk }}');"
+                  class="button">
             {% trans "Remove" %}
           </button>
           <button type="submit"
-                  class="change-owner-button">
+                  class="button change-owner-button">
             {% trans "Make owner" %}
           </button>
         </form>

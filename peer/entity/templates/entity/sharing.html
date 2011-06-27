@@ -28,6 +28,7 @@
 
       <button type="button"
               id="add-delegate"
+              class="button"
               disabled>
         {% trans "Add" %}
       </button>
@@ -42,10 +43,10 @@
 
   <div id="delegates-list"></div>
 
-  <p>
-    {% trans "Don't find your colleague?" %}
-    <a href="{% url invite_friend %}">{% trans "Invite him to peer!" %}</a>
-  </p>
+  <div>
+    <p class="invitation">{% trans "Don't find your colleague?" %}</p>
+    <a class="button" href="{% url invite_friend %}">{% trans "Invite him to peer!" %}</a>
+  </div>
 
 </section>
 {% endblock %}
