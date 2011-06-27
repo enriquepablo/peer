@@ -113,7 +113,7 @@ def search_users_auto(request):
     q = request.GET.get('term', '')
     users = _user_search(q)
     names = [{'value': u.username,
-              'label': '%s (%s)' % (u.username,
-                                    u.get_full_name() or u.username)}
+              'label': ('%s (%s)' % (u.username,
+                                     u.get_full_name())).split(' ()')[0]}
             for u in users]
     return HttpResponse(json.dumps(names))

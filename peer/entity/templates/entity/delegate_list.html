@@ -15,7 +15,11 @@
                  name="new_owner_id"
                  value="{{ delegate.pk }}"
                  />
-                 <span class="user-name">{{ delegate.username }} ({{ delegate.get_full_name }})</span>
+          {% if delegate.get_full_name %}
+             <span class="user-name">{{ delegate.username }} ({{ delegate.get_full_name }})</span>
+          {% else %}
+            <span class="user-name">{{ delegate.username }}</span>
+          {%endif %}
           <button type="button"
                   onclick="$.fn.remove_delegate('{{ entity_id }}', '{{ delegate.pk }}');">
             {% trans "Remove" %}
