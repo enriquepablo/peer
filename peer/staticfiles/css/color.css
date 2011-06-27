@@ -153,3 +153,15 @@ span.user-name {
     color: #ff7b33;
 }
 
+#tabs .ui-widget-content {
+    background-color: #D7DEFB;
+}
+
+.ui-state-active,
+.ui-widget-content .ui-state-active, 
+.ui-widget-header .ui-state-active {
+    border-top: 1px solid #FFF;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #FFF;
+    border-bottom: border-top: 1px solid #D7DEFB;
+}

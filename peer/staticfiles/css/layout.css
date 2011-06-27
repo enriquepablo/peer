@@ -479,7 +479,7 @@ label {
 
 div.content input[type="checkbox"] {
     float:left;
-    margin: 1em 0.5em 0;
+    margin: 0.2em 0.5em 0;
 }
 
 span.user-name {
@@ -524,4 +524,27 @@ input.button,
 .ui-widget textarea, 
 .ui-widget button {
     margin: 0.5em 0;
+}
+.mainContent .metadataForm #tabs fieldset {
+    margin: 0;
+    padding: 0.5em 0 0 0.3em
+}
+
+.ui-tabs .ui-tabs-nav {
+    padding: 0.5em 1px 0;
+}
+.ui-tabs .ui-tabs-panel {
+    padding: 0;
+}
+
+#tabs .ui-widget-content {
+    padding-top: 1px;
+}
+
+#tabs label {
+    margin-top: 0.1em;
+}
+
+#tabs .content {
+    padding-top: 0.5em;
 }
