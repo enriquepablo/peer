@@ -38,12 +38,6 @@
         <h2><a href="{% url index %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
       </hgroup>
 
-      <ul id="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-      </ul>
-
       <ul id="user-actions">
         {% block user_actions %}
           {% if user.is_anonymous %}
@@ -58,7 +52,15 @@
 
       {% endblock %}
     </header>
-
+    {% if messages %}
+    <div class="ui-widget">
+      <div class="ui-state-highlight ui-corner-all">
+        {% for message in messages %}
+        <p><span class="ui-icon ui-icon-info {% if message.tags %}{{ message.tags }}{% endif %}"></span><span>{{ message }}</span></p>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
     {% block content %}
     {% endblock %}
 

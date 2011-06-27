@@ -491,3 +491,19 @@ input.button,
 .ui-button-text-only .ui-button-text {
     padding: 0.1em 0.6em;
 }
+
+.ui-state-highlight {
+    padding: 0 10px;
+    margin: 0 auto;
+    width: 40%;
+}
+
+.ui-icon {
+    float: left;
+    padding-left: 5px;
+    margin-top: -2px;
+}
+
+.ui-state-highlight span {
+    font-size: 12px;
+}
