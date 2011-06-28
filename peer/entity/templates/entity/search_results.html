@@ -3,9 +3,11 @@
 {% load i18n %}
 
 {% block content %}
-<form id="search" method="get" action="{% url search_entities %}">
-  <input type="text" name="query" id="query" autofocus="autofocus" />
-</form>
+<nav class="right clear">
+  <form id="search" method="get" action="{% url search_entities %}">
+    <input type="text" name="query" id="query" autofocus="autofocus" />
+  </form>
+</na>
 <section class="mainContent">
   <hgroup>
     <h1>{% trans "Search results" %}</h1>
