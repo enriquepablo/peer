@@ -109,6 +109,10 @@ def entity_add_with_domain(request, domain_name=None,
             form.save()
             messages.success(request, _('Entity created succesfully'))
             return HttpResponseRedirect(reverse(return_view_name))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
+
 
     else:
         form = EntityForm(request.user, instance=entity)
