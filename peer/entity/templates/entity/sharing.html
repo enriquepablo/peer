@@ -11,7 +11,11 @@
 
   <hgroup>
     <h1>{% trans "Team permissions for " %}"{{ entity.name }}"</h1>
-    <p>Owned by {{ entity.owner.username }} ({{ entity.owner.get_full_name }})
+    {% if entity.owner.get_full_name %}
+    <p>Owned by {{ entity.owner.username }} ({{ entity.owner.get_full_name }})</p>
+    {% else %}
+    <p>Owned by {{ entity.owner.username }}</p>
+    {% endif %}
   </hgroup>
 
   <div id="searchusers-box">
