@@ -3,7 +3,7 @@
 {% if delegates %}
 
   <p class="user-list-label">{% trans "Users that can edit this entity" %}:</p>
-  
+
   <ul id="delegate-list">
     {% for delegate in delegates %}
       <li>
@@ -21,7 +21,7 @@
             <span class="user-name">{{ delegate.username }}</span>
           {%endif %}
           <button type="button"
-                  onclick="$.fn.remove_delegate('{{ entity_id }}', '{{ delegate.pk }}');"
+                  onclick="$.fn.delegates.remove_delegate('{{ entity_id }}', '{{ delegate.pk }}');"
                   class="button">
             {% trans "Remove" %}
           </button>

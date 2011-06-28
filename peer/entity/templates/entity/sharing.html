@@ -55,12 +55,12 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function(){
-        $.fn.load_delegates('{{ entity.pk }}');
+        $.fn.delegates.load_delegates('{{ entity.pk }}');
         $('#q').autocomplete({source: '/accounts/search_users_auto/',
-                              select: $.fn.enable_add_delegate,});
-        $('#q').keydown($.fn.disable_add_delegate);
-        $('button#add-delegate').click($.fn.add_selected_delegate);
-        $('div#searchusers-box form').submit($.fn.select_first_user);
+                              select: $.fn.delegates.enable_add_delegate,});
+        $('#q').keydown($.fn.delegates.disable_add_delegate);
+        $('button#add-delegate').click($.fn.delegates.add_selected_delegate);
+        $('div#searchusers-box form').submit($.fn.delegates.select_first_user);
         $('ul#messages').css('display', 'none');
     });
 })(jQuery);
