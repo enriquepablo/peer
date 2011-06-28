@@ -72,6 +72,7 @@ def _paginated_list_of_entities(request, entities):
         entities = paginator.page(paginator.num_pages)
     return entities
 
+
 def get_entities_per_page():
     if hasattr(settings, 'ENTITIES_PER_PAGE'):
         return settings.ENTITIES_PER_PAGE
@@ -161,10 +162,12 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
         'form_id': edit_mode + '_edit_form',
     }, context_instance=context_instance)
 
+
 def _get_username(request):
     return u'%s <%s>' % (
             request.user.get_full_name() or request.user.username,
             request.user.email or request.user.username)
+
 
 @login_required
 def text_edit_metadata(request, entity_id):
@@ -239,17 +242,17 @@ def remote_edit_metadata(request, entity_id):
             try:
                 resp = urllib2.urlopen(content_url, None, CONNECTION_TIMEOUT)
             except urllib2.URLError, e:
-                form.errors['metadata_url'] = ['URL Error: '+str(e)]
+                form.errors['metadata_url'] = ['URL Error: ' + str(e)]
             except urllib2.HTTPError, e:
-                form.errors['metadata_url'] = ['HTTP Error: '+str(e)]
+                form.errors['metadata_url'] = ['HTTP Error: ' + str(e)]
             except ValueError, e:
                 try:
-                    resp = urllib2.urlopen('http://'+content_url,
+                    resp = urllib2.urlopen('http://' + content_url,
                                                  None, CONNECTION_TIMEOUT)
                 except Exception:
-                    form.errors['metadata_url'] = ['Value Error: '+str(e)]
+                    form.errors['metadata_url'] = ['Value Error: ' + str(e)]
             except Exception, e:
-                form.errors['metadata_url'] = ['Error: '+str(e)]
+                form.errors['metadata_url'] = ['Error: ' + str(e)]
             if form.is_valid():
                 if resp.getcode() != 200:
                     form.errors['metadata_url'] = [_(
@@ -314,12 +317,14 @@ def edit_metadata(request, entity_id, accordion_activate='text',
             'needs_google_maps': 'location' in samlmetajs_plugins,
             }, context_instance=RequestContext(request))
 
+
 # ENTITY SEARCH
 
 def _search_entities(search_terms):
     lang = getattr(settings, 'PG_FT_INDEX_LANGUAGE', u'english')
     sql = u"select * from entity_entity where to_tsvector(%s, name) @@ to_tsquery(%s, %s)"
     return Entity.objects.raw(sql, [lang, lang, search_terms])
+
 
 def search_entities(request):
     search_terms_raw = request.GET.get('query', '').strip()
@@ -343,13 +348,14 @@ def search_entities(request):
                 u'You should not use !, :, &, | or \\')
     else:
         n = len(entities)
-        plural = n==1 and 'entity' or 'entities'
+        plural = n == 1 and 'entity' or 'entities'
         msg = _(u'Found %d %s matching "%s"') % (n, plural, search_terms_raw)
     messages.success(request, msg)
     paginated_entities = _paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
             'entities': paginated_entities,
             }, context_instance=RequestContext(request))
+
 
 # SHARING ENTITY EDITION
 
@@ -360,6 +366,7 @@ def sharing(request, entity_id):
             'entity': entity,
             }, context_instance=RequestContext(request))
 
+
 @login_required
 def list_delegates(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
@@ -367,6 +374,7 @@ def list_delegates(request, entity_id):
             'delegates': entity.delegates.all(),
             'entity_id': entity.pk,
             }, context_instance=RequestContext(request))
+
 
 @login_required
 def remove_delegate(request, entity_id, user_id):
@@ -379,12 +387,13 @@ def remove_delegate(request, entity_id, user_id):
             delegation.delete()
     return list_delegates(request, entity_id)
 
+
 @login_required
 def add_delegate(request, entity_id, username):
     entity = get_object_or_404(Entity, id=entity_id)
     new_delegate = User.objects.get(username=username)
     if entity and new_delegate:
-        pd = PermissionDelegation.objects.filter(entity=entity, 
+        pd = PermissionDelegation.objects.filter(entity=entity,
                                                 delegate=new_delegate)
         if not pd and new_delegate != entity.owner:
             pd = PermissionDelegation(entity=entity, delegate=new_delegate)
@@ -394,6 +403,7 @@ def add_delegate(request, entity_id, username):
         else:
             return HttpResponse('owner')
     return list_delegates(request, entity_id)
+
 
 @login_required
 def make_owner(request, entity_id):
