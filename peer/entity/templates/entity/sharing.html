@@ -56,7 +56,7 @@
 (function($) {
     $(document).ready(function(){
         $.fn.delegates.load_delegates('{{ entity.pk }}');
-        $('#q').autocomplete({source: '/accounts/search_users_auto/',
+        $('#q').autocomplete({source: '{{ search_users_auto }}',
                               select: $.fn.delegates.enable_add_delegate,});
         $('#q').keydown($.fn.delegates.disable_add_delegate);
         $('button#add-delegate').click($.fn.delegates.add_selected_delegate);
