@@ -345,12 +345,14 @@ def search_entities(request):
 
 # SHARING ENTITY EDITION
 
+@login_required
 def sharing(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
     return render_to_response('entity/sharing.html', {
             'entity': entity,
             }, context_instance=RequestContext(request))
 
+@login_required
 def list_delegates(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
     return render_to_response('entity/delegate_list.html', {
@@ -358,6 +360,7 @@ def list_delegates(request, entity_id):
             'entity_id': entity.pk,
             }, context_instance=RequestContext(request))
 
+@login_required
 def remove_delegate(request, entity_id, user_id):
     entity = get_object_or_404(Entity, id=entity_id)
     delegate = User.objects.get(pk=user_id)
@@ -368,6 +371,7 @@ def remove_delegate(request, entity_id, user_id):
             delegation.delete()
     return list_delegates(request, entity_id)
 
+@login_required
 def add_delegate(request, entity_id, username):
     entity = get_object_or_404(Entity, id=entity_id)
     new_delegate = User.objects.get(username=username)
@@ -383,6 +387,7 @@ def add_delegate(request, entity_id, username):
             return HttpResponse('owner')
     return list_delegates(request, entity_id)
 
+@login_required
 def make_owner(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
     old_owner = entity.owner
