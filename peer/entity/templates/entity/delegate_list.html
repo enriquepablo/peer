@@ -20,9 +20,8 @@
           {% else %}
             <span class="user-name">{{ delegate.username }}</span>
           {%endif %}
-          <button type="button"
-                  onclick="$.fn.delegates.remove_delegate('{{ entity_id }}', '{{ delegate.pk }}');"
-                  class="button">
+          <button type="button" id="{% url remove_delegate entity_id,delegate.id %}"
+                  class="button remove-delegate-button">
             {% trans "Remove" %}
           </button>
           <button type="submit"
@@ -38,6 +37,7 @@
       (function ($) {
           $("#delegate-list").ready(function () {
               $(".button").button();
+              $(".remove-delegate-button").click($.fn.delegates.remove_delegate);
           });
       }(jQuery));
     </script>

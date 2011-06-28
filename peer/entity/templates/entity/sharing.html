@@ -54,13 +54,18 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.entityperms.js"></script>
 <script type="text/javascript">
 (function($) {
-    $(document).ready(function(){
-        $.fn.delegates.load_delegates('{{ entity.pk }}');
-        $('#q').autocomplete({source: '{{ search_users_auto }}',
+    $(document).ready(function () {
+        var search_url = '{% url search_users_auto %}';
+        $.fn.delegates.load_delegates('{% url list_delegates entity.id %}');
+        $('#q').autocomplete({source: search_url,
                               select: $.fn.delegates.enable_add_delegate});
         $('#q').keydown($.fn.delegates.disable_add_delegate);
-        $('button#add-delegate').click($.fn.delegates.add_selected_delegate);
-        $('div#searchusers-box form').submit($.fn.delegates.select_first_user);
+        $('button#add-delegate').click(function () {
+            $.fn.delegates.add_selected_delegate('{% url add_delegate entity.id,'__user__' %}');
+        });
+        $('div#searchusers-box form').submit(function () {
+            $.fn.delegates.select_first_user(search_url);
+        });
         $('ul#messages').css('display', 'none');
     });
 })(jQuery);

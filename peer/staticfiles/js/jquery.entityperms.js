@@ -2,18 +2,17 @@
 
     $.fn.delegates = {};  // namespace
 
-    $.fn.delegates.load_delegates = function(entity_id) {
-        $.get('/entity/'+entity_id+'/list_delegates/',
-            function (html) {
+    $.fn.delegates.load_delegates = function(list_delegates_url) {
+        $.get(list_delegates_url, function (html) {
                 $('#delegates-list').html(html);
                 $('form.change-owner-form').submit($.fn.change_owner);
             }
         );
     };
 
-    $.fn.delegates.select_first_user = function() {
+    $.fn.delegates.select_first_user = function(search_url) {
         var q = $('input#q').val();
-        $.getJSON('/accounts/search_users_auto/?term='+q,
+        $.getJSON(search_url + '?term='+q,
             function (resp) {
                 for (i in resp) {
                     if (resp[i]["value"] == q) {
@@ -30,32 +29,30 @@
         return false;
     };
 
-    $.fn.delegates.remove_delegate = function(entity_id, user_id) {
-        $.get('/entity/'+entity_id+'/remove_delegate/'+user_id,
-            function (html) {
-                $('div#delegates-list').html(html);
-                $('form.change-owner-form').submit($.fn.change_owner);
-            }
-        );
+    $.fn.delegates.remove_delegate = function () {
+        var url = $(this).attr('id');
+        $.get(url, function (html) {
+            $('div#delegates-list').html(html);
+            $('form.change-owner-form').submit($.fn.change_owner);
+        });
         return false;
     };
 
-    $.fn.delegates.add_selected_delegate = function() {
+    $.fn.delegates.add_selected_delegate = function (add_delegate_url_template) {
         var entity_id = $('input#entity_id').val()
         var username = $('input#q').val()
-        $.get('/entity/'+entity_id+'/add_delegate/'+username,
-            function (html) {
-                if (html == 'delegate') {
-                    $.fn.delegates.team_perm_message(username+' can already edit this entity');
-                } else if (html == 'owner') {
-                    $.fn.delegates.team_perm_message(username+' is the owner this entity');
-                } else {
-                    $('div#delegates-list').html(html);
-                    $('button#add-delegate').attr('disabled', true);
-                    $('form.change-owner-form').submit($.fn.change_owner);
-                }
+        var url = add_delegate_url_template.replace('__user__', username);
+        $.get(url, function (html) {
+            if (html == 'delegate') {
+                $.fn.delegates.team_perm_message(username+' can already edit this entity');
+            } else if (html == 'owner') {
+                $.fn.delegates.team_perm_message(username+' is the owner this entity');
+            } else {
+                $('div#delegates-list').html(html);
+                $('button#add-delegate').attr('disabled', true);
+                $('form.change-owner-form').submit($.fn.change_owner);
             }
-        );
+        });
         return false;
     };
 
