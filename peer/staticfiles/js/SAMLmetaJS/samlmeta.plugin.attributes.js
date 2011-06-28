@@ -43,10 +43,11 @@
 
 			// Set attributes
 			attributeHTML = '';
+            elementWidth = Math.floor($("div#attributes > div.content").width() / 2)-1;
 			for(attrname in SAMLmetaJS.Constants.attributes) {
 				if (SAMLmetaJS.Constants.attributes.hasOwnProperty(attrname)) {
 					checked = (entitydescriptor.attributes[attrname] ? 'checked="checked"' : '');
-					attributeHTML += '<div style="float: left; width: 300px"><input type="checkbox" id="' + attrname + '-id" name="' + attrname + '" ' + checked + '/>' +
+					attributeHTML += '<div style="float: left; width: ' + elementWidth + 'px "><input type="checkbox" id="' + attrname + '-id" name="' + attrname + '" ' + checked + '/>' +
 						'<label for="' + attrname + '-id">' + SAMLmetaJS.Constants.attributes[attrname] + '</label></div>';
 				}
 			}
