@@ -240,6 +240,10 @@ PG_FT_INDEX_LANGUAGE = u'english'
 # PG_FTS_OPERATOR = u'|'
 PG_FTS_OPERATOR = u'&'
 
+# SAMLmetaJS plugins
+SAML_META_JS_PLUGINS = ('attributes', 'certs', 'contact', 'info',
+                        'location', 'saml2sp')
+
 try:
     from local_settings import *
 except ImportError:

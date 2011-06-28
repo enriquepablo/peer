@@ -289,10 +289,17 @@ def remote_edit_metadata(request, entity_id):
                          remote_form=form)
 
 
+DEFAULT_SAML_META_JS_PLUGINS = ('attributes', 'certs', 'contact', 'info',
+                                'location', 'saml2sp')
+
+
 @login_required
 def edit_metadata(request, entity_id, accordion_activate='text',
                   text_form=None, file_form=None, remote_form=None):
     entity = get_object_or_404(Entity, id=entity_id)
+
+    samlmetajs_plugins = getattr(settings, 'SAML_META_JS_PLUGINS',
+                                 DEFAULT_SAML_META_JS_PLUGINS)
 
     return render_to_response('entity/edit_metadata.html', {
             'entity': entity,
@@ -303,7 +310,8 @@ def edit_metadata(request, entity_id, accordion_activate='text',
             'remote_html': _get_edit_metadata_form(request, entity, 'remote',
                                                    form=remote_form),
             'activate': accordion_activate,
-
+            'samlmetajs_plugins': samlmetajs_plugins,
+            'needs_google_maps': 'location' in samlmetajs_plugins,
             }, context_instance=RequestContext(request))
 
 # ENTITY SEARCH
