@@ -106,10 +106,15 @@ nav ul li a {
     text-decoration: none;
 }
 
-label {
+label,
+p.user-list-label {
     display: block;
-    font-weight: bold;
     margin-top: 1em;
+    font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    padding-bottom: 5px;
+    letter-spacing: 0.5px;
 }
 
 fieldset {
@@ -417,16 +422,9 @@ input {
     padding: 2px 4px;
 }
 
-label {
-    font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    padding-bottom: 5px;
-    letter-spacing: 0.5px;
-}
-
 p.invitation {
     margin-bottom: 8px;
+    margin-top: 50px;
 }
 
 .change-owner-form {
@@ -435,9 +433,8 @@ p.invitation {
 }
 
 #delegate-list .ui-widget {
-    font-size: 9px;
-    letter-spacing: 0.3px;
     font-weight: normal;
+    float: right;
 }
 
 /* Ui styles modifications */
@@ -459,14 +456,11 @@ div.content input[type="checkbox"] {
 
 span.user-name {
     font-weight: 600;
-}
-
-p.user-list-label {
-    font-weight: 500;
+    font-size: 14px;
 }
 
 div#searchusers-box {
-    margin-bottom: 20px;
+    margin: 40px 0 20px;
 }
 
 input.button,

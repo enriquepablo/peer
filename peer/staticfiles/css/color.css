@@ -46,7 +46,8 @@ nav ul li a:hover {
     color: #e56e2e;
 }
 
-label {
+label,
+p.user-list-label {
     color: #474747;
     text-shadow: 0.5px 0.5px 0 #F3F4F3;
 }
