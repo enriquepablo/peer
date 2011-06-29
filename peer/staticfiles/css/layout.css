@@ -19,6 +19,11 @@
     padding: 10px;
 }
 
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+
 body {
     max-width: 1024px;
     padding: 0 30px;
@@ -287,6 +292,7 @@ section ul li a:hover,
 
 #filters ul {
     margin: 0;
+    border: none;
     padding: 0;
     list-style: none;
 }

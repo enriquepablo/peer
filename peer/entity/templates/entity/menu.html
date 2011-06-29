@@ -1,6 +1,9 @@
+{% extends "portal/base_menu.html" %}
 {% load i18n %}
 
-  <nav class="shadow right clear">
+{% block topMenu %}{% endblock %}
+
+{% block contentMenu %}  
     <ul>
       <li><a href="{% url entity_view entity.id %}">{% trans "Details" %}</a></li>
       <li><a href="#">{% trans "Modify" %}</a></li>
@@ -8,5 +11,4 @@
       <li><a href="{% url entity_remove entity.id %}">{% trans "Remove" %}</a></li>
       <li><a href="{% url sharing entity.id %}">{% trans "Team permissions" %}</a></li>
     </ul>
-    <div class="bottomMenu"></div>
-  </nav>
+{% endblock %}

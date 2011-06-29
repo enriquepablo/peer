@@ -16,25 +16,7 @@
     <input type="text" name="query" id="query" autofocus="autofocus" />
   </form>
 
-  <div class="shadow right clear">
-    <div id="filters">
-      <h3>{% trans "By something" %}</h3>
-      <ul>
-        <li class="current"><a href="#">{% trans "All" %}</a></li>
-        <li><a href="#">Item 1</a></li>
-        <li><a href="#">Item 2</a></li>
-        <li><a href="#">Item 3</a></li>
-      </ul>
-
-      <h3>{% trans "By something else" %}</h3>
-      <ul>
-        <li class="current"><a href="#">{% trans "All" %}</a></li>
-        <li><a href="#">Item 1</a></li>
-        <li><a href="#">Item 2</a></li>
-        <li><a href="#">Item 3</a></li>
-      </ul>
-    </div>
-  </div>
+  {% include "portal/menu.html" %}
 
   <section id="home-content" class="mainContent">
     <ul>
