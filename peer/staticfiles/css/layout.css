@@ -135,6 +135,14 @@ fieldset {
     color: #9A9A9A;
 }
 
+dt {
+    clear: left;
+}
+
+dd {
+    margin-bottom: 1em;
+}
+
 header hgroup {
     float: left;
 }
