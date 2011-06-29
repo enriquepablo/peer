@@ -9,7 +9,7 @@ h1 {
 }
 
 h2 {
-    text-shadow: 1px 1px 0 #F3F4F3;
+    text-shadow: 1px 1px 0 #e3e5e3;
 }
 
 header#header h1 a {
@@ -32,6 +32,10 @@ nav ul,
 #filters {
     border: 1px solid #d3d3d3;
     background-color: #ffffff;
+}
+
+nav ul li {
+    border-bottom: 1px solid #E0E0E0;
 }
 
 nav ul li a {
@@ -130,9 +134,12 @@ header#header hgroup h2 a {
 }
 
 section ul li,
-#home-content ul li {
+#home-content ul li,
+.history thead {
     border-bottom: 1px solid #c5c7c6;
     box-shadow: 0px 1px 0 white;
+    -moz-box-shadow:  0px 1px 0 white;
+    -webkit-box-shadow:  0px 1px 0 white;
 }
 
 #filters ul li a {
@@ -162,6 +169,8 @@ input,
 
 input {
     box-shadow: 1px 1px 0 white;
+    -moz-box-shadow:  1px 1px 0 white;
+    -webkit-box-shadow:  1px 1px 0 white;
 }
 
 #filters h3 {
@@ -205,6 +214,21 @@ span.user-name {
     color: #ff7b33;
 }
 
+/* entity view */
+.history h2 a {
+    color: #ff7b33;
+    font-size: 13px;
+}
+
+.history tbody tr td {
+    border-bottom: 1px solid #ccc;
+}
+
+.history tbody tr.even td {
+    background: rgba(2255, 255, 255, 0.3);
+}
+
+/* jquery UI */
 #tabs .ui-widget-content {
     background-color: #D7DEFB;
 }

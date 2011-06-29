@@ -70,6 +70,10 @@ section {
     padding-left: 20px;
 }
 
+tr {
+    text-align: left;
+}
+
 nav ul {
     padding: 10px 10px 60px;
     width: 200px;
@@ -142,8 +146,12 @@ dt {
     margin-right: 6px;
 }
 
+dl {
+    margin-top: 2em;
+}
+
 dd {
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
 }
 
 header hgroup {
@@ -423,6 +431,30 @@ footer hgroup h2 a {
     font-weight: normal;
     margin: 5px 0;
     list-style: disc;
+}
+
+/* Entity View */
+div.history {
+    margin-top: 50px;
+}
+
+.history h2 {
+    margin-bottom: 15px;
+    line-height: 21px;
+    background: transparent url(../images/h2_history_bg.png) no-repeat left top;
+}
+
+.history thead tr th {
+    line-height: 23px;
+}
+
+.history tbody tr td {
+    line-height: 21px;
+    padding-top: 4px;
+}
+
+.history table {
+    min-width: 656px;
 }
 
 /* Forms */
