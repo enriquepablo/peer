@@ -17,13 +17,13 @@
                 for (i in resp) {
                     if (resp[i]["value"] == q) {
                         $.fn.delegates.add_selected_delegate();
-                        $('button#add-delegate').attr('disabled', true);
+                        $('button#add-delegate').button("disable");
                         return;
                     }
                 }
                 $('input#q').val(resp[0]["value"]);
                 $('#q').autocomplete("close");
-                $('button#add-delegate').attr('disabled', false);
+                $('button#add-delegate').button("enable");
             }
         );
         return false;
@@ -49,7 +49,7 @@
                 $.fn.delegates.team_perm_message(username+' is the owner this entity');
             } else {
                 $('div#delegates-list').html(html);
-                $('button#add-delegate').attr('disabled', true);
+                $('button#add-delegate').button("disable");
                 $('form.change-owner-form').submit($.fn.change_owner);
             }
         });
@@ -57,12 +57,12 @@
     };
 
     $.fn.delegates.enable_add_delegate = function () {
-        $('button#add-delegate').attr('disabled', false);
+        $('button#add-delegate').button("enable");
     };
 
     $.fn.delegates.disable_add_delegate = function (event) {
         if (event.keyCode != 13) {
-            $('button#add-delegate').attr('disabled', true);
+            $('button#add-delegate').button("disable");
         }
     };
 
