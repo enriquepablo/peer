@@ -74,6 +74,10 @@ tr {
     text-align: left;
 }
 
+table {
+    min-width: 656px;
+}
+
 nav ul {
     padding: 10px 10px 60px;
     width: 200px;
@@ -433,6 +437,15 @@ footer hgroup h2 a {
     list-style: disc;
 }
 
+/* Domain view */
+.domains caption h2 {
+    text-align: left;
+}
+
+.domains tbody tr td {
+    line-height: 23px;
+}
+
 /* Entity View */
 div.history {
     margin-top: 50px;
@@ -451,10 +464,6 @@ div.history {
 .history tbody tr td {
     line-height: 21px;
     padding-top: 4px;
-}
-
-.history table {
-    min-width: 656px;
 }
 
 /* Forms */

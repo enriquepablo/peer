@@ -220,7 +220,7 @@ span.user-name {
     font-size: 13px;
 }
 
-.history tbody tr td {
+.history tbody tr td{
     border-bottom: 1px solid #ccc;
 }
 
