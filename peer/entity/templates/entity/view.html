@@ -17,8 +17,10 @@
     <dt class="ui-icon ui-icon-link" title="{% trans "Link" %}">{% trans "Link" %}</dt>
     <dd><a href="http://www.example.com">http://www.example.com</a></dd>
 
+    {% if entity.owner %}
     <dt class="ui-icon ui-icon-person" title="{% trans "Owner" %}">{% trans "Owner" %}</dt>
     <dd>{% safefullname entity.owner %}</dd>
+    {% endif %}
 
     <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %}">{% trans "Organization" %}</dt>
     <dd>Example Corporation</dd>
