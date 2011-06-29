@@ -137,6 +137,9 @@ fieldset {
 
 dt {
     clear: left;
+    float: left;
+    margin-top: -2px;
+    margin-right: 6px;
 }
 
 dd {
