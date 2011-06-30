@@ -339,6 +339,7 @@ section ul li a:hover,
 
 #filters ul li {
     border: none;
+    padding: 0;
 }
 
 #filters ul li.current a,
