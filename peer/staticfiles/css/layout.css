@@ -139,7 +139,7 @@ fieldset {
     font-size: 11px;
     font-style: italic;
     letter-spacing: 0.5px;
-    margin-top: 5px;
+    margin-top: 3px;
     color: #9A9A9A;
 }
 
@@ -156,7 +156,7 @@ dl {
 }
 
 dd {
-    margin-bottom: 1.5em;
+    margin-bottom: 2em;
 }
 
 header hgroup {
@@ -457,6 +457,17 @@ table.domains form {
     margin-top: 10px;
 }
 
+ol.addDomain {
+    margin-top: 1.5em;
+}
+
+.addDomain li {
+    margin: 1em 2em;
+}
+
+.addDomain form {
+    margin-top: 1em;
+}
 
 /* Entity View */
 div.history {

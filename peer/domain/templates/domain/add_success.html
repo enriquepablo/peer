@@ -11,10 +11,11 @@
     {% endblocktrans %}
   </hgroup>
 
-  <p>{% trans "Now you have to proof that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
+  <p class="helptext">{% trans "Now you have to proof that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
 
-  <ol>
-    <li>{% trans "Make sure this link is not broken:" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a> {% trans "A HTTP request to that resource should return an HTTP 200 response" %}</li>
+  <ol class="addDomain">
+    <li>{% trans "Make sure this link is not broken:" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a> 
+    </br>{% trans "A HTTP request to that resource should return an HTTP 200 response" %}</li>
     <li>{% trans "Click on the verification button:" %} {% verification_button domain %}</li>
   </ol>
 
