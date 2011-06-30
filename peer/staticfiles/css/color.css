@@ -50,6 +50,10 @@ nav ul li a:hover {
     color: #e56e2e;
 }
 
+.helptext {
+    color: #949494;
+}
+
 label,
 p.user-list-label {
     color: #474747;

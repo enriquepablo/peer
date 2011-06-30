@@ -78,6 +78,10 @@ table {
     width: 100%;
 }
 
+textarea {
+    padding-left: 5px;
+}
+
 nav ul {
     padding: 10px 10px 60px;
     width: 200px;
@@ -133,6 +137,7 @@ fieldset {
 
 fieldset p {
     margin-bottom: 2em;
+    margin-top: 0;
 }
 
 .actionRow {
@@ -145,7 +150,9 @@ fieldset p {
     font-style: italic;
     letter-spacing: 0.5px;
     margin-top: 3px;
-    color: #949494;
+    padding-left: 12px;
+    line-height: 17px;
+    background: transparent url(../images/help_icon.png) no-repeat left center;
 }
 
 dt,
@@ -553,12 +560,16 @@ p.invitation {
     float: right;
 }
 
+section ul.errorlist {
+    margin: 0;
+}
+
 section ul.errorlist li,
 .mainContent ul.errorlist li {
     border: none;
     box-shadow: none;
     margin: 0;
-    padding: 12px 0 2px 0px;
+    padding: 12px 0 2px 0;
 }
 
 /* Ui styles modifications */
