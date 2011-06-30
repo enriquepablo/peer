@@ -123,11 +123,16 @@ p.user-list-label {
     font-weight: 300;
     padding-bottom: 5px;
     letter-spacing: 0.5px;
+    padding-bottom: 3px;
 }
 
 fieldset {
     border: none;
     padding: 0 0 1em 0;
+}
+
+fieldset p {
+    margin-bottom: 2em;
 }
 
 .actionRow {
@@ -548,6 +553,14 @@ p.invitation {
     float: right;
 }
 
+section ul.errorlist li,
+.mainContent ul.errorlist li {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 12px 0 2px 0px;
+}
+
 /* Ui styles modifications */
 .ui-widget {
     font-size: 12px;
@@ -583,7 +596,7 @@ input.button,
 .ui-state-error {
     padding: 0 10px;
     margin: 0 auto;
-    width: 40%;
+    width: 30%;
 }
 
 .ui-state-highlight .ui-icon {

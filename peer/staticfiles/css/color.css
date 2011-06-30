@@ -20,6 +20,10 @@ a {
     color: #5669ce;
 }
 
+textarea {
+    border: 1px solid #BFBFBF;
+}
+
 .shadow {
     background-color: #dbdbd9;
 }
@@ -251,6 +255,13 @@ li.validated {
 
 .history tbody tr.even td {
     background: rgba(2255, 255, 255, 0.3);
+}
+
+/* forms */
+section ul.errorlist li, 
+.mainContent ul.errorlist li {
+    color: #FF7B33;
+    border-bottom: 1px dotted;
 }
 
 /* jquery UI */
