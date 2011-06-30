@@ -2,6 +2,15 @@
 
 {% load i18n %}
 
+{% block extracss %}
+<style type="text/css">
+  textarea {
+    width: 80%;
+    height: 300px;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 {% include "account/menu.html" %}
 <section class="mainContent">
