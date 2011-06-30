@@ -214,6 +214,17 @@ span.user-name {
     color: #ff7b33;
 }
 
+/* Domain list */
+table.domains thead {
+    background: rgba(209, 209, 207,0.4);
+    border-bottom: 1px solid #F8F8F8;
+}
+
+table.domains tr td {
+    border-bottom: 1px dotted #b8b8b8;
+}
+
+/* profile view */
 li.notValidated {
     color: #ff7b33;
     border-top: 1px dotted #AEB3CE;

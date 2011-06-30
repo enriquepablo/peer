@@ -75,7 +75,7 @@ tr {
 }
 
 table {
-    min-width: 656px;
+    width: 100%;
 }
 
 nav ul {
@@ -445,8 +445,18 @@ footer hgroup h2 a {
 }
 
 .domains tbody tr td {
-    line-height: 23px;
+    line-height: 21px;
 }
+
+table.domains thead {
+    line-height: 17px;
+}
+
+table.domains form {
+    float: right;
+    margin-top: 10px;
+}
+
 
 /* Entity View */
 div.history {
@@ -558,7 +568,8 @@ input.button,
     padding: 0.1em 0.6em;
 }
 
-.ui-state-highlight {
+.ui-state-highlight,
+.ui-state-error {
     padding: 0 10px;
     margin: 0 auto;
     width: 40%;
