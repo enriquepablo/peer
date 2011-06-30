@@ -24,7 +24,7 @@
       a:hover  {
           color: {{ LINK_HOVER }};
       }
-      h1, h2{ 
+      h1, h2 {
           color: {{ HEADING_COLOR }}
       }
       .welcome header h1 {
@@ -76,11 +76,11 @@
 
     {% if messages %}
     <div class="ui-widget">
-      <div class="ui-state-highlight ui-corner-all">
-        {% for message in messages %}
-        <p><span class="ui-icon ui-icon-info {% if message.tags %}{{ message.tags }}{% endif %}"></span><span>{{ message }}</span></p>
-        {% endfor %}
+      {% for message in messages %}
+      <div class="{% if message.tags == 'success' %}ui-state-highlight{% else %}ui-state-error{% endif %} ui-corner-all">
+        <p><span class="ui-icon {% if message.tags == 'success' %}ui-icon-info{% else %}ui-icon-alert{% endif %}"></span>{{ message }}</p>
       </div>
+      {% endfor %}
     </div>
     {% endif %}
 
