@@ -20,7 +20,7 @@
         {% verification_button domain %}
         <p>{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
       {% else %}
-        <ul>
+        <ul class="myEntities">
           {% for entity in domain.entity_set.all %}
           <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
           {% endfor %}

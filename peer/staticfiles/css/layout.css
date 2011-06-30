@@ -467,6 +467,31 @@ div.history {
     padding-top: 4px;
 }
 
+/* profile view */
+li.validated {
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding-top: 0.5em;
+}
+
+ul.myEntities {
+    margin-top: 0;
+}
+
+ul.myEntities li {
+    list-style: none;
+    border-bottom: none;
+    box-shadow: none;
+    margin:0;
+    letter-spacing: 0;
+    max-height: 21px;
+}
+
+ul.myEntities li a {
+    padding: 0.5em 0 0 1em;
+}
+
 /* Forms */
 input {
     border-radius: 4px;
