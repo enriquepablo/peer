@@ -64,12 +64,16 @@ def profile_edit(request):
             form.save()
             messages.success(request, _('Changes saved succesfully'))
             return HttpResponseRedirect(reverse('account_profile'))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
     else:
         form = PersonalInformationForm(instance=request.user)
 
     return render_to_response('account/edit.html', {
             'form': form,
             }, context_instance=RequestContext(request))
+
 
 @login_required
 def invite_friend(request):
@@ -84,6 +88,9 @@ def invite_friend(request):
             messages.success(request,
                                 _('Invitation message sent to %s') % email)
             return HttpResponseRedirect(reverse('account_profile'))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
     else:
         body = render_to_string('account/invitation_email.txt',
                                        {
@@ -95,6 +102,7 @@ def invite_friend(request):
     return render_to_response('account/invite_friend.html', {
             'form': form,
             }, context_instance=RequestContext(request))
+
 
 def _user_search(q):
     if q:
@@ -108,6 +116,7 @@ def _user_search(q):
 
         return User.objects.filter(query)
     return []
+
 
 def search_users_auto(request):
     q = request.GET.get('term', '')
