@@ -134,7 +134,7 @@ fieldset {
     padding: 1em 0;
 }
 
-.helptext {
+.helptext{
     display: block;
     font-size: 11px;
     font-style: italic;
@@ -469,11 +469,22 @@ div.history {
 }
 
 /* profile view */
-li.validated {
+li.validated,
+li.notValidated{
     font-weight: 300;
     font-size: 13px;
     letter-spacing: 0.5px;
     padding-top: 0.5em;
+}
+
+li.notValidated {
+    box-shadow: none;
+    margin-bottom: 2.5em;
+}
+
+li.notValidated form {
+    float: right;
+    margin-top: 9px;
 }
 
 ul.myEntities {

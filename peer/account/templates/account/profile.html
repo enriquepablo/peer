@@ -14,11 +14,11 @@
 
   <ul class="domainList">
     {% for domain in domains %}
-    <li{% if domain.validated %} class="validated"{% endif %}>
+    <li class="{% if domain.validated %}validated{% else%}notValidated{% endif %}">
       <span class="ui-icon ui-icon-link"></span> {{ domain }}
       {% if not domain.validated %}
         {% verification_button domain %}
-        <p>{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
+        <p class="helptext">{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
       {% else %}
         <ul class="myEntities">
           {% for entity in domain.entity_set.all %}
