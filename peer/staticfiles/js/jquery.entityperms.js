@@ -5,7 +5,7 @@
     $.fn.delegates.load_delegates = function(list_delegates_url) {
         $.get(list_delegates_url, function (html) {
                 $('#delegates-list').html(html);
-                $('form.change-owner-form').submit($.fn.change_owner);
+                $('form.change-owner-form').submit($.fn.delegates.change_owner);
             }
         );
     };
@@ -33,7 +33,7 @@
         var url = $(this).attr('id');
         $.get(url, function (html) {
             $('div#delegates-list').html(html);
-            $('form.change-owner-form').submit($.fn.change_owner);
+            $('form.change-owner-form').submit($.fn.delegates.change_owner);
         });
         return false;
     };
@@ -50,7 +50,7 @@
             } else {
                 $('div#delegates-list').html(html);
                 $('button#add-delegate').button("disable");
-                $('form.change-owner-form').submit($.fn.change_owner);
+                $('form.change-owner-form').submit($.fn.delegates.change_owner);
             }
         });
         return false;
