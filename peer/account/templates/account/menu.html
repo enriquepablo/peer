@@ -5,6 +5,7 @@
 
 {% block contentMenu %}
     <ul>
+      <li><a href="{% url account_profile %}">{% trans "Domains and entities" %}</a></li>
       <li><a href="{% url domain_add %}">{% trans "Add domain" %}</a></li>
       <li><a href="{% url entity_add %}">{% trans "Add entity" %}</a></li>
       <li><a href="{% url account_profile_edit %}">{% trans "Personal information" %}</a></li>
