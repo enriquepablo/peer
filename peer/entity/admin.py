@@ -32,7 +32,8 @@ from entity.models import Entity, PermissionDelegation
 
 
 class EntityAdmin(admin.ModelAdmin):
-    pass
+
+    list_display = ('name', 'owner', 'domain')
 
 
 class PermissionDelegationAdmin(admin.ModelAdmin):
