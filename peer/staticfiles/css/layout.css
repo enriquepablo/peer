@@ -121,7 +121,6 @@ nav ul li a {
 label,
 p.user-list-label {
     display: block;
-    margin-top: 1em;
     font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
     font-size: 13px;
     font-weight: 300;
@@ -586,7 +585,11 @@ section ul.errorlist li,
 
 div.content input[type="checkbox"] {
     float:left;
-    margin: 1em 0.5em 0;
+    font-size: 13px;
+    margin: 0 0.5em 0;
+}
+div.content#includeLocation {
+    margin-top: 0;
 }
 
 span.user-name {
@@ -629,6 +632,19 @@ input.button,
 .ui-widget textarea, 
 .ui-widget button {
     margin: 0.5em 0;
+}
+
+.mainContent .ui-accordion .ui-accordion-content {
+    padding: 1em;
+}
+
+.accordion .content {
+    padding-top: 1em;
+}
+
+.accordion div#rawmetadata textarea {
+    width: 99%;
+    padding-top: 1em;
 }
 
 /* paginator */
