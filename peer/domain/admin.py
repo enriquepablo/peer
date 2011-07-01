@@ -32,7 +32,8 @@ from domain.models import Domain
 
 
 class DomainAdmin(admin.ModelAdmin):
-    pass
+
+    list_display = ('name', 'owner', 'validated')
 
 
 admin.site.register(Domain, DomainAdmin)
