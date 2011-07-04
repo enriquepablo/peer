@@ -139,6 +139,7 @@ fieldset p {
 }
 
 .actionRow {
+    clear: both;
     padding: 1em 0;
 }
 
