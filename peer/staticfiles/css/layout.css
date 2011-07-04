@@ -135,8 +135,7 @@ fieldset {
 }
 
 fieldset p {
-    margin-bottom: 2em;
-    margin-top: 0;
+    margin: 1.2em 0;
 }
 
 .actionRow {
@@ -570,12 +569,11 @@ section ul.errorlist li,
     border: none;
     margin: 0;
     margin: 5px 0;
-    padding: 2px 0;
+    padding: 2px 0 0 17px;
     letter-spacing: 0.3px;
     box-shadow: none;
     -webkit-box-shadow:none; 
     -moz-box-shadow: none;
-    padding-left: 17px;
 }
 
 /* Ui styles modifications */
