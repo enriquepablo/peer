@@ -526,10 +526,12 @@ ul.myEntities {
 ul.myEntities li {
     list-style: none;
     border-bottom: none;
-    box-shadow: none;
     margin:0;
     letter-spacing: 0;
     max-height: 21px;
+    box-shadow: none;
+    -webkit-box-shadow:none; 
+    -moz-box-shadow: none;
 }
 
 ul.myEntities li a {
@@ -566,9 +568,11 @@ section ul.errorlist {
 section ul.errorlist li,
 .mainContent ul.errorlist li {
     border: none;
-    box-shadow: none;
     margin: 0;
     padding: 12px 0 2px 0;
+    box-shadow: none;
+    -webkit-box-shadow:none; 
+    -moz-box-shadow: none;
 }
 
 /* Ui styles modifications */
