@@ -569,10 +569,13 @@ section ul.errorlist li,
 .mainContent ul.errorlist li {
     border: none;
     margin: 0;
-    padding: 12px 0 2px 0;
+    margin: 5px 0;
+    padding: 2px 0;
+    letter-spacing: 0.3px;
     box-shadow: none;
     -webkit-box-shadow:none; 
     -moz-box-shadow: none;
+    padding-left: 17px;
 }
 
 /* Ui styles modifications */

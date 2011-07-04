@@ -264,8 +264,11 @@ li.validated {
 /* forms */
 section ul.errorlist li, 
 .mainContent ul.errorlist li {
-    color: #FF7B33;
+    color: #ff6410;
     border-bottom: 1px dotted;
+    border-top: 1px dotted;
+    text-shadow: 0.5px 0.5px 0 #ebebeb;
+    background: rgba(255, 201, 172, 0.3) url(../images/error_icon.png) 2px 1px no-repeat;
 }
 
 /* jquery UI */
