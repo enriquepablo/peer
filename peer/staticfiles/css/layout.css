@@ -405,17 +405,21 @@ footer ul li:last-child a {
 
 footer hgroup {
     float: right;
-    margin-top: -3px;
+    padding: 5px 0 5px 28px;
+    background:transparent url(../images/footer_logo_peer.png) no-repeat left 5px;
+}
+
+footer hgroup h1 {
+    line-height: 11px;
 }
 
 footer hgroup h1 a {
     font-size: 11px;
-    padding:5px 0 10px 28px;
-    background:transparent url(../images/footer_logo_peer.png) no-repeat left 8px;
+    padding: 0;
 }
 
 footer hgroup h2 {
-    margin: 1px 0 0 28px;
+    margin: 0;
     font-size: 10px;
 }
 
