@@ -656,6 +656,14 @@ input.button,
     padding-top: 1em;
 }
 
+input.ui-autocomplete-input {
+    float: left;
+    margin-right: 0.5em;
+}
+
+.ui-autocomplete a {
+    background-color: #DEDEDE;
+}
 /* paginator */
 .paginator {
     float: left;
