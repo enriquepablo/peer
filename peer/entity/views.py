@@ -350,14 +350,17 @@ def search_entities(request):
         entities = []
         msg = _(u'There seem to be illegal characters in your search.\n'
                 u'You should not use !, :, &, | or \\')
+        messages.error(request, msg)
     else:
         n = len(entities)
         plural = n == 1 and 'entity' or 'entities'
         msg = _(u'Found %d %s matching "%s"') % (n, plural, search_terms_raw)
-    messages.success(request, msg)
+        messages.success(request, msg)
+
     paginated_entities = _paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
             'entities': paginated_entities,
+            'search_terms': search_terms_raw,
             }, context_instance=RequestContext(request))
 
 

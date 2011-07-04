@@ -5,7 +5,7 @@
 {% block content %}
 <nav class="right clear">
   <form id="search" method="get" action="{% url search_entities %}">
-    <input type="text" name="query" id="query" autofocus="autofocus" />
+    <input type="text" name="query" id="query" autofocus="autofocus" value="{{ search_terms }}" />
   </form>
 </nav>
 <section class="mainContent">
