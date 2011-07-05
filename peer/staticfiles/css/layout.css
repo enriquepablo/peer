@@ -642,6 +642,9 @@ input.button,
 .ui-widget textarea, 
 .ui-widget button {
     margin: 0.5em 0;
+    box-shadow: none;
+    -webkit-box-shadow:none; 
+    -moz-box-shadow: none;
 }
 
 .mainContent .ui-accordion .ui-accordion-content {
