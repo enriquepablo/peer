@@ -7,11 +7,11 @@
   <hgroup>
     <h1>{% trans "Domain created" %}</h1>
     {% blocktrans with domain=domain.name %}
-    <h2>You just register the domain <em>{{ domain }}</em></h2>
+    <h2>You just registered the domain <em>{{ domain }}</em></h2>
     {% endblocktrans %}
   </hgroup>
 
-  <p class="helptext">{% trans "Now you have to proof that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
+  <p class="helptext">{% trans "Now you have to prove that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
 
   <ol class="addDomain">
     <li>{% trans "Make sure this link is not broken:" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a> 
