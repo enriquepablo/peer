@@ -139,6 +139,7 @@ fieldset p {
 }
 
 .actionRow {
+    clear: both;
     padding: 1em 0;
 }
 
@@ -405,17 +406,21 @@ footer ul li:last-child a {
 
 footer hgroup {
     float: right;
-    margin-top: -3px;
+    padding: 5px 0 5px 28px;
+    background:transparent url(../images/footer_logo_peer.png) no-repeat left 5px;
+}
+
+footer hgroup h1 {
+    line-height: 11px;
 }
 
 footer hgroup h1 a {
     font-size: 11px;
-    padding:5px 0 10px 28px;
-    background:transparent url(../images/footer_logo_peer.png) no-repeat left 8px;
+    padding: 0;
 }
 
 footer hgroup h2 {
-    margin: 1px 0 0 28px;
+    margin: 0;
     font-size: 10px;
 }
 
@@ -639,6 +644,12 @@ input.button,
     margin: 0.5em 0;
 }
 
+.ui-widget input#id_metadata_file {
+    box-shadow: none;
+    -webkit-box-shadow:none; 
+    -moz-box-shadow: none;
+}
+
 .mainContent .ui-accordion .ui-accordion-content {
     padding: 1em;
 }
@@ -652,6 +663,14 @@ input.button,
     padding-top: 1em;
 }
 
+input.ui-autocomplete-input {
+    float: left;
+    margin-right: 0.5em;
+}
+
+.ui-autocomplete a {
+    background-color: #DEDEDE;
+}
 /* paginator */
 .paginator {
     float: left;
