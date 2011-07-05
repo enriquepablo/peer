@@ -37,7 +37,7 @@ def read(*rnames):
 
 setup(
     name='peer',
-    version='0.1.0',
+    version='0.2.0',
     url='https://github.com/Yaco-Sistemas/peer',
     license='BSD',
     description=('Public Endpoint Ent[ities Registry'),
