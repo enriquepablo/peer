@@ -642,9 +642,13 @@ input.button,
 .ui-widget textarea, 
 .ui-widget button {
     margin: 0.5em 0;
+}
+
+.ui-widget input#id_metadata_file {
     box-shadow: none;
     -webkit-box-shadow:none; 
     -moz-box-shadow: none;
+    background-image: none;
 }
 
 .mainContent .ui-accordion .ui-accordion-content {
