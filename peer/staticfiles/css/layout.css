@@ -648,7 +648,6 @@ input.button,
     box-shadow: none;
     -webkit-box-shadow:none; 
     -moz-box-shadow: none;
-    background-image: none;
 }
 
 .mainContent .ui-accordion .ui-accordion-content {
