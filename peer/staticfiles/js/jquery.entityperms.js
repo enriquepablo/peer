@@ -10,13 +10,13 @@
         );
     };
 
-    $.fn.delegates.select_first_user = function(search_url) {
+    $.fn.delegates.select_first_user = function(search_url, add_delegate_url_template) {
         var q = $('input#q').val();
         $.getJSON(search_url + '?term='+q,
             function (resp) {
                 for (i in resp) {
                     if (resp[i]["value"] == q) {
-                        $.fn.delegates.add_selected_delegate();
+                        $.fn.delegates.add_selected_delegate(add_delegate_url_template);
                         $('button#add-delegate').button("disable");
                         return;
                     }

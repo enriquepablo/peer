@@ -52,19 +52,23 @@
 
 {% block extrajs %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.entityperms.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/history.js/scripts/compressed/amplify.store.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/history.js/scripts/compressed/history.adapter.jquery.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/history.js/scripts/compressed/history.js"></script>
 <script type="text/javascript">
 (function($) {
     $(document).ready(function () {
         var search_url = '{% url search_users_auto %}';
+        var add_delegate_url_template = '{% url add_delegate entity.id,'__user__' %}';
         $.fn.delegates.load_delegates('{% url list_delegates entity.id %}');
         $('#q').autocomplete({source: search_url,
                               select: $.fn.delegates.enable_add_delegate});
         $('#q').keydown($.fn.delegates.disable_add_delegate);
         $('button#add-delegate').button("disable").click(function () {
-            $.fn.delegates.add_selected_delegate('{% url add_delegate entity.id,'__user__' %}');
+            $.fn.delegates.add_selected_delegate(add_delegate_url_template);
         });
         $('div#searchusers-box form').submit(function () {
-            $.fn.delegates.select_first_user(search_url);
+            return $.fn.delegates.select_first_user(search_url, add_delegate_url_template);
         });
         $('ul#messages').css('display', 'none');
     });
