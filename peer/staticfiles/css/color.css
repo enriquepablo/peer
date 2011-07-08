@@ -124,7 +124,6 @@ header#header hgroup h2 a {
     rgba(255,255,255,0.88) 61%,
     rgba(244,244,244,0.69) 86%,
     rgba(255,255,255,0) 100%); /* W3C */
-
 }
 
 #filters ul li.current a  {
@@ -146,8 +145,8 @@ section ul li,
 .history thead {
     border-bottom: 1px solid #c5c7c6;
     box-shadow: 0px 1px 0 white;
-    -moz-box-shadow:  0px 1px 0 white;
-    -webkit-box-shadow:  0px 1px 0 white;
+    -moz-box-shadow: 0px 1px 0 white;
+    -webkit-box-shadow: 0px 1px 0 white;
 }
 
 #filters ul li a {
@@ -177,8 +176,8 @@ input,
 
 input {
     box-shadow: 1px 1px 0 white;
-    -moz-box-shadow:  1px 1px 0 white;
-    -webkit-box-shadow:  1px 1px 0 white;
+    -moz-box-shadow: 1px 1px 0 white;
+    -webkit-box-shadow: 1px 1px 0 white;
 }
 
 #filters h3 {

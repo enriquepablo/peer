@@ -28,10 +28,10 @@ body {
     max-width: 1024px;
     padding: 0 30px;
     margin: 0 auto;
-    font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: 300;
-    background-image:  url(../images/light_content_bg.png), url(../images/body_bg.png);
+    background-image: url(../images/light_content_bg.png), url(../images/body_bg.png);
     background-position: center 90px, left top;
     background-repeat: no-repeat, repeat;
 }
@@ -121,7 +121,7 @@ nav ul li a {
 label,
 p.user-list-label {
     display: block;
-    font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue', Arial,Helvetica,sans-serif;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
     font-size: 13px;
     font-weight: 300;
     padding-bottom: 5px;
@@ -143,7 +143,7 @@ fieldset p {
     padding: 1em 0;
 }
 
-.helptext{
+.helptext {
     display: block;
     font-size: 11px;
     font-style: italic;
@@ -253,7 +253,7 @@ header#header hgroup h2 {
 
 .welcome header h1,
 .welcome header h2 {
-    font-family: 'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Helvetica,sans-serif;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
     font-weight: 300;
 }
 
@@ -274,7 +274,7 @@ header#header hgroup h2 {
 #home-content {
     border-top: none;
     margin-bottom: 1em;
-    margin:20px 260px 15px 10px;
+    margin: 20px 260px 15px 10px;
     padding-left: 0;
 }
 
@@ -375,13 +375,13 @@ footer {
 }
 
 footer:after {
-   content:"";
-   position:absolute;
-   z-index:-1;
-   top:0;
-   left:0;
-   right:0;
-   bottom:1px;
+   content: "";
+   position: absolute;
+   z-index: -1;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 1px;
 }
 
 footer ul {
@@ -407,7 +407,7 @@ footer ul li:last-child a {
 footer hgroup {
     float: right;
     padding: 5px 0 5px 28px;
-    background:transparent url(../images/footer_logo_peer.png) no-repeat left 5px;
+    background: transparent url(../images/footer_logo_peer.png) no-repeat left 5px;
 }
 
 footer hgroup h1 {
@@ -427,6 +427,7 @@ footer hgroup h2 {
 footer hgroup h2 a {
     font-size: 8px;
 }
+
 /* Styles for specific views */
 
 .domainList {
@@ -510,7 +511,7 @@ div.history {
 
 /* profile view */
 li.validated,
-li.notValidated{
+li.notValidated {
     font-weight: 300;
     font-size: 13px;
     letter-spacing: 0.5px;
@@ -534,11 +535,11 @@ ul.myEntities {
 ul.myEntities li {
     list-style: none;
     border-bottom: none;
-    margin:0;
+    margin: 0;
     letter-spacing: 0;
     max-height: 21px;
     box-shadow: none;
-    -webkit-box-shadow:none;
+    -webkit-box-shadow: none;
     -moz-box-shadow: none;
 }
 
@@ -585,7 +586,7 @@ section ul.errorlist li,
     padding: 2px 0 0 17px;
     letter-spacing: 0.3px;
     box-shadow: none;
-    -webkit-box-shadow:none;
+    -webkit-box-shadow: none;
     -moz-box-shadow: none;
 }
 
@@ -619,7 +620,7 @@ textarea.legalTerms {
 }
 
 div.content input[type="checkbox"] {
-    float:left;
+    float: left;
     font-size: 13px;
     margin: 0 0.5em 0;
 }
@@ -671,7 +672,7 @@ input.button,
 
 .ui-widget input#id_metadata_file {
     box-shadow: none;
-    -webkit-box-shadow:none;
+    -webkit-box-shadow: none;
     -moz-box-shadow: none;
 }
 
@@ -696,7 +697,9 @@ input.ui-autocomplete-input {
 .ui-autocomplete a {
     background-color: #DEDEDE;
 }
+
 /* paginator */
+
 .paginator {
     float: left;
     width: 100%;
