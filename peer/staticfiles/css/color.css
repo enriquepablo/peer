@@ -70,24 +70,24 @@ header#header hgroup h2 a {
     box-shadow: 1px 0.5px 0 white;
     -moz-box-shadow: 1px 0.5px 0 white;
     -webkit-box-shadow: 1px 0.5px 0 white;
-    background: -moz-linear-gradient(top, 
-    rgba(255,255,255,0) 0%, 
-    rgba(244,244,244,0.69) 19%, 
-    rgba(255,255,255,0.87) 39%, 
-    rgba(255,255,255,0.88) 40%, 
-    rgba(255,255,255,0.92) 50%, 
-    rgba(255,255,255,0.88) 61%, 
-    rgba(244,244,244,0.69) 86%, 
+    background: -moz-linear-gradient(top,
+    rgba(255,255,255,0) 0%,
+    rgba(244,244,244,0.69) 19%,
+    rgba(255,255,255,0.87) 39%,
+    rgba(255,255,255,0.88) 40%,
+    rgba(255,255,255,0.92) 50%,
+    rgba(255,255,255,0.88) 61%,
+    rgba(244,244,244,0.69) 86%,
     rgba(255,255,255,0) 100%); /* FF3.6+ */
 
-    background: -webkit-gradient(linear, left top, left bottom, 
-    color-stop(0%,rgba(255,255,255,0)), 
-    color-stop(19%,rgba(244,244,244,0.69)), 
-    color-stop(39%,rgba(255,255,255,0.87)), 
-    color-stop(40%,rgba(255,255,255,0.88)), 
-    color-stop(50%,rgba(255,255,255,0.92)), 
-    color-stop(61%,rgba(255,255,255,0.88)), 
-    color-stop(86%,rgba(244,244,244,0.69)), 
+    background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%,rgba(255,255,255,0)),
+    color-stop(19%,rgba(244,244,244,0.69)),
+    color-stop(39%,rgba(255,255,255,0.87)),
+    color-stop(40%,rgba(255,255,255,0.88)),
+    color-stop(50%,rgba(255,255,255,0.92)),
+    color-stop(61%,rgba(255,255,255,0.88)),
+    color-stop(86%,rgba(244,244,244,0.69)),
     color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
 
     background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,
@@ -115,7 +115,7 @@ header#header hgroup h2 a {
     rgba(255,255,255,0) 100%); /* IE10+ */
 
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
-    
+
     background: linear-gradient(top, rgba(255,255,255,0) 0%,
     rgba(244,244,244,0.69) 19%,
     rgba(255,255,255,0.87) 39%,
@@ -195,8 +195,8 @@ footer {
 }
 
 footer:after {
-   border-top: 1px solid white;
-} 
+    border-top: 1px solid white;
+}
 
 footer ul li:first-child a {
     border-left: none;
@@ -262,7 +262,7 @@ li.validated {
 }
 
 /* forms */
-section ul.errorlist li, 
+section ul.errorlist li,
 .mainContent ul.errorlist li {
     color: #ff6410;
     border-bottom: 1px dotted;
@@ -277,7 +277,7 @@ section ul.errorlist li,
 }
 
 .ui-state-active,
-.ui-widget-content .ui-state-active, 
+.ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
     border-top: 1px solid #FFF;
     border-left: 1px solid #FFF;

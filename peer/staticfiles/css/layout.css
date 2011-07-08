@@ -13,7 +13,7 @@
 }
 .welcome .right {
     margin: 0;
-} 
+}
 
 .shadow {
     padding: 10px;
@@ -251,7 +251,7 @@ header#header hgroup h2 {
     margin-bottom: 15px;
 }
 
-.welcome header h1, 
+.welcome header h1,
 .welcome header h2 {
     font-family: 'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Helvetica,sans-serif;
     font-weight: 300;
@@ -534,7 +534,7 @@ ul.myEntities li {
     letter-spacing: 0;
     max-height: 21px;
     box-shadow: none;
-    -webkit-box-shadow:none; 
+    -webkit-box-shadow:none;
     -moz-box-shadow: none;
 }
 
@@ -581,7 +581,7 @@ section ul.errorlist li,
     padding: 2px 0 0 17px;
     letter-spacing: 0.3px;
     box-shadow: none;
-    -webkit-box-shadow:none; 
+    -webkit-box-shadow:none;
     -moz-box-shadow: none;
 }
 
@@ -658,16 +658,16 @@ input.button,
     padding: 0.1em 0.3em;
 }
 
-.ui-widget input, 
-.ui-widget select, 
-.ui-widget textarea, 
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
 .ui-widget button {
     margin: 0.5em 0;
 }
 
 .ui-widget input#id_metadata_file {
     box-shadow: none;
-    -webkit-box-shadow:none; 
+    -webkit-box-shadow:none;
     -moz-box-shadow: none;
 }
 
@@ -713,7 +713,7 @@ input.ui-autocomplete-input {
     border-top: 5px solid transparent;
     border-right: 5px solid #b2b3b5;
     border-bottom: 5px solid transparent;
-    border-left: 5px solid transparent;   
+    border-left: 5px solid transparent;
 }
 
 .paginator .first {
