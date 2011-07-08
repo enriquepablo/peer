@@ -495,6 +495,10 @@ div.history {
     background: transparent url(../images/h2_history_bg.png) no-repeat left top;
 }
 
+.history h2 a {
+    font-size: 13px;
+}
+
 .history thead tr th {
     line-height: 23px;
 }
