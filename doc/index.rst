@@ -21,3 +21,4 @@ Contents:
    users
    domains
    entities
+   branding
