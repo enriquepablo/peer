@@ -28,7 +28,9 @@
 
 from django import forms
 from django.utils.translation import ugettext as _
+
 from entity.models import Entity
+from customfields import TermsOfUseField, readtou
 
 
 class EntityForm(forms.ModelForm):
@@ -85,6 +87,7 @@ class MetadataFileEditForm(forms.Form):
                     required=True,
                 label=_('Commit message'),
             help_text=_('Short description of the commited changes'))
+    tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
 
 
 class MetadataRemoteEditForm(forms.Form):
@@ -98,3 +101,4 @@ class MetadataRemoteEditForm(forms.Form):
                     required=True,
                 label=_('Commit message'),
             help_text=_('Short description of the commited changes'))
+    tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))

@@ -26,7 +26,14 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import os
+
+from django import forms
+from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
+
 
 HAS_SOUTH = True
 try:
@@ -51,3 +58,54 @@ if HAS_SOUTH:
             {},
         ),
     ], ["^customfields\.SafeCharField"])
+
+
+def readfile(filename):
+    if os.path.exists(filename):
+        return open(filename, 'r').read()
+
+
+def readtou(tou):
+    filename = getattr(settings, tou, None)
+    if filename is not None:
+        return readfile(filename)
+
+
+
+class TermsOfUseWidget(forms.CheckboxInput):
+
+    def __init__(self, legal_text=None, *args, **kwargs):
+        self.legal_text = legal_text
+        super(TermsOfUseWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs=None):
+        attrs = attrs or {}
+        attrs['class'] = 'legalInput'
+        value = super(TermsOfUseWidget, self).render(name, value, attrs)
+        if self.legal_text:
+            value = mark_safe(u'%s<textarea class="legalTerms">%s</textarea>' % (
+                    value, self.legal_text))
+
+        return value
+
+
+TOU_ERROR_MESSAGES = {
+    'required': _('You must accept the terms of use'),
+}
+
+
+class TermsOfUseField(forms.BooleanField):
+
+    widget = TermsOfUseWidget
+    error_messages = {
+
+        }
+
+    def __init__(self, legal_text=None, required=True,
+                 label=_('I have read and accept the terms of use'),
+                 error_messages=TOU_ERROR_MESSAGES,
+                 *args, **kwargs):
+        super(TermsOfUseField, self).__init__(required=required, label=label,
+                                              error_messages=error_messages,
+                                              *args, **kwargs)
+        self.widget.legal_text = legal_text

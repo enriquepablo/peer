@@ -244,6 +244,13 @@ PG_FTS_OPERATOR = u'&'
 SAML_META_JS_PLUGINS = ('attributes', 'certs', 'contact', 'info',
                         'location', 'saml2sp')
 
+
+# Terms of Use
+USER_REGISTER_TERMS_OF_USE = os.path.join(BASEDIR,
+                                          'user_register_terms_of_use.txt')
+METADATA_IMPORT_TERMS_OF_USE = os.path.join(BASEDIR,
+                                            'metadata_import_terms_of_use.txt')
+
 try:
     from local_settings import *
 except ImportError:

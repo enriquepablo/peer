@@ -27,9 +27,17 @@
 # either expressed or implied, of Terena.
 
 
+from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
-from django import forms
+
+from captcha.forms import RegistrationFormCaptcha
+from customfields import TermsOfUseField, readtou
+
+
+class RegistrationFormCaptchaTOU(RegistrationFormCaptcha):
+
+    tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
 
 
 class PersonalInformationForm(forms.ModelForm):

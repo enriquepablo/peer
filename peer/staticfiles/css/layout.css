@@ -550,6 +550,10 @@ input {
     padding: 2px 4px;
 }
 
+textarea {
+    display: block;
+}
+
 p.invitation {
     margin-bottom: 8px;
     margin-top: 50px;
@@ -579,6 +583,23 @@ section ul.errorlist li,
     box-shadow: none;
     -webkit-box-shadow:none; 
     -moz-box-shadow: none;
+}
+
+/* Terms of use */
+
+input.legalInput {
+    margin-top: -2em !important;
+}
+
+label[for=id_tou] {
+    margin-left: 2em;
+    line-height: 1em;
+    padding: 0;
+}
+
+textarea.legalTerms {
+    width: 318px !important;
+    height: 150px !important;
 }
 
 /* Ui styles modifications */

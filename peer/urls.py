@@ -32,7 +32,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from captcha.forms import RegistrationFormCaptcha
+from account.forms import RegistrationFormCaptchaTOU
 from registration import urls as registration_urls
 
 admin.autodiscover()
@@ -48,7 +48,7 @@ urlpatterns = patterns(
     url(r'^accounts/profile/edit/$', 'account.views.profile_edit',
         name='account_profile_edit'),
     url(r'^accounts/register/$', 'registration.views.register', {
-            'form_class': RegistrationFormCaptcha
+            'form_class': RegistrationFormCaptchaTOU
             }, name='registration_register'),
     url(r'^accounts/password_change/$',
         'django.contrib.auth.views.password_change', name='password_change'),
