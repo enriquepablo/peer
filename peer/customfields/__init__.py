@@ -97,9 +97,6 @@ TOU_ERROR_MESSAGES = {
 class TermsOfUseField(forms.BooleanField):
 
     widget = TermsOfUseWidget
-    error_messages = {
-
-        }
 
     def __init__(self, legal_text=None, required=True,
                  label=_('I have read and accept the terms of use'),
