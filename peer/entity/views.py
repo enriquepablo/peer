@@ -38,6 +38,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.files.base import File
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -51,6 +52,7 @@ from domain.models import Domain
 from entity.forms import EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity, PermissionDelegation
+from entity.security import can_edit_entity, can_change_entity_team
 from entity.validation import validate
 
 from vff.storage import create_fname
@@ -132,6 +134,9 @@ def entity_view(request, entity_id):
 @login_required
 def entity_remove(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_edit_entity(request.user, entity):
+        raise PermissionDenied
+
     if request.method == 'POST':
         entity.delete()
         messages.success(request, _('Entity removed succesfully'))
@@ -176,6 +181,9 @@ def _get_username(request):
 @login_required
 def text_edit_metadata(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_edit_entity(request.user, entity):
+        raise PermissionDenied
+
     if request.method == 'POST':
         form = MetadataTextEditForm(request.POST)
         text = form['metadata_text'].data
@@ -208,6 +216,9 @@ def text_edit_metadata(request, entity_id):
 @login_required
 def file_edit_metadata(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_edit_entity(request.user, entity):
+        raise PermissionDenied
+
     if request.method == 'POST':
         form = MetadataFileEditForm(request.POST, request.FILES)
         content = form['metadata_file'].data
@@ -239,6 +250,9 @@ def file_edit_metadata(request, entity_id):
 @login_required
 def remote_edit_metadata(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_edit_entity(request.user, entity):
+        raise PermissionDenied
+
     if request.method == 'POST':
         form = MetadataRemoteEditForm(request.POST)
         if form.is_valid():
@@ -304,6 +318,8 @@ DEFAULT_SAML_META_JS_PLUGINS = ('attributes', 'certs', 'contact', 'info',
 def edit_metadata(request, entity_id, accordion_activate='text',
                   text_form=None, file_form=None, remote_form=None):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_edit_entity(request.user, entity):
+        raise PermissionDenied
 
     samlmetajs_plugins = getattr(settings, 'SAML_META_JS_PLUGINS',
                                  DEFAULT_SAML_META_JS_PLUGINS)
@@ -369,6 +385,9 @@ def search_entities(request):
 @login_required
 def sharing(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_change_entity_team(request.user, entity):
+        raise PermissionDenied
+
     return render_to_response('entity/sharing.html', {
             'entity': entity,
             }, context_instance=RequestContext(request))
@@ -377,6 +396,9 @@ def sharing(request, entity_id):
 @login_required
 def list_delegates(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_change_entity_team(request.user, entity):
+        raise PermissionDenied
+
     return render_to_response('entity/delegate_list.html', {
             'delegates': entity.delegates.all(),
             'entity_id': entity.pk,
@@ -386,6 +408,9 @@ def list_delegates(request, entity_id):
 @login_required
 def remove_delegate(request, entity_id, user_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_change_entity_team(request.user, entity):
+        raise PermissionDenied
+
     delegate = User.objects.get(pk=user_id)
     if entity and delegate:
         delegations = PermissionDelegation.objects.filter(entity=entity,
@@ -398,6 +423,9 @@ def remove_delegate(request, entity_id, user_id):
 @login_required
 def add_delegate(request, entity_id, username):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_change_entity_team(request.user, entity):
+        raise PermissionDenied
+
     new_delegate = User.objects.get(username=username)
     if entity and new_delegate:
         pd = PermissionDelegation.objects.filter(entity=entity,
@@ -415,6 +443,9 @@ def add_delegate(request, entity_id, username):
 @login_required
 def make_owner(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    if not can_change_entity_team(request.user, entity):
+        raise PermissionDenied
+
     old_owner = entity.owner
     new_owner_id = request.POST.get('new_owner_id')
     if new_owner_id:
