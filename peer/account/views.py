@@ -45,6 +45,7 @@ from django.conf import settings
 
 from account.forms import PersonalInformationForm
 from account.forms import FriendInvitationForm
+from account.templatetags.account import safefullname
 from domain.models import Domain
 
 
@@ -121,8 +122,5 @@ def _user_search(q):
 def search_users_auto(request):
     q = request.GET.get('term', '')
     users = _user_search(q)
-    names = [{'value': u.username,
-              'label': ('%s (%s)' % (u.username,
-                                     u.get_full_name())).split(' ()')[0]}
-            for u in users]
+    names = [{'value': u.username, 'label': safefullname(u)} for u in users]
     return HttpResponse(json.dumps(names))
