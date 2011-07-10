@@ -32,6 +32,12 @@ from django.utils.translation import ugettext as _
 from entity.models import Entity
 from customfields import TermsOfUseField, readtou
 
+class EditEntityForm(forms.ModelForm):
+
+    class Meta:
+        model = Entity
+        fields = ('name', )
+
 
 class EntityForm(forms.ModelForm):
 

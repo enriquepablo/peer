@@ -49,7 +49,7 @@ from django.db import transaction
 from django.utils.translation import ugettext as _
 
 from domain.models import Domain
-from entity.forms import EntityForm, MetadataTextEditForm
+from entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity, PermissionDelegation
 from entity.security import can_edit_entity, can_change_entity_team
@@ -145,6 +145,32 @@ def entity_remove(request, entity_id):
     return render_to_response('entity/remove.html', {
             'entity': entity,
             }, context_instance=RequestContext(request))
+
+
+@login_required
+def entity_edit(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+    if not can_edit_entity(request.user, entity):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = EditEntityForm(request.POST, instance=entity)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Entity edited succesfully'))
+            return HttpResponseRedirect(reverse('entity_view',
+                                                args=(entity_id,)))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
+    else:
+        form = EditEntityForm(instance=entity)
+
+    return render_to_response('entity/edit.html', {
+            'entity': entity,
+            'form': form,
+            }, context_instance=RequestContext(request))
+
 
 # METADATA EDIT
 
