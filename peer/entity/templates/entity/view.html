@@ -3,7 +3,7 @@
 {% load i18n account entity_permissions %}
 
 {% block content %}
-{% include "entity/menu.html" %}
+{% canedit entity %}{% include "entity/menu.html" %}{% endcanedit %}
 <section class="mainContent">
 
   <hgroup>

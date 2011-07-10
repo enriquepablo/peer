@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% load i18n account %}
+{% load i18n account entity_permissions %}
 
 {% block extracss %}
 {% endblock %}
 
 {% block content %}
-{% include "entity/menu.html" %}
+{% canedit entity %}{% include "entity/menu.html" %}{% endcanedit %}
 <section class="mainContent">
 
   <hgroup>

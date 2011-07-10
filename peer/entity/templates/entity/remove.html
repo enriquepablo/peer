@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n entity_permissions %}
 
 {% block content %}
-{% include "entity/menu.html" %}
+{% canedit entity %}{% include "entity/menu.html" %}{% endcanedit %}
 <section class="mainContent">
   <hgroup>
     <h1>{% trans "Remove entity" %}</h1>

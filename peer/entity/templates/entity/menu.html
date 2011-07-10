@@ -1,8 +1,6 @@
 {% extends "portal/base_menu.html" %}
 {% load i18n entity_permissions %}
 
-{% canedit entity %}
-
 {% block topMenu %}{% endblock %}
 
 {% block contentMenu %}
@@ -16,5 +14,3 @@
       {% endcanchangeteam %}
     </ul>
 {% endblock %}
-
-{% endcanedit %}
