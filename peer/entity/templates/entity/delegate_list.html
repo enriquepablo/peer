@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n account %}
 
 {% if delegates %}
 
@@ -15,11 +15,7 @@
                  name="new_owner_id"
                  value="{{ delegate.pk }}"
                  />
-          {% if delegate.get_full_name %}
-             <span class="user-name">{{ delegate.username }} ({{ delegate.get_full_name }})</span>
-          {% else %}
-            <span class="user-name">{{ delegate.username }}</span>
-          {%endif %}
+          <span class="user-name">{% safefullname delegate %}</span>
           <button type="button" id="{% url remove_delegate entity_id,delegate.id %}"
                   class="button remove-delegate-button">
             {% trans "Remove" %}

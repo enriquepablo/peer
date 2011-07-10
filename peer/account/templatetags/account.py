@@ -32,10 +32,15 @@ register = template.Library()
 
 @register.simple_tag
 def safefullname(user):
-    if user.first_name:
-        if user.last_name:
-            return u'%s %s' % (user.first_name, user.last_name)
+    full_name = user.get_full_name()
+    if full_name:
+        return u'%s (%s)' % (user.username, full_name)
+    else:
+        return user.username
 
-        return user.first_name
 
-    return user.username
+@register.simple_tag
+def authorname(user):
+    """Name used in commit messages"""
+    return u'%s <%s>' % (user.get_full_name() or user.username,
+                         user.email or user.username)

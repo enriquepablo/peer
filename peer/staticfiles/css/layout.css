@@ -50,6 +50,10 @@ a {
     text-decoration: none;
 }
 
+strong {
+    font-weight: bold;
+}
+
 h1 {
     font-size: 16pt;
     margin: 0.5em 0;
@@ -160,6 +164,14 @@ span.ui-icon {
     float: left;
     margin-top: -2px;
     margin-right: 6px;
+}
+
+span.inline-icon {
+    clear: none;
+    float: none;
+    display: inline;
+    margin: 0;
+    padding: 2px 14px 0 0;
 }
 
 dl {

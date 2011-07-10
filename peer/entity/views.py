@@ -48,6 +48,7 @@ from django.db.utils import DatabaseError
 from django.db import transaction
 from django.utils.translation import ugettext as _
 
+from account.templatetags.account import authorname
 from domain.models import Domain
 from entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
@@ -198,12 +199,6 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
     }, context_instance=context_instance)
 
 
-def _get_username(request):
-    return u'%s <%s>' % (
-            request.user.get_full_name() or request.user.username,
-            request.user.email or request.user.username)
-
-
 @login_required
 def text_edit_metadata(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
@@ -225,7 +220,7 @@ def text_edit_metadata(request, entity_id):
             tmp.seek(0)
             content = File(tmp)
             name = entity.metadata.name
-            username = _get_username(request)
+            username = authorname(request.user)
             commit_msg = form['commit_msg_text'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
@@ -259,7 +254,7 @@ def file_edit_metadata(request, entity_id):
                     form.errors['metadata_file'] = errors
         if form.is_valid():
             name = entity.metadata.name
-            username = _get_username(request)
+            username = authorname(request.user)
             commit_msg = form['commit_msg_file'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
@@ -322,7 +317,7 @@ def remote_edit_metadata(request, entity_id):
             tmp.seek(0)
             content = File(tmp)
             name = entity.metadata.name
-            username = _get_username(request)
+            username = authorname(request.user)
             commit_msg = form['commit_msg_remote'].data.encode('utf8')
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
