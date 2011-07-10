@@ -10,13 +10,15 @@
 <section class="mainContent">
 
   <hgroup>
-    <h1>{% trans "Team permissions for " %}"{{ entity.name }}"</h1>
-    {% if entity.owner.get_full_name %}
-    <p>Owned by {{ entity.owner.username }} ({{ entity.owner.get_full_name }})</p>
-    {% else %}
-    <p>Owned by {{ entity.owner.username }}</p>
-    {% endif %}
+    <h1>{% trans "Team permissions" %}</h1>
+    <h2>{{ entity }}</h2>
   </hgroup>
+
+  {% if entity.owner.get_full_name %}
+  <p>Owned by {{ entity.owner.username }} ({{ entity.owner.get_full_name }})</p>
+  {% else %}
+  <p>Owned by {{ entity.owner.username }}</p>
+  {% endif %}
 
   <div id="searchusers-box">
     <form>
