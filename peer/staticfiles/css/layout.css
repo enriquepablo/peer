@@ -139,7 +139,7 @@ fieldset p {
 }
 
 .actionRow {
-    clear: both;
+    clear: left;
     padding: 1em 0;
 }
 
