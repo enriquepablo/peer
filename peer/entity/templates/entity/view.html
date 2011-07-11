@@ -8,38 +8,33 @@
 
   <hgroup>
     <h1>{% trans "Entity details" %}</h1>
+    <h2>{{ entity.name }}</h2>
   </hgroup>
 
   <dl>
-    <dt class="ui-icon ui-icon-comment" title="{% trans "Name" %}">{% trans "Name" %}</dt>
-    <dd>{{ entity.name }}</dd>
+    {% if entity.entityid %}
+    <dt class="ui-icon ui-icon-comment" title="{% trans "EntityID" %}">{% trans "EntityID" %}</dt>
+    <dd>{{ entity.entityid }}</dd>
+    {% endif %}
 
     <dt class="ui-icon ui-icon-link" title="{% trans "Link" %}">{% trans "Link" %}</dt>
     <dd><a href="http://www.example.com">http://www.example.com</a></dd>
 
-    <dt class="ui-icon ui-icon-person" title="{% trans "Owner" %}">{% trans "Owner" %}</dt>
-    <dd>
-      {% if entity.owner %}
-      <strong>{% safefullname entity.owner %}</strong>
-      {% else %}
-      <strong>{% trans "Orphan entity" %}</strong>
-      {% endif %}
-      {% for delegate in entity.delegates.all %}
-        {% if forloop.first %}<span class="ui-icon ui-icon-person inline-icon"></span><span class="ui-icon ui-icon-person inline-icon"></span>&nbsp;{% endif %}
-
-        {% safefullname delegate %}{% if not forloop.last %},{% endif %}
-      {% endfor %}
-    </dd>
+    {% for contact in entity.contacts %}
+    <dt class="ui-icon ui-icon-person" title="{% trans "Contact" %}">{% trans "Contact" %}</dt>
+    <dd>{{ contact.GivenName }} {{ contact.SurName }}</dd>
+    {% endfor %}
 
     <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %}">{% trans "Organization" %}</dt>
     <dd>Example Corporation</dd>
 
+    {% for certificate in entity.certificates %}
+    <dt class="ui-icon ui-icon-key" title="{% trans "Certificate" %}">{% trans "Certificate" %}</dt>
+    <dd>{{ certificate }}</dd>
+    {% endfor %}
+
     <dt class="ui-icon ui-icon-signal-diag" title="{% trans "Changes feed" %}">{% trans "Changes feed" %}</dt>
     <dd><a href="">Changes feed</a></dd>
-
-    <dt class="ui-icon ui-icon-key" title="{% trans "Certificate" %}">{% trans "Certificate" %}</dt>
-    <dd><a href="">Certificate</a></dd>
-
   </dl>
 
   <div class="history">
