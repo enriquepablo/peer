@@ -90,6 +90,22 @@ class Entity(models.Model):
             return metadata.attrib['entityID']
 
     @property
+    def organization(self):
+        metadata = self._load_metadata()
+        languages = {}
+        for org_node in metadata.findall(addns('Organization')):
+            for attr in ('name', 'displayName', 'URL'):
+                node_name = 'Organization' + attr[0].upper() + attr[1:]
+                for node in org_node.findall(addns(node_name)):
+                    lang = node.attrib['lang']
+                    lang_dict = languages.setdefault(lang, {})
+                    lang_dict[attr] = node.text
+
+        for lang, data in languages.items():
+            data['lang'] = lang
+            yield data
+
+    @property
     def contacts(self):
         metadata = self._load_metadata()
         for contact_node in metadata.findall(addns('ContactPerson')):

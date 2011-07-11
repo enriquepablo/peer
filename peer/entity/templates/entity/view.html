@@ -41,8 +41,16 @@
     <dd>{{ contact.GivenName }} {{ contact.SurName }} ({{ contact.type }} {% trans "contact type" %})</dd>
     {% endfor %}
 
-    <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %}">{% trans "Organization" %}</dt>
-    <dd>Example Corporation</dd>
+    {% for l10n_org in entity.organization %}
+    <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %} {{ l10n_org.lang }}">{% trans "Organization" %} {{ l10n_org.lang }}</dt>
+    <dd>
+    {% if l10n_org.URL %}
+    <a href="{{ l10n_org.URL }}">{{ l10n_org.displayName }}</a> ({{ l10n_org.lang }})
+    {% else %}
+    {{ l10n_org.displayName }} ({{ l10n_org.lang }})
+    {% endif %}
+    </dd>
+    {% endfor %}
 
     {% for certificate in entity.certificates %}
     <dt class="ui-icon ui-icon-key" title="{% trans "Certificate" %}">{% trans "Certificate" %}</dt>
