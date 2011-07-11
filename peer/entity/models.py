@@ -27,6 +27,7 @@
 # either expressed or implied, of Terena.
 
 from datetime import datetime
+from lxml import etree
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -36,6 +37,19 @@ from django.utils.translation import ugettext_lazy as _
 from vff.field import VersionedFileField
 from customfields import SafeCharField
 from domain.models import Domain
+
+
+SAML_METADATA_NAMESPACE = 'urn:oasis:names:tc:SAML:2.0:metadata'
+XMLDSIG_NAMESPACE = 'http://www.w3.org/2000/09/xmldsig#'
+
+
+def addns(node_name, namespace=SAML_METADATA_NAMESPACE):
+    '''Return a node name qualified with the XML namespace'''
+    return '{' + namespace + '}' + node_name
+
+
+def delns(node, namespace=SAML_METADATA_NAMESPACE):
+    return node.replace('{' + namespace + '}', '')
 
 
 class Entity(models.Model):
@@ -60,6 +74,45 @@ class Entity(models.Model):
     class Meta:
         verbose_name = _(u'Entity')
         verbose_name_plural = _(u'Entities')
+
+
+    def _load_metadata(self):
+        if not hasattr(self, '_parsed_metadata'):
+            data = self.metadata.read()
+            self._parsed_metadata = etree.XML(data)
+
+        return self._parsed_metadata
+
+    @property
+    def entityid(self):
+        metadata = self._load_metadata()
+        if 'entityID' in metadata.attrib:
+            return metadata.attrib['entityID']
+
+    @property
+    def contacts(self):
+        metadata = self._load_metadata()
+        for contact_node in metadata.findall(addns('ContactPerson')):
+            contact = {}
+
+            if 'contactType' in contact_node.attrib:
+                contact['type'] = contact_node.attrib['contactType']
+
+            for child in contact_node:
+                contact[delns(child.tag)] = child.text
+
+            yield contact
+
+    @property
+    def certificates(self):
+        metadata = self._load_metadata()
+        path = [addns('SPSSODescriptor'),
+                addns('KeyDescriptor'),
+                addns('KeyInfo', XMLDSIG_NAMESPACE),
+                addns('X509Data', XMLDSIG_NAMESPACE),
+                addns('X509Certificate', XMLDSIG_NAMESPACE)]
+        for cert in metadata.findall('/'.join(path)):
+            yield cert.text
 
 
 class PermissionDelegation(models.Model):
