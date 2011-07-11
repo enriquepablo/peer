@@ -11,6 +11,20 @@
     <h2>{{ entity.name }}</h2>
   </hgroup>
 
+  {% if entity.owner %}
+  <p>{% trans "Owned by" %} {% safefullname entity.owner %}</p>
+  {% endif %}
+
+  {% with entity.delegates.all as delegates %}
+  {% if delegates %}
+  <p>{% trans "People that can edit it" %}:
+    {% for delegate in delegates %}
+      {% safefullname delegate %}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  </p>
+  {% endif %}
+  {% endwith %}
+
   <dl>
     {% if entity.entityid %}
     <dt class="ui-icon ui-icon-comment" title="{% trans "EntityID" %}">{% trans "EntityID" %}</dt>
