@@ -114,6 +114,27 @@ class Entity(models.Model):
         for cert in metadata.findall('/'.join(path)):
             yield cert.text
 
+    @property
+    def endpoints(self):
+        metadata = self._load_metadata()
+
+        def populate_endpoint(node, endpoint):
+            for attr in ('Binding', 'Location'):
+                if attr in node.attrib:
+                    endpoint[attr] = node.attrib[attr]
+
+        path = [addns('SPSSODescriptor'), addns('AssertionConsumerService')]
+        for acs_node in metadata.findall('/'.join(path)):
+            acs_endpoint = {'Type': 'Assertion Consumer Service'}
+            populate_endpoint(acs_node, acs_endpoint)
+            yield acs_endpoint
+
+        path = [addns('SPSSODescriptor'), addns('SingleLogoutService')]
+        for lss_node in metadata.findall('/'.join(path)):
+            lss_endpoint = {'Type': 'Single Logout Service'}
+            populate_endpoint(lss_node, lss_endpoint)
+            yield lss_endpoint
+
 
 class PermissionDelegation(models.Model):
 

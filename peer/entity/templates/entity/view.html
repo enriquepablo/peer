@@ -31,12 +31,14 @@
     <dd>{{ entity.entityid }}</dd>
     {% endif %}
 
-    <dt class="ui-icon ui-icon-link" title="{% trans "Link" %}">{% trans "Link" %}</dt>
-    <dd><a href="http://www.example.com">http://www.example.com</a></dd>
+    {% for endpoint in entity.endpoints %}
+    <dt class="ui-icon ui-icon-link" title="{% trans "Endpoint" %}">{% trans "Endpoint" %}</dt>
+    <dd><a href="{{ endpoint.Location }}">{{ endpoint.Location }}</a> ({{ endpoint.Type }})</dd>
+    {% endfor %}
 
     {% for contact in entity.contacts %}
     <dt class="ui-icon ui-icon-person" title="{% trans "Contact" %}">{% trans "Contact" %}</dt>
-    <dd>{{ contact.GivenName }} {{ contact.SurName }}</dd>
+    <dd>{{ contact.GivenName }} {{ contact.SurName }} ({{ contact.type }} {% trans "contact type" %})</dd>
     {% endfor %}
 
     <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %}">{% trans "Organization" %}</dt>
