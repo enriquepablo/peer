@@ -18,6 +18,10 @@ SAMLmetaJS.xmlparser = function(xmlstring) {
 
 			// Peek at the root node, and verify.
 			var root = doc.documentElement;
+			if (root === null) {
+				console.log('Root is null, the document is probably empty');
+				return resultObject;
+			}
 			if (root.localName !== 'EntityDescriptor' || root.namespaceURI !== SAMLmetaJS.Constants.ns.md) {
 				console.log('Root not was not recognized as a EntityDescriptor node in correct namespace.');
 				return resultObject;
@@ -41,7 +45,7 @@ SAMLmetaJS.xmlparser = function(xmlstring) {
 					case 'SPSSODescriptor':
 
 						if (SAMLmetaJS.XML.hasAttribute(currentChild,
-								'protocolSupportEnumeration', 'urn:oasis:names:tc:SAML:2.0:protocol'))  {
+								'protocolSupportEnumeration', 'urn:oasis:names:tc:SAML:2.0:protocol'))	{
 
 							this.getSAML2SP(resultObject, currentChild);
 						}
@@ -50,6 +54,10 @@ SAMLmetaJS.xmlparser = function(xmlstring) {
 
 					case 'ContactPerson':
 						this.parseContactPerson(resultObject, currentChild);
+						break;
+
+					case 'Organization':
+						this.parseOrganization(resultObject, currentChild);
 						break;
 
 					default:
@@ -373,9 +381,51 @@ SAMLmetaJS.xmlparser = function(xmlstring) {
 
 		},
 
+		"parseOrganization": function (resultObject, node) {
+			if (node.localName !== 'Organization' || node.namespaceURI !== SAMLmetaJS.Constants.ns.md) {
+				throw {'name': 'Organization in parseOrganization() not was not recognized as a node in correct namespace.'};
+			}
 
+			var organization = {};
+			var currentChild = null, lang = null;
 
-	};
+			// Iterate the root children
+			for (var i = 0; i < node.childNodes.length; i++ ) {
+				currentChild = node.childNodes[i];
+				// nodeType 1 is Element
+				if (currentChild.nodeType !== 1) {
+					continue;
+				}
+
+				lang = currentChild.getAttribute('lang');
+				if (typeof organization[lang] === 'undefined') {
+					organization[lang] = {};
+				}
+
+				switch(currentChild.localName) {
+
+					case 'OrganizationName':
+						organization[lang].name = SAMLmetaJS.XML.getText(currentChild);
+						break;
+
+					case 'OrganizationDisplayName':
+						organization[lang].displayName = SAMLmetaJS.XML.getText(currentChild);
+						break;
+
+					case 'OrganizationURL':
+						organization[lang].URL = SAMLmetaJS.XML.getText(currentChild);
+						break;
+
+					default:
+						// alert('Unknown child of root: ' + currentChild.localName);
+
+				}
+
+			}
+
+			resultObject.organization = organization;
+		}
+	}
 
 };
 
@@ -398,7 +448,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 
 			console.log('Update XML document');
 
-			var root, spdescriptor, attributeconsumer, extensions, i, attr;
+			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node;
 			root = this.addIfNotEntityDescriptor();
 
 			if (entitydescriptor.entityid)
@@ -466,6 +516,17 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				}
 			}
 
+			if (entitydescriptor.organization) {
+				SAMLmetaJS.XML.wipeChildren(root, SAMLmetaJS.Constants.ns.md, 'Organization');
+				node = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:Organization');
+				root.appendChild(node);
+				for (lang in entitydescriptor.organization) {
+					if (entitydescriptor.organization.hasOwnProperty(lang)) {
+						this.addOrganizationLocalization(node, lang, entitydescriptor.organization[lang]);
+					}
+				}
+			}
+
 		},
 
 		"addCert": function(node, use, cert) {
@@ -517,6 +578,29 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				newNode.appendChild(emailaddress);
 			}
 			node.appendChild(newNode);
+		},
+		"addOrganizationLocalization": function(node, lang, info) {
+			var newNode;
+			if (info.name) {
+				newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:OrganizationName');
+				newNode.setAttribute('lang', lang);
+				newNode.appendChild(doc.createTextNode(info.name));
+				node.appendChild(newNode);
+			}
+
+			if (info.displayName) {
+				newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:OrganizationDisplayName');
+				newNode.setAttribute('lang', lang);
+				newNode.appendChild(doc.createTextNode(info.displayName));
+				node.appendChild(newNode);
+			}
+
+			if (info.URL) {
+				newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:OrganizationURL');
+				newNode.setAttribute('lang', lang);
+				newNode.appendChild(doc.createTextNode(info.URL));
+				node.appendChild(newNode);
+			}
 		},
 		"updateMDUI": function(node, entitydescriptor) {
 			if (SAMLmetaJS.tools.hasContents(entitydescriptor.name)) {
@@ -763,7 +847,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 
 		"addIfNotEntityDescriptor": function() {
 			var root = doc.documentElement;
-			if (root.localName !== 'EntityDescriptor' || root.namespaceURI !== SAMLmetaJS.Constants.ns.md) {
+			if (root === null || root.localName !== 'EntityDescriptor' || root.namespaceURI !== SAMLmetaJS.Constants.ns.md) {
 				root = this.addEntityDescriptor();
 			}
 			return root;
@@ -772,7 +856,9 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		"addEntityDescriptor": function() {
 			var node = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:EntityDescriptor');
 			node.setAttribute('xmlns:ds', SAMLmetaJS.Constants.ns.ds);
-			doc.removeChild(doc.documentElement);
+			if (doc.documentElement !== null) {
+				doc.removeChild(doc.documentElement);
+			}
 			doc.appendChild(node);
 			return node;
 		},
@@ -859,24 +945,24 @@ SAMLmetaJS.XML = {
 		var doc = parser.parseFromString(xmlstring, 'text/xml');
 
 		function isEmptyElement(element) {
-		    var whitespace = new RegExp('^\s*$');
-		    for (var child = element.firstChild; child != null; child = child.nextSibling) {
-		        if (child instanceof Text && whitespace.test(child.data)) {
-		            continue;
-		        }
-		        return false;
-		    }
-		    return true;
+			var whitespace = new RegExp('^\s*$');
+			for (var child = element.firstChild; child != null; child = child.nextSibling) {
+				if (child instanceof Text && whitespace.test(child.data)) {
+					continue;
+				}
+				return false;
+			}
+			return true;
 		}
 
 		function isTextElement(element) {
-		    for (var child = element.firstChild; child != null; child = child.nextSibling) {
-		        if (child instanceof Text) {
-		            continue;
-		        }
-		        return false;
-		    }
-		    return true;
+			for (var child = element.firstChild; child != null; child = child.nextSibling) {
+				if (child instanceof Text) {
+					continue;
+				}
+				return false;
+			}
+			return true;
 		}
 
 		function xmlEntities(string) {
@@ -890,50 +976,50 @@ SAMLmetaJS.XML = {
 
 
 		function prettifyElement(element, indentation) {
-		    var ret = indentation + '<' + element.nodeName;
+			var ret = indentation + '<' + element.nodeName;
 
-		    var attrIndent = indentation;
-		    while (attrIndent.length < ret.length) {
-		        attrIndent += ' ';
-		    }
+			var attrIndent = indentation;
+			while (attrIndent.length < ret.length) {
+				attrIndent += ' ';
+			}
 
-		    var attrs = element.attributes;
+			var attrs = element.attributes;
 
-		    for (var i = 0; i < attrs.length; i++) {
-		        var a = attrs.item(i);
-		        if (i > 0) {
-		            ret += '\n' + attrIndent;
-		        }
-		        ret += ' ' + a.nodeName + '="' + xmlEntities(a.value) + '"';
-		    }
+			for (var i = 0; i < attrs.length; i++) {
+				var a = attrs.item(i);
+				if (i > 0) {
+					ret += '\n' + attrIndent;
+				}
+				ret += ' ' + a.nodeName + '="' + xmlEntities(a.value) + '"';
+			}
 
-		    if (isEmptyElement(element)) {
-		        if (attrs.length > 1) {
-		            return ret + '\n' + attrIndent + ' />\n';
-		        } else if (attrs.length == 1) {
-		            return ret + ' />\n';
-		        } else {
-		            return ret + '/>\n';
-		        }
-		    }
+			if (isEmptyElement(element)) {
+				if (attrs.length > 1) {
+					return ret + '\n' + attrIndent + ' />\n';
+				} else if (attrs.length == 1) {
+					return ret + ' />\n';
+				} else {
+					return ret + '/>\n';
+				}
+			}
 
-		    if (attrs.length > 1) {
-		        ret += '\n' + attrIndent + ' >';
-		    } else {
-		        ret += '>';
-		    }
+			if (attrs.length > 1) {
+				ret += '\n' + attrIndent + ' >';
+			} else {
+				ret += '>';
+			}
 
-		    if (isTextElement(element)) {
-		        return ret + xmlEntities(element.textContent) + '</' + element.nodeName + '>\n';
-		    }
+			if (isTextElement(element)) {
+				return ret + xmlEntities(element.textContent) + '</' + element.nodeName + '>\n';
+			}
 
-		    ret += '\n';
+			ret += '\n';
 
-		    for (var child = element.firstElementChild; child != null; child = child.nextElementSibling) {
-		        ret += prettifyElement(child, indentation + '    ');
-		    }
+			for (var child = element.firstElementChild; child != null; child = child.nextElementSibling) {
+				ret += prettifyElement(child, indentation + '	 ');
+			}
 
-		    return ret + indentation + '</' + element.nodeName + '>\n';
+			return ret + indentation + '</' + element.nodeName + '>\n';
 		}
 
 		return prettifyElement(doc.documentElement, '');
