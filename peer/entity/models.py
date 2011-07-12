@@ -83,6 +83,14 @@ class Entity(models.Model):
 
         return self._parsed_metadata
 
+    def has_metadata(self):
+        try:
+            self._load_metadata()
+        except (ValueError, IOError):
+            return False
+        else:
+            return True
+
     @property
     def entityid(self):
         metadata = self._load_metadata()

@@ -25,79 +25,84 @@
   {% endif %}
   {% endwith %}
 
-  <dl>
-    {% if entity.entityid %}
-    <dt class="ui-icon ui-icon-comment" title="{% trans "EntityID" %}">{% trans "EntityID" %}</dt>
-    <dd>{{ entity.entityid }}</dd>
-    {% endif %}
+  {% if entity.has_metadata %}
+    <dl>
+      {% if entity.entityid %}
+      <dt class="ui-icon ui-icon-comment" title="{% trans "EntityID" %}">{% trans "EntityID" %}</dt>
+      <dd>{{ entity.entityid }}</dd>
+      {% endif %}
+  
+      {% for endpoint in entity.endpoints %}
+      <dt class="ui-icon ui-icon-link" title="{% trans "Endpoint" %}">{% trans "Endpoint" %}</dt>
+      <dd><a href="{{ endpoint.Location }}">{{ endpoint.Location }}</a> ({{ endpoint.Type }})</dd>
+      {% endfor %}
+  
+      {% for contact in entity.contacts %}
+      <dt class="ui-icon ui-icon-person" title="{% trans "Contact" %}">{% trans "Contact" %}</dt>
+      <dd>{{ contact.GivenName }} {{ contact.SurName }} ({{ contact.type }} {% trans "contact type" %})</dd>
+      {% endfor %}
+  
+      {% for l10n_org in entity.organization %}
+      <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %} {{ l10n_org.lang }}">{% trans "Organization" %} {{ l10n_org.lang }}</dt>
+      <dd>
+      {% if l10n_org.URL %}
+      <a href="{{ l10n_org.URL }}">{{ l10n_org.displayName }}</a> ({{ l10n_org.lang }})
+      {% else %}
+      {{ l10n_org.displayName }} ({{ l10n_org.lang }})
+      {% endif %}
+      </dd>
+      {% endfor %}
+  
+      {% for certificate in entity.certificates %}
+      <dt class="ui-icon ui-icon-key" title="{% trans "Certificate" %}">{% trans "Certificate" %}</dt>
+      <dd>{{ certificate }}</dd>
+      {% endfor %}
+  
+      <dt class="ui-icon ui-icon-signal-diag" title="{% trans "Changes feed" %}">{% trans "Changes feed" %}</dt>
+      <dd><a href="">Changes feed</a></dd>
+    </dl>
+  
+    <div class="history">
+      <h2 class="clear"><span class="left ui-icon ui-icon-triangle-1-e"></span><a href="#">View history</a></h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Diff</th>
+            <th>Rev</th>
+            <th>Date</th>
+            <th>Author</th>
+            <th>Log message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td><a href="#">Prev diff</a></td>
+            <td><a href="#">@11</a></td>
+            <td>5 minutes ago</td>
+            <td>lgs</td>
+            <td>Lorem impsuon blablabla</td>
+          </tr>
+          <tr class="even">
+            <td><a href="#">Prev diff</a></td>
+            <td><a href="#">@11</a></td>
+            <td>5 minutes ago</td>
+            <td>lgs</td>
+            <td>Lorem impsuon blablabla</td>
+          </tr>
+          <tr class="odd">
+            <td><a href="#">Prev diff</a></td>
+            <td><a href="#">@11</a></td>
+            <td>5 minutes ago</td>
+            <td>lgs</td>
+            <td>Lorem impsuon blablabla</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    {% for endpoint in entity.endpoints %}
-    <dt class="ui-icon ui-icon-link" title="{% trans "Endpoint" %}">{% trans "Endpoint" %}</dt>
-    <dd><a href="{{ endpoint.Location }}">{{ endpoint.Location }}</a> ({{ endpoint.Type }})</dd>
-    {% endfor %}
-
-    {% for contact in entity.contacts %}
-    <dt class="ui-icon ui-icon-person" title="{% trans "Contact" %}">{% trans "Contact" %}</dt>
-    <dd>{{ contact.GivenName }} {{ contact.SurName }} ({{ contact.type }} {% trans "contact type" %})</dd>
-    {% endfor %}
-
-    {% for l10n_org in entity.organization %}
-    <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %} {{ l10n_org.lang }}">{% trans "Organization" %} {{ l10n_org.lang }}</dt>
-    <dd>
-    {% if l10n_org.URL %}
-    <a href="{{ l10n_org.URL }}">{{ l10n_org.displayName }}</a> ({{ l10n_org.lang }})
-    {% else %}
-    {{ l10n_org.displayName }} ({{ l10n_org.lang }})
-    {% endif %}
-    </dd>
-    {% endfor %}
-
-    {% for certificate in entity.certificates %}
-    <dt class="ui-icon ui-icon-key" title="{% trans "Certificate" %}">{% trans "Certificate" %}</dt>
-    <dd>{{ certificate }}</dd>
-    {% endfor %}
-
-    <dt class="ui-icon ui-icon-signal-diag" title="{% trans "Changes feed" %}">{% trans "Changes feed" %}</dt>
-    <dd><a href="">Changes feed</a></dd>
-  </dl>
-
-  <div class="history">
-    <h2 class="clear"><span class="left ui-icon ui-icon-triangle-1-e"></span><a href="#">View history</a></h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Diff</th>
-          <th>Rev</th>
-          <th>Date</th>
-          <th>Author</th>
-          <th>Log message</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="odd">
-          <td><a href="#">Prev diff</a></td>
-          <td><a href="#">@11</a></td>
-          <td>5 minutes ago</td>
-          <td>lgs</td>
-          <td>Lorem impsuon blablabla</td>
-        </tr>
-        <tr class="even">
-          <td><a href="#">Prev diff</a></td>
-          <td><a href="#">@11</a></td>
-          <td>5 minutes ago</td>
-          <td>lgs</td>
-          <td>Lorem impsuon blablabla</td>
-        </tr>
-        <tr class="odd">
-          <td><a href="#">Prev diff</a></td>
-          <td><a href="#">@11</a></td>
-          <td>5 minutes ago</td>
-          <td>lgs</td>
-          <td>Lorem impsuon blablabla</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  {% else %}
+    <div>{% trans "This entity has no associated metadata yet." %}</div>
+  {% endif %}
 
 </section>
 {% endblock %}
