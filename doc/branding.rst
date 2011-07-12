@@ -16,10 +16,10 @@ Locked guides
 Page layout & content placement
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The page width is 1024px but the content is limited to 960px width.
-Indeed there«s main page division, leaving a 242px right side column in content block. This right column will appear on multiple site«s views and will always show content related actions.
+Indeed thereÂ´s main page division, leaving a 242px right side column in content block. This right column will appear on multiple siteÂ´s views and will always show content related actions.
 
 We have also employed an 17px baseline grid to help with vertical alignment of page components. 
-Firm adherence to the baseline isnÕt necessary for all typography but it does help to create vertical rhythm on the page.
+Firm adherence to the baseline isnâ€™t necessary for all typography but it does help to create vertical rhythm on the page.
 
 Blocks height and width values, on the page layout will be locked for the future PEER themes.
 
