@@ -1,6 +1,6 @@
 
-Page layout
-===========
+Branding customization guidelines
+=================================
 
 Mision
 -------
@@ -53,7 +53,24 @@ You can create and download your own jQuery custom theme in this `link
 
 It must to be the 1.8.14 theme version Stable, for jQuery 1.3.2+  
 
- 
+How to change styles
+--------------------
 
-Logo & main branding
-^^^^^^^^^^^^^^^^^^^^
+The customizable theme options can be achieved by changing the settings.py file located in the project´s main directory. 
+
+The options to change are located in this file´s block:
+
+::
+
+ PEER_THEME = {
+    'LINK_COLOR': '#5669CE',
+    'LINK_HOVER': '#1631BC',
+    'HEADING_COLOR': '#1631BC',
+    'INDEX_HEADING_COLOR': '#ff7b33',   
+    'HEADER_BACKGROUND': '',
+    'CONTENT_BACKGROUND': '',
+    'FOOTER_BACKGROUND': '',
+    'HOME_TITLE': 'Nice to meet you!!',
+    'HOME_SUBTITLE': 'Say hello to federated worldwide services',
+    'JQUERY_UI_THEME': 'default-theme',
+ }
