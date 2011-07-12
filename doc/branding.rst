@@ -48,15 +48,15 @@ jQuery UI theme
 The global identification will be support by the use of a jQuery custom theme. 
 It would be apply in any site button, icon, user messages... and spread all over the web site.
 
-You can create and download your own jQuery custom theme in this `link 
+You can create and download your own jQuery custom theme in the `Theme Roller application
 <http://jqueryui.com/themeroller/>`_.
 
-It must to be the 1.8.14 theme version Stable, for jQuery 1.3.2+  
+It must to be the 1.8.14 theme version Stable, for jQuery 1.3.2+
 
 How to change styles
 --------------------
 
-The customizable theme options can be achieved by changing the settings.py file located in the project´s main directory. 
+The customizable theme options can be achieved by changing the settings.py file located in the project´s main directory.
 
 The options to change are located in this file´s block:
 
@@ -66,7 +66,7 @@ The options to change are located in this file´s block:
     'LINK_COLOR': '#5669CE',
     'LINK_HOVER': '#1631BC',
     'HEADING_COLOR': '#1631BC',
-    'INDEX_HEADING_COLOR': '#ff7b33',   
+    'INDEX_HEADING_COLOR': '#ff7b33',
     'HEADER_BACKGROUND': '',
     'CONTENT_BACKGROUND': '',
     'FOOTER_BACKGROUND': '',
