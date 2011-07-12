@@ -17,7 +17,8 @@
   <ul class="domainList">
     {% for domain in domains %}
     <li class="{% if domain.validated %}validated{% else%}notValidated{% endif %}">
-      <span class="ui-icon ui-icon-link"></span> {{ domain }}
+      <span class="ui-icon ui-icon-link"></span>
+      <a href="{{ domain.validation_url }}">{{ domain }}</a>
       {% if not domain.validated %}
         {% verification_button domain %}
         <p class="helptext">{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
