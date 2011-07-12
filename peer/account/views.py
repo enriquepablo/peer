@@ -47,13 +47,18 @@ from account.forms import PersonalInformationForm
 from account.forms import FriendInvitationForm
 from account.templatetags.account import safefullname
 from domain.models import Domain
+from entity.models import Entity, PermissionDelegation
 
 
 @login_required
 def profile(request):
     domains = Domain.objects.filter(owner=request.user)
+    owned_entities = Entity.objects.filter(owner=request.user)
+    delegations = PermissionDelegation.objects.filter(delegate=request.user)
     return render_to_response('account/profile.html', {
             'domains': domains,
+            'owned_entities': owned_entities,
+            'permission_delegations': delegations,
             }, context_instance=RequestContext(request))
 
 
