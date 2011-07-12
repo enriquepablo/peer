@@ -2,6 +2,8 @@
 Entity management
 =================
 
+Entities are the main content of the site. Each entity consists of a name, an associated domain, and the XML metadata that represents the public endpoint. The name is a non empty string that cannot contain the following characters: !, \, :, & or |. The metadata must be valid XML conforming to the XXX schema.
+
 In the `home page <TERENAPEERDOMAIN/>`_ of the site there is a link, labelled "Full list of entities", that takes the user to a `paginated list of all entities <TERENAPEERDOMAIN/entity/>`_, regardless of their owners. In this page the user can add a new entity, if she follows the link labelled "Add entity". In the form presented thereafter she will only have to provide a name for the new entity and select a domain for it. From the list of entities a user can also click on an entity to view its details. If she she is visiting the site as an authenticated user, in this entity detail page she will be presented with a menu that allows her to manage the entity. This menu presents the following links:
 
  * `Details`: The detail page for the entity, the same that is accessed by clicking on its name from the listing of all entities.
