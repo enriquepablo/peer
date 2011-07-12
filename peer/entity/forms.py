@@ -48,6 +48,8 @@ class EditEntityForm(forms.ModelForm):
                             _('Illegal characters in the name: '
                               'You cannot use &, |, !, : or \\'))
 
+        return self.cleaned_data
+
 
 class EntityForm(forms.ModelForm):
 
