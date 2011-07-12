@@ -32,11 +32,21 @@ from django.utils.translation import ugettext as _
 from entity.models import Entity
 from customfields import TermsOfUseField, readtou
 
+
 class EditEntityForm(forms.ModelForm):
 
     class Meta:
         model = Entity
         fields = ('name', )
+
+    def clean(self):
+        name = self.cleaned_data.get('name')
+        if name:
+            for ch in r'!:&\|':
+                if ch in name:
+                    raise forms.ValidationError(
+                            _('Illegal characters in the name: '
+                              'You cannot use &, |, !, : or \\'))
 
 
 class EntityForm(forms.ModelForm):
@@ -63,6 +73,10 @@ class EntityForm(forms.ModelForm):
         domain = self.cleaned_data.get('domain')
 
         if name and domain:
+            for ch in r'!:&\|':
+                if ch in name:
+                    raise forms.ValidationError(_('Illegal characters in the name: '
+                                                  'You cannot use &, |, !, : or \\'))
             try:
                 Entity.objects.get(name=name, domain=domain)
                 raise forms.ValidationError(_('There is already an entity with that name for that domain'))
