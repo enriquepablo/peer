@@ -75,7 +75,6 @@ class Entity(models.Model):
         verbose_name = _(u'Entity')
         verbose_name_plural = _(u'Entities')
 
-
     def _load_metadata(self):
         if not hasattr(self, '_parsed_metadata'):
             data = self.metadata.read()
