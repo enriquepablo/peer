@@ -56,6 +56,13 @@ div#info fieldset.description legend {
 	background-image: url('../icons/note_edit.png');
 }
 
+div.accordion div#info fieldset.description legend {
+    background-image: none;
+}
+
+div.accordion div#info fieldset legend {
+    background-image: none;
+}
 
 /* SAML SP tab */
 
