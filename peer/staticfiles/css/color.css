@@ -245,11 +245,13 @@ ul.entityList li {
     border-top: 1px dotted #AEB3CE;
     border-bottom: 1px dotted #AEB3CE;
     text-shadow: 0.5px 0.5px 0 #f2f2f2;
+    background: rgba(209, 209, 207,0.2);
 }
 
-li.validated {
+li.notValidated {
     color: #ff7b33;
-    background: rgba(209, 209, 207,0.2);
+    background: none;
+
 }
 
 /* entity view */
