@@ -151,9 +151,9 @@ fieldset p {
     display: block;
     font-size: 11px;
     font-style: italic;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     margin-top: 3px;
-    padding-left: 8px;
+    padding-left: 10px;
     line-height: 17px;
     background: transparent url(../images/help_icon.png) no-repeat left center;
 }
@@ -302,6 +302,10 @@ section ul li a,
     padding: 1em 0 0.5em 1em;
 }
 
+section.mainContent ul li a {
+    padding: 0;
+}
+
 section ul li a:hover,
 #home-content ul li a:hover {
     border-radius: 4px;
@@ -442,9 +446,11 @@ footer hgroup h2 a {
 
 /* Styles for specific views */
 
-.domainList {
+.domainList,
+.entityList {
     list-style: none;
-    margin-left: 20px;
+    margin-left: 15px;
+    margin-bottom: 25px;
 }
 
 .domainList li {
@@ -454,6 +460,8 @@ footer hgroup h2 a {
 
 .domainList li p {
     font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 3px;
 }
 
 .domainList ul {
@@ -526,18 +534,17 @@ li.validated,
 li.notValidated {
     font-weight: 300;
     font-size: 13px;
-    letter-spacing: 0.5px;
-    padding-top: 0.5em;
+    letter-spacing: 0.3px;
 }
 
 li.notValidated {
     box-shadow: none;
-    margin-bottom: 2.5em;
+    margin-bottom: 1.2em;
 }
 
 li.notValidated form {
     float: right;
-    margin-top: 9px;
+    margin-top: -3px;
 }
 
 ul.myEntities {

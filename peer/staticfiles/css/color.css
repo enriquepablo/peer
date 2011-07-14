@@ -168,6 +168,12 @@ section ul.list li a:hover,
     border: 5px solid #f0f0ef;
     opacity: 0.75;
 }
+
+section ul.domainList li a:hover,
+section ul.entityList li a:hover {
+    background: none repeat scroll 0 0 rgba(209, 209, 207, 0.4);
+}
+
 input,
 #search input {
     border: 1px solid #c3c3c3;
@@ -232,7 +238,9 @@ table.domains tr td {
 }
 
 /* profile view */
-li.notValidated {
+li.notValidated,
+li.validated,
+ul.entityList li {
     color: #ff7b33;
     border-top: 1px dotted #AEB3CE;
     border-bottom: 1px dotted #AEB3CE;
@@ -241,9 +249,7 @@ li.notValidated {
 
 li.validated {
     color: #ff7b33;
-    text-shadow: 0.5px 0.5px 0 #f2f2f2;
     background: rgba(209, 209, 207,0.2);
-    border-top: 1px solid #c5c7c6;
 }
 
 /* entity view */
