@@ -116,7 +116,6 @@ def entity_add_with_domain(request, domain_name=None,
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
 
-
     else:
         form = EntityForm(request.user, instance=entity)
 
@@ -174,7 +173,6 @@ def entity_edit(request, entity_id):
 
 
 # METADATA EDIT
-
 
 def _get_edit_metadata_form(request, entity, edit_mode, form=None):
     if form is None:
