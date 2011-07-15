@@ -55,7 +55,7 @@ def delns(node, namespace=SAML_METADATA_NAMESPACE):
 class Entity(models.Model):
 
     name = SafeCharField(_(u'Entity name'), max_length=100)
-    metadata = VersionedFileField(verbose_name=_(u'Entity metadata'),
+    metadata = VersionedFileField('metadata', verbose_name=_(u'Entity metadata'),
                                 blank=True, null=True,)
     owner = models.ForeignKey(User, verbose_name=_('Owner'),
                               blank=True, null=True)

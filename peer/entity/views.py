@@ -56,7 +56,6 @@ from entity.models import Entity, PermissionDelegation
 from entity.security import can_edit_entity, can_change_entity_team
 from entity.validation import validate
 
-from vff.storage import create_fname
 
 CONNECTION_TIMEOUT = 10
 
@@ -126,8 +125,10 @@ def entity_add_with_domain(request, domain_name=None,
 
 def entity_view(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
+    revs = entity.metadata.list_revisions()
     return render_to_response('entity/view.html', {
             'entity': entity,
+            'revs': revs,
             }, context_instance=RequestContext(request))
 
 
@@ -177,8 +178,7 @@ def entity_edit(request, entity_id):
 def _get_edit_metadata_form(request, entity, edit_mode, form=None):
     if form is None:
         if edit_mode == 'text':
-            fname = create_fname(entity, 'metadata')
-            text = entity.metadata.storage.get_revision(fname)
+            text = entity.metadata.get_revision()
             form = MetadataTextEditForm(initial={'metadata_text': text})
         elif edit_mode == 'file':
             # XXX siempre vacia, imborrable, required
@@ -490,3 +490,12 @@ def make_owner(request, entity_id):
         msg = _('You must provide the user id of the new owner')
     messages.success(request, msg)
     return HttpResponseRedirect(reverse('entity_view', args=(entity_id,)))
+
+# ENTITY DETAILS
+
+def get_diff(request, entity_id):
+    v1 = request.GET.get('v1')
+    v2 = request.GET.get('v2')
+
+def get_revision(request, entity_id):
+    v1 = request.GET.get('v1')
