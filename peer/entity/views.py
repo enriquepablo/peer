@@ -493,9 +493,11 @@ def make_owner(request, entity_id):
 
 # ENTITY DETAILS
 
+
 def get_diff(request, entity_id):
     v1 = request.GET.get('v1')
     v2 = request.GET.get('v2')
+
 
 def get_revision(request, entity_id):
     v1 = request.GET.get('v1')
