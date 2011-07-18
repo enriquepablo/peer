@@ -255,6 +255,12 @@ li.notValidated {
 }
 
 /* entity view */
+dl {
+    background-color: #e8e8e6;
+    border: 1px solid #eeeeee;
+    outline: 1px solid #cfd1d0;
+}
+
 .history h2 a {
     color: #ff7b33;
 }

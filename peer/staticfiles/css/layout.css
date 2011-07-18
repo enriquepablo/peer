@@ -158,7 +158,6 @@ fieldset p {
     background: transparent url(../images/help_icon.png) no-repeat left center;
 }
 
-dt,
 span.ui-icon {
     clear: left;
     float: left;
@@ -176,10 +175,38 @@ span.inline-icon {
 
 dl {
     margin-top: 2em;
+    padding: 1em;
+}
+
+dt {
+    float: left;
+    clear: left;
 }
 
 dd {
-    margin-bottom: 2em;
+    margin-left: 22px;
+    margin-bottom: 1.5em;
+    line-height: 1.5em;
+}
+
+dd table {
+    width: auto;
+    line-height: 1em;
+}
+
+dd table td {
+    padding: 0.4em 1em 0.4em 0;
+}
+
+dd ul li {
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    line-height: 1.5em;
+}
+
+dd ul li a {
+    display: inline !important;
+    border: 0 !important;
 }
 
 header hgroup {

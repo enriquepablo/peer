@@ -2,6 +2,10 @@
 
 {% load i18n account entity_permissions %}
 
+{% block extracss %}
+<link type="text/css" href="{{ STATIC_URL }}css/flags.css" rel="Stylesheet" />
+{% endblock %}
+
 {% block content %}
 {% canedit entity %}{% include "entity/menu.html" %}{% endcanedit %}
 <section class="mainContent">
@@ -31,37 +35,75 @@
       <dt class="ui-icon ui-icon-comment" title="{% trans "EntityID" %}">{% trans "EntityID" %}</dt>
       <dd>{{ entity.entityid }}</dd>
       {% endif %}
-  
-      {% for endpoint in entity.endpoints %}
-      <dt class="ui-icon ui-icon-link" title="{% trans "Endpoint" %}">{% trans "Endpoint" %}</dt>
-      <dd><a href="{{ endpoint.Location }}">{{ endpoint.Location }}</a> ({{ endpoint.Type }})</dd>
-      {% endfor %}
-  
-      {% for contact in entity.contacts %}
-      <dt class="ui-icon ui-icon-person" title="{% trans "Contact" %}">{% trans "Contact" %}</dt>
-      <dd>{{ contact.GivenName }} {{ contact.SurName }} ({{ contact.type }} {% trans "contact type" %})</dd>
-      {% endfor %}
-  
-      {% for l10n_org in entity.organization %}
+
+      {% if entity.endpoints %}
+      <dt class="ui-icon ui-icon-link" title="{% trans "Endpoints" %}">{% trans "Endpoints" %}</dt>
+      <dd>
+        <table>
+          <tbody>
+          {% for endpoint in entity.endpoints %}
+          <tr>
+            <td><a href="{{ endpoint.Location }}">{{ endpoint.Location }}</a></td>
+            <td>({{ endpoint.Type }})</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </dd>
+      {% endif %}
+
+      {% if entity.contacts %}
+      <dt class="ui-icon ui-icon-person" title="{% trans "Contacts" %}">{% trans "Contacts" %}</dt>
+      <dd>
+        <table>
+          <tbody>
+          {% for contact in entity.contacts %}
+          <tr>
+            <td>{{ contact.GivenName }} {{ contact.SurName }}</td>
+            <td>({{ contact.type }} {% trans "contact type" %})</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </dd>
+      {% endif %}
+
+      {% if entity.organization %}
       <dt class="ui-icon ui-icon-suitcase" title="{% trans "Organization" %} {{ l10n_org.lang }}">{% trans "Organization" %} {{ l10n_org.lang }}</dt>
       <dd>
-      {% if l10n_org.URL %}
-      <a href="{{ l10n_org.URL }}">{{ l10n_org.displayName }}</a> ({{ l10n_org.lang }})
-      {% else %}
-      {{ l10n_org.displayName }} ({{ l10n_org.lang }})
-      {% endif %}
+        <table>
+          <tbody>
+          {% for l10n_org in entity.organization %}
+          <tr>
+            {% if l10n_org.URL %}
+            <td><a href="{{ l10n_org.URL }}">{{ l10n_org.displayName }}</a></td>
+            <td><span class="flag {{ l10n_org.lang }}" title="{{ l10n_org.lang }}" /></td>
+            {% else %}
+            <td>{{ l10n_org.displayName }}</td>
+            <td><span class="flag {{ l10n_org.lang }}" title="{{ l10n_org.lang }}" /></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
       </dd>
-      {% endfor %}
-  
-      {% for certificate in entity.certificates %}
-      <dt class="ui-icon ui-icon-key" title="{% trans "Certificate" %}">{% trans "Certificate" %}</dt>
-      <dd>{{ certificate }}</dd>
-      {% endfor %}
-  
+      {% endif %}
+
+      {% if entity.certificates %}
+      <dt class="ui-icon ui-icon-key" title="{% trans "Certificates" %}">{% trans "Certificates" %}</dt>
+      <dd>
+        <ul>
+          {% for certificate in entity.certificates %}
+          <li>{{ certificate }}</li>
+          {% endfor %}
+        </ul>
+      </dd>
+      {% endif %}
+
       <dt class="ui-icon ui-icon-signal-diag" title="{% trans "Changes feed" %}">{% trans "Changes feed" %}</dt>
       <dd><a href="">Changes feed</a></dd>
     </dl>
-  
+
     <div class="history">
       <h2 class="clear"><span class="left ui-icon ui-icon-triangle-1-e"></span><a href="#">View history</a></h2>
       <table>
