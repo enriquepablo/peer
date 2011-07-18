@@ -14,7 +14,9 @@
     <h2>{{ entity }}</h2>
   </hgroup>
 
+  {% if entity.owner %}
   <p>Owned by {% safefullname entity.owner %}</p>
+  {% endif %}
 
   <div id="searchusers-box">
     <form>
