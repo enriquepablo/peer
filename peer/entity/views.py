@@ -109,6 +109,8 @@ def entity_add_with_domain(request, domain_name=None,
         form = EntityForm(request.user, request.POST, instance=entity)
         if form.is_valid():
             form.save()
+            form.instance.owner = request.user
+            form.instance.save()
             messages.success(request, _('Entity created succesfully'))
             return HttpResponseRedirect(reverse(return_view_name))
         else:
