@@ -126,6 +126,13 @@ def entity_add_with_domain(request, domain_name=None,
 def entity_view(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
     revs = entity.metadata.list_revisions()
+    prev, revisions = '', []
+    for rev in revs[::-1]:
+        if prev:
+            rev['previous'] = prev
+        prev = rev['versionid']
+        revisions.append(rev)
+    revs = reversed(revisions)
     return render_to_response('entity/view.html', {
             'entity': entity,
             'revs': revs,

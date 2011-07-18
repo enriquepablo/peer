@@ -77,7 +77,9 @@
         <tbody>
           {% for rev in revs %}
           <tr class="{% cycle "odd" "even" %}">
+            {% if rev.previous %}
             <td><a href="#">Prev diff</a></td>
+            {% endif %}
             <td><a href="#">@{{ rev.versionid }}</a></td>
             <td>{{ rev.date }}</td>
             <td>{{ rev.author }}</td>
