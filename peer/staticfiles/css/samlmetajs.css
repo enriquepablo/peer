@@ -69,6 +69,11 @@ div.accordion div#info fieldset legend {
 div#saml2sp fieldset legend {
 	background-image: url('../icons/bullet_wrench.png');
 }
+
+div.accordion div#tabs div#saml2sp fieldset legend {
+    background-image: none;
+}
+
 div#tabs div#saml2sp div.endpointfield.endpointfield-location {
 	clear: both;
 }
@@ -108,6 +113,9 @@ div#contact fieldset legend {
 	background-image: url('../icons/vcard.png');
 }
 
+div.accordion div#tabs div#contact fieldset legend {
+    background-image: none;
+}
 
 /* Certificates tab */
 
