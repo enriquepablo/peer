@@ -109,8 +109,9 @@
       <table>
         <thead>
           <tr>
-            <th>Diff</th>
             <th>Rev</th>
+            <th>Id</th>
+            <th>Diff</th>
             <th>Date</th>
             <th>Author</th>
             <th>Log message</th>
@@ -119,10 +120,25 @@
         <tbody>
           {% for rev in revs %}
           <tr class="{% cycle "odd" "even" %}">
+              <td>{{ forloop.revcounter }}</td>
+            <td>
+              <a class="rev-link"
+                  href="{% url get_revision entity.id,rev.versionid %}"
+                  title="{% trans "Revision" %} {{ rev.versionid }}">
+                   @{{ rev.versionid|slice:"-5:" }}
+              </a>
+            </td>
             {% if rev.previous %}
-            <td><a href="#">Prev diff</a></td>
+            <td>
+              <a class="diff-link"
+                  href="{% url get_diff  entity.id,rev.previous,rev.versionid %}"
+                  title="{% trans "Diff from rev" %} {{ rev.previous }} {% trans " to rev" %} {{ rev.versionid }}">
+                   Prev diff
+              </a>
+            </td>
+            {% else %}
+            <td> - </td>
             {% endif %}
-            <td><a href="#">@{{ rev.versionid }}</a></td>
             <td>{{ rev.date }}</td>
             <td>{{ rev.author }}</td>
             <td>{{ rev.message }}</td>
@@ -136,5 +152,25 @@
     <div>{% trans "This entity has no associated metadata yet." %}</div>
   {% endif %}
 
+  <div id="metadata-contents"></div>
+
 </section>
+{% endblock %}
+
+{% block extrajs %}
+  {% if entity.has_metadata %}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.entitymd.js"></script>
+  <script type="text/javascript">
+  (function($) {
+    $(document).ready(function () {
+        $('a.rev-link').click(
+            $.fn.entitymd.get_metadata
+        );
+        $('a.diff-link').click(
+            $.fn.entitymd.get_metadata
+        );
+    });
+  })(jQuery);
+  </script>
+  {% endif %}
 {% endblock %}

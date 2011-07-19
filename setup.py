@@ -62,5 +62,6 @@ setup(
         'fudge',
         'django-vff',
         'lxml',
+        'pygments',
         ],
 )

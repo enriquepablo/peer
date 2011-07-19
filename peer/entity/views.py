@@ -30,6 +30,10 @@ import re
 from tempfile import NamedTemporaryFile
 import urllib2
 
+from pygments import highlight
+from pygments.lexers import XmlLexer, DiffLexer
+from pygments.formatters import HtmlFormatter
+
 from django import db
 from django.conf import settings
 from django.contrib import messages
@@ -503,10 +507,26 @@ def make_owner(request, entity_id):
 # ENTITY DETAILS
 
 
-def get_diff(request, entity_id):
-    v1 = request.GET.get('v1')
-    v2 = request.GET.get('v2')
+def get_diff(request, entity_id, r1, r2):
+    entity = get_object_or_404(Entity, id=entity_id)
+    diff = entity.metadata.get_diff(r1, r2)
+    formatter = HtmlFormatter(linenos=True, full=True)
+    html = highlight(diff, DiffLexer(), formatter)
+    return HttpResponse(html)
 
 
-def get_revision(request, entity_id):
-    v1 = request.GET.get('v1')
+#import difflib
+#def get_diff2(request, entity_id, r1, r2):
+#    entity = get_object_or_404(Entity, id=entity_id)
+#    md1 = entity.metadata.get_revision(r1).split('\n')
+#    md2 = entity.metadata.get_revision(r2).split('\n')
+#    html = difflib.HtmlDiff().make_table(md1, md2)
+#    return HttpResponse(html)
+
+
+def get_revision(request, entity_id, rev):
+    entity = get_object_or_404(Entity, id=entity_id)
+    md = entity.metadata.get_revision(rev)
+    formatter = HtmlFormatter(linenos=True, full=True)
+    html = highlight(md, XmlLexer(), formatter)
+    return HttpResponse(html)
