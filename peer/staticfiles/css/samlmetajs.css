@@ -112,6 +112,9 @@ div#contact fieldset legend {
 /* Certificates tab */
 
 div#certs fieldset legend {
-	background-image: url('../icons/lock.png');
+    background-image: url('../icons/lock.png');
+}
 
+div.accordion div#tabs div#certs fieldset legend {
+    background-image: none;
 }
