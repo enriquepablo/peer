@@ -36,6 +36,7 @@ urlpatterns = patterns(
     url(r'^(?P<domain_name>\w.+)/add$', 'entity_add_with_domain',
         name='entity_add_with_domain'),
     url(r'^search$', 'search_entities', name='search_entities'),
+    url(r'^pygments.css$', 'get_pygments_css', name='get_pygments_css'),
     url(r'^(?P<entity_id>\d+)$', 'entity_view', name='entity_view'),
     url(r'^(?P<entity_id>\d+)/remove/$', 'entity_remove', name='entity_remove'),
     url(r'^(?P<entity_id>\d+)/edit/$', 'entity_edit', name='entity_edit'),

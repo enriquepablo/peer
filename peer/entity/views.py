@@ -45,6 +45,7 @@ from django.core.files.base import File
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
+from django.views.decorators.cache import cache_page
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.loader import render_to_string
 from django.template import RequestContext
@@ -511,7 +512,7 @@ def get_diff(request, entity_id, r1, r2):
     entity = get_object_or_404(Entity, id=entity_id)
     diff = entity.metadata.get_diff(r1, r2)
     formatter = HtmlFormatter(linenos=True,
-                      outencoding=settings.DEFAULT_ENCODING)
+                      outencoding=settings.DEFAULT_CHARSET)
     html = highlight(diff, DiffLexer(), formatter)
     return HttpResponse(html)
 
@@ -529,6 +530,14 @@ def get_revision(request, entity_id, rev):
     entity = get_object_or_404(Entity, id=entity_id)
     md = entity.metadata.get_revision(rev)
     formatter = HtmlFormatter(linenos=True,
-                      outencoding=settings.DEFAULT_ENCODING)
+                      outencoding=settings.DEFAULT_CHARSET)
     html = highlight(md, XmlLexer(), formatter)
     return HttpResponse(html)
+
+
+@cache_page
+def get_pygments_css(request):
+    formatter = HtmlFormatter(linenos=True, outencoding='utf-8')
+    return HttpResponse(content=formatter.get_style_defs(arg=''),
+                    mimetype='text/css',
+                content_type='text/css; charset=' + settings.DEFAULT_CHARSET)
