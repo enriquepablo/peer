@@ -57,7 +57,8 @@
     $(document).ready(function () {
         var search_url = '{% url search_users_auto %}';
         var add_delegate_url_template = '{% url add_delegate entity.id,'__user__' %}';
-        $.fn.delegates.load_delegates('{% url list_delegates entity.id %}');
+        var load_delegates_url = '{% url list_delegates entity.id %}';
+        $.fn.delegates.load_delegates(load_delegates_url);
         $('#q').autocomplete({source: search_url,
                               select: $.fn.delegates.enable_add_delegate});
         $('#q').keydown($.fn.delegates.disable_add_delegate);
@@ -68,6 +69,12 @@
             return $.fn.delegates.select_first_user(search_url, add_delegate_url_template);
         });
         $('ul#messages').css('display', 'none');
+        window.addEventListener(
+            'pageshow',
+            function () {
+                $.fn.delegates.load_delegates(load_delegates_url + '?d=' + Date.now());
+            },
+            false);
     });
 })(jQuery);
 </script>
