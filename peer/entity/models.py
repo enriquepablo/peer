@@ -108,13 +108,16 @@ class Entity(models.Model):
                     lang_dict = languages.setdefault(lang, {})
                     lang_dict[attr] = node.text
 
+        result = []
         for lang, data in languages.items():
             data['lang'] = lang
-            yield data
+            result.append(data)
+        return result
 
     @property
     def contacts(self):
         metadata = self._load_metadata()
+        result = []
         for contact_node in metadata.findall(addns('ContactPerson')):
             contact = {}
 
@@ -124,7 +127,8 @@ class Entity(models.Model):
             for child in contact_node:
                 contact[delns(child.tag)] = child.text
 
-            yield contact
+            result.append(contact)
+        return result
 
     @property
     def certificates(self):
@@ -134,12 +138,12 @@ class Entity(models.Model):
                 addns('KeyInfo', XMLDSIG_NAMESPACE),
                 addns('X509Data', XMLDSIG_NAMESPACE),
                 addns('X509Certificate', XMLDSIG_NAMESPACE)]
-        for cert in metadata.findall('/'.join(path)):
-            yield cert.text
+        return [cert.text for cert in metadata.findall('/'.join(path))]
 
     @property
     def endpoints(self):
         metadata = self._load_metadata()
+        result = []
 
         def populate_endpoint(node, endpoint):
             for attr in ('Binding', 'Location'):
@@ -150,13 +154,15 @@ class Entity(models.Model):
         for acs_node in metadata.findall('/'.join(path)):
             acs_endpoint = {'Type': 'Assertion Consumer Service'}
             populate_endpoint(acs_node, acs_endpoint)
-            yield acs_endpoint
+            result.append(acs_endpoint)
 
         path = [addns('SPSSODescriptor'), addns('SingleLogoutService')]
         for lss_node in metadata.findall('/'.join(path)):
             lss_endpoint = {'Type': 'Single Logout Service'}
             populate_endpoint(lss_node, lss_endpoint)
-            yield lss_endpoint
+            result.append(lss_endpoint)
+
+        return result
 
 
 class PermissionDelegation(models.Model):
