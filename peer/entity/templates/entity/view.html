@@ -106,7 +106,7 @@
     </dl>
 
     <div class="history">
-      <h2 class="clear"><span class="left ui-icon ui-icon-triangle-1-e"></span><a href="#">View history</a></h2>
+      <h2 class="clear"><span class="left ui-icon ui-icon-triangle-1-e"></span><a href="#" id="show-history">Show history</a></h2>
       <table>
         <thead>
           <tr>
@@ -170,6 +170,23 @@
         $('a.diff-link').click(
             $.fn.entitymd.get_metadata
         );
+        $('#show-history').toggle(
+            function () {
+                $(this).text('Hide history')
+                       .prev()
+                       .removeClass('ui-icon-triangle-1-e')
+                       .addClass('ui-icon-triangle-1-s');
+                $('.history table').show();
+            },
+            function () {
+                $(this).text('Show history')
+                       .prev()
+                       .removeClass('ui-icon-triangle-1-s')
+                       .addClass('ui-icon-triangle-1-e');
+                $('.history table').hide();
+            }
+        );
+        $('.history table').hide();
     });
   })(jQuery);
   </script>
