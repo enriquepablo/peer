@@ -37,14 +37,14 @@ def read(*rnames):
 
 setup(
     name='peer',
-    version='0.2.0',
+    version='0.3.0',
     url='https://github.com/Yaco-Sistemas/peer',
     license='BSD',
     description=('Public Endpoint Ent[ities Registry'),
     long_description=(read('README') + '\n\n' + read('CHANGES')),
     author='Terena',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Framework :: Django',
         'License :: OSI Approved :: BSD License',
