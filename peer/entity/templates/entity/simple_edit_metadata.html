@@ -12,11 +12,20 @@
         {{ field.errors }}
         {{ field }}
       {% else %}
-      <p>
-        {{ field.errors }}
-        {{ field.label_tag }} {{ field }}
-        <span class="helptext"> {{ field.help_text }}</span>
-      </p>
+        {% if field.name == "tou" %}
+          <p>
+            <label for="id_tou" class="label_tou">{{ field.label }}</label>
+            {{ field.errors }}
+            {{ field }}
+            <span class="helptext"> {{ field.help_text }}</span>
+          </p>
+          {% else %}
+            <p>
+              {{ field.errors }}
+              {{ field.label_tag }} {{ field }}
+              <span class="helptext"> {{ field.help_text }}</span>
+            </p>
+        {% endif %}
       {% endif %}
     {% endfor %}
   </fieldset>

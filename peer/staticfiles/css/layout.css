@@ -25,7 +25,7 @@
 }
 
 body {
-    max-width: 1024px;
+    width: 1024px;
     padding: 0 30px;
     margin: 0 auto;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -95,6 +95,11 @@ nav ul {
     list-style: none;
 }
 
+input[type="checkbox"] {
+    border: none;
+    background: transparent;
+}
+
 div.bottomMenu {
     position: absolute;
     height: 60px;
@@ -107,6 +112,10 @@ div.bottomMenu {
 div.bottomMenu:after {
     content: "your actions";
     visibility: hidden;
+}
+
+nav.right {
+    width: 245px;
 }
 
 nav ul li {
@@ -307,7 +316,7 @@ header#header hgroup h2 {
     clear: left;
     border: none;
     margin: 34px 260px 15px 40px;
-    max-width: 656px;
+    max-width: 650px;
 }
 
 #home-content {
@@ -654,9 +663,10 @@ section ul.errorlist li,
 /* Terms of use */
 
 input.legalInput {
-    margin-top: -2em !important;
+    margin-top: -24px !important;
 }
 
+label.label_tou,
 label[for=id_tou] {
     margin-left: 2em;
     line-height: 1em;
