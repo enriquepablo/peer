@@ -74,6 +74,12 @@ def readtou(tou):
 
 class TermsOfUseWidget(forms.CheckboxInput):
 
+    class Media:
+        css = {
+            'all': ('css/terms-of-use.css', ),
+            }
+        js = ('js/terms-of-use.js', )
+
     def __init__(self, legal_text=None, *args, **kwargs):
         self.legal_text = legal_text
         super(TermsOfUseWidget, self).__init__(*args, **kwargs)

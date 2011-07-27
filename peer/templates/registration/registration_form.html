@@ -2,6 +2,10 @@
 
 {% load i18n %}
 
+{% block extracss %}
+{{ form.media.render_css|safeseq|join:"\n" }}
+{% endblock %}
+
 {% block content %}
 <section>
   <hgroup>
@@ -20,3 +24,6 @@
 </section>
 {% endblock %}
 
+{% block extrajs %}
+{{ form.media.render_js|safeseq|join:"\n" }}
+{% endblock %}

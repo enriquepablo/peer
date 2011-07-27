@@ -4,6 +4,7 @@
 
 {% block extracss %}
 <link type="text/css" href="{{ STATIC_URL }}css/samlmetajs.css" rel="Stylesheet" />
+<link type="text/css" href="{{ STATIC_URL }}css/terms-of-use.css" rel="Stylesheet" />
 {% endblock %}
 
 {% block content %}
@@ -57,4 +58,5 @@
     });
 })(jQuery);
 </script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/terms-of-use.js"></script>
 {% endblock %}
