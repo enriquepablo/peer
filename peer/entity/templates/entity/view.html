@@ -93,11 +93,16 @@
       {% if entity.certificates %}
       <dt class="ui-icon ui-icon-key" title="{% trans "Certificates" %}">{% trans "Certificates" %}</dt>
       <dd>
-        <ul>
+        <table>
+          <tbody>
           {% for certificate in entity.certificates %}
-          <li>{{ certificate }}</li>
+          <tr>
+            <td>{{ certificate.text }}</td>
+            <td>{% trans "Used for" %} {{ certificate.use }}</td>
+          </tr>
           {% endfor %}
-        </ul>
+          </tbody>
+        </table>
       </dd>
       {% endif %}
 

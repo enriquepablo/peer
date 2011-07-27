@@ -133,12 +133,23 @@ class Entity(models.Model):
     @property
     def certificates(self):
         metadata = self._load_metadata()
-        path = [addns('SPSSODescriptor'),
-                addns('KeyDescriptor'),
-                addns('KeyInfo', XMLDSIG_NAMESPACE),
-                addns('X509Data', XMLDSIG_NAMESPACE),
-                addns('X509Certificate', XMLDSIG_NAMESPACE)]
-        return [cert.text for cert in metadata.findall('/'.join(path))]
+        result = []
+        key_descr_path = [addns('SPSSODescriptor'),
+                          addns('KeyDescriptor')]
+
+        for key_descriptor in metadata.findall('/'.join(key_descr_path)):
+            cert_path = [addns('KeyInfo', XMLDSIG_NAMESPACE),
+                         addns('X509Data', XMLDSIG_NAMESPACE),
+                         addns('X509Certificate', XMLDSIG_NAMESPACE)]
+            for cert in key_descriptor.findall('/'.join(cert_path)):
+                if 'use' in key_descriptor.attrib:
+                    result.append({'use': key_descriptor.attrib['use'],
+                                   'text': cert.text})
+                else:
+                    result.append({'use': 'signing and encryption',
+                                   'text': cert.text})
+
+        return result
 
     @property
     def endpoints(self):
