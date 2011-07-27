@@ -564,6 +564,14 @@ div.history {
     padding-top: 4px;
 }
 
+.history thead tr th.authorColumn {
+    width: 10em;
+}
+
+.history thead tr th.logMessageColumn {
+    width: 20em;
+}
+
 /* profile view */
 li.validated,
 li.notValidated {
