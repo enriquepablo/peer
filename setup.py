@@ -53,6 +53,7 @@ setup(
         ],
     packages=find_packages('peer'),
     package_dir={'': 'peer'},
+    zip_safe=False,
     install_requires=[
         'Django>=1.3',
         'South',
