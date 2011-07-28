@@ -41,7 +41,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DEFAULT_FROM_EMAIL = 'no-reply@beta.terena-yaco.es'
+DEFAULT_FROM_EMAIL = 'no-reply@beta.terena-peer.yaco.es'
 
 DATABASES = {
     'default': {
