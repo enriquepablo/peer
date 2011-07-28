@@ -28,6 +28,7 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
@@ -94,3 +95,19 @@ def domain_verification(request, domain_id):
             messages.error(
                 request, _(u'Error while checking domain ownership'))
     return HttpResponseRedirect(reverse('domain.views.domain_list'))
+
+@login_required
+def domain_remove(request, domain_id):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if domain.owner != request.user:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        domain.delete()
+        messages.success(request, _('Domain removed succesfully'))
+        return HttpResponseRedirect(reverse('account_profile'))
+
+    return render_to_response('domain/remove.html', {
+            'domain': domain,
+            'entities': domain.entity_set.all(),
+            }, context_instance=RequestContext(request))

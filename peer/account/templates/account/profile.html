@@ -19,6 +19,7 @@
     <li class="{% if domain.validated %}validated{% else%}notValidated{% endif %}">
       <span class="ui-icon ui-icon-link"></span>
       <a href="{{ domain.validation_url }}">{{ domain }}</a>
+      <a class="removeButton" href="{% url domain_remove domain.id %}">{% trans "Remove domain" %}</a>
       {% if not domain.validated %}
         {% verification_button domain %}
         <p class="helptext">{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
@@ -56,4 +57,17 @@
   {% endif %}
 
 </section>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $(".removeButton").button({
+                icons: {primary: "ui-icon-trash"},
+                text: false
+            });
+        });
+    }(jQuery));
+</script>
 {% endblock %}

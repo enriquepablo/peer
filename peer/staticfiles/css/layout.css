@@ -582,17 +582,21 @@ li.notValidated {
     font-weight: 300;
     font-size: 13px;
     letter-spacing: 0.3px;
-}
-
-li.notValidated {
     box-shadow: none;
     margin-bottom: 1.2em;
+    height: 3em;
 }
 
-li.notValidated form {
+li.notValidated form,
+li.validated a.removeButton,
+li.notValidated a.removeButton {
     float: right;
     margin-top: -11px;
     margin-right: 6px;
+}
+
+a.removeButton span.ui-button-text {
+    line-height: 1em;
 }
 
 ul.myEntities {

@@ -37,4 +37,5 @@ urlpatterns = patterns(
         name='domain_add_success'),
     url(r'^verification/(?P<domain_id>\d+)$', 'domain_verification',
         name='domain_verification'),
+    url(r'^(?P<domain_id>\d+)/remove$', 'domain_remove', name='domain_remove'),
 )
