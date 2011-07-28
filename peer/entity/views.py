@@ -98,7 +98,7 @@ def entities_list(request):
 
 @login_required
 def entity_add(request):
-    return entity_add_with_domain(request, None, 'entities_list')
+    return entity_add_with_domain(request, None, 'edit_metadata')
 
 
 @login_required
@@ -117,7 +117,11 @@ def entity_add_with_domain(request, domain_name=None,
             form.instance.owner = request.user
             form.instance.save()
             messages.success(request, _('Entity created succesfully'))
-            return HttpResponseRedirect(reverse(return_view_name))
+            if return_view_name == 'edit_metadata':
+                url = reverse(return_view_name, args=[form.instance.id])
+            else:
+                url = reverse(return_view_name)
+            return HttpResponseRedirect(url)
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
