@@ -8,9 +8,8 @@
 
 .right {
     float: right;
-    position: relative;
-    margin: 34px 40px 0 0;
 }
+
 .welcome .right {
     margin: 0;
 }
@@ -115,7 +114,8 @@ div.bottomMenu:after {
 }
 
 nav.right {
-    width: 245px;
+    position: relative;
+    width: 225px;
 }
 
 nav ul li {
