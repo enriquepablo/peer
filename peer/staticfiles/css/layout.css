@@ -676,7 +676,7 @@ section ul.errorlist li,
     -moz-box-shadow: none;
 }
 
-/* Ui styles modifications */
+/* jQuery UI styles modifications */
 .ui-widget {
     font-size: 12px;
 }
