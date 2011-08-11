@@ -29,6 +29,7 @@
   </p>
   {% endif %}
   {% endwith %}
+  <p>{% trans "This entity belongs to the domain" %} <a href="http://{{ entity.domain }}">{{ entity.domain }}</a></p>
 
   {% if entity.has_metadata %}
     <dl>
