@@ -617,6 +617,22 @@ ul.myEntities li a {
     padding: 0.5em 0 0 1em;
 }
 
+/* Metadata edit view */
+#metadata-tabs {
+    float: left;
+    width: 650px;
+}
+
+
+#metadata-tabs input[type=text], #metadata-tabs textarea {
+    width: 80%;
+}
+
+#metadata-tabs div#rawmetadata textarea {
+    width: 99%;
+    padding-top: 1em;
+}
+
 /* Forms */
 input {
     border-radius: 4px;
@@ -680,13 +696,6 @@ section ul.errorlist li,
     font-size: 12px;
 }
 
-.ui-accordion {
-    width: 650px;
-}
-.accordion input[type=text], .accordion textarea {
-    width: 80%;
-}
-
 div.content input[type="checkbox"] {
     float: left;
     font-size: 13px;
@@ -742,19 +751,6 @@ input.button,
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-}
-
-.mainContent .ui-accordion .ui-accordion-content {
-    padding: 1em;
-}
-
-.accordion .content {
-    padding-top: 1em;
-}
-
-.accordion div#rawmetadata textarea {
-    width: 99%;
-    padding-top: 1em;
 }
 
 input.ui-autocomplete-input {

@@ -16,20 +16,17 @@
     <h2>{{ entity.name }}</h2>
   </hgroup>
 
-  <div class="accordion">
+  <div id="metadata-tabs">
 
-    <h3{% ifequal activate "text" %} class="active"{% endifequal %}>
-      <a href="#">{% trans "By text editing ..." %}</a></h3>
-    <div>{{ text_html|safe }}</div>
+    <ul>
+      <li><a href="#text-tab">{% trans "By text editing ..." %}</a></li>
+      <li><a href="#file-tab">{% trans "By uploading a file ..." %}</a></li>
+      <li><a href="#remote-tab">{% trans "By fetching a remote URL ..." %}</a></li>
+    </ul>
 
-    <h3{% ifequal activate "upload" %} class="active"{% endifequal %}>
-      <a href="#">{% trans "By uploading a file ..." %}</a></h3>
-    <div>{{ file_html|safe }}</div>
-
-    <h3{% ifequal activate "remote" %} class="active"{% endifequal %}>
-      <a href="#">{% trans "By fetching a remote URL ..." %}</a></h3>
-    <div>{{ remote_html|safe }}</div>
-
+    <div id="text-tab"><div>{{ text_html|safe }}</div></div>
+    <div id="file-tab"><div>{{ file_html|safe }}</div></div>
+    <div id="remote-tab"><div>{{ remote_html|safe }}</div></div>
   </div>
 </section>
 {% endblock %}
@@ -47,7 +44,7 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function(){
-        $(".accordion").accordion({active: ".active", autoHeight: false});
+        $("#metadata-tabs").tabs();
         $("textarea#id_metadata_text").SAMLmetaJS();
         $("form#text_edit_form").submit(
             function () {
