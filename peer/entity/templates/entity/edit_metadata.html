@@ -45,13 +45,21 @@
 (function($) {
     $(document).ready(function(){
         $("#metadata-tabs").tabs();
-        $("textarea#id_metadata_text").SAMLmetaJS();
-        $("form#text_edit_form").submit(
-            function () {
-                $("a[href='#rawmetadata']").click();
-                return true;
-            }
-        );
+        if ($.browser.msie && $.browser.version <= 9) {
+            // We should be doing capability detection here but the problem
+            // with IE <= 9 parser is that it exists but its API is
+            // different and the namespaces are handled in a different way
+            // See https://github.com/UNINETT/SAMLmetaJS/issues/7
+            $("textarea#id_metadata_text").before("<p><span class='ui-icon ui-icon-alert'></span>Your browser does not support advanced XML manipulation via javascript so you can not use the advanced metadata editor. Please upgrade your browser for a better experience.</p>");
+        } else {
+            $("textarea#id_metadata_text").SAMLmetaJS();
+            $("form#text_edit_form").submit(
+                function () {
+                    $("a[href='#rawmetadata']").click();
+                    return true;
+                }
+            );
+        }
     });
 })(jQuery);
 </script>

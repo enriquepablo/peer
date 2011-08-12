@@ -623,7 +623,6 @@ ul.myEntities li a {
     width: 650px;
 }
 
-
 #metadata-tabs input[type=text], #metadata-tabs textarea {
     width: 80%;
 }
@@ -631,6 +630,10 @@ ul.myEntities li a {
 #metadata-tabs div#rawmetadata textarea {
     width: 99%;
     padding-top: 1em;
+}
+
+textarea#id_metadata_text {
+    height: 350px;
 }
 
 /* Forms */
