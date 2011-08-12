@@ -52,6 +52,92 @@ def delns(node, namespace=SAML_METADATA_NAMESPACE):
     return node.replace('{' + namespace + '}', '')
 
 
+class Metadata(object):
+
+    def __init__(self, etree):
+        self.etree = etree
+
+    @property
+    def entityid(self):
+        if 'entityID' in self.etree.attrib:
+            return self.etree.attrib['entityID']
+
+    @property
+    def organization(self):
+        languages = {}
+        for org_node in self.etree.findall(addns('Organization')):
+            for attr in ('name', 'displayName', 'URL'):
+                node_name = 'Organization' + attr[0].upper() + attr[1:]
+                for node in org_node.findall(addns(node_name)):
+                    lang = node.attrib['lang']
+                    lang_dict = languages.setdefault(lang, {})
+                    lang_dict[attr] = node.text
+
+        result = []
+        for lang, data in languages.items():
+            data['lang'] = lang
+            result.append(data)
+        return result
+
+    @property
+    def contacts(self):
+        result = []
+        for contact_node in self.etree.findall(addns('ContactPerson')):
+            contact = {}
+
+            if 'contactType' in contact_node.attrib:
+                contact['type'] = contact_node.attrib['contactType']
+
+            for child in contact_node:
+                contact[delns(child.tag)] = child.text
+
+            result.append(contact)
+        return result
+
+    @property
+    def certificates(self):
+        result = []
+        key_descr_path = [addns('SPSSODescriptor'),
+                          addns('KeyDescriptor')]
+
+        for key_descriptor in self.etree.findall('/'.join(key_descr_path)):
+            cert_path = [addns('KeyInfo', XMLDSIG_NAMESPACE),
+                         addns('X509Data', XMLDSIG_NAMESPACE),
+                         addns('X509Certificate', XMLDSIG_NAMESPACE)]
+            for cert in key_descriptor.findall('/'.join(cert_path)):
+                if 'use' in key_descriptor.attrib:
+                    result.append({'use': key_descriptor.attrib['use'],
+                                   'text': cert.text})
+                else:
+                    result.append({'use': 'signing and encryption',
+                                   'text': cert.text})
+
+        return result
+
+    @property
+    def endpoints(self):
+        result = []
+
+        def populate_endpoint(node, endpoint):
+            for attr in ('Binding', 'Location'):
+                if attr in node.attrib:
+                    endpoint[attr] = node.attrib[attr]
+
+        path = [addns('SPSSODescriptor'), addns('AssertionConsumerService')]
+        for acs_node in self.etree.findall('/'.join(path)):
+            acs_endpoint = {'Type': 'Assertion Consumer Service'}
+            populate_endpoint(acs_node, acs_endpoint)
+            result.append(acs_endpoint)
+
+        path = [addns('SPSSODescriptor'), addns('SingleLogoutService')]
+        for lss_node in self.etree.findall('/'.join(path)):
+            lss_endpoint = {'Type': 'Single Logout Service'}
+            populate_endpoint(lss_node, lss_endpoint)
+            result.append(lss_endpoint)
+
+        return result
+
+
 class Entity(models.Model):
 
     name = SafeCharField(_(u'Entity name'), max_length=100)
@@ -80,7 +166,7 @@ class Entity(models.Model):
             data = self.metadata.read()
             self._parsed_metadata = etree.XML(data)
 
-        return self._parsed_metadata
+        return Metadata(self._parsed_metadata)
 
     def has_metadata(self):
         try:
@@ -92,88 +178,23 @@ class Entity(models.Model):
 
     @property
     def entityid(self):
-        metadata = self._load_metadata()
-        if 'entityID' in metadata.attrib:
-            return metadata.attrib['entityID']
+        return self._load_metadata().entityid
 
     @property
     def organization(self):
-        metadata = self._load_metadata()
-        languages = {}
-        for org_node in metadata.findall(addns('Organization')):
-            for attr in ('name', 'displayName', 'URL'):
-                node_name = 'Organization' + attr[0].upper() + attr[1:]
-                for node in org_node.findall(addns(node_name)):
-                    lang = node.attrib['lang']
-                    lang_dict = languages.setdefault(lang, {})
-                    lang_dict[attr] = node.text
-
-        result = []
-        for lang, data in languages.items():
-            data['lang'] = lang
-            result.append(data)
-        return result
+        return self._load_metadata().organization
 
     @property
     def contacts(self):
-        metadata = self._load_metadata()
-        result = []
-        for contact_node in metadata.findall(addns('ContactPerson')):
-            contact = {}
-
-            if 'contactType' in contact_node.attrib:
-                contact['type'] = contact_node.attrib['contactType']
-
-            for child in contact_node:
-                contact[delns(child.tag)] = child.text
-
-            result.append(contact)
-        return result
+        return self._load_metadata().contacts
 
     @property
     def certificates(self):
-        metadata = self._load_metadata()
-        result = []
-        key_descr_path = [addns('SPSSODescriptor'),
-                          addns('KeyDescriptor')]
-
-        for key_descriptor in metadata.findall('/'.join(key_descr_path)):
-            cert_path = [addns('KeyInfo', XMLDSIG_NAMESPACE),
-                         addns('X509Data', XMLDSIG_NAMESPACE),
-                         addns('X509Certificate', XMLDSIG_NAMESPACE)]
-            for cert in key_descriptor.findall('/'.join(cert_path)):
-                if 'use' in key_descriptor.attrib:
-                    result.append({'use': key_descriptor.attrib['use'],
-                                   'text': cert.text})
-                else:
-                    result.append({'use': 'signing and encryption',
-                                   'text': cert.text})
-
-        return result
+        return self._load_metadata().certificates
 
     @property
     def endpoints(self):
-        metadata = self._load_metadata()
-        result = []
-
-        def populate_endpoint(node, endpoint):
-            for attr in ('Binding', 'Location'):
-                if attr in node.attrib:
-                    endpoint[attr] = node.attrib[attr]
-
-        path = [addns('SPSSODescriptor'), addns('AssertionConsumerService')]
-        for acs_node in metadata.findall('/'.join(path)):
-            acs_endpoint = {'Type': 'Assertion Consumer Service'}
-            populate_endpoint(acs_node, acs_endpoint)
-            result.append(acs_endpoint)
-
-        path = [addns('SPSSODescriptor'), addns('SingleLogoutService')]
-        for lss_node in metadata.findall('/'.join(path)):
-            lss_endpoint = {'Type': 'Single Logout Service'}
-            populate_endpoint(lss_node, lss_endpoint)
-            result.append(lss_endpoint)
-
-        return result
+        return self._load_metadata().endpoints
 
 
 class PermissionDelegation(models.Model):

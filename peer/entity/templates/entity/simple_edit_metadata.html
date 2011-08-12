@@ -9,7 +9,13 @@
   <fieldset>
     {% for field in form %}
       {% if field.name == "metadata_text" %}
-        {{ field.errors }}
+        {% if field.errors %}
+        <ul class="errorlist">
+          {% for error in field.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
         {{ field }}
       {% else %}
         <p>

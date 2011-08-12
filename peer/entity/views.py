@@ -227,7 +227,7 @@ def text_edit_metadata(request, entity_id):
         if not text:
             form.errors['metadata_text'] = [_('Empty metadata not allowed')]
         else:
-            errors = validate(text)
+            errors = validate(entity, text)
             if errors:
                 form.errors['metadata_text'] = errors
         if form.is_valid():
@@ -265,7 +265,7 @@ def file_edit_metadata(request, entity_id):
             if not text:
                 form.errors['metadata_file'] = [_('Empty metadata not allowed')]
             else:
-                errors = validate(text)
+                errors = validate(entity, text)
                 if errors:
                     form.errors['metadata_file'] = errors
         if form.is_valid():
@@ -317,7 +317,7 @@ def remote_edit_metadata(request, entity_id):
                 if not text:
                     form.errors['metadata_url'] = [_('Empty metadata not allowed')]
                 else:
-                    errors = validate(text)
+                    errors = validate(entity, text)
                     if errors:
                         form.errors['metadata_url'] = errors
                 try:
