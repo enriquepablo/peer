@@ -2,6 +2,10 @@
 
 {% load i18n account entity_permissions %}
 
+{% block extralinks %}
+<link href="{% url changes_feed entity.id %}" rel="alternate" type="application/rss+xml" title="{% trans "Changes feed" %}" />
+{% endblock %}
+
 {% block extracss %}
 <link type="text/css" href="{{ STATIC_URL }}css/flags.css" rel="Stylesheet" />
 <link type="text/css" href="{% url get_pygments_css %}" rel="Stylesheet" />
@@ -108,7 +112,7 @@
       {% endif %}
 
       <dt class="ui-icon ui-icon-signal-diag" title="{% trans "Changes feed" %}">{% trans "Changes feed" %}</dt>
-      <dd><a href="{% url changes_feed entity.id %}">Changes feed</a></dd>
+      <dd><a href="{% url changes_feed entity.id %}">{% trans "Changes feed" %}</a></dd>
     </dl>
 
     <div class="history">
