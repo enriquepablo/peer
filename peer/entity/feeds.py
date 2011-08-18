@@ -30,6 +30,8 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
 
 from pygments import highlight
 from pygments.lexers import DiffLexer, XmlLexer
@@ -40,19 +42,48 @@ from entity.models import Entity
 from entity.utils import add_previous_revisions
 
 
+class EntitiesFeed(Feed):
+
+    title = _(u'Entities')
+    description = _(u'Full list of entities')
+
+    def link(self):
+        return reverse('entities_feed')
+
+    def items(self):
+        return Entity.objects.all()
+
+    def item_title(self, item):
+        return item.name
+
+    def item_description(self, item):
+        if item.metadata:
+            formatter = HtmlFormatter(linenos=False,
+                                      outencoding=settings.DEFAULT_CHARSET)
+            xml = item.metadata.read()
+            return highlight(xml, XmlLexer(), formatter)
+        else:
+            return ugettext(u'No metadata yet')
+
+    def item_link(self, item):
+        return item.get_absolute_url()
+
+
 class ChangesFeed(Feed):
 
     def get_object(self, request, entity_id):
         return get_object_or_404(Entity, pk=entity_id)
 
     def title(self, entity):
-        return u'Changes on the metadata of entity %s' % entity.name
+        return (ugettext(u'Changes on the metadata of entity %s')
+                % entity.name)
 
     def link(self, entity):
         return entity.get_absolute_url()
 
     def description(self, entity):
-        return u'Recent changes made on the metadata of entity %s' % entity.name
+        return (ugettext(u'Recent changes made on the metadata of entity %s')
+                % entity.name)
 
     def author_name(self, entity):
         return authorname(entity.owner)

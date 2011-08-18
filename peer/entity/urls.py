@@ -28,11 +28,12 @@
 
 from django.conf.urls.defaults import patterns, url
 
-from entity.feeds import ChangesFeed
+from entity.feeds import EntitiesFeed, ChangesFeed
 
 urlpatterns = patterns(
     'entity.views',
     url(r'^$', 'entities_list', name='entities_list'),
+    url(r'^rss$', EntitiesFeed(), name='entities_feed'),
     url(r'^add$', 'entity_add', name='entity_add'),
     url(r'^(?P<domain_name>\w.+)/add$', 'entity_add_with_domain',
         name='entity_add_with_domain'),
@@ -52,5 +53,5 @@ urlpatterns = patterns(
     url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>\w+)$', 'add_delegate', name='add_delegate'),
     url(r'^(?P<entity_id>\d+)/get_diff/(?P<r1>\w+)/(?P<r2>\w+)$', 'get_diff', name='get_diff'),
     url(r'^(?P<entity_id>\d+)/get_revision/(?P<rev>\w+)$', 'get_revision', name='get_revision'),
-    url(r'^(?P<entity_id>\d+)/rss/$', ChangesFeed(), name='changes_feed'),
+    url(r'^(?P<entity_id>\d+)/rss$', ChangesFeed(), name='changes_feed'),
 )
