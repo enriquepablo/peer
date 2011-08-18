@@ -108,7 +108,7 @@
       {% endif %}
 
       <dt class="ui-icon ui-icon-signal-diag" title="{% trans "Changes feed" %}">{% trans "Changes feed" %}</dt>
-      <dd><a href="">Changes feed</a></dd>
+      <dd><a href="{% url changes_feed entity.id %}">Changes feed</a></dd>
     </dl>
 
     <div class="history">

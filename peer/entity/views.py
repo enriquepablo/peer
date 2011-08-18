@@ -59,6 +59,7 @@ from entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity, PermissionDelegation
 from entity.security import can_edit_entity, can_change_entity_team
+from entity.utils import add_previous_revisions
 from entity.validation import validate
 
 
@@ -136,14 +137,7 @@ def entity_add_with_domain(request, domain_name=None,
 
 def entity_view(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
-    revs = entity.metadata.list_revisions()
-    prev, revisions = '', []
-    for rev in revs[::-1]:
-        if prev:
-            rev['previous'] = prev
-        prev = rev['versionid']
-        revisions.append(rev)
-    revs = reversed(revisions)
+    revs = add_previous_revisions(entity.metadata.list_revisions())
     return render_to_response('entity/view.html', {
             'entity': entity,
             'revs': revs,
