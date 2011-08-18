@@ -46,13 +46,13 @@ class ChangesFeed(Feed):
         return get_object_or_404(Entity, pk=entity_id)
 
     def title(self, entity):
-        return u'Changes for entity %s' % entity.name
+        return u'Changes on the metadata of entity %s' % entity.name
 
     def link(self, entity):
         return entity.get_absolute_url()
 
     def description(self, entity):
-        return u'Recent changes made on entity %s' % entity.name
+        return u'Recent changes made on the metadata of entity %s' % entity.name
 
     def author_name(self, entity):
         return authorname(entity.owner)
