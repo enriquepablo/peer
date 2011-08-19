@@ -258,7 +258,7 @@ METADATA_IMPORT_TERMS_OF_USE = os.path.join(BASEDIR,
 # MAX_FEED_ENTRIES = 10
 
 # Expiration warnings
-EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(days=60)
+EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(days=1)
 
 try:
     from local_settings import *
