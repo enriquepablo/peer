@@ -63,6 +63,12 @@ class Metadata(object):
             return self.etree.attrib['entityID']
 
     @property
+    def valid_until(self):
+        if 'validUntil' in self.etree.attrib:
+            value = self.etree.attrib['validUntil']
+            return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+
+    @property
     def organization(self):
         languages = {}
         for org_node in self.etree.findall(addns('Organization')):
@@ -183,6 +189,10 @@ class Entity(models.Model):
     @property
     def entityid(self):
         return self._load_metadata().entityid
+
+    @property
+    def valid_until(self):
+        return self._load_metadata().valid_until
 
     @property
     def organization(self):

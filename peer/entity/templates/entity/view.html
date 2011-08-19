@@ -42,6 +42,11 @@
       <dd>{{ entity.entityid }}</dd>
       {% endif %}
 
+      {% if entity.valid_until %}
+      <dt class="ui-icon ui-icon-calendar" title="{% trans "Valid until" %}">{% trans "Valid until" %}</dt>
+      <dd>{{ entity.valid_until }}</dd>
+      {% endif %}
+
       {% if entity.endpoints %}
       <dt class="ui-icon ui-icon-link" title="{% trans "Endpoints" %}">{% trans "Endpoints" %}</dt>
       <dd>
