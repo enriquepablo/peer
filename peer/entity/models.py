@@ -149,6 +149,10 @@ class Entity(models.Model):
     delegates = models.ManyToManyField(User, verbose_name=_('Delegates'),
                                        related_name='permission_delegated',
                                        through='PermissionDelegation')
+    creation_time = models.DateTimeField(verbose_name=_(u'Creation time'),
+                                         auto_now_add=True)
+    modification_time = models.DateTimeField(verbose_name=_(u'Modification time'),
+                                             auto_now=True)
 
     def __unicode__(self):
         return self.name
