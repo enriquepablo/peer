@@ -36,6 +36,8 @@ from django.template.loader import render_to_string
 
 from entity.models import Entity
 
+DEFAULT_THRESHOLD = datetime.timedelta(days=1)
+
 
 class Command(BaseCommand):
 
@@ -43,6 +45,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         now = datetime.datetime.now()
+        threshold = self.get_threshold()
         for entity in Entity.objects.all():
             if not entity.metadata:
                 continue
@@ -53,9 +56,16 @@ class Command(BaseCommand):
 
             if now > valid_until:
                 self.alert(entity, valid_until)
+            elif (valid_until - now) < threshold:
+                self.warn(entity, valid_until)
 
-    def alert(self, entity, valid_until):
-        subject = 'The metadata for entity %s has expired' % entity.name
+    def get_threshold(self):
+        try:
+            return settings.EXPIRATION_WARNING_TIMEDELTA
+        except AttributeError:
+            return DEFAULT_THRESHOLD
+
+    def get_recipients(self, entity):
         recipients = set()
 
         if entity.owner and entity.owner.email:
@@ -65,18 +75,39 @@ class Command(BaseCommand):
             if delegate.email:
                 recipients.add(delegate.email)
 
-        template_context = {
-            'entity': entity,
-            'valid_until': valid_until,
-            'site': Site.objects.get_current(),
-            }
+        return list(recipients)
 
+    def send_email(self, subject, recipients, context):
         if recipients:
             message = render_to_string(
-                'entity/expiration_alert_to_owners.txt', template_context)
+                'entity/expiration_alert_to_owners.txt', context)
             send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,
                       list(recipients), fail_silently=False)
         else:
             message = render_to_string(
-                'entity/expiration_alert_to_admins.txt', template_context)
+                'entity/expiration_alert_to_admins.txt', context)
             mail_admins(subject, message, fail_silently=False)
+
+    def alert(self, entity, valid_until):
+        subject = 'The metadata for entity %s has expired' % entity.name
+        recipients = self.get_recipients(entity)
+
+        template_context = {
+            'entity': entity,
+            'valid_until': valid_until,
+            'is_expired': True,
+            'site': Site.objects.get_current(),
+            }
+        self.send_email(subject, recipients, template_context)
+
+    def warn(self, entity, valid_until):
+        subject = 'The metadata for entity %s is about to expire' % entity.name
+        recipients = self.get_recipients(entity)
+
+        template_context = {
+            'entity': entity,
+            'valid_until': valid_until,
+            'is_expired': False,
+            'site': Site.objects.get_current(),
+            }
+        self.send_email(subject, recipients, template_context)

@@ -28,6 +28,7 @@
 
 # Django settings for peer project.
 
+import datetime
 import os
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
@@ -255,6 +256,9 @@ METADATA_IMPORT_TERMS_OF_USE = os.path.join(BASEDIR,
 
 # Max number of entries the global RSS feed will return
 # MAX_FEED_ENTRIES = 10
+
+# Expiration warnings
+EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(days=60)
 
 try:
     from local_settings import *
