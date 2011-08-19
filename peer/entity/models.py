@@ -66,7 +66,10 @@ class Metadata(object):
     def valid_until(self):
         if 'validUntil' in self.etree.attrib:
             value = self.etree.attrib['validUntil']
-            return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+            try:
+                return datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+            except ValueError:  # Bad datetime format
+                pass
 
     @property
     def organization(self):
