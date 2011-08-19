@@ -51,7 +51,11 @@ class EntitiesFeed(Feed):
         return reverse('entities_feed')
 
     def items(self):
-        return Entity.objects.all()
+        query = Entity.objects.all().order_by('-creation_time')
+        try:
+            return query[:settings.MAX_FEED_ENTRIES]
+        except AttributeError:
+            return query
 
     def item_title(self, item):
         return item.name

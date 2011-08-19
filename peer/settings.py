@@ -253,6 +253,9 @@ USER_REGISTER_TERMS_OF_USE = os.path.join(BASEDIR,
 METADATA_IMPORT_TERMS_OF_USE = os.path.join(BASEDIR,
                                             'metadata_import_terms_of_use.txt')
 
+# Max number of entries the global RSS feed will return
+# MAX_FEED_ENTRIES = 10
+
 try:
     from local_settings import *
 except ImportError:
