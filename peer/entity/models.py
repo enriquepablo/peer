@@ -173,6 +173,7 @@ class Entity(models.Model):
     class Meta:
         verbose_name = _(u'Entity')
         verbose_name_plural = _(u'Entities')
+        ordering = ('-creation_time', )
 
     def _load_metadata(self):
         if not hasattr(self, '_parsed_metadata'):
