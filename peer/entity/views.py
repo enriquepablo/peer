@@ -26,6 +26,7 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import datetime
 import re
 from tempfile import NamedTemporaryFile
 import urllib2
@@ -138,9 +139,13 @@ def entity_add_with_domain(request, domain_name=None,
 def entity_view(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
     revs = add_previous_revisions(entity.metadata.list_revisions())
+    is_expired = (entity.metadata
+                  and entity.valid_until
+                  and datetime.datetime.now() > entity.valid_until)
     return render_to_response('entity/view.html', {
             'entity': entity,
             'revs': revs,
+            'is_expired': is_expired,
             }, context_instance=RequestContext(request))
 
 

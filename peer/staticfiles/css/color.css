@@ -267,6 +267,10 @@ dl {
     border-bottom: 1px dotted #CCC;
 }
 
+strong.expired {
+    color: #ff5555;
+}
+
 .history h2 a {
     color: #ff7b33;
 }
