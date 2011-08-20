@@ -10,10 +10,6 @@
     float: right;
 }
 
-.welcome .right {
-    margin: 0;
-}
-
 .shadow {
     padding: 10px;
 }
@@ -85,6 +81,10 @@ textarea {
     padding-left: 5px;
 }
 
+nav {
+    margin: 0;
+}
+
 nav ul {
     padding: 10px 10px 60px;
     width: 200px;
@@ -129,6 +129,21 @@ nav ul li:last-child {
 nav ul li a {
     text-decoration: none;
 }
+
+nav #filters ul li {
+    border: 0;
+    line-height: 1.5em;
+}
+
+nav #filters ul li a {
+    border: 0;
+}
+
+nav #filters ul li a:hover {
+    border-radius: 0;
+    text-decoration: underline;
+}
+
 
 label,
 p.user-list-label {

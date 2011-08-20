@@ -140,6 +140,7 @@ header#header hgroup h2 a {
     text-shadow: 0.5px 0.5px 0 #e5e5e5;
 }
 
+
 section ul li,
 #home-content ul li,
 .history thead {
@@ -155,10 +156,6 @@ section ul li,
 
 section ul li a ,
 #home-content ul li a {
-    border: 5px solid transparent;
-}
-
-#filters ul li a:hover {
     border: 5px solid transparent;
 }
 
