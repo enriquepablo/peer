@@ -35,12 +35,23 @@ class Filter(object):
 
     label = None
 
+    def __init__(self, current_value):
+        self.current_value = current_value
+
+    def is_empty(self):
+        return self.current_value is None
+
     def get_options(self):
         raise NotImplemented('Abstract method')
 
-    def filter(self, entities, args):
-        raise NotImplemented('Abstract method')
+    def filter(self, entity):
+        if self.current_value is None:
+            return True
+        else:
+            return self._real_filter(entity)
 
+    def _real_filter(self, entities):
+        raise NotImplemented('Abstract method')
 
 MAX_DOMAINS = 5
 
@@ -55,20 +66,20 @@ class DomainFilter(Filter):
         for domain in Domain.objects.annotate(
             num_entities=Count('entity')).exclude(
             num_entities=0).order_by('-num_entities')[:MAX_DOMAINS]:
-            yield {'value': domain.name, 'count': domain.num_entities}
+            yield {
+                'value': domain.name,
+                'count': domain.num_entities,
+                'is_current': self.current_value == domain.name,
+                }
 
-    def filter(self, entities, domain):
-        return [e for e in entities if e.domain.name == domain]
+    def _real_filter(self, entity):
+        return entity.domain.name == self.current_value
 
 
-def get_filters():
-    return [DomainFilter()]
+def get_filters(GET):
+    return [F(GET.get(F.name, None)) for F in [DomainFilter]]
 
 
-def filter_entities(entities, get):
-    result = entities
-    for f in get_filters():
-        if f.name in get:
-            result = f.filter(result, get[f.name])
-
-    return result
+def filter_entities(filters, entities):
+    return [entity for entity in entities
+            if len(filter(lambda f: f.filter(entity), filters)) > 0]

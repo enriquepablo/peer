@@ -40,5 +40,5 @@ def index(request):
 
     return render_to_response('portal/index.html', {
            'entities': entities,
-           'filters': get_filters(),
+           'filters': get_filters(request.GET),
            }, context_instance=RequestContext(request))

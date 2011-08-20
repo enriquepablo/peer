@@ -415,13 +415,14 @@ def search_entities(request):
                                                      search_terms_raw)
             messages.success(request, msg)
 
-    entities = filter_entities(entities, request.GET)
+    filters = get_filters(request.GET)
+    entities = filter_entities(filters, entities)
 
     paginated_entities = _paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
             'entities': paginated_entities,
             'search_terms': search_terms_raw,
-            'filters': get_filters(),
+            'filters': filters,
             }, context_instance=RequestContext(request))
 
 
