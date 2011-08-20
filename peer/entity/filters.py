@@ -26,19 +26,49 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.db.models import Count
+from django.utils.translation import ugettext_lazy as _
 
-from entity.models import Entity
-from entity.views import get_entities_per_page
-from entity.filters import get_filters
+from domain.models import Domain
+
+class Filter(object):
+
+    label = None
+
+    def get_options(self):
+        raise NotImplemented('Abstract method')
+
+    def filter(self, entities, args):
+        raise NotImplemented('Abstract method')
 
 
-def index(request):
-    entities = Entity.objects.all()[:get_entities_per_page()]
+MAX_DOMAINS = 5
 
 
-    return render_to_response('portal/index.html', {
-           'entities': entities,
-           'filters': get_filters(),
-           }, context_instance=RequestContext(request))
+class DomainFilter(Filter):
+
+    name = 'domain'
+    label = _(u'By domain')
+
+    def get_options(self):
+        # top 5 domains with more entities
+        for domain in Domain.objects.annotate(
+            num_entities=Count('entity')).exclude(
+            num_entities=0).order_by('-num_entities')[:MAX_DOMAINS]:
+            yield {'value': domain.name, 'count': domain.num_entities}
+
+    def filter(self, entities, domain):
+        return [e for e in entities if e.domain.name == domain]
+
+
+def get_filters():
+    return [DomainFilter()]
+
+
+def filter_entities(entities, get):
+    result = entities
+    for f in get_filters():
+        if f.name in get:
+            result = f.filter(result, get[f.name])
+
+    return result

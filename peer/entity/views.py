@@ -56,6 +56,7 @@ from django.utils.translation import ugettext as _
 
 from account.templatetags.account import authorname
 from domain.models import Domain
+from entity.filters import get_filters, filter_entities
 from entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from entity.models import Entity, PermissionDelegation
@@ -395,6 +396,7 @@ def search_entities(request):
         sql = u"select * from entity_entity where " + where
         entities = Entity.objects.raw(sql, search_terms_list)
         search_terms = op.join(search_terms)
+
     try:
         entities = list(entities)
     except DatabaseError:
@@ -404,15 +406,22 @@ def search_entities(request):
                 u'You should not use !, :, &, | or \\')
         messages.error(request, msg)
     else:
-        n = len(entities)
-        plural = n == 1 and 'entity' or 'entities'
-        msg = _(u'Found %d %s matching "%s"') % (n, plural, search_terms_raw)
-        messages.success(request, msg)
+        if search_terms_raw == '':
+            entities = Entity.objects.all()
+        else:
+            n = len(entities)
+            plural = n == 1 and 'entity' or 'entities'
+            msg = _(u'Found %d %s matching "%s"') % (n, plural,
+                                                     search_terms_raw)
+            messages.success(request, msg)
+
+    entities = filter_entities(entities, request.GET)
 
     paginated_entities = _paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
             'entities': paginated_entities,
             'search_terms': search_terms_raw,
+            'filters': get_filters(),
             }, context_instance=RequestContext(request))
 
 
