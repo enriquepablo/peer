@@ -2,8 +2,11 @@
 
 {% load i18n entity_permissions %}
 
+{% block jspluginscss %}
+<link type="text/css" href="{{ STATIC_URL }}js/SAMLmetaJS/css/samlmetajs.css" rel="Stylesheet" />
+{% endblock %}
+
 {% block extracss %}
-<link type="text/css" href="{{ STATIC_URL }}css/samlmetajs.css" rel="Stylesheet" />
 <link type="text/css" href="{{ STATIC_URL }}css/terms-of-use.css" rel="Stylesheet" />
 {% endblock %}
 

@@ -642,13 +642,30 @@ ul.myEntities li a {
     width: 80%;
 }
 
-#metadata-tabs div#rawmetadata textarea {
-    width: 99%;
-    padding-top: 1em;
+/* SAMLmetaJS customizations */
+div#tabs fieldset {
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    margin: 1em 0.3em;
 }
 
-textarea#id_metadata_text {
+div#tabs fieldset legend {
+    border: 0;
+}
+
+#metadata-tabs div#tabs input[type=text] {
+    width: auto;
+}
+
+div#tabs div#rawmetadata textarea#id_metadata_text {
+    width: 99%;
+    padding-top: 1em;
     height: 350px;
+}
+
+div#tabs div#info div.infonamediv input {
+    width: 380px;
 }
 
 /* Forms */
