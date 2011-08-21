@@ -1,4 +1,5 @@
-if (typeof console === "undefined" || typeof console.log === "undefined") var console = { log: function() {} };
+/*jslint rhino: true, browser:true, onevar:false*/
+if (typeof console === "undefined" || typeof console.log === "undefined") {var console = { log: function() {} }}
 
 // Hack to initiatlize a DOMParser in browser that do not support this natively.
 // Hack found here:
@@ -42,15 +43,17 @@ var SAMLmetaJS = {};
 	SAMLmetaJS.pluginEngine = {
 		'execute': function(hook, parameters) {
 			var plugin;
-			if (!SAMLmetaJS.plugins) return;
+			if (!SAMLmetaJS.plugins) {return;}
 			for (plugin in SAMLmetaJS.plugins) {
 				if (SAMLmetaJS.plugins[plugin][hook]) {
-					console.log('Executing hook [' + hook + '] in plugin [' + plugin + ']');
+					// console.log('Executing hook [' + hook + '] in plugin [' + plugin + ']');
 					SAMLmetaJS.plugins[plugin][hook].apply(null, parameters);
 				}
 			}
 		}
 	};
+
+	
 
 	SAMLmetaJS.Constants = {
 		'ns' : {
@@ -93,9 +96,11 @@ var SAMLmetaJS = {};
 			'ja': 'Japanese (日本語)'
 		},
 		'contactTypes' : {
-			'admin' : 'Administrative',
+			'administrative' : 'Administrative',
 			'technical': 'Technical',
-			'support': 'Support'
+			'support': 'Support',
+			'billing': 'Billing',
+			'other': 'Other'
 		},
 		'endpointTypes' : {
 			'sp': {
@@ -179,14 +184,75 @@ var SAMLmetaJS = {};
 			'urn:oid:2.5.4.9': 'street'
 		}
 	};
+	
+	SAMLmetaJS.TestEngine = function(ruleset) {
+		if (
+			(typeof ruleset === 'undefined') ||
+			(ruleset === null)
+		 	){
+			
+			this.ruleset = {}
+		} else {
+			this.ruleset = ruleset;			
+		}
+		this.tests = [];
+	}
+	
+	SAMLmetaJS.TestEngine.prototype.addTest = function(test) {
+		if (this.ruleset.hasOwnProperty(test.id)) {
+			console.log('Overriding significance from [' + test.significance + '] to [' + this.ruleset[test.id] + '] for [' + test.id + ']');
+			test.significance = this.ruleset[test.id];			
+		}
+		this.tests.push(test);
+	}
+	
+	SAMLmetaJS.TestEngine.prototype.getResult = function() {
+		return this.tests;
+	}
+
+	SAMLmetaJS.TestEngine.prototype.reset = function() {
+		this.tests = [];
+	}
+
 
 	SAMLmetaJS.sync = function(node, options) {
 
-		var currentTab = 'xml';
+		var 
+			currentTab = 'xml',
+			mdreaderSetup = undefined,
+			showValidation = false,
+			showValidationLevel = {
+				'info': true,
+				'warning': true,
+				'error': true,
+				'ok': true
+			};
 
 		var setEntityID = function (entityid) {
 			$("input#entityid").val(entityid);
 		};
+		
+		var testEngine;
+
+
+		var showTestResults = function(testEngine, showLevel) {
+			var 
+				result = testEngine.getResult(),
+				i = 0,
+				testnode;
+
+			testnode = $(node).parent().parent().find('div#samlmetajs_testresults');
+
+			$(testnode).empty();
+			
+			for(i = 0; i < result.length; i ++) {
+				if (showLevel[result[i].getLevel()]) {
+					$(testnode).append(result[i].html() );					
+				}
+			}
+			
+		}
+
 
 		// This section extracts the information from the Metadata XML document,
 		// and updates the UI elements to reflect that.
@@ -195,14 +261,18 @@ var SAMLmetaJS = {};
 			currentTab = 'other';
 
 			console.log('fromXML()');
+			
 
-			var parser = SAMLmetaJS.xmlparser($(node).val());
-			var entitydescriptor = parser.getEntityDescriptor();
-
-			console.log(entitydescriptor);
-
+			testEngine.reset();
+			entitydescriptor = mdreader.parseFromString($(node).val());
 			setEntityID(entitydescriptor.entityid);
-
+			
+			console.log(entitydescriptor);
+			
+			if (showValidation === true) {
+				showTestResults(testEngine, showValidationLevel);
+			}
+			
 			SAMLmetaJS.pluginEngine.execute('fromXML', [entitydescriptor]);
 		};
 
@@ -214,17 +284,7 @@ var SAMLmetaJS = {};
 			currentTab = 'xml';
 			console.log('toXML()');
 
-			var entitydescriptor = {
-				'name': {},
-				'descr': {},
-				'contacts': [],
-				'organization': {},
-				'saml2sp': {
-					'AssertionConsumerService': [],
-					'SingleLogoutService': []
-				},
-				'attributes': {}
-			};
+			var entitydescriptor = {};
 
 			entitydescriptor.entityid = $('input#entityid').val();
 
@@ -242,6 +302,19 @@ var SAMLmetaJS = {};
 			var xmlstring = parser.getXMLasString();
 			xmlstring = SAMLmetaJS.XML.prettifyXML(xmlstring);
 			$(node).val(xmlstring);
+			
+			/*
+			 * Then parse the generated XML again, to perform the validation..
+			 */
+			if (showValidation === true) {
+				testEngine.reset();
+				entitydescriptor = mdreader.parseFromString($(node).val());
+				setEntityID(entitydescriptor.entityid);
+				showTestResults(testEngine, showValidationLevel);		
+				
+				console.log(entitydescriptor);		
+			}
+			// ---
 
 		};
 
@@ -260,17 +333,38 @@ var SAMLmetaJS = {};
 						   '<button class="prettify">Pretty format</button>' +
 						   '<button class="wipe">Wipe</button>' +
 						   '</div>');
-
+				
 			tabnode.prepend('<ul>' +
 							'<li><a href="#rawmetadata">Metadata</a></li>' +
 							pluginTabs.list.join('') +
 							'</ul>');
+			tabnode.prepend('<div id="samlmetajs_testresults"></div>');
 			tabnode.append(pluginTabs.content.join(''));
 
 			tabnode.tabs();
 		};
 
 		embrace();
+		
+		if (options.ruleset) {
+			mdreaderSetup = options.ruleset;
+		}
+		
+		if (options.showValidation) {
+			showValidation = options.showValidation;
+		}
+		if (options.showValidationLevel) {
+			showValidationLevel = options.showValidationLevel;
+		}
+		
+		
+		testEngine = new SAMLmetaJS.TestEngine(mdreaderSetup);
+		
+		mdreader.setup({
+			testProcessor: function(t) {
+				testEngine.addTest(t);
+			}
+		});
 
 		// Initialization of the automatic reflection between UI elements and XML
 

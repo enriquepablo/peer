@@ -15,6 +15,7 @@
 
 		for (endpointType in SAMLmetaJS.Constants.endpointTypes.sp) {
 			if (SAMLmetaJS.Constants.endpointTypes.sp.hasOwnProperty(endpointType)) {
+
 				checked = '';
 				if (endpointType === endpointname) {
 					checked = ' selected="selected" ';
@@ -108,6 +109,13 @@
 			if (entitydescriptor.saml2sp) {
 				for (endpoint in entitydescriptor.saml2sp) {
 					if (entitydescriptor.saml2sp.hasOwnProperty(endpoint)) {
+						
+						if (endpoint !== 'AssertionConsumerService' &&
+							endpoint !== 'SingleLogoutService'
+						) {
+							continue;
+						}
+						
 						for (i = 0; i < entitydescriptor.saml2sp[endpoint].length; i++) {
 							addEndpoint(entitydescriptor.saml2sp[endpoint][i], endpoint);
 						}
@@ -117,19 +125,37 @@
 		},
 
 		toXML: function (entitydescriptor) {
+			var 
+				indexcounter = 1,
+				indextaken = {};
+				
 			$('div#saml2sp fieldset').each(function (index, element) {
 				var newEndpoint = {};
-				var endpointType;
+				var endpointType, index;
 
 				if (!$(element).find('input').eq(0).attr('value')) {
 					return;
 				}
 
 				endpointType = $(element).find('select.datafield-type').val();
-				newEndpoint.Binding = $(element).find('select.datafield-binding').attr('value');
+				newEndpoint.Binding = $(element).find('select.datafield-binding').attr('value');				
 				newEndpoint.Location = $(element).find('input.datafield-location').attr('value');
 				newEndpoint.ResponseLocation = $(element).find('input.datafield-responselocation').attr('value');
-				newEndpoint.index = $(element).find('input.datafield-index').attr('value');
+				
+				index  = $(element).find('input.datafield-index').attr('value');
+				if (!index) {
+					if (endpointType === 'AssertionConsumerService') {
+						while(indextaken[indexcounter]) { indexcounter++; }
+						index = indexcounter;						
+					}
+				}
+				if (index) {
+					indextaken[index] = 1;
+					newEndpoint.index = index;					
+				}
+				
+				if (!entitydescriptor.saml2sp) entitydescriptor.saml2sp = {};
+				if (!entitydescriptor.saml2sp[endpointType]) entitydescriptor.saml2sp[endpointType] = [];
 				entitydescriptor.saml2sp[endpointType].push(newEndpoint);
 			});
 		}

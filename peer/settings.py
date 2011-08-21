@@ -244,8 +244,8 @@ PG_FT_INDEX_LANGUAGE = u'english'
 PG_FTS_OPERATOR = u'&'
 
 # SAMLmetaJS plugins
-SAML_META_JS_PLUGINS = ('attributes', 'certs', 'contact', 'info',
-                        'saml2sp', 'organization')
+SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'saml2sp', 'certs',
+                        'attributes')
 
 
 # Terms of Use

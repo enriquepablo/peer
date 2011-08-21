@@ -76,12 +76,11 @@
 
 		fromXML: function (entitydescriptor) {
 			var i;
-			if (!entitydescriptor.contacts) {
-				return;
-			}
 
-			// Add existing contacts (from XML)
+			// Clear contacts
 			UI.clearContacts();
+			
+			// Add existing contacts (from XML)			
 			if (entitydescriptor.contacts) {
 				for (i = 0; i < entitydescriptor.contacts.length; i++ ) {
 					UI.addContact(entitydescriptor.contacts[i]);
@@ -101,6 +100,7 @@
 				newContact.givenName = $(element).find('input').eq(0).attr('value');
 				newContact.surName = $(element).find('input').eq(1).attr('value');
 				newContact.emailAddress = $(element).find('input').eq(2).attr('value');
+				if (!entitydescriptor.contacts) entitydescriptor.contacts = [];
 				entitydescriptor.contacts.push(newContact);
 			});
 		}
