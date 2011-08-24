@@ -260,6 +260,9 @@ METADATA_IMPORT_TERMS_OF_USE = os.path.join(BASEDIR,
 # Expiration warnings
 EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(days=1)
 
+# Entities pagination
+ENTITIES_PER_PAGE = 10
+
 try:
     from local_settings import *
 except ImportError:

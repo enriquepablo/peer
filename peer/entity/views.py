@@ -418,11 +418,17 @@ def search_entities(request):
     filters = get_filters(request.GET)
     entities = filter_entities(filters, entities)
 
+    query_string = [u'%s=%s' % (f.name, f.current_value)
+                    for f in filters if not f.is_empty()]
+    if search_terms_raw:
+        query_string.append(u'query=%s' % search_terms_raw)
+
     paginated_entities = _paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
             'entities': paginated_entities,
             'search_terms': search_terms_raw,
             'filters': filters,
+            'query_string': u'&'.join(query_string),
             }, context_instance=RequestContext(request))
 
 
