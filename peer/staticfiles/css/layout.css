@@ -643,6 +643,10 @@ ul.myEntities li a {
 }
 
 /* SAMLmetaJS customizations */
+div#tabs div.ui-tabs-panel {
+    padding-top: 6px;
+}
+
 div#tabs fieldset {
     border-bottom: 0;
     border-left: 0;
@@ -660,12 +664,15 @@ div#tabs fieldset legend {
 
 div#tabs div#rawmetadata textarea#id_metadata_text {
     width: 99%;
-    padding-top: 1em;
     height: 350px;
 }
 
 div#tabs div#info div.infonamediv input {
     width: 380px;
+}
+
+div#tabs div#attributes div.content {
+    padding-top: 8px;
 }
 
 /* Forms */
