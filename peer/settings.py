@@ -226,7 +226,7 @@ LOGGING = {
 # ENTITY METADATA VALIDATION
 METADATA_VALIDATORS = (
     'entity.validation.validate_xml_syntax',
-#    'entity.validation.validate_domain_in_endpoints',
+    'entity.validation.validate_domain_in_endpoints',
 #    'entity.validation.validate_domain_in_entityid',
 )
 
