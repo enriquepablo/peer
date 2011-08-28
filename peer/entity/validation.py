@@ -50,15 +50,15 @@ def validate(entity, doc):
         validators = settings.METADATA_VALIDATORS
     except AttributeError:
         validators = []
-    errors = []
+    errors = set()
     for v in validators:
         val_list = v.split('.')
         mname = '.'.join(val_list[:-1])
         cname = val_list[-1]
         module = import_module(mname)
         validator = getattr(module, cname)
-        errors += validator(entity, doc)
-    return errors
+        errors.update(validator(entity, doc))
+    return list(errors)
 
 
 def _parse_metadata(doc):
