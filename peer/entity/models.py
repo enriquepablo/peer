@@ -78,9 +78,12 @@ class Metadata(object):
             for attr in ('name', 'displayName', 'URL'):
                 node_name = 'Organization' + attr[0].upper() + attr[1:]
                 for node in org_node.findall(addns(node_name)):
-                    lang = node.attrib['lang']
-                    lang_dict = languages.setdefault(lang, {})
-                    lang_dict[attr] = node.text
+                    try:
+                        lang = node.attrib['lang']
+                        lang_dict = languages.setdefault(lang, {})
+                        lang_dict[attr] = node.text
+                    except KeyError:
+                        pass  # the lang attribute is required
 
         result = []
         for lang, data in languages.items():
