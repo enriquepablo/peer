@@ -223,7 +223,7 @@ def text_edit_metadata(request, entity_id):
 
     if request.method == 'POST':
         form = MetadataTextEditForm(request.POST)
-        text = form['metadata_text'].data
+        text = form['metadata_text'].data.strip()
         if not text:
             form.errors['metadata_text'] = [_('Empty metadata not allowed')]
         else:
