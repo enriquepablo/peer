@@ -8,18 +8,17 @@
       method="post">{% csrf_token %}
   <fieldset>
     {% for field in form %}
+      {% if field.errors %}
+      <ul class="errorlist">
+        {% for error in field.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
       {% if field.name == "metadata_text" %}
-        {% if field.errors %}
-        <ul class="errorlist">
-          {% for error in field.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
         {{ field }}
       {% else %}
         <p>
-          {{ field.errors }}
           {{ field.label_tag }} {{ field }}
           <span class="helptext"> {{ field.help_text }}</span>
         </p>
