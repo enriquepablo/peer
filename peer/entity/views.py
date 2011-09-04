@@ -247,7 +247,7 @@ def text_edit_metadata(request, entity_id):
     else:
         form = None
     return edit_metadata(request, entity.id, text_form=form,
-                         accordion_activate='text')
+                         edit_mode='text')
 
 
 @login_required
@@ -280,7 +280,7 @@ def file_edit_metadata(request, entity_id):
                                       ' indicated below'))
     else:
         form = None
-    return edit_metadata(request, entity.id, accordion_activate='upload',
+    return edit_metadata(request, entity.id, edit_mode='upload',
                          file_form=form)
 
 
@@ -343,7 +343,7 @@ def remote_edit_metadata(request, entity_id):
                                       ' indicated below'))
     else:
         form = None
-    return edit_metadata(request, entity.id, accordion_activate='remote',
+    return edit_metadata(request, entity.id, edit_mode='remote',
                          remote_form=form)
 
 
@@ -352,7 +352,7 @@ DEFAULT_SAML_META_JS_PLUGINS = ('attributes', 'certs', 'contact', 'info',
 
 
 @login_required
-def edit_metadata(request, entity_id, accordion_activate='text',
+def edit_metadata(request, entity_id, edit_mode='text',
                   text_form=None, file_form=None, remote_form=None):
     entity = get_object_or_404(Entity, id=entity_id)
     if not can_edit_entity(request.user, entity):
@@ -369,7 +369,7 @@ def edit_metadata(request, entity_id, accordion_activate='text',
                                                  form=file_form),
             'remote_html': _get_edit_metadata_form(request, entity, 'remote',
                                                    form=remote_form),
-            'activate': accordion_activate,
+            'edit_mode': edit_mode,
             'samlmetajs_plugins': samlmetajs_plugins,
             'needs_google_maps': 'location' in samlmetajs_plugins,
             }, context_instance=RequestContext(request))

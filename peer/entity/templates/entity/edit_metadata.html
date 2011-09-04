@@ -23,12 +23,12 @@
 
     <ul>
       <li><a href="#text-tab">{% trans "By text editing ..." %}</a></li>
-      <li><a href="#file-tab">{% trans "By uploading a file ..." %}</a></li>
+      <li><a href="#upload-tab">{% trans "By uploading a file ..." %}</a></li>
       <li><a href="#remote-tab">{% trans "By fetching a remote URL ..." %}</a></li>
     </ul>
 
     <div id="text-tab"><div>{{ text_html|safe }}</div></div>
-    <div id="file-tab"><div>{{ file_html|safe }}</div></div>
+    <div id="upload-tab"><div>{{ file_html|safe }}</div></div>
     <div id="remote-tab"><div>{{ remote_html|safe }}</div></div>
   </div>
 </section>
@@ -48,7 +48,10 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function(){
-        $("#metadata-tabs").tabs();
+        var tabs = ['text', 'upload', 'remote'];
+        $("#metadata-tabs").tabs({
+            'selected': tabs.indexOf('{{ edit_mode }}')
+        });
         if ($.browser.msie && $.browser.version <= 9) {
             // We should be doing capability detection here but the problem
             // with IE <= 9 parser is that it exists but its API is
