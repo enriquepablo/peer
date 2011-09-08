@@ -47,6 +47,18 @@
 
 <script type="text/javascript">
 (function($) {
+    // IE does not have an indexOf array method, how cool is that?
+    if(!Array.indexOf) {
+        Array.prototype.indexOf = function(obj) {
+            for(var i=0; i < this.length; i++) {
+                if(this[i] === obj){
+                    return i;
+                }
+            }
+        return -1;
+        };
+    }
+
     $(document).ready(function(){
         var tabs = ['text', 'upload', 'remote'];
         $("#metadata-tabs").tabs({
