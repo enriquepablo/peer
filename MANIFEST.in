@@ -3,5 +3,5 @@ include README
 include CHANGES
 include buildout.cfg
 include bootstrap.py
-recursive-include peer *.py *.html *.js *.css *.png *.ico
+recursive-include peer *.py *.html *.js *.css *.png *.ico *.wsgi
 recursive-include doc *.py Makefile *.rst

@@ -38,7 +38,7 @@ def read(*rnames):
 def recursive_include(directory, patterns):
     result = []
     for root, dirs, files in os.walk(directory):
-        child_root = root.replace(directory + '/', '')
+        child_root = root.replace(directory, '').lstrip('/')
         for pattern in patterns:
             result.extend([os.path.join(child_root, name)
                            for name in fnmatch.filter(files, pattern)])
@@ -64,8 +64,8 @@ setup(
     packages=find_packages('.'),
     package_dir={'peer': 'peer'},
     package_data={
-        'peer': recursive_include('peer', ['*.html', '*.css',
-                                           '*.js', '*.png', '*.ico'])
+        'peer': recursive_include('peer', ['*.html', '*.css', '*.js',
+                                           '*.png', '*.ico', '*.wsgi'])
         },
     zip_safe=False,
     install_requires=[
