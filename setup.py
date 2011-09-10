@@ -26,13 +26,23 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-
+import fnmatch
 import os
 from setuptools import setup, find_packages
 
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
+
+def recursive_include(directory, patterns):
+    result = []
+    for root, dirs, files in os.walk(directory):
+        child_root = root.replace(directory + '/', '')
+        for pattern in patterns:
+            result.extend([os.path.join(child_root, name)
+                           for name in fnmatch.filter(files, pattern)])
+    return result
 
 
 setup(
@@ -51,8 +61,12 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         ],
-    packages=find_packages('peer'),
-    package_dir={'': 'peer'},
+    packages=find_packages('.'),
+    package_dir={'peer': 'peer'},
+    package_data={
+        'peer': recursive_include('peer', ['*.html', '*.css',
+                                           '*.js', '*.png', '*.ico'])
+        },
     zip_safe=False,
     install_requires=[
         'Django>=1.3',
