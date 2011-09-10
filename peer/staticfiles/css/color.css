@@ -141,8 +141,6 @@ header#header hgroup h2 a {
 }
 
 
-section ul li,
-#home-content ul li,
 .history thead {
     border-bottom: 1px solid #c5c7c6;
     box-shadow: 0px 1px 0 white;
@@ -152,18 +150,6 @@ section ul li,
 
 #filters ul li a {
     color: #7d7d7d;
-}
-
-section ul li a ,
-#home-content ul li a {
-    border: 5px solid transparent;
-}
-
-section ul.list li a:hover,
-#home-content ul li a:hover {
-    background-color: #FFF;
-    border: 5px solid #f0f0ef;
-    opacity: 0.75;
 }
 
 input,
@@ -230,19 +216,54 @@ table.domains tr td {
 }
 
 /* profile view */
-ul.domainList,
-ul.entityList {
-    border-top: 1px solid #BCC2E1;
+.separator {
+    border-bottom: 1px solid #BCC2E1;
 }
 
 li.notValidated,
-li.validated,
-ul.entityList li {
+li.validated {
     color: #ff7b33;
     border-bottom: none;
     box-shadow: none;
     text-shadow: 0.5px 0.5px 0 #f2f2f2;
+}
 
+.entityList > li {
+    border-bottom: 2px solid #c5c7c6;
+    box-shadow: 0px 1px 0 white;
+    -moz-box-shadow: 0px 1px 0 white;
+    -webkit-box-shadow: 0px 1px 0 white;
+}
+
+.entityList > li div {
+    border-top: 5px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+.entityList > li div:hover {
+    background-color: #FFF;
+    border-top: 5px solid #f0f0ef;
+    border-left: 5px solid #f0f0ef;
+    border-right: 5px solid #f0f0ef;
+    border-bottom: 5px solid #f0f0ef;
+    opacity: 0.75;
+}
+
+.entityList li li {
+    border-right: 1px solid #c5c7c6;
+    box-shadow: 1px 0px 0 white;
+    -moz-box-shadow: 1px 0px 0 white;
+    -webkit-box-shadow: 1px 0px 0 white;
+}
+
+.entityList .features li,
+.entityList li li:last-child {
+    border-right: none;
+    box-shadow: 0px 0px 0 white;
+    -moz-box-shadow: 0px 0px 0 white;
+    -webkit-box-shadow: 0px 0px 0 white;
 }
 
 li.validated,
@@ -266,6 +287,14 @@ dl {
 
 strong.expired {
     color: #ff5555;
+}
+
+.history h2 {
+    background: #d0d2cf;
+    border-bottom: 1px solid #a5a6a4;
+    box-shadow: 0px 1px 0 white;
+    -moz-box-shadow: 0px 1px 0 white;
+    -webkit-box-shadow: 0px 1px 0 white;
 }
 
 .history h2 a {

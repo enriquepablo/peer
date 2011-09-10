@@ -334,7 +334,6 @@ header#header hgroup h2 {
     clear: left;
     border: none;
     margin: 34px 260px 15px 40px;
-    max-width: 650px;
 }
 
 #home-content {
@@ -344,27 +343,9 @@ header#header hgroup h2 {
     padding-left: 0;
 }
 
-section ul,
-#home-content ul {
+section ul {
     list-style: none;
     margin: 0 1em 1em 0;
-}
-
-section ul li a,
-#home-content ul li a {
-    display: block;
-    padding: 1em 0 0.5em 1em;
-}
-
-section.mainContent ul li a {
-    padding: 0;
-}
-
-section ul li a:hover,
-#home-content ul li a:hover {
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
 }
 
 #search {
@@ -498,10 +479,66 @@ footer hgroup h2 a {
     font-size: 8px;
 }
 
+.separator {
+    padding-bottom: 2px;
+}
+
+.simpleList {
+    list-style: circle;
+    padding-left: 20px;
+}
+
+.entityList {
+    list-style: none;
+    margin: 0 1em 1em 0;
+}
+
+.entityList > li {
+    position: relative;
+    padding: 0;
+}
+
+.entityList > li div {
+    padding: 6px 1em 2px;
+}
+
+.entityList li ul {
+    margin: 8px 0 0 0;
+}
+
+.entityList li {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.entityList li li {
+    display: inline;
+    padding: 2px 1em;
+    font-size: 8pt;
+    font-weight: normal;
+}
+
+.entityList li li:first-child {
+    padding-left: 0;
+}
+
+.entityList .features {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    right: 0;
+}
+
+.entityList .features li {
+    float: left;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
 /* Styles for specific views */
 
-.domainList,
-.entityList {
+.domainList {
     list-style: none;
     margin-bottom: 20px;
 }
@@ -566,11 +603,14 @@ div.history {
 .history h2 {
     margin-bottom: 15px;
     line-height: 21px;
-    background: transparent url(../images/h2_history_bg.png) no-repeat left top;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
 }
 
 .history h2 a {
     font-size: 13px;
+    border-radius: 2px;
 }
 
 .history thead tr th {
@@ -605,7 +645,7 @@ li.notValidated form,
 li.validated a.removeButton,
 li.notValidated a.removeButton {
     float: right;
-    margin-top: -11px;
+    margin-top: 6px;
     margin-right: 6px;
 }
 

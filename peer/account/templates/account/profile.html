@@ -11,7 +11,7 @@
     <h1>{% trans "Welcome" %}, {% safefullname user %}</h1>
   </hgroup>
 
-  <h2>{% trans "Your domains" %}</h2>
+  <h2 class="separator">{% trans "Your domains" %}</h2>
 
   {% if domains %}
   <ul class="domainList">
@@ -33,9 +33,9 @@
   <a href="{% url domain_add %}">{% trans "Do you want to create one?" %}</a></p>
   {% endif %}
 
-  <h2>{% trans "Your entities" %}</h2>
+  <h2 class="separator">{% trans "Your entities" %}</h2>
   {% if owned_entities %}
-  <ul class="entityList">
+  <ul class="simpleList">
     {% for entity in owned_entities %}
     <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
     {% endfor %}
@@ -48,8 +48,8 @@
   {% endif %}
 
   {% if permission_delegations %}
-  <h2>{% trans "Entities you can manage" %}</h2>
-  <ul class="entityList">
+  <h2 class="separator">{% trans "Entities you can manage" %}</h2>
+  <ul class="simpleList">
     {% for delegation in permission_delegations %}
     <li><a href="{{ delegation.entity.get_absolute_url }}">{{ delegation.entity }}</a></li>
     {% endfor %}

@@ -44,7 +44,7 @@
 
       {% if entity.valid_until %}
       <dt class="ui-icon ui-icon-calendar" title="{% trans "Valid until" %}">{% trans "Valid until" %}</dt>
-      <dd>{% if is_expired %}<strong class="expired">{{ entity.valid_until }} ({% trans "Expired!" %})</strong>{% else %}{{ entity.valid_until }}{% endif %}</dd>
+      <dd>{% if entity.is_expired %}<strong class="expired">{{ entity.valid_until }} ({% trans "Expired!" %})</strong>{% else %}{{ entity.valid_until }}{% endif %}</dd>
       {% endif %}
 
       {% if entity.endpoints %}

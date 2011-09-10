@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n %}
+{% load i18n entity_renderers %}
 
 {% block extralinks %}
 <link href="{% url entities_feed %}" rel="alternate" type="application/rss+xml" title="{% trans "Entities feed" %}" />
@@ -23,9 +23,9 @@
   {% include "portal/menu.html" %}
 
   <section id="home-content" class="mainContent">
-    <ul>
+    <ul class="entityList">
       {% for entity in entities %}
-      <li><a href="{{ entity.get_absolute_url }}">{{ entity }}</a></li>
+      {% render_entity_as_list_item entity %}
       {% endfor %}
     </ul>
 
