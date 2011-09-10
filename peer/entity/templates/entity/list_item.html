@@ -1,4 +1,4 @@
-{% load i18n account %}
+{% load i18n account entity_renderers %}
 
 <li>
 <div>
@@ -16,7 +16,12 @@
   {% endif %}
   </ul>
 
-<a href="{{ entity.get_absolute_url }}">{{ title }}</a>
+<a class="entityName" href="{{ entity.get_absolute_url }}">{{ entity.name|truncatechars:10 }}</a>
+{% if has_metadata %}
+  {% if entity.entityid %}
+  <a class="entityId" href="{{ entity.get_absolute_url }}">{{ entity.entityid }}</a>
+  {% endif %}
+{% endif %}
 <ul>
   <li><a href="{% url search_entities %}?domain={{ entity.domain }}">{{ entity.domain }}</a></li>
 

@@ -34,10 +34,6 @@ register = template.Library()
 def render_entity_as_list_item(entity):
     has_metadata = entity.has_metadata()
 
-    title = unicode(entity)
-    if has_metadata and entity.entityid is not None:
-        title += u'. %s' % entity.entityid
-
     organization = None
     if has_metadata and entity.organization:
         for l18n in entity.organization:
@@ -63,10 +59,17 @@ def render_entity_as_list_item(entity):
     return {
         'entity': entity,
         'has_metadata': has_metadata,
-        'title': title,
         'organization': organization,
         'valid_until': valid_until,
         'endpoints': endpoints,
         'contacts': contacts,
         'certificates': certificates,
         }
+
+
+@register.filter
+def truncatechars(value, length):
+    if length < len(value):
+        return value[0:int(length)] + u'...'
+    else:
+        return value

@@ -499,7 +499,12 @@ footer hgroup h2 a {
 }
 
 .entityList > li div {
-    padding: 6px 1em 2px;
+    padding: 6px 1em 2px 0;
+}
+
+.entityList .entityId {
+    left: 120px;
+    position: absolute;
 }
 
 .entityList li ul {
@@ -518,7 +523,7 @@ footer hgroup h2 a {
     font-weight: normal;
 }
 
-.entityList li li:first-child {
+.entityList li ul li:first-child {
     padding-left: 0;
 }
 
