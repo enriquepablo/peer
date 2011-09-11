@@ -30,6 +30,6 @@ from django.conf.urls.defaults import patterns, url
 
 
 urlpatterns = patterns(
-    'portal.views',
+    'peer.portal.views',
     url(r'^$', 'index', name='index'),
 )

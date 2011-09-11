@@ -53,15 +53,15 @@ from django.db.utils import DatabaseError
 from django.db import transaction
 from django.utils.translation import ugettext as _
 
-from account.templatetags.account import authorname
-from domain.models import Domain
-from entity.filters import get_filters, filter_entities
-from entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
-from entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
-from entity.models import Entity, PermissionDelegation
-from entity.security import can_edit_entity, can_change_entity_team
-from entity.utils import add_previous_revisions
-from entity.validation import validate
+from peer.account.templatetags.account import authorname
+from peer.domain.models import Domain
+from peer.entity.filters import get_filters, filter_entities
+from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
+from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
+from peer.entity.models import Entity, PermissionDelegation
+from peer.entity.security import can_edit_entity, can_change_entity_team
+from peer.entity.utils import add_previous_revisions
+from peer.entity.validation import validate
 
 
 CONNECTION_TIMEOUT = 10

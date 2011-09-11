@@ -35,9 +35,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
-from domain.forms import DomainForm
-from domain.models import Domain
-from domain.validation import validate_ownership
+from peer.domain.forms import DomainForm
+from peer.domain.models import Domain
+from peer.domain.validation import validate_ownership
 
 
 @login_required

@@ -37,9 +37,9 @@ from pygments import highlight
 from pygments.lexers import DiffLexer, XmlLexer
 from pygments.formatters import HtmlFormatter
 
-from account.templatetags.account import authorname
-from entity.models import Entity
-from entity.utils import add_previous_revisions
+from peer.account.templatetags.account import authorname
+from peer.entity.models import Entity
+from peer.entity.utils import add_previous_revisions
 
 
 class EntitiesFeed(Feed):

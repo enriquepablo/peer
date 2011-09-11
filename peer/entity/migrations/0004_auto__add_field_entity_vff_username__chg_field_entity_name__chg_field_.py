@@ -9,13 +9,13 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding field 'Entity.vff_username'
-        db.add_column('entity_entity', 'vff_username', self.gf('customfields.SafeCharField')(max_length=255, null=True, blank=True), keep_default=False)
+        db.add_column('entity_entity', 'vff_username', self.gf('peer.customfields.SafeCharField')(max_length=255, null=True, blank=True), keep_default=False)
 
         # Changing field 'Entity.name'
-        db.alter_column('entity_entity', 'name', self.gf('customfields.SafeCharField')(max_length=100))
+        db.alter_column('entity_entity', 'name', self.gf('peer.customfields.SafeCharField')(max_length=100))
 
         # Changing field 'Entity.vff_commit_msg'
-        db.alter_column('entity_entity', 'vff_commit_msg', self.gf('customfields.SafeCharField')(max_length=255, null=True))
+        db.alter_column('entity_entity', 'vff_commit_msg', self.gf('peer.customfields.SafeCharField')(max_length=255, null=True))
 
 
     def backwards(self, orm):
@@ -70,7 +70,7 @@ class Migration(SchemaMigration):
         'domain.domain': {
             'Meta': {'object_name': 'Domain'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('customfields.SafeCharField', [], {'unique': 'True', 'max_length': '100'}),
+            'name': ('peer.customfields.SafeCharField', [], {'unique': 'True', 'max_length': '100'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'validated': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'validation_key': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
@@ -80,10 +80,10 @@ class Migration(SchemaMigration):
             'domain': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['domain.Domain']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'metadata': ('vff.field.VersionedFileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'name': ('customfields.SafeCharField', [], {'max_length': '100'}),
+            'name': ('peer.customfields.SafeCharField', [], {'max_length': '100'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
-            'vff_commit_msg': ('customfields.SafeCharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'vff_username': ('customfields.SafeCharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
+            'vff_commit_msg': ('peer.customfields.SafeCharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'vff_username': ('peer.customfields.SafeCharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
         'entity.permissiondelegation': {
             'Meta': {'object_name': 'PermissionDelegation'},

@@ -29,8 +29,8 @@
 from django import forms
 from django.utils.translation import ugettext as _
 
-from entity.models import Entity
-from customfields import TermsOfUseField, readtou
+from peer.customfields import TermsOfUseField, readtou
+from peer.entity.models import Entity
 
 
 class EditEntityForm(forms.ModelForm):

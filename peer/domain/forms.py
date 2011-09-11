@@ -28,7 +28,7 @@
 
 from django.forms import ModelForm
 
-from domain.models import Domain
+from peer.domain.models import Domain
 
 
 class DomainForm(ModelForm):

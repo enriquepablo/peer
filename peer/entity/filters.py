@@ -29,7 +29,7 @@
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
-from domain.models import Domain
+from peer.domain.models import Domain
 
 class Filter(object):
 

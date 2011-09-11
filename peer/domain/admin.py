@@ -28,7 +28,7 @@
 
 from django.contrib import admin
 
-from domain.models import Domain
+from peer.domain.models import Domain
 
 
 class DomainAdmin(admin.ModelAdmin):

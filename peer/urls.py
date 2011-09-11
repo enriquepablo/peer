@@ -32,7 +32,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from account.forms import RegistrationFormCaptchaTOU
+from peer.account.forms import RegistrationFormCaptchaTOU
 from registration import urls as registration_urls
 
 admin.autodiscover()
@@ -40,12 +40,12 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^', include('portal.urls')),
+    url(r'^', include('peer.portal.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^accounts/profile/$', 'account.views.profile',
+    url(r'^accounts/profile/$', 'peer.account.views.profile',
         name='account_profile'),
-    url(r'^accounts/profile/edit/$', 'account.views.profile_edit',
+    url(r'^accounts/profile/edit/$', 'peer.account.views.profile_edit',
         name='account_profile_edit'),
     url(r'^accounts/register/$', 'registration.views.register', {
             'form_class': RegistrationFormCaptchaTOU
@@ -53,13 +53,13 @@ urlpatterns = patterns(
     url(r'^accounts/password_change/$',
         'django.contrib.auth.views.password_change', name='password_change'),
     url(r'^accounts/invite_friend/$',
-        'account.views.invite_friend', name='invite_friend'),
+        'peer.account.views.invite_friend', name='invite_friend'),
     url(r'^accounts/search_users_auto/$',
-        'account.views.search_users_auto', name='search_users_auto'),
+        'peer.account.views.search_users_auto', name='search_users_auto'),
     (r'^accounts/', include(registration_urls)),
 
-    (r'^domain/', include('domain.urls')),
-    (r'^entity/', include('entity.urls')),
+    (r'^domain/', include('peer.domain.urls')),
+    (r'^entity/', include('peer.entity.urls')),
 )
 
 if settings.DEBUG:

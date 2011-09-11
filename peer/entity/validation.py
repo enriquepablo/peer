@@ -32,7 +32,7 @@ from lxml import etree
 from django.utils.importlib import import_module
 from django.conf import settings
 
-from entity.models import Metadata
+from peer.entity.models import Metadata
 
 
 def validate(entity, doc):

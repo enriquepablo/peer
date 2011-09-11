@@ -30,7 +30,7 @@ from django import template
 
 register = template.Library()
 
-from entity.security import can_edit_entity, can_change_entity_team
+from peer.entity.security import can_edit_entity, can_change_entity_team
 
 
 class PermissionNode(template.Node):

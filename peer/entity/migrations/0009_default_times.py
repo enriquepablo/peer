@@ -71,7 +71,7 @@ class Migration(DataMigration):
         'domain.domain': {
             'Meta': {'object_name': 'Domain'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('customfields.SafeCharField', [], {'unique': 'True', 'max_length': '100'}),
+            'name': ('peer.customfields.SafeCharField', [], {'unique': 'True', 'max_length': '100'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'validated': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'validation_key': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
@@ -84,7 +84,7 @@ class Migration(DataMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'metadata': ('vff.field.VersionedFileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'modification_time': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
-            'name': ('customfields.SafeCharField', [], {'max_length': '100'}),
+            'name': ('peer.customfields.SafeCharField', [], {'max_length': '100'}),
             'owner': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'})
         },
         'entity.permissiondelegation': {

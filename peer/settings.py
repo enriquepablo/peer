@@ -152,7 +152,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
 #    'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
-    'portal.context_processors.peer_theme',
+    'peer.portal.context_processors.peer_theme',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -182,10 +182,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'registration',
     'south',
-    'account',
-    'domain',
-    'entity',
-    'portal',
+    'peer.account',
+    'peer.domain',
+    'peer.entity',
+    'peer.portal',
 )
 
 # needed for django-registration
@@ -225,9 +225,9 @@ LOGGING = {
 
 # ENTITY METADATA VALIDATION
 METADATA_VALIDATORS = (
-    'entity.validation.validate_xml_syntax',
-    'entity.validation.validate_domain_in_endpoints',
-#    'entity.validation.validate_domain_in_entityid',
+    'peer.entity.validation.validate_xml_syntax',
+    'peer.entity.validation.validate_domain_in_endpoints',
+#    'peer.entity.validation.validate_domain_in_entityid',
 )
 
 # VFF VERSIONED FILE BACKEND

@@ -29,9 +29,9 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from entity.models import Entity
-from entity.views import get_entities_per_page
-from entity.filters import get_filters
+from peer.entity.models import Entity
+from peer.entity.views import get_entities_per_page
+from peer.entity.filters import get_filters
 
 
 def index(request):

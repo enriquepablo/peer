@@ -28,10 +28,10 @@
 
 from django.conf.urls.defaults import patterns, url
 
-from entity.feeds import EntitiesFeed, ChangesFeed
+from peer.entity.feeds import EntitiesFeed, ChangesFeed
 
 urlpatterns = patterns(
-    'entity.views',
+    'peer.entity.views',
     url(r'^$', 'entities_list', name='entities_list'),
     url(r'^rss$', EntitiesFeed(), name='entities_feed'),
     url(r'^add$', 'entity_add', name='entity_add'),

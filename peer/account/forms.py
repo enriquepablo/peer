@@ -32,7 +32,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
 from captcha.forms import RegistrationFormCaptcha
-from customfields import TermsOfUseField, readtou
+from peer.customfields import TermsOfUseField, readtou
 
 
 class RegistrationFormCaptchaTOU(RegistrationFormCaptcha):

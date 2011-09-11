@@ -38,7 +38,7 @@ from django.test import TestCase
 
 import fudge
 
-from domain.validation import validate_ownership, generate_validation_key
+from peer.domain.validation import validate_ownership, generate_validation_key
 
 
 class ValidationTest(TestCase):

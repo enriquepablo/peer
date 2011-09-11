@@ -35,8 +35,9 @@ from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 
 from vff.field import VersionedFileField
-from customfields import SafeCharField
-from domain.models import Domain
+
+from peer.customfields import SafeCharField
+from peer.domain.models import Domain
 
 
 SAML_METADATA_NAMESPACE = 'urn:oasis:names:tc:SAML:2.0:metadata'

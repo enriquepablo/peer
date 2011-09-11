@@ -43,11 +43,11 @@ from django.template import RequestContext
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
-from account.forms import PersonalInformationForm
-from account.forms import FriendInvitationForm
-from account.templatetags.account import safefullname
-from domain.models import Domain
-from entity.models import Entity, PermissionDelegation
+from peer.account.forms import PersonalInformationForm
+from peer.account.forms import FriendInvitationForm
+from peer.account.templatetags.account import safefullname
+from peer.domain.models import Domain
+from peer.entity.models import Entity, PermissionDelegation
 
 
 @login_required

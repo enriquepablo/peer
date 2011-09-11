@@ -33,8 +33,8 @@ from django.db import models
 from django.db.models import signals
 from django.utils.translation import ugettext_lazy as _
 
-from customfields import SafeCharField
-from domain.validation import generate_validation_key
+from peer.customfields import SafeCharField
+from peer.domain.validation import generate_validation_key
 
 
 class Domain(models.Model):

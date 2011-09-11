@@ -28,7 +28,7 @@
 
 from django.contrib import admin
 
-from entity.models import Entity, PermissionDelegation
+from peer.entity.models import Entity, PermissionDelegation
 
 
 class EntityAdmin(admin.ModelAdmin):

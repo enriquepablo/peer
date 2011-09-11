@@ -34,7 +34,7 @@ from django.core.mail import send_mail, mail_admins
 from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
 
-from entity.models import Entity
+from peer.entity.models import Entity
 
 DEFAULT_THRESHOLD = datetime.timedelta(days=1)
 
