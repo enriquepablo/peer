@@ -16,12 +16,85 @@ Standard installation
 The standard installation is recommended for having a glimpse at the PEER
 application and also for real production deployment.
 
-
 Creating a virtualenv
 ~~~~~~~~~~~~~~~~~~~~~
 
+When installing a python application from the source you may put it in your
+system python site-packages directory running the standard
+*python setup.py install* dance but that is not recommended since it will
+pollute your system Python and make upgrades unnecessarily difficult. If
+the python application have some dependencies, as the PEER application has,
+things will become worse since you may have conflicts between the
+dependencies versions needed by the application and the versions installed
+on your system and needed by other applications.
+
+.. note::
+  You should always install software using your Linux distribution packages.
+  Python applications are not a exception to this rule. This documentation
+  assumes that there is no PEER package yet in your Linux distribution or
+  it is very out of date.
+
+For all these reasons it is highly recommended to install the PEER
+application (any as a general rule, any Python application) in its own
+isolated environment. To do so there are a number of tools available. We
+will use *virtualenv* in this section and *buildout* in the Development
+installation section.
+
+So first we will install virtualenv:
+
+.. code-block:: bash
+
+  # Fedora example:
+  $ yum install python-virtualenv
+
+  # Debian/Ubuntu example:
+  $ apt-get install python-virtualenv
+
+Check your distribution documentation if you do not use neither Fedora nor
+Ubuntu.
+
+Now a new command called *virtualenv* is available on your system and we
+will use it to create a new virtual environment where we will install PEER.
+
+.. code-block:: bash
+
+  $ virtualenv /vaw/www/peer --no-site-packages
+
+The *--no-site-packges* option tells virtualenv to not depend on any system
+package. For example, even if you already have Django installed on your
+system it will install another copy inside this virtualenv. This improves
+the reliability by making sure you have the same versions of the
+dependencies that the developers have tested.
+
+.. note::
+  We are using the system python and not a custom compiled one, which would
+  improve the system isolation, because we are going to deploy the
+  application with Apache and mod_wsgi and they depend on the system python.
+
+
 Installing PEER and its dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this step the PEER software and all its depenencies will get installed
+into the virtualenv that was just created in the previous step.
+
+We first need to activate the virtualenv:
+
+.. code-block:: bash
+
+  $ source /vaw/www/peer/bin/activate
+
+This will change the *PATH* and some other environment variables so this
+will take precedence over your regular system python.
+
+Now we can install the PEER software:
+
+.. code-block:: bash
+
+  $ easy_install peer
+
+After a while you will have a bunch of new packages inside
+*/var/www/peer/lib/python2.6/site-packages/*
 
 Creating the database
 ~~~~~~~~~~~~~~~~~~~~~
@@ -116,6 +189,52 @@ database using the *peer* user and the password you assigned to it:
   this into production you may consider checking other Postgresql
   configuration settings to improve its performance and security.
 
+Creating the database schema
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now we have to create the database tables needed by PEER but before we need
+to configure it to tell the database parameters needed to connect to the
+database. This will be described with more deails in the Configuration
+chapter.
+
+Add the following information into the
+*/var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/local_settings.py* file:
+
+.. code-block:: python
+
+ DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'peer',
+         'USER': 'peer',
+         'PASSWORD': 'secret',
+         'HOST': '',
+         'PORT': '',
+     }
+ }
+
+Fill this dictionary with the appropiate values for your database
+installation, as performed in the previous step.
+
+.. note::
+  The location of the *local_settings.py* file depends on the PEER version
+  that you have. The path fragment *peer-X.Y.Z-py2.6* is ficticious and will
+  be something like *peer-0.5.0-py2.6* in real life.
+
+Then, activate the virtualenv:
+
+.. code-block:: bash
+
+  $ source /vaw/www/peer/bin/activate
+
+And run the Django syncdb command to create the database schema:
+
+.. code-block:: bash
+
+  $ django-admin.py syncdb --settings=peer.settings --migrate
+
+Running the standalone server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Configuring the web server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
