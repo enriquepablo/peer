@@ -390,7 +390,7 @@ def search_entities(request):
         where = (u' %s ' % op).join([u"name ilike '%s'"] * len(search_terms_list))
         sql = u"select * from entity_entity where " + where
         entities = Entity.objects.raw(sql, search_terms_list)
-        search_terms = op.join(search_terms)
+        search_terms = op.join(search_terms_raw)
 
     try:
         entities = list(entities)
