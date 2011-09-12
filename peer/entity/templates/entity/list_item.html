@@ -4,15 +4,15 @@
 <div>
   <ul class="features">
   {% if endpoints %}
-  <li>{{ endpoints }}<span class="ui-icon ui-icon-link" title="{% trans "Endpoints" %}"><span></li>
+  <li>{{ endpoints }}<span class="ui-icon ui-icon-link" title="{% trans "Endpoints" %}"></span></li>
   {% endif %}
 
   {% if contacts %}
-  <li>{{ contacts }}<span class="ui-icon ui-icon-person" title="{% trans "Contacts" %}"><span></li>
+  <li>{{ contacts }}<span class="ui-icon ui-icon-person" title="{% trans "Contacts" %}"></span></li>
   {% endif %}
 
   {% if certificates %}
-  <li>{{ certificates }}<span class="ui-icon ui-icon-key" title="{% trans "Certificates" %}"><span></li>
+  <li>{{ certificates }}<span class="ui-icon ui-icon-key" title="{% trans "Certificates" %}"></span></li>
   {% endif %}
   </ul>
 
@@ -35,10 +35,10 @@
   <li>
     {% if organization.URL %}
       <a href="{{ organization.URL }}">{{ organization.displayName }}</a>
-      <span class="flag {{ organization.lang }}" title="{{ organization.lang }}" />
+      <span class="flag {{ organization.lang }}" title="{{ organization.lang }}"></span>
     {% else %}
       {{ organization.displayName }}
-      <span class="flag {{ organization.lang }}" title="{{ organization.lang }}" />
+      <span class="flag {{ organization.lang }}" title="{{ organization.lang }}"></span>
     {% endif %}
   </li>
   {% endif %}
