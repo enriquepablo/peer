@@ -60,7 +60,8 @@ def domain_add(request):
             instance.owner = request.user
             instance.save()
             return HttpResponseRedirect(
-                reverse('domain.views.domain_add_success', kwargs={'domain_id': instance.id}))
+                reverse('domain_add_success',
+                        kwargs={'domain_id': instance.id}))
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
@@ -94,7 +95,7 @@ def domain_verification(request, domain_id):
         else:
             messages.error(
                 request, _(u'Error while checking domain ownership'))
-    return HttpResponseRedirect(reverse('domain.views.domain_list'))
+    return HttpResponseRedirect(reverse('domain_list'))
 
 @login_required
 def domain_remove(request, domain_id):
