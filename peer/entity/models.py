@@ -42,6 +42,7 @@ from peer.domain.models import Domain
 
 SAML_METADATA_NAMESPACE = 'urn:oasis:names:tc:SAML:2.0:metadata'
 XMLDSIG_NAMESPACE = 'http://www.w3.org/2000/09/xmldsig#'
+XML_NAMESPACE = 'http://www.w3.org/XML/1998/namespace'
 
 
 def addns(node_name, namespace=SAML_METADATA_NAMESPACE):
@@ -79,12 +80,15 @@ class Metadata(object):
             for attr in ('name', 'displayName', 'URL'):
                 node_name = 'Organization' + attr[0].upper() + attr[1:]
                 for node in org_node.findall(addns(node_name)):
-                    try:
+                    if 'lang' in node.attrib:
                         lang = node.attrib['lang']
-                        lang_dict = languages.setdefault(lang, {})
-                        lang_dict[attr] = node.text
-                    except KeyError:
-                        pass  # the lang attribute is required
+                    elif addns('lang', XML_NAMESPACE) in node.attrib:
+                        lang = node.attrib[addns('lang', XML_NAMESPACE)]
+                    else:
+                        continue  # the lang attribute is required
+
+                    lang_dict = languages.setdefault(lang, {})
+                    lang_dict[attr] = node.text
 
         result = []
         for lang, data in languages.items():
