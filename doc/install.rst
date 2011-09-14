@@ -10,6 +10,25 @@ please note that many configuration defaults will not be good for your
 installation. It is recommended to read the Configuration chapter
 right after this one.
 
+Common prerequisites
+--------------------
+
+The minimum version of Python needed to run PEER is 2.6.
+
+In the process of installing PEER, both in the standard installation and
+the development installation, it is necessary that some libraries already
+exist on your system. It is also needed the basic compiler chaintool and
+the development version of those libraries since the installation process
+compiles a couple of Python modules.
+
+.. code-block:: bash
+
+  # Fedora example:
+  $ yum install libxml2-devel libxml2 libxslt-devel libxslt
+
+  # Debian/Ubuntu example:
+  $ apt-get install libxml2-dev libxml2 libxslt1-dev libxslt1.1
+
 Standard installation
 ---------------------
 
@@ -293,34 +312,74 @@ the Git repository for the entities' metadata is created and maintained.
 Development installation
 ------------------------
 
- * Previous requirements of the machine:
+You can start by cloning the PEER repository, substituting <username> with
+your Github username:
 
-   $ sudo apt-get install libxml2-dev libxml2
-   $ sudo apt-get install libxslt1-dev libxslt1.1
+.. code-block:: bash
 
- * Download the code (rw) from github, substituting <username> with your github username::
+  $ git clone https://<username>@github.com/Yaco-Sistemas/peer.git
 
-   $ git clone https://<username>@github.com/Yaco-Sistemas/peer.git
+As in the standard installation we will create a virtualenv to isolate the
+system from the packages that the installation process is going to add.
 
- * Create a virtualenv and activate it, and execute the buildout in it::
+You can read more about this in the `Creating a virtualenv`_ section. Just
+install virtualenv if you haven't already done it:
 
-   $ cd peer
-   $ virtualenv --no-site-packages --python=python2.6 .
-   $ source bin/activate
-   $ python bootstrap.py
-   $ bin/buildout
+.. code-block:: bash
 
- * Create the postgresql database and populate it::
+  # Fedora example:
+  $ yum install python-virtualenv
 
-   $ sudo su - postgres
-   $ createuser peer
-   $ createdb -E UTF8 --owner=peer peer
-   $ exit
+  # Debian/Ubuntu example:
+  $ apt-get install python-virtualenv
+
+And create the virtualenv in the same directory where you cloned the PEER
+repository:
+
+.. code-block:: bash
+
+  $ cd peer
+  $ virtualenv . --no-site-packages
+  $ source bin/activate   # don't forget to activate the virtualenv
+
+Now we will create a buildout using the bootstrap script.
+
+.. code-block:: bash
+
+  $ python bootstrap.py
+  $ bin/buildout
+
+.. note::
+  Buildout is a Python package which purpose is to collect all the
+  dependencies and configuration needed to run a software. It is not
+  specific to Python software but obviously it is a good fit in those
+  cases.
+
+The bin/buildout command will take a while so you can create your database
+in the meantime. Check the `Creating the database`_ section of the standard
+installation to learn how to do it. By default the PEER software is expecting
+the database to be called `peer` and a user called `peer` to access that
+database with a password equal to `peer`. But of course you can configure
+PEER to use anything else.
+
+As soon as you have the database created and the buildout command has
+finished you can populate the database to create the schema:
+
+.. code-block:: bash
+
    $ bin/django syncdb --migrate
 
- * Start the server::
+And now you are ready to run the embedded Django server, which is perfectly
+fine for development purposes.:
+
+.. code-block:: bash
 
    $ bin/django runserver
 
-'''Note:''' The (system) user that own the apache proccesses must have write permission on the
-<buildout_dir>/peer/peer/media/ directory, where the versions repository is placed.
+.. note::
+  All traditional django-admin.py commands or manage.py commands are
+  available in the builoudt as bin/django commands.
+
+
+It is also recommended that you activate DEBUG mode in your configuration
+file. We will see how to do that in the next chapter, `Configuration`_.
