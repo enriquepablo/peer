@@ -47,7 +47,7 @@ def recursive_include(directory, patterns):
 
 setup(
     name='peer',
-    version='0.4.0',
+    version='0.5.0dev',
     url='https://github.com/Yaco-Sistemas/peer',
     license='BSD',
     description=('Public Endpoint Entities Registry'),
