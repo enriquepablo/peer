@@ -233,12 +233,62 @@ And run the Django syncdb command to create the database schema:
 
   $ django-admin.py syncdb --settings=peer.settings --migrate
 
-Running the standalone server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Collecting static files
+~~~~~~~~~~~~~~~~~~~~~~~
+
+In this step you will collect all necessary static resources needed by
+PEER and put them in a single directory so you can serve them directly
+through your web server increasing the efficiency of the whole system.
+
+The nice thing is that you don't have to do this manually. There is a
+Django command just for that:
+
+.. code-block:: bash
+
+  $ django-admin.py collectstatic --settings=peer.settings
+
+ You have requested to collect static files at the destination
+ location as specified in your settings file.
+
+ This will overwrite existing files.
+ Are you sure you want to do this?
+
+ Type 'yes' to continue, or 'no' to cancel: yes
+
 
 Configuring the web server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-- Permissions
+
+The recommended way to serve a PEER site is with a real web server that
+supports the WSGI (Web Server Gateway Interface) protocol. This is no
+surprise since the same applies to Django.
+
+If you use the Apacche web server all you need to do is write the
+following configuration into your specific virtual host section:
+
+.. code-block:: none
+
+ WSGIScriptAlias / /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0-py2.6.egg/peer/peer.wsgi
+ Alias /static/ /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0-py2.6.egg/peer/static/
+
+Bear in mind that the exact path may be different in your case, specially
+the Python and PEER version numbers.
+
+.. note::
+  If you use someting different from Apache, please check the documentation
+  of your web server about how to integrate it with a WSGI application.
+
+Finally, you need to make sure that the user that the Apache run as has write
+access to the MEDIA directory of your PEER site. That directory is where
+the Git repository for the entities' metadata is created and maintained.
+
+.. code-block:: bash
+
+  # Fedora example:
+  $ chown apache:apache /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0dev-py2.6.egg/peer/media
+
+  # Debian/Ubuntu example:
+  $ chown www-data:wwwd-data /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0dev-py2.6.egg/peer/media
 
 Development installation
 ------------------------
