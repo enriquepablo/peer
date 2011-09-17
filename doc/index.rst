@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Terena PEER's user documentation!
+Welcome to PEER's documentation!
 ============================================
 
 :Author: Terena
@@ -18,6 +18,8 @@ Contents:
    :maxdepth: 2
 
    install
+   configuration
+   upgrade
    users
    domains
    entities

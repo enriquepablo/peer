@@ -7,7 +7,7 @@ the developer community.
 
 After these steps you should have a PEER instance up and running but
 please note that many configuration defaults will not be good for your
-installation. It is recommended to read the Configuration chapter
+installation. It is recommended to read the `Configuration`_ chapter
 right after this one.
 
 Common prerequisites
@@ -213,7 +213,7 @@ Creating the database schema
 
 Now we have to create the database tables needed by PEER but before we need
 to configure it to tell the database parameters needed to connect to the
-database. This will be described with more deails in the Configuration
+database. This will be described with more deails in the `Configuration`_
 chapter.
 
 Add the following information into the
@@ -251,6 +251,11 @@ And run the Django syncdb command to create the database schema:
 .. code-block:: bash
 
   $ django-admin.py syncdb --settings=peer.settings --migrate
+
+.. note::
+  The syncdb Django command will ask you if you want to create an admin
+  user. You should answer yes to that question and write this admin's
+  username and password down. You will need them later.
 
 Collecting static files
 ~~~~~~~~~~~~~~~~~~~~~~~
