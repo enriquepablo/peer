@@ -7,7 +7,7 @@
 Welcome to PEER's documentation!
 ================================
 
-:Author: Terena
+:Author: `Terena <http://www.terena.org/>`_
 :Website: https://github.com/Yaco-Sistemas/peer/
 :Release: |release|
 
