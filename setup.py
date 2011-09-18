@@ -44,10 +44,13 @@ def recursive_include(directory, patterns):
                            for name in fnmatch.filter(files, pattern)])
     return result
 
+# be careful with the syntax of this line since it is parsed from
+# the docs/conf.py file
+VERSION = '0.5.0dev'
 
 setup(
     name='peer',
-    version='0.5.0dev',
+    version=VERSION,
     url='https://github.com/Yaco-Sistemas/peer',
     license='BSD',
     description=('Public Endpoint Entities Registry'),
