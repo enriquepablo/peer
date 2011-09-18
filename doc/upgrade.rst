@@ -55,6 +55,21 @@ command should be executed.
 It is safe to execute this command any time, even if there are no changes
 in the database schema.
 
+Updating your static files
+--------------------------
+
+If the new version you are upgrading too has new static files or has changed
+any of the old static files you should copy them again to their final
+destination:
+
+.. code-block:: bash
+
+  $ source /vaw/www/peer/bin/activate
+  $ django-admin.py collectstatic --settings=peer.settings
+
+It is safe to execute this command any time, even if there are no changes
+in the static files. It will only copy those files that are needed.
+
 Adjusting your web server configuration
 ---------------------------------------
 
