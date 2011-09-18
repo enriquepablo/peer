@@ -226,9 +226,14 @@ HOME_SUBTITLE:
 JQUERY_UI_THEME:
  jQuery UI theme to use. You can generate these themes using the `Theme
  Roller application`_. Then you should put this theme inside the css
- directory.
+ directory. This theme should be for jQuery UI 1.8.14 version. This theme
+ will affect the look of every button, icon, user messages and other widgets
+ accross the whole site.
 
 .. _`Theme Roller application`: http://jqueryui.com/themeroller/
+
+Check the :doc:`branding` section for more information about how to
+create a coherent theme.
 
 
 Registration settings

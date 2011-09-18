@@ -7,7 +7,7 @@ the developer community.
 
 After these steps you should have a PEER instance up and running but
 please note that many configuration defaults will not be good for your
-installation. It is recommended to read the `Configuration`_ chapter
+installation. It is recommended to read the :doc:`configuration` chapter
 right after this one.
 
 Common prerequisites
@@ -213,7 +213,7 @@ Creating the database schema
 
 Now we have to create the database tables needed by PEER but before we need
 to configure it to tell the database parameters needed to connect to the
-database. This will be described with more deails in the `Configuration`_
+database. This will be described with more deails in the :doc:`configuration`
 chapter.
 
 Add the following information into the
@@ -238,7 +238,7 @@ installation, as performed in the previous step.
 .. note::
   The location of the *local_settings.py* file depends on the PEER version
   that you have. The path fragment *peer-X.Y.Z-py2.6* is ficticious and will
-  be something like *peer-0.5.0-py2.6* in real life.
+  be something like *peer-0.4.0-py2.6* in real life.
 
 Then, activate the virtualenv:
 
@@ -292,8 +292,8 @@ following configuration into your specific virtual host section:
 
 .. code-block:: none
 
- WSGIScriptAlias / /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0-py2.6.egg/peer/peer.wsgi
- Alias /static/ /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0-py2.6.egg/peer/static/
+ WSGIScriptAlias / /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/peer.wsgi
+ Alias /static/ /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/static/
 
 Bear in mind that the exact path may be different in your case, specially
 the Python and PEER version numbers.
@@ -309,10 +309,10 @@ the Git repository for the entities' metadata is created and maintained.
 .. code-block:: bash
 
   # Fedora example:
-  $ chown apache:apache /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0dev-py2.6.egg/peer/media
+  $ chown apache:apache /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
 
   # Debian/Ubuntu example:
-  $ chown www-data:wwwd-data /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0dev-py2.6.egg/peer/media
+  $ chown www-data:wwwd-data /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
 
 Development installation
 ------------------------
@@ -387,4 +387,4 @@ fine for development purposes.:
 
 
 It is also recommended that you activate DEBUG mode in your configuration
-file. We will see how to do that in the next chapter, `Configuration`_.
+file. We will see how to do that in the next chapter, :doc:`configuration`.
