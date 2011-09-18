@@ -1,6 +1,19 @@
 CHANGES
 =======
 
+0.5.0 (2011-09-18)
+------------------
+- Big documentation review and lots of improvements.
+- More robust entity validation.
+- Fix small layout problems as a result of changing the metadata edition
+  UI from accordion to tabs.
+- Fix IE lack of indexOf Array method.
+- Update jQuery version.
+- Show more information of each entity when listing entities.
+- Big improvements in the easiness off deployment.
+- Clean up the settings.py file from options specific to
+  beta.terena-peer.yaco.es.
+
 0.4.0 (2011-08-28)
 ------------------
 - More robust metadata edition
