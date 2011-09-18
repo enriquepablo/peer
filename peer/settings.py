@@ -37,12 +37,12 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Lorenzo Gil', 'lgs@yaco.es'),
+    # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
 
-DEFAULT_FROM_EMAIL = 'no-reply@beta.terena-peer.yaco.es'
+DEFAULT_FROM_EMAIL = 'no-reply@example.com'
 
 DATABASES = {
     'default': {
@@ -133,7 +133,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'mc=$+amv4$m5p9dv-l_cko(&qp3@t*6c3!)r1#cxm#qzfapgjy'
+SECRET_KEY = ''
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
