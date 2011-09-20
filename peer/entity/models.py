@@ -186,6 +186,8 @@ class Entity(models.Model):
     def _load_metadata(self):
         if not hasattr(self, '_parsed_metadata'):
             data = self.metadata.read()
+            if data is None:
+                raise ValueError
             self._parsed_metadata = etree.XML(data)
 
         return Metadata(self._parsed_metadata)
