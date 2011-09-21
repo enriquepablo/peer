@@ -152,10 +152,9 @@ def entity_remove(request, entity_id):
         raise PermissionDenied
 
     if request.method == 'POST':
-        name = entity.metadata.name
         username = authorname(request.user)
         commit_msg = u'entity removed'
-        entity.metadata.delete(name, username, commit_msg)
+        entity.metadata.delete(username, commit_msg)
         entity.delete()
         messages.success(request, _('Entity removed succesfully'))
         return HttpResponseRedirect(reverse('entities_list'))
