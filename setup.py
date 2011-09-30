@@ -78,7 +78,7 @@ setup(
         'django-registration==0.7',
         'django-recaptcha==0.0.1',
         'fudge',
-        'django-vff==0.1b3',
+        'django-vff==0.1b4',
         'lxml',
         'pygments',
         ],
