@@ -187,8 +187,11 @@ class Entity(models.Model):
         if not hasattr(self, '_parsed_metadata'):
             data = self.metadata.read()
             if not data:
-                raise ValueError
-            self._parsed_metadata = etree.XML(data)
+                raise ValueError('no metadata content')
+            try:
+                self._parsed_metadata = etree.XML(data)
+            except etree.XMLSyntaxError:
+                raise ValueError('invalid metadata XML')
 
         return Metadata(self._parsed_metadata)
 
