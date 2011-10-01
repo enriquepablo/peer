@@ -239,6 +239,8 @@ def text_edit_metadata(request, entity_id):
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
+            return HttpResponseRedirect(reverse('text_edit_metadata',
+                                                args=(entity_id,)))
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
@@ -273,6 +275,8 @@ def file_edit_metadata(request, entity_id):
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
+            return HttpResponseRedirect(reverse('file_edit_metadata',
+                                                args=(entity_id,)))
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
@@ -336,6 +340,8 @@ def remote_edit_metadata(request, entity_id):
             entity.metadata.save(name, content, username, commit_msg)
             entity.save()
             messages.success(request, _('Entity metadata has been modified'))
+            return HttpResponseRedirect(reverse('remote_edit_metadata',
+                                                args=(entity_id,)))
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
