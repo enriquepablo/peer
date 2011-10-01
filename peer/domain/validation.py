@@ -28,11 +28,20 @@
 
 import datetime
 import hashlib
+import httplib
 import urllib2
 
+from django.conf import settings
 from django.utils.encoding import smart_str
 
 CONNECTION_TIMEOUT = 10
+
+
+def get_custom_user_agent():
+    if hasattr(settings, 'DOP_USER_AGENT'):
+        return settings.DOP_USER_AGENT
+    else:
+        return None
 
 
 def validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
@@ -42,8 +51,12 @@ def validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
     """
 
     try:
-        response = urllib2.urlopen(validation_url, None, timeout)
-    except (urllib2.URLError, urllib2.HTTPError):
+        request = urllib2.Request(validation_url)
+        custom_user_agent = get_custom_user_agent()
+        if custom_user_agent:
+            request.addheaders = [('User-agent', custom_user_agent)]
+        response = urllib2.urlopen(request, None, timeout)
+    except (urllib2.URLError, httplib.BadStatusLine):
         return False
 
     if response.getcode() == 200:
