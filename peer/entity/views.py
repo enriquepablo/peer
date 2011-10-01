@@ -558,6 +558,12 @@ def get_revision(request, entity_id, rev):
     return HttpResponse(html)
 
 
+def get_latest_metadata(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+    metadata_text = entity.metadata.get_revision()
+    return HttpResponse(metadata_text, mimetype="application/samlmetadata+xml")
+
+
 @cache_page
 def get_pygments_css(request):
     formatter = HtmlFormatter(linenos=True, outencoding='utf-8')

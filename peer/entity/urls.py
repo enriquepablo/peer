@@ -53,5 +53,7 @@ urlpatterns = patterns(
     url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>\w+)$', 'add_delegate', name='add_delegate'),
     url(r'^(?P<entity_id>\d+)/get_diff/(?P<r1>\w+)/(?P<r2>\w+)$', 'get_diff', name='get_diff'),
     url(r'^(?P<entity_id>\d+)/get_revision/(?P<rev>\w+)$', 'get_revision', name='get_revision'),
+    url(r'^(?P<entity_id>\d+)/latest_metadata/$', 'get_latest_metadata',
+        name='get_latest_metadata'),
     url(r'^(?P<entity_id>\d+)/rss$', ChangesFeed(), name='changes_feed'),
 )

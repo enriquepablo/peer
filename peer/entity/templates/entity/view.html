@@ -18,6 +18,7 @@
   <hgroup>
     <h1>{% trans "Entity details" %}</h1>
     <h2>{{ entity.name }}</h2>
+    <a class="button right" href="{% url get_latest_metadata entity.id %}">{% trans "Get latest version of the metadata" %}</a>
   </hgroup>
 
   {% if entity.owner %}
