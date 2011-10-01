@@ -349,6 +349,28 @@ This feature requires that you setup a cron job that calls the
 
  0 * * * * /var/www/peer/bin/django-admin.py expirationwarnings --settings=peer.settings
 
+
+Domain Ownership Proof
+~~~~~~~~~~~~~~~~~~~~~~
+
+Currently only a mechanism to prove the ownership of a domain is implemented:
+sending a specific HTTP request to a host on that domain. Other mechanism are
+expected to appear in future releases.
+
+Some web servers are configured to ban any request from an user agent that
+they don't recognize. That is the reason there is a setting where you can
+set a custom User Agent header to trick your web server into thinking this
+requests does not come from a malicious bot.
+
+.. code-block:: python
+
+ DOP_USER_AGENT = Mozilla/5.0 (X11; Linux i686; rv:10.0.1) Gecko/20100101 Firefox/10.0.1'
+
+This option is not set by default, which means the default user agent that
+is used is specified in Python standard library. This happens to be
+*Python-urllib/2.6*
+
+
 Administrators
 ~~~~~~~~~~~~~~
 
@@ -428,6 +450,8 @@ that some settings need unique values you must provide yourself.
  ENTITIES_PER_PAGE = 10
 
  EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(hours=2)
+
+ DOP_USER_AGENT = Mozilla/5.0 (X11; Linux i686; rv:10.0.1) Gecko/20100101 Firefox/10.0.1'
 
  ADMINS = (
      # ('Your Name', 'your_email@example.com'),
