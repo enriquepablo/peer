@@ -364,7 +364,7 @@ requests does not come from a malicious bot.
 
 .. code-block:: python
 
- DOP_USER_AGENT = Mozilla/5.0 (X11; Linux i686; rv:10.0.1) Gecko/20100101 Firefox/10.0.1'
+ DOP_USER_AGENT = 'Mozilla/5.0 (X11; Linux i686; rv:10.0.1) Gecko/20100101 Firefox/10.0.1'
 
 This option is not set by default, which means the default user agent that
 is used is specified in Python standard library. This happens to be
@@ -451,7 +451,7 @@ that some settings need unique values you must provide yourself.
 
  EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(hours=2)
 
- DOP_USER_AGENT = Mozilla/5.0 (X11; Linux i686; rv:10.0.1) Gecko/20100101 Firefox/10.0.1'
+ DOP_USER_AGENT = 'Mozilla/5.0 (X11; Linux i686; rv:10.0.1) Gecko/20100101 Firefox/10.0.1'
 
  ADMINS = (
      # ('Your Name', 'your_email@example.com'),
