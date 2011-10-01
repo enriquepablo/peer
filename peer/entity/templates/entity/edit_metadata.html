@@ -60,16 +60,22 @@
     }
 
     $(document).ready(function(){
-        var tabs = ['text', 'upload', 'remote'];
+        var tabs = ['text', 'upload', 'remote'], unsaved_changes = false;
         $("#metadata-tabs").tabs({
             'selected': tabs.indexOf('{{ edit_mode }}')
         });
+
+        function set_dirty () {
+            unsaved_changes = true;
+        }
+
         if ($.browser.msie && $.browser.version <= 9) {
             // We should be doing capability detection here but the problem
             // with IE <= 9 parser is that it exists but its API is
             // different and the namespaces are handled in a different way
             // See https://github.com/UNINETT/SAMLmetaJS/issues/7
             $("textarea#id_metadata_text").before("<p><span class='ui-icon ui-icon-alert'></span>Your browser does not support advanced XML manipulation via javascript so you can not use the advanced metadata editor. Please upgrade your browser for a better experience.</p>");
+            $("textarea#id_metadata_text").change(set_dirty)
         } else {
             $("textarea#id_metadata_text").SAMLmetaJS({
                 'showValidation': true,
@@ -86,6 +92,26 @@
                     return true;
                 }
             );
+
+            // There should be an API in SAMLmetaJS for this
+            // This is just a hack until we add such API
+            $("#text_edit_form input, #text_edit_form textarea, #text_edit_form select").live('change', set_dirty);
+            $("#text_edit_form button").live('click', set_dirty);
+            $(".removename").live('click', set_dirty);
+        }
+
+        // Warn the user that he may lose his changes if he navigates
+        // out of this page
+        window.onbeforeunload = function (event) {
+            var msg = "You have unsaved changes!";
+            if (unsaved_changes) {
+                if (event) {
+                    // For IE and Firefox prior to version 4
+                    event.returnValue = msg;
+                }
+                // For Safari and Firefox version 4 and later
+                return msg;
+            }
         }
     });
 })(jQuery);
