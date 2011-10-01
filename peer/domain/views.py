@@ -87,7 +87,8 @@ def domain_add_success(request, domain_id):
 def domain_verification(request, domain_id):
     if request.method == 'POST':
         domain = get_object_or_404(Domain, id=domain_id)
-        if validate_ownership(domain.validation_url):
+        if (validate_ownership(domain.validation_url) or
+            validate_ownership(domain.validation_url_with_www_prefix)):
             domain.validated = True
             domain.save()
             messages.success(

@@ -49,6 +49,8 @@ def validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
 
     False otherwise
     """
+    if not validation_url:
+        return False
 
     try:
         request = urllib2.Request(validation_url)

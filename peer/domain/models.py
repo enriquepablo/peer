@@ -50,8 +50,14 @@ class Domain(models.Model):
 
     @property
     def validation_url(self):
-        domain = 'http://%s' % self.name
+        domain = u'http://%s' % self.name
         return urlparse.urljoin(domain, self.validation_key)
+
+    @property
+    def validation_url_with_www_prefix(self):
+        if not self.name.startswith(u'www'):
+            domain = u'http://www.%s' % self.name
+            return urlparse.urljoin(domain, self.validation_key)
 
     def __unicode__(self):
         return self.name
