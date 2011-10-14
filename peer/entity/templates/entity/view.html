@@ -91,10 +91,10 @@
           <tr>
             {% if l10n_org.URL %}
             <td><a href="{{ l10n_org.URL }}">{{ l10n_org.displayName }}</a></td>
-            <td><span class="flag {{ l10n_org.lang }}" title="{{ l10n_org.lang }}" /></td>
+            <td><span class="flag {{ l10n_org.lang }}" title="{{ l10n_org.lang }}"></span></td>
             {% else %}
             <td>{{ l10n_org.displayName }}</td>
-            <td><span class="flag {{ l10n_org.lang }}" title="{{ l10n_org.lang }}" /></td>
+            <td><span class="flag {{ l10n_org.lang }}" title="{{ l10n_org.lang }}"></span></td>
             {% endif %}
           </tr>
           {% endfor %}
