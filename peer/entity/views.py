@@ -530,13 +530,25 @@ def make_owner(request, entity_id):
 
 # ENTITY DETAILS
 
+HTML_WRAPPER = u'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>%s - %s</title>
+</head>
+<body>
+%s
+</body>
+</html>
+'''
 
 def get_diff(request, entity_id, r1, r2):
     entity = get_object_or_404(Entity, id=entity_id)
     diff = entity.metadata.get_diff(r1, r2)
     formatter = HtmlFormatter(linenos=True,
                       outencoding=settings.DEFAULT_CHARSET)
-    html = highlight(diff, DiffLexer(), formatter)
+    html = HTML_WRAPPER % (entity_id, u'%s:%s' % (r1, r2),
+                           highlight(diff, DiffLexer(), formatter))
     return HttpResponse(html)
 
 
@@ -554,7 +566,8 @@ def get_revision(request, entity_id, rev):
     md = entity.metadata.get_revision(rev)
     formatter = HtmlFormatter(linenos=True,
                       outencoding=settings.DEFAULT_CHARSET)
-    html = highlight(md, XmlLexer(), formatter)
+    html = HTML_WRAPPER % (entity_id, rev,
+                           highlight(md, XmlLexer(), formatter))
     return HttpResponse(html)
 
 

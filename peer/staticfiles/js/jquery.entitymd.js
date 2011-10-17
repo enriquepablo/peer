@@ -4,8 +4,9 @@
 
     $.fn.entitymd.get_metadata = function() {
         var title = $(this).attr('title');
-        $.get($(this).attr('href'), function(data) {
-            $('div#metadata-contents').html(data).dialog({
+        var url = $(this).attr('href') + " table";
+        $('div#metadata-contents').load(url, function () {
+            $(this).dialog({
                 width: 800,
                 height: 400,
                 title: title,
@@ -14,9 +15,10 @@
                 }
             });
         });
+
         return false;
     };
-    
+
     $.extend($.ui.dialog.defaults, {
         overlay : {opacity: 1.0},
         modal: true
