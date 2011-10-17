@@ -545,11 +545,10 @@ HTML_WRAPPER = u'''<!DOCTYPE html>
 def get_diff(request, entity_id, r1, r2):
     entity = get_object_or_404(Entity, id=entity_id)
     diff = entity.metadata.get_diff(r1, r2)
-    formatter = HtmlFormatter(linenos=True,
-                      outencoding=settings.DEFAULT_CHARSET)
+    formatter = HtmlFormatter(linenos=True)
     html = HTML_WRAPPER % (entity_id, u'%s:%s' % (r1, r2),
                            highlight(diff, DiffLexer(), formatter))
-    return HttpResponse(html)
+    return HttpResponse(html.encode(settings.DEFAULT_CHARSET))
 
 
 #import difflib
@@ -564,11 +563,10 @@ def get_diff(request, entity_id, r1, r2):
 def get_revision(request, entity_id, rev):
     entity = get_object_or_404(Entity, id=entity_id)
     md = entity.metadata.get_revision(rev)
-    formatter = HtmlFormatter(linenos=True,
-                      outencoding=settings.DEFAULT_CHARSET)
+    formatter = HtmlFormatter(linenos=True)
     html = HTML_WRAPPER % (entity_id, rev,
                            highlight(md, XmlLexer(), formatter))
-    return HttpResponse(html)
+    return HttpResponse(html.encode(settings.DEFAULT_CHARSET))
 
 
 def get_latest_metadata(request, entity_id):
