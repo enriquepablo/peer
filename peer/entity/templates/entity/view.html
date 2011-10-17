@@ -18,10 +18,11 @@
   <hgroup>
     <h1>{% trans "Entity details" %}</h1>
     <h2>{{ entity.name }}</h2>
-    {% if entity.has_metadata %}
-    <a class="button right" href="{% url get_latest_metadata entity.id %}">{% trans "Get latest version of the metadata" %}</a>
-    {% endif %}
   </hgroup>
+
+  {% if entity.has_metadata %}
+  <a class="button right" href="{% url get_latest_metadata entity.id %}">{% trans "Get latest version of the metadata" %}</a>
+  {% endif %}
 
   {% if entity.owner %}
   <p>{% trans "Owned by" %} {% safefullname entity.owner %}</p>
