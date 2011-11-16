@@ -36,6 +36,7 @@ from peer.customfields import TermsOfUseField, readtou
 
 
 class RegistrationFormCaptchaTOU(RegistrationFormCaptcha):
+
     tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
 
     def __init__(self, *args, **kwargs):
