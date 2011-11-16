@@ -15,8 +15,13 @@
     </fieldset>
     <fieldset class="actionRow">
       <input class="button" type="submit" value="{% trans "Login" %}" />
-    </fieldset>
+
+  </fieldset>
   </form>
+
+  <p>
+    <a href="{% url auth_password_reset %}">{% trans "Forgot Password?" %}</a>
+  </p>
 
 </section>
 {% endblock %}
