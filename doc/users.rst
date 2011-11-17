@@ -36,9 +36,9 @@ In the case the user forgets her password, there is a link named *Forgot
 Password?* in the *Sign in* page which takes the user through the process of
 resetting her password. Firstly, the user is asked to type the email address
 in her personal information. Once the email address is submitted, an email is
-sent to such address with a unique URL that is only known to receiver of the
-email. Clicking in such link takes the user to another form where she can set
-her new password. From this point the process follows the normal
+sent to such address with a unique URL that is only known to the receiver of
+the email. Clicking in such link takes the user to another form where she can
+set her new password. From this point the process follows the normal
 `Registration`_ procedure.
 
 .. note::
