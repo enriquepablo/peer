@@ -26,7 +26,7 @@ Authentication
 If a user has an active account on the site, she can log in to the site,
 following the *Sign in* link mentioned above and filling in her username and
 password in the presented form. Once identified, the *Sign up* and *Sign in*
-links dissapear, and are replaced by one labelled "Logout" and another
+links disappear, and are replaced by one labelled "Logout" and another
 labelled with the user's full name (or username if the full name is not
 available). Following the *Logout* link invalidates the authentication
 tokens produced through signing in, so that the user becomes anonymous once
