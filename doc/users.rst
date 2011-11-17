@@ -32,6 +32,20 @@ available). Following the *Logout* link invalidates the authentication
 tokens produced through signing in, so that the user becomes anonymous once
 again.
 
+In the case the user forgets her password, there is a link named *Forgot
+Password?* in the *Sign in* page which takes the user through the process of
+resetting her password. Firstly, the user is asked to type the email address
+in her personal information. Once the email address is submitted, an email is
+sent to such address with a unique URL that is only known to receiver of the
+email. Clicking in such link takes the user to another form where she can set
+her new password. From this point the process follows the normal
+`Registration`_ procedure.
+
+.. note::
+  If the user doesn't remember the email address in her personal information,
+  there is no way to recover the password through this process. She'll have to
+  contact the system administrator so that he can reset her password.
+
 User profile
 ------------
 
@@ -45,6 +59,12 @@ entities, and a user's menu with a few links:
 * **Personal information** will take her to a form where she can change her
   email and her password, and can also enter a first and a last name. Her
   full name is the combination of her first and last names.
+
+  .. note::
+    If the user changes her email address, she has to ensure that she has
+    access to the new email address, otherwise she won't be able to recover
+    her password in case she forgets it.
+
 * **Change password** will take her to a form that will allow her to change
   her password. In this form she will be required to enter her old password,
   and (twice) her new password. If the old password is correct, and the new
