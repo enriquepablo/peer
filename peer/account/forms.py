@@ -39,12 +39,6 @@ class RegistrationFormCaptchaTOU(RegistrationFormCaptcha):
 
     tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
 
-    def __init__(self, *args, **kwargs):
-        super(RegistrationFormCaptcha, self).__init__(*args, **kwargs)
-        self.fields['email'].help_text = _(
-            u"You need an email address in case you need to reset your "
-            u"password.")
-
 
 class PersonalInformationForm(forms.ModelForm):
 
