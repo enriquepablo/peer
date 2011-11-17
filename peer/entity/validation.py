@@ -38,7 +38,7 @@ from peer.entity.models import Metadata
 def validate(entity, doc):
     """
     Call all validators defined in in settings.METADATA_VALIDATORS
-    on the xml given as a sttring (doc). Information about the
+    on the xml given as a string (doc). Information about the
     entity this metadata is validating for is passed in the first
     argument (entity).
 
@@ -75,7 +75,7 @@ def _parse_metadata(doc):
 
 def validate_xml_syntax(entity, doc):
     """
-    Check that the provided string contains synctactically valid xml,
+    Check that the provided string contains syntactically valid xml,
     simply by trying to parse it with lxml.
     """
     return _parse_metadata(doc)[0]
