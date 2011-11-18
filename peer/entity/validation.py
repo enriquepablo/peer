@@ -117,3 +117,51 @@ def validate_domain_in_entityid(entity, doc):
             u'The entityid does not belong to the domain %s' % domain)
 
     return errors
+
+
+def validate_metadata_permissions(entity, doc):
+    """
+    Checks whether the user has permission to change the attributes of an
+    entity.
+    """
+    errors, metadata = _parse_metadata(doc)
+    if errors:
+        return errors
+
+    new_etree = metadata.etree
+    old_etree = entity.metadata_etree
+
+    if old_etree == new_etree:
+        return errors
+
+    permissions = settings.METADATA_PERMISSIONS
+
+    for xpath_str, permission in permissions.iteritems():
+        old_elems = old_etree.xpath(xpath_str,
+                namespaces=old_etree.nsmap)
+        new_elems = new_etree.xpath(xpath_str,
+                namespaces=new_etree.nsmap)
+
+        # Element addition
+        if len(old_elems) < len(new_elems) and \
+           'a' not in permission:
+            errors.append(u'Addition is forbidden in element %s' %
+                          (old_elems[0].tag))
+
+        # Element deletion
+        elif len(old_elems) > len(new_elems) \
+            and 'd' not in permission:
+            errors.append(u'Deletion is forbidden in element %s' %
+                          (old_elems[0].tag))
+
+        elif (old_elems and new_elems) and \
+            (len(old_elems) == len(new_elems)) and \
+            'w' not in permission:
+            for old_elem, new_elem in zip(old_elems, new_elems):
+                if old_elem.values() != new_elem.values():
+                    errors.append(
+                        u'Value modification is forbidden for element %s' %
+                        (old_elem.tag))
+
+                    break
+    return errors
