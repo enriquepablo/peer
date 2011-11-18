@@ -227,6 +227,7 @@ LOGGING = {
 METADATA_VALIDATORS = (
     'peer.entity.validation.validate_xml_syntax',
     'peer.entity.validation.validate_domain_in_endpoints',
+    'peer.entity.validation.validate_metadata_permissions',
 #    'peer.entity.validation.validate_domain_in_entityid',
 )
 
@@ -267,3 +268,10 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+# Permissions for metadata attribute. The metadata attribute is defined by
+# its XPATH.
+METADATA_PERMISSIONS = {
+        '/md:EntityDescriptor': ('w', 'a', 'd'),
+        './/md:ServiceDescription': (),
+}
