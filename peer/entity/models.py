@@ -227,6 +227,10 @@ class Entity(models.Model):
     def endpoints(self):
         return self._load_metadata().endpoints
 
+    @property
+    def metadata_etree(self):
+        return self._load_metadata().etree
+
     def is_expired(self):
         return (self.has_metadata() and self.valid_until
                 and datetime.now() > self.valid_until)
