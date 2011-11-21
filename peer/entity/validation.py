@@ -36,7 +36,7 @@ from peer.entity.models import Metadata
 from peer.entity.utils import NAMESPACES
 
 
-def validate(entity, doc):
+def validate(entity, doc, user=None):
     """
     Call all validators defined in in settings.METADATA_VALIDATORS
     on the xml given as a string (doc). Information about the
@@ -58,7 +58,7 @@ def validate(entity, doc):
         cname = val_list[-1]
         module = import_module(mname)
         validator = getattr(module, cname)
-        errors.update(validator(entity, doc))
+        errors.update(validator(entity, doc, user=user))
     return list(errors)
 
 
@@ -74,7 +74,7 @@ def _parse_metadata(doc):
         return [], metadata
 
 
-def validate_xml_syntax(entity, doc):
+def validate_xml_syntax(entity, doc, user=None):
     """
     Check that the provided string contains syntactically valid xml,
     simply by trying to parse it with lxml.
@@ -82,7 +82,7 @@ def validate_xml_syntax(entity, doc):
     return _parse_metadata(doc)[0]
 
 
-def validate_domain_in_endpoints(entity, doc):
+def validate_domain_in_endpoints(entity, doc, user=None):
     """
     Makes sure the endpoints urls belongs to the domain of the entity
     """
@@ -102,7 +102,7 @@ def validate_domain_in_endpoints(entity, doc):
     return errors
 
 
-def validate_domain_in_entityid(entity, doc):
+def validate_domain_in_entityid(entity, doc, user=None):
     """
     Makes sure the entityid url belongs to the domain of the entity
     """
@@ -120,10 +120,10 @@ def validate_domain_in_entityid(entity, doc):
     return errors
 
 
-def validate_metadata_permissions(entity, doc):
+def validate_metadata_permissions(entity, doc, user=None):
     """
-    Checks whether the user has permission to change the attributes of an
-    entity.
+    Checks whether the user has permission to change element metadata of
+    an entity.
     """
     errors, metadata = _parse_metadata(doc)
     if errors:
@@ -137,29 +137,32 @@ def validate_metadata_permissions(entity, doc):
 
     permissions = settings.METADATA_PERMISSIONS
 
-    for xpath_str, permission in permissions.iteritems():
+    for xpath, perm, desc in permissions:
         if old_etree is not None:
-            old_elems = old_etree.xpath(xpath_str, namespaces=NAMESPACES)
+            old_elems = old_etree.xpath(xpath, namespaces=NAMESPACES)
         else:
             old_elems = list()
-        new_elems = new_etree.xpath(xpath_str, namespaces=NAMESPACES)
+        new_elems = new_etree.xpath(xpath, namespaces=NAMESPACES)
 
         # Element addition
         if len(old_elems) < len(new_elems) and \
-           'a' not in permission:
+            perm.startswith('add') and not \
+            user.has_perm('.'.join(('peer', perm))):
             errors.append(u'Addition is forbidden in element %s' %
                           (new_elems[0].tag))
 
         # Element deletion
-        elif len(old_elems) > len(new_elems) \
-            and 'd' not in permission:
+        elif len(old_elems) > len(new_elems) and \
+            perm.startswith('delete') and not\
+            user.has_perm('.'.join(('peer', perm))):
             errors.append(u'Deletion is forbidden in element %s' %
                           (new_elems[0].tag))
 
         # Element modification
         elif (old_elems and new_elems) and \
             (len(old_elems) == len(new_elems)) and \
-            'w' not in permission:
+            perm.startswith('modify') and not\
+            user.has_perm('.'.join(('peer', perm))):
             for old_elem, new_elem in zip(old_elems, new_elems):
                 if old_elem != new_elem:
                     errors.append(

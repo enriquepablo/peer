@@ -26,6 +26,7 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from django.conf import settings
 
 NAMESPACES = {
     'md': 'urn:oasis:names:tc:SAML:2.0:metadata',

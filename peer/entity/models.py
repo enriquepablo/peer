@@ -33,6 +33,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from vff.field import VersionedFileField
 
@@ -172,6 +173,7 @@ class Entity(models.Model):
         verbose_name = _(u'Entity')
         verbose_name_plural = _(u'Entities')
         ordering = ('-creation_time', )
+        permissions = tuple(p[1:] for p in settings.METADATA_PERMISSIONS)
 
     def _load_metadata(self):
         if not hasattr(self, '_parsed_metadata'):
