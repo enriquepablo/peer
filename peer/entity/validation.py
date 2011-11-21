@@ -161,7 +161,7 @@ def validate_metadata_permissions(entity, doc):
             (len(old_elems) == len(new_elems)) and \
             'w' not in permission:
             for old_elem, new_elem in zip(old_elems, new_elems):
-                if old_elem.values() != new_elem.values():
+                if old_elem != new_elem:
                     errors.append(
                         u'Value modification is forbidden for element %s' %
                         (new_elem.tag))

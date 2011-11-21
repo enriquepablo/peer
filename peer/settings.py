@@ -237,6 +237,7 @@ METADATA_PERMISSIONS = {
     '/md:EntityDescriptor': ('w', 'a', 'd'),
     './/md:ServiceDescription': (),
     './/mdui:Description': (),
+    './/md:OrganizationName': (),
 }
 
 # VFF VERSIONED FILE BACKEND
