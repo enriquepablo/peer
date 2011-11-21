@@ -239,6 +239,7 @@ METADATA_PERMISSIONS = {
     './/mdui:Description': (),
 }
 
+# TODO: This should go to a module
 # SAML prefix namespaces
 SAML_PREFIX_MAP = {
     'md': 'urn:oasis:names:tc:SAML:2.0:metadata',

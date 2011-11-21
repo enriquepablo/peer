@@ -138,20 +138,23 @@ def validate_metadata_permissions(entity, doc):
     prefixmap = settings.SAML_PREFIX_MAP
 
     for xpath_str, permission in permissions.iteritems():
-        old_elems = old_etree.xpath(xpath_str, namespaces=prefixmap)
+        if old_etree is not None:
+            old_elems = old_etree.xpath(xpath_str, namespaces=prefixmap)
+        else:
+            old_elems = list()
         new_elems = new_etree.xpath(xpath_str, namespaces=prefixmap)
 
         # Element addition
         if len(old_elems) < len(new_elems) and \
            'a' not in permission:
             errors.append(u'Addition is forbidden in element %s' %
-                          (old_elems[0].tag))
+                          (new_elems[0].tag))
 
         # Element deletion
         elif len(old_elems) > len(new_elems) \
             and 'd' not in permission:
             errors.append(u'Deletion is forbidden in element %s' %
-                          (old_elems[0].tag))
+                          (new_elems[0].tag))
 
         # Element modification
         elif (old_elems and new_elems) and \
@@ -161,7 +164,7 @@ def validate_metadata_permissions(entity, doc):
                 if old_elem.values() != new_elem.values():
                     errors.append(
                         u'Value modification is forbidden for element %s' %
-                        (old_elem.tag))
+                        (new_elem.tag))
 
                     break
     return errors
