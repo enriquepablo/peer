@@ -231,6 +231,21 @@ METADATA_VALIDATORS = (
 #    'peer.entity.validation.validate_domain_in_entityid',
 )
 
+# Permissions for metadata attribute. The metadata attribute is defined by
+# its XPATH.
+METADATA_PERMISSIONS = {
+    '/md:EntityDescriptor': ('w', 'a', 'd'),
+    './/md:ServiceDescription': (),
+    './/mdui:Description': (),
+}
+
+# SAML prefix namespaces
+SAML_PREFIX_MAP = {
+    'md': 'urn:oasis:names:tc:SAML:2.0:metadata',
+    'ds': 'http://www.w3.org/2000/09/xmldsig#',
+    'mdui': 'urn:oasis:names:tc:SAML:metadata:ui',
+}
+
 # VFF VERSIONED FILE BACKEND
 VERSIONEDFILE_BACKEND = 'vff.git_backend.GitBackend'
 
@@ -268,10 +283,3 @@ try:
     from local_settings import *
 except ImportError:
     pass
-
-# Permissions for metadata attribute. The metadata attribute is defined by
-# its XPATH.
-METADATA_PERMISSIONS = {
-        '/md:EntityDescriptor': ('w', 'a', 'd'),
-        './/md:ServiceDescription': (),
-}

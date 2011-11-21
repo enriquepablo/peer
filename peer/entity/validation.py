@@ -135,12 +135,11 @@ def validate_metadata_permissions(entity, doc):
         return errors
 
     permissions = settings.METADATA_PERMISSIONS
+    prefixmap = settings.SAML_PREFIX_MAP
 
     for xpath_str, permission in permissions.iteritems():
-        old_elems = old_etree.xpath(xpath_str,
-                namespaces=old_etree.nsmap)
-        new_elems = new_etree.xpath(xpath_str,
-                namespaces=new_etree.nsmap)
+        old_elems = old_etree.xpath(xpath_str, namespaces=prefixmap)
+        new_elems = new_etree.xpath(xpath_str, namespaces=prefixmap)
 
         # Element addition
         if len(old_elems) < len(new_elems) and \
