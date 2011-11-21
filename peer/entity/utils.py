@@ -27,6 +27,25 @@
 # either expressed or implied, of Terena.
 
 
+NAMESPACES = {
+    'md': 'urn:oasis:names:tc:SAML:2.0:metadata',
+    'mdui': 'urn:oasis:names:tc:SAML:metadata:ui',
+    'ds': 'http://www.w3.org/2000/09/xmldsig#',
+    'xml': 'http://www.w3.org/XML/1998/namespace',
+    }
+
+SAML_METADATA_NAMESPACE = NAMESPACES['md']
+
+
+def addns(node_name, namespace=SAML_METADATA_NAMESPACE):
+    '''Return a node name qualified with the XML namespace'''
+    return '{' + namespace + '}' + node_name
+
+
+def delns(node, namespace=SAML_METADATA_NAMESPACE):
+    return node.replace('{' + namespace + '}', '')
+
+
 def add_previous_revisions(revisions):
     prev, revs = '', []
     for rev in revisions[::-1]:

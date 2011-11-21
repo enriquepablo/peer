@@ -33,6 +33,7 @@ from django.utils.importlib import import_module
 from django.conf import settings
 
 from peer.entity.models import Metadata
+from peer.entity.utils import NAMESPACES
 
 
 def validate(entity, doc):
@@ -135,14 +136,13 @@ def validate_metadata_permissions(entity, doc):
         return errors
 
     permissions = settings.METADATA_PERMISSIONS
-    prefixmap = settings.SAML_PREFIX_MAP
 
     for xpath_str, permission in permissions.iteritems():
         if old_etree is not None:
-            old_elems = old_etree.xpath(xpath_str, namespaces=prefixmap)
+            old_elems = old_etree.xpath(xpath_str, namespaces=NAMESPACES)
         else:
             old_elems = list()
-        new_elems = new_etree.xpath(xpath_str, namespaces=prefixmap)
+        new_elems = new_etree.xpath(xpath_str, namespaces=NAMESPACES)
 
         # Element addition
         if len(old_elems) < len(new_elems) and \

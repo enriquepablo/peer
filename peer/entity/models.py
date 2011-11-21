@@ -38,20 +38,10 @@ from vff.field import VersionedFileField
 
 from peer.customfields import SafeCharField
 from peer.domain.models import Domain
+from peer.entity.utils import NAMESPACES, addns, delns
 
-
-SAML_METADATA_NAMESPACE = 'urn:oasis:names:tc:SAML:2.0:metadata'
-XMLDSIG_NAMESPACE = 'http://www.w3.org/2000/09/xmldsig#'
-XML_NAMESPACE = 'http://www.w3.org/XML/1998/namespace'
-
-
-def addns(node_name, namespace=SAML_METADATA_NAMESPACE):
-    '''Return a node name qualified with the XML namespace'''
-    return '{' + namespace + '}' + node_name
-
-
-def delns(node, namespace=SAML_METADATA_NAMESPACE):
-    return node.replace('{' + namespace + '}', '')
+XML_NAMESPACE = NAMESPACES['xml']
+XMLDSIG_NAMESPACE = NAMESPACES['ds']
 
 
 class Metadata(object):
