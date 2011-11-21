@@ -33,7 +33,7 @@ from django.utils.importlib import import_module
 from django.conf import settings
 
 from peer.entity.models import Metadata
-from peer.entity.utils import NAMESPACES
+from peer.entity.utils import NAMESPACES, expand_settings_permissions
 
 
 def validate(entity, doc, user=None):
@@ -135,7 +135,7 @@ def validate_metadata_permissions(entity, doc, user=None):
     if old_etree == new_etree:
         return errors
 
-    permissions = settings.METADATA_PERMISSIONS
+    permissions = expand_settings_permissions()
 
     for xpath, perm, desc in permissions:
         if old_etree is not None:

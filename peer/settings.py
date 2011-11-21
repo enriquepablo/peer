@@ -235,9 +235,7 @@ METADATA_VALIDATORS = (
 # its XPATH. The triplets are (<XPATH>, <Permission name>, <Permission
 # description>) 
 METADATA_PERMISSIONS = (
-    ('/md:EntityDescriptor', 'add_entity_descriptor', 'Can add Entity Description'),
-    ('/md:EntityDescriptor', 'delete_entity_descriptor', 'Can delete Entity Description'),
-    ('/md:EntityDescriptor', 'modify_entity_descriptor', 'Can modify Entity Description'),
+    ('/md:EntityDescriptor', 'entity_descriptor', 'Entity Description'),
     ('.//md:ServiceDescription', 'service_descriptor', 'Service Description'),
     ('.//mdui:Description', 'description', 'Description'),
     ('.//md:OrganizationName', 'organization_name', 'Organization Name'),

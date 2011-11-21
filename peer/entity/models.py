@@ -33,13 +33,14 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
 
 from vff.field import VersionedFileField
 
 from peer.customfields import SafeCharField
 from peer.domain.models import Domain
 from peer.entity.utils import NAMESPACES, addns, delns
+from peer.entity.utils import expand_settings_permissions
+
 
 XML_NAMESPACE = NAMESPACES['xml']
 XMLDSIG_NAMESPACE = NAMESPACES['ds']
@@ -173,7 +174,7 @@ class Entity(models.Model):
         verbose_name = _(u'Entity')
         verbose_name_plural = _(u'Entities')
         ordering = ('-creation_time', )
-        permissions = tuple(p[1:] for p in settings.METADATA_PERMISSIONS)
+        permissions = expand_settings_permissions(include_xpath=False)
 
     def _load_metadata(self):
         if not hasattr(self, '_parsed_metadata'):
