@@ -154,6 +154,7 @@ def validate_metadata_permissions(entity, doc):
             errors.append(u'Deletion is forbidden in element %s' %
                           (old_elems[0].tag))
 
+        # Element modification
         elif (old_elems and new_elems) and \
             (len(old_elems) == len(new_elems)) and \
             'w' not in permission:
