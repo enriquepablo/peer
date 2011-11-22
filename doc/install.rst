@@ -101,7 +101,7 @@ We first need to activate the virtualenv:
 
 .. code-block:: bash
 
-  $ source /vaw/www/peer/bin/activate
+  $ source /var/www/peer/bin/activate
 
 This will change the *PATH* and some other environment variables so this
 will take precedence over your regular system python.
