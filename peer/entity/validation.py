@@ -147,14 +147,14 @@ def validate_metadata_permissions(entity, doc, user=None):
         # Element addition
         if len(old_elems) < len(new_elems) and \
             perm.startswith('add') and not \
-            user.has_perm('.'.join(('peer', perm))):
+            user.has_perm('.'.join(('entity', perm))):
             errors.append(u'Addition is forbidden in element %s' %
                           (new_elems[0].tag))
 
         # Element deletion
         elif len(old_elems) > len(new_elems) and \
             perm.startswith('delete') and not\
-            user.has_perm('.'.join(('peer', perm))):
+            user.has_perm('.'.join(('entity', perm))):
             errors.append(u'Deletion is forbidden in element %s' %
                           (new_elems[0].tag))
 
@@ -162,7 +162,7 @@ def validate_metadata_permissions(entity, doc, user=None):
         elif (old_elems and new_elems) and \
             (len(old_elems) == len(new_elems)) and \
             perm.startswith('modify') and not\
-            user.has_perm('.'.join(('peer', perm))):
+            user.has_perm('.'.join(('entity', perm))):
             for old_elem, new_elem in zip(old_elems, new_elems):
                 if old_elem != new_elem:
                     errors.append(
