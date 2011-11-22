@@ -262,6 +262,7 @@ of a python function, that is the validator:
  METADATA_VALIDATORS = (
      'peer.entity.validation.validate_xml_syntax',
      'peer.entity.validation.validate_domain_in_endpoints',
+     'peer.entity.validation.validate_metadata_permissions',
  )
 
 In order to save the changes of an entity's metadata all the validators must
@@ -276,6 +277,42 @@ A validator is just a single python function with the following interface:
 
 Check the provided validators for examples about how to write your own
 validators.
+
+Metadata Permissions
+~~~~~~~~~~~~~~~~~~~~
+
+The METADATA_PERMISSIONS settings specified the SAML metadata elements whose
+permissions can be managed. The permissions for each element are for adding,
+deleting and modifying the element. The format of each element of the settings
+is:
+
+.. code-block:: python
+
+ ('XPATH', 'permission_name', 'Permission Description')
+
+Once the elements are specified a migration is needed by issuing:
+
+.. code-block:: bash
+
+ $ django-admin.py syncdb -all
+
+In order to manage permission for a given user, you need to login as superuser
+in the `Django admin interface`_, browse to *Users*
+and pick the user whose permissions you want to change (by default a normal
+user doesn't have any permissions to manage metadata elements). In *User
+permissions* there is a panel with the permissions that are available. For
+each element specified in the settings the permissions for adding, deleting
+and modifying should be present in the panel*; i.e.: permissions *Can add
+<Permission Description>*, *Can edit <Permission Description>* and *Can delete
+<Permission Description>*. To give the user a permission, pick the permission
+and move it to *Chosen user permissions*.
+
+.. figure:: _static/grant_permissions.png
+
+Any SAML metadata element not present in the settings has its permissions
+disabled by default. Thus, a normal user won't be able to add, modify or
+delete any SAML medata element unless is not present in the settings and a
+superuser has granted the user with the permissions.
 
 SAMLmetaJS plugins
 ~~~~~~~~~~~~~~~~~~
