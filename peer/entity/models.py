@@ -222,12 +222,10 @@ class Entity(models.Model):
 
     @property
     def metadata_etree(self):
-        try:
-            metadata = self._load_metadata()
-        except ValueError:
-            return None
+        if self.has_metadata:
+            return self._load_metadata().etree
         else:
-            return metadata.etree
+            return None
 
     def is_expired(self):
         return (self.has_metadata() and self.valid_until
