@@ -222,7 +222,7 @@ class Entity(models.Model):
 
     @property
     def metadata_etree(self):
-        if self.has_metadata:
+        if self.has_metadata():
             return self._load_metadata().etree
         else:
             return None
