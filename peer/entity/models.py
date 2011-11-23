@@ -196,6 +196,60 @@ class Entity(models.Model):
         else:
             return True
 
+    def has_metadata_attrs(self, metadata_attrs):
+        """
+        Checks whether the entity has metadata with any of the attributes
+        specficied in metadata_attrs. metadata_attrs is a container with
+        the following data strucure:
+
+        {'tags: ('tag1', 'tag2'),  # tags only
+         'tags_w_values: (         # tags with values
+             ('tag1', 'value1'),
+             ('tag2', 'value2')
+          ),
+          tags_w_attrs: (          # tags with attributes and values
+             ('tag1', 'attr1', 'attr_value1',
+              'tag2', 'attr2', 'attr_value2')
+        }
+        """
+        metree = self.metadata_etree
+
+        if metree is None:
+            return False
+
+        if metadata_attrs['tags']:
+            for tag in metadata_attrs['tags']:
+                if metree.xpath(u'.//' + tag):
+                    break
+            else:
+                return False
+
+        if metadata_attrs['tags_w_values']:
+            for tag, value in metadata_attrs['tags_w_values']:
+                elems = metree.xpath(u'.//' + tag)
+                if elems:
+                    for e in elems:
+                        if e.text == value:
+                            break
+                    else:
+                        return False
+                    break
+            else:
+                return False
+
+        if metadata_attrs['tags_w_values']:
+            for tag, attr, value in metadata_attrs['tags_w_attrs']:
+                es = metree.xpath(u'.//' + tag + u'[@' + attr + u']')
+                if es and es[0].attrib[attr] == value:
+                    break
+                else:
+                    return False
+                break
+            else:
+                return False
+
+        return True
+
     @property
     def entityid(self):
         return self._load_metadata().entityid

@@ -25,6 +25,7 @@
 # The views and conclusions contained in the software and documentation are those
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
+from itertools import islice
 
 from django.conf import settings
 from django.contrib.syndication.views import Feed
@@ -47,15 +48,38 @@ class EntitiesFeed(Feed):
     title = _(u'Entities')
     description = _(u'Full list of entities')
 
+    def get_object(self, request):
+        self.request = request
+
     def link(self):
         return reverse('entities_feed')
 
+    def _parse_url_filters(self, url_params):
+        tags = list()
+        tags_w_values = list()
+        tags_w_attrs = list()
+        for k, v in url_params.iteritems():
+            if '$' in k:
+                tag, attr = k.split('$')
+                tags_w_attrs.append((tag, attr, v))
+            elif v:
+                tags_w_values.append((k, v))
+            else:
+                tags.append(k)
+        return dict(tags=tuple(tags),
+                    tags_w_values=tuple(tags_w_values),
+                    tags_w_attrs=tuple(tags_w_attrs))
+
     def items(self):
-        query = Entity.objects.all()
+        metadata_attrs = self._parse_url_filters(self.request.GET)
+        entities = Entity.objects.all()
+        filtered_entities = (q for q in entities
+                               if q.has_metadata_attrs(metadata_attrs))
         try:
-            return query[:settings.MAX_FEED_ENTRIES]
+            return islice(filtered_entities,
+                    0, settings.MAX_FEED_ENTRIES)
         except AttributeError:
-            return query
+            return filtered_entities
 
     def item_title(self, item):
         return item.name
