@@ -76,8 +76,8 @@ class EntitiesFeed(Feed):
         filtered_entities = (q for q in entities
                                if q.has_metadata_attrs(metadata_attrs))
         try:
-            return islice(filtered_entities,
-                    0, settings.MAX_FEED_ENTRIES)
+            return islice(filtered_entities, 0,
+                          settings.MAX_FEED_ENTRIES)
         except AttributeError:
             return filtered_entities
 
