@@ -222,6 +222,7 @@ class Entity(models.Model):
                 if metree.xpath(u'.//' + tag):
                     break
             else:
+                self.metadata.seek(0)
                 return False
 
         if metadata_attrs['tags_w_values']:
@@ -232,6 +233,7 @@ class Entity(models.Model):
                         if e.text == value:
                             break
                     else:
+                        self.metadata.seek(0)
                         return False
                     break
             else:
@@ -243,11 +245,13 @@ class Entity(models.Model):
                 if es and es[0].attrib[attr] == value:
                     break
                 else:
+                    self.metadata.seek(0)
                     return False
                 break
             else:
                 return False
 
+        self.metadata.seek(0)
         return True
 
     @property
