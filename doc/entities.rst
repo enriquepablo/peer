@@ -77,7 +77,6 @@ validators that are configured in this PEER site. If it isn't valid,
 the metadata will not be saved and the user will be prompted to enter
 correct values, with indications, whenever possible, of the detected errors.
 
-
 Details view
 ------------
 
@@ -104,3 +103,30 @@ The user can see the contents of the XML for each particular revision by
 clicking on the *Id* cell. She can also see the differences between any
 revision (but the last) and the previous revision by clicking on the *Diff*
 cell.
+
+
+Entities Feed
+-------------
+
+A feed listing the metadata of every entity is available at::
+
+http://127.0.0.1:8000/entitiy/rss
+
+It's possible to filter entities by adding parameters to the URL that
+look like this::
+
+http://127.0.0.1:8000/entity/rss?key1&key2=value2&key3$attr3=value3
+
+Where:
+
+* ``key1`` selects the entities that have the element ``key1`` in its
+  metadata. i.e: ``<key1></key1>``.
+* ``key2&value2`` selects the entities that have the element ``key2`` with
+  the value ``values2``. i.e: ``<key2>value2</key2>``.
+* ``key3$attr3=value3`` selects the entities that have the element ``key3``
+  with the attribute ``attr3`` and the value of the attribute ``value3``. i.e:
+  ``<key3 attr3="value3"></key3>``.
+
+
+There can be as many parameters as needed provided that they are always
+combined with ``AND`` logic conjunction.
