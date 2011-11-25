@@ -72,6 +72,7 @@ class EntitiesFeed(Feed):
 
     def items(self):
         metadata_attrs = self._parse_url_filters(self.request.GET)
+        # TODO: This should be encapsulated in a Model Manager
         entities = Entity.objects.all()
         filtered_entities = (q for q in entities
                                if q.has_metadata_attrs(metadata_attrs))
