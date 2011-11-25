@@ -219,7 +219,7 @@ class Entity(models.Model):
 
         if metadata_attrs['tags']:
             for tag in metadata_attrs['tags']:
-                if metree.xpath(u'.//' + tag):
+                if metree.xpath(u'.//' + tag, namespaces=NAMESPACES):
                     break
             else:
                 self.metadata.seek(0)
@@ -227,7 +227,7 @@ class Entity(models.Model):
 
         if metadata_attrs['tags_w_values']:
             for tag, value in metadata_attrs['tags_w_values']:
-                elems = metree.xpath(u'.//' + tag)
+                elems = metree.xpath(u'.//' + tag, namespaces=NAMESPACES)
                 if elems:
                     for e in elems:
                         if e.text == value:
@@ -241,7 +241,8 @@ class Entity(models.Model):
 
         if metadata_attrs['tags_w_attrs']:
             for tag, attr, value in metadata_attrs['tags_w_attrs']:
-                es = metree.xpath(u'.//' + tag + u'[@' + attr + u']')
+                es = metree.xpath(u'.//' + tag + u'[@' + attr + u']',
+                                  namespaces=NAMESPACES)
                 if es and es[0].attrib[attr] == value:
                     break
                 else:
