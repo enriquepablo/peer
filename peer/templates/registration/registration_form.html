@@ -12,7 +12,7 @@
     <h1>{% trans "User registration" %}</h1>
   </hgroup>
 
-  <form id="sing-up-from" action="." method="post">{% csrf_token %}
+  <form class="left" id="sing-up-from" action="." method="post">{% csrf_token %}
     <fieldset>
       {{ form.as_p }}
     </fieldset>
@@ -21,7 +21,13 @@
     </fieldset>
   </form>
 
+  <div id="formassist">
+    <p>Please enter your personal information to register in PEER. An email will be sent to activate your account.</p>
+  </div>
+
+
 </section>
+
 {% endblock %}
 
 {% block extrajs %}
