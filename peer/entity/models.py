@@ -239,7 +239,7 @@ class Entity(models.Model):
             else:
                 return False
 
-        if metadata_attrs['tags_w_values']:
+        if metadata_attrs['tags_w_attrs']:
             for tag, attr, value in metadata_attrs['tags_w_attrs']:
                 es = metree.xpath(u'.//' + tag + u'[@' + attr + u']')
                 if es and es[0].attrib[attr] == value:
