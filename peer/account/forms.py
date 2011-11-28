@@ -39,6 +39,21 @@ class RegistrationFormCaptchaTOU(RegistrationFormCaptcha):
 
     tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
 
+    def __init__ (self, *args, **kwargs):
+        super(RegistrationFormCaptcha, self).__init__(*args, **kwargs)
+        username_field = self.fields['username']
+        username_field.help_text = _(
+            u"This the name you'll use to login into PEER.")
+        username_field.label = _(u"Username")
+
+        email_field = self.fields['email']
+        email_field.help_text = _(
+            u"Your email address won't be displayed publicly in Peer."
+            )
+        email_field.label = _(u"Username")
+
+        self.fields['password1'].label = _(u"Password")
+        self.fields['password2'].label = _(u"Password")
 
 class PersonalInformationForm(forms.ModelForm):
 

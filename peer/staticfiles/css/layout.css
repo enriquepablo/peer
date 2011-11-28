@@ -73,8 +73,12 @@ section {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
-    width: 40%;
+    width: 30%;
     float: left;
+}
+
+form.left {
+    width: 40%;
 }
 
 tr {
@@ -187,6 +191,7 @@ fieldset p {
     padding-left: 10px;
     line-height: 17px;
     background: transparent url(../images/help_icon.png) no-repeat left center;
+    width: 50%;
 }
 
 span.ui-icon {
