@@ -8,7 +8,7 @@
     <h1>{% trans "Add entity" %}</h1>
   </hgroup>
 
-  <form action="{% url entity_add %}" method="post">{% csrf_token %}
+  <form class="left" action="{% url entity_add %}" method="post">{% csrf_token %}
     <fieldset>
     {{ form.as_p }}
     </fieldset>
@@ -17,5 +17,8 @@
       {% trans "or" %} <a class="button" href="{% url account_profile %}">{% trans "Cancel" %}</a>
     </fieldset>
   </form>
+  <div id="formassist">
+      <p>{% trans "Here you can create a new entity. You must associate the new entity with a domain you already own. If you haven't registered any domain in PEER, please do so in your account profile." %}</p>
+  </div>
 </section>
 {% endblock %}
