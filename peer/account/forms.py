@@ -43,17 +43,18 @@ class RegistrationFormCaptchaTOU(RegistrationFormCaptcha):
         super(RegistrationFormCaptcha, self).__init__(*args, **kwargs)
         username_field = self.fields['username']
         username_field.help_text = _(
-            u"This the name you'll use to login into PEER.")
+            u"This will be the name to login into PEER.")
         username_field.label = _(u"Username")
 
         email_field = self.fields['email']
         email_field.help_text = _(
-            u"Your email address won't be displayed publicly in Peer."
+            u"This email address will be used for account activation and "
+            u"password recovery. It won't be displayed publicly."
             )
-        email_field.label = _(u"Username")
+        email_field.label = _(u"Email")
 
         self.fields['password1'].label = _(u"Password")
-        self.fields['password2'].label = _(u"Password")
+        self.fields['password2'].label = _(u"Password (again)")
 
 class PersonalInformationForm(forms.ModelForm):
 
