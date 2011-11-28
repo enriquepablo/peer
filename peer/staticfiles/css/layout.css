@@ -69,14 +69,6 @@ section {
     padding-left: 20px;
 }
 
-#formassist {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 20px;
-    width: 30%;
-    float: left;
-}
-
 form.left {
     width: 40%;
 }
@@ -191,7 +183,7 @@ fieldset p {
     padding-left: 10px;
     line-height: 17px;
     background: transparent url(../images/help_icon.png) no-repeat left center;
-    width: 50%;
+    width: 30%;
 }
 
 span.ui-icon {
