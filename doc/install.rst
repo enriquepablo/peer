@@ -79,7 +79,7 @@ will use it to create a new virtual environment where we will install PEER.
 
   $ virtualenv /vaw/www/peer --no-site-packages
 
-The *--no-site-packges* option tells virtualenv to not depend on any system
+The *--no-site-packages* option tells virtualenv to not depend on any system
 package. For example, even if you already have Django installed on your
 system it will install another copy inside this virtualenv. This improves
 the reliability by making sure you have the same versions of the
