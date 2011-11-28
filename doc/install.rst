@@ -190,7 +190,7 @@ And restart the Postgresql server to reload its configuration:
   located at /etc/postgresql/8.1/main/pg_hba.conf being 8.1 the version of
   Postgresql you have installed.
 
-To check that everything is correct you shoul try to connect to the *peer*
+To check that everything is correct you should try to connect to the *peer*
 database using the *peer* user and the password you assigned to it:
 
 .. code-block:: bash
