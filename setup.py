@@ -81,5 +81,6 @@ setup(
         'django-vff==0.1b4',
         'lxml',
         'pygments',
+        'gitdb',
         ],
 )
