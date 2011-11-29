@@ -294,7 +294,7 @@ Once the elements are specified a migration is needed by issuing:
 
 .. code-block:: bash
 
- $ django-admin.py syncdb -all
+ $ django-admin.py syncdb --all
 
 In order to manage permission for a given user, you need to login as superuser
 in the `Django admin interface`_, browse to *Users*
