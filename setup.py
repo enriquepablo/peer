@@ -82,5 +82,9 @@ setup(
         'lxml',
         'pygments',
         'gitdb',
+        'djangosaml2',
         ],
+    dependency_links=[
+        'http://launchpad.net/pysaml2/0.2.1/0.2.1/+download/pysaml2-0.2.1.tgz',
+        ]
 )
