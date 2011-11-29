@@ -79,7 +79,7 @@ will use it to create a new virtual environment where we will install PEER.
 
   $ virtualenv /vaw/www/peer --no-site-packages
 
-The *--no-site-packges* option tells virtualenv to not depend on any system
+The *--no-site-packages* option tells virtualenv to not depend on any system
 package. For example, even if you already have Django installed on your
 system it will install another copy inside this virtualenv. This improves
 the reliability by making sure you have the same versions of the
@@ -190,7 +190,7 @@ And restart the Postgresql server to reload its configuration:
   located at /etc/postgresql/8.1/main/pg_hba.conf being 8.1 the version of
   Postgresql you have installed.
 
-To check that everything is correct you shoul try to connect to the *peer*
+To check that everything is correct you should try to connect to the *peer*
 database using the *peer* user and the password you assigned to it:
 
 .. code-block:: bash
