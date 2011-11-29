@@ -283,7 +283,7 @@ PEER_PORT = '8000'
 PEER_BASE_URL = 'http://' + PEER_HOST + ':' + PEER_PORT
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
-    'uid': 'username',
+    'mail': 'username',
     'mail': 'email',
     'cn': 'first_name',
     'sn': 'last_name',
@@ -317,10 +317,10 @@ SAML_CONFIG = {
                 },
 
             # attributes that this project need to identify a user
-            'required_attributes': ['uid'],
+            'required_attributes': ['mail'],
 
             # attributes that may be useful to have but not required
-            'optional_attributes': ['eduPersonAffiliation'],
+            'optional_attributes': ['cn', 'sn'],
 
             # in this section the list of IdPs we talk to are defined
             'idp': {
