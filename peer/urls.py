@@ -58,6 +58,8 @@ urlpatterns = patterns(
         'peer.account.views.search_users_auto', name='search_users_auto'),
     (r'^accounts/', include(registration_urls)),
 
+    (r'^saml2/', include('djangosaml2.urls')),
+
     (r'^domain/', include('peer.domain.urls')),
     (r'^entity/', include('peer.entity.urls')),
 )
