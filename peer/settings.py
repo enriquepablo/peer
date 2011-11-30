@@ -283,10 +283,9 @@ PEER_PORT = '8000'
 PEER_BASE_URL = 'http://' + PEER_HOST + ':' + PEER_PORT
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
-    'mail': 'username',
-    'mail': 'email',
-    'cn': 'first_name',
-    'sn': 'last_name',
+    'mail': ('username', 'mail'),
+    'cn': ('first_name', ),
+    'sn': ('last_name', ),
     }
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
