@@ -235,12 +235,12 @@ METADATA_VALIDATORS = (
 # Permissions for metadata attribute. The metadata attribute is defined by
 # its XPATH. The triplets are (<XPATH>, <Permission name>, <Permission
 # description>) 
-METADATA_PERMISSIONS = (
-    ('/md:EntityDescriptor', 'entity_descriptor', 'Entity Descriptor'),
-    ('.//md:ServiceDescription', 'service_descriptor', 'Service Description'),
-    ('.//mdui:Description', 'description', 'Description'),
-    ('.//md:OrganizationName', 'organization_name', 'Organization Name'),
-)
+#METADATA_PERMISSIONS = (
+    #('/md:EntityDescriptor', 'entity_descriptor', 'Entity Descriptor'),
+    #('.//md:ServiceDescription', 'service_descriptor', 'Service Description'),
+    #('.//mdui:Description', 'description', 'Description'),
+    #('.//md:OrganizationName', 'organization_name', 'Organization Name'),
+#)
 
 # VFF VERSIONED FILE BACKEND
 VERSIONEDFILE_BACKEND = 'vff.git_backend.GitBackend'

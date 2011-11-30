@@ -281,10 +281,12 @@ validators.
 Metadata Permissions
 ~~~~~~~~~~~~~~~~~~~~
 
-The METADATA_PERMISSIONS settings specified the SAML metadata elements whose
-permissions can be managed. The permissions for each element are for adding,
-deleting and modifying the element. The format of each element of the settings
-is:
+The METADATA_PERMISSIONS settings specifies the SAML metadata attributes whose
+permissions can be managed. The permissions for each element are to forbid
+adding, forbid deleting and forbid modifying any element. By default everything
+is allowed unless the XPATH for metadata attribute is given in the settings file
+and the administrator assigns that the forbid permission to the users. The
+format for each metadata attribute in the settings is:
 
 .. code-block:: python
 
@@ -297,22 +299,18 @@ Once the elements are specified a migration is needed by issuing:
  $ django-admin.py syncdb --all
 
 In order to manage permission for a given user, you need to login as superuser
-in the `Django admin interface`_, browse to *Users*
-and pick the user whose permissions you want to change (by default a normal
-user doesn't have any permissions to manage metadata elements). In *User
-permissions* there is a panel with the permissions that are available. For
-each element specified in the settings the permissions for adding, deleting
-and modifying should be present in the panel*; i.e.: permissions *Can add
-<Permission Description>*, *Can edit <Permission Description>* and *Can delete
-<Permission Description>*. To give the user a permission, pick the permission
-and move it to *Chosen user permissions*.
+in the `Django admin interface`_, browse to *Users* and pick the user whose
+permissions you want to change. In *User permissions* there is a panel with the
+permissions that are available. For each element specified in the settings the
+permissions to forbid add, delete or modify should be present in the panel*;
+i.e.: permissions *noadd <Permission Description>*, *noedit <Permission
+Description>* and *nodelete <Permission Description>*. To give the user a forbid
+permission, pick the permission and move it to *Chosen user permissions*.
 
-.. figure:: _static/grant_permissions.png
-
-Any SAML metadata element not present in the settings has its permissions
-disabled by default. Thus, a normal user won't be able to add, modify or
-delete any SAML medata element unless is not present in the settings and a
-superuser has granted the user with the permissions.
+Any registered user will be able to manage any SAML metadata element not present
+in the settings, unless it's explicitly forbidden. Thus, a normal user will be
+able to add, modify or delete any SAML medata element unless is not present in
+the settings and a superuser has forbidden the user to edit the element.
 
 SAMLmetaJS plugins
 ~~~~~~~~~~~~~~~~~~
