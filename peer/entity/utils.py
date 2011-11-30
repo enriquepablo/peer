@@ -65,7 +65,7 @@ def expand_settings_permissions(include_xpath=True):
     for prefix in ('noadd', 'nodelete', 'nomodify'):
         for xpath, name, desc in perm_setts:
             perm_class = '_'.join((prefix, name))
-            perm_desc = ' '.join(('Cannot', prefix.capitalize(), desc))
+            perm_desc = ' '.join((prefix, desc))
             exp_perms = [perm_class, perm_desc]
             if include_xpath:
                 exp_perms.insert(0, xpath)
