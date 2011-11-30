@@ -108,20 +108,18 @@ cell.
 Entities Feed
 -------------
 
-A feed listing the metadata of every entity is available at::
-
+A feed listing the metadata of every entity is available at
 http://127.0.0.1:8000/entitiy/rss
 
 It's possible to filter entities by adding parameters to the URL that
-look like this::
-
+look like this
 http://127.0.0.1:8000/entity/rss?key1&key2=value2&key3$attr3=value3
 
 Where:
 
 * ``key1`` selects the entities that have the element ``key1`` in its
   metadata. i.e: ``<key1></key1>``.
-* ``key2&value2`` selects the entities that have the element ``key2`` with
+* ``key2=value2`` selects the entities that have the element ``key2`` with
   the value ``values2``. i.e: ``<key2>value2</key2>``.
 * ``key3$attr3=value3`` selects the entities that have the element ``key3``
   with the attribute ``attr3`` and the value of the attribute ``value3``. i.e:
