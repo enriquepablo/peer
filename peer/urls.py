@@ -56,6 +56,8 @@ urlpatterns = patterns(
         'peer.account.views.invite_friend', name='invite_friend'),
     url(r'^accounts/search_users_auto/$',
         'peer.account.views.search_users_auto', name='search_users_auto'),
+    url(r'^accounts/logout/$',
+        'peer.account.views.logout', name='auth_logout'),
     (r'^accounts/', include(registration_urls)),
 
     url(r'^saml2/ls/$', 'djangosaml2.views.logout_service', {
