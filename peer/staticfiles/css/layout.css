@@ -19,6 +19,10 @@
     visibility: hidden;
 }
 
+.block {
+    width: 45%;
+}
+
 body {
     width: 1024px;
     padding: 0 30px;

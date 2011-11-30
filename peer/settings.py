@@ -182,6 +182,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'registration',
     'south',
+    'djangosaml2',
     'peer.account',
     'peer.domain',
     'peer.entity',
