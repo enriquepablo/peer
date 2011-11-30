@@ -136,7 +136,7 @@ def validate_metadata_permissions(entity, doc, user=None):
         return errors
 
     permissions = expand_settings_permissions()
-    if permissions is None:
+    if not permissions:
         return errors
 
     for xpath, perm, desc in permissions:
@@ -148,27 +148,44 @@ def validate_metadata_permissions(entity, doc, user=None):
 
         # Element addition
         if len(old_elems) < len(new_elems) and \
-            perm.startswith('noadd') and \
-            user.has_perm('.'.join(('entity', perm))):
+            perm.startswith('add') and \
+            not user.has_perm('.'.join(('entity', perm))):
             errors.append(u'Addition is forbidden in element %s' %
                           (new_elems[0].tag))
 
         # Element deletion
         elif len(old_elems) > len(new_elems) and \
-            perm.startswith('nodelete') and \
-            user.has_perm('.'.join(('entity', perm))):
+            perm.startswith('delete') and \
+            not user.has_perm('.'.join(('entity', perm))):
             errors.append(u'Deletion is forbidden in element %s' %
                           (new_elems[0].tag))
 
         # Element modification
         elif (old_elems and new_elems) and \
             (len(old_elems) == len(new_elems)) and \
-            perm.startswith('nomodify') and \
-            user.has_perm('.'.join(('entity', perm))):
+            perm.startswith('modify') and \
+            not user.has_perm('.'.join(('entity', perm))):
             for old_elem, new_elem in zip(old_elems, new_elems):
-                if old_elem != new_elem:
+                if not compare_elements(old_elem, new_elem):
                     errors.append(
                         u'Value modification is forbidden for element %s' %
                         (new_elem.tag))
                     break
     return errors
+
+
+def compare_elements(element1, element2):
+    """Return True if both elements are equivalent. False otherwise"""
+    if element1.tag != element2.tag:
+        return False
+
+    if element1.keys() != element2.keys():
+        return False
+
+    if element1.values() != element2.values():
+        return False
+
+    if element1.text != element2.text:
+        return False
+
+    return True
