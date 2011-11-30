@@ -66,8 +66,8 @@ def expand_settings_permissions(include_xpath=True):
     perm_setts = settings.METADATA_PERMISSIONS
     for prefix in ('add', 'delete', 'modify'):
         for xpath, name, desc in perm_setts:
-            perm_class = '_'.join(('Can', prefix.capitalize(), name))
-            perm_desc = ' '.join((prefix, desc))
+            perm_class = '_'.join((prefix, name))
+            perm_desc = ' '.join(('Can', prefix.capitalize(), desc))
             exp_perms = [perm_class, perm_desc]
             if include_xpath:
                 exp_perms.insert(0, xpath)
