@@ -1,8 +1,23 @@
 CHANGES
 =======
 
-0.5.1dev (unreleased)
----------------------
+0.6.0 (2011-11-30)
+------------------
+- Attribute based restrictions. This mean, administrators can define
+  which metadata attributes can be edited and which ones can't be changed.
+- Attribute based notifications a.k.a. advanced filters in the feeds.
+- Usability improvements by adding several helpful messages to a lot of
+  views.
+- Federated authentication.
+- Password reset for those of you with volatile memories.
+- Several bug fixes.
+- Make all public pages HTML5 compliant.
+- When validating domains try also the www hostname.
+- Big flashy button to get the latest version of an entity's metadata.
+- Add the possibility to specify a custom User Agent header for the
+  domain ownership proof.
+- When editing the metadata of an entity, warn the user that there are
+  unsaved changes before he navigates to another page.
 - Remove the metadata when removing the entity.
 
 0.5.0 (2011-09-18)
