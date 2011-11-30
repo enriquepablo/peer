@@ -279,7 +279,7 @@ ENTITIES_PER_PAGE = 10
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
-    'mail': ('username', 'mail'),
+    'mail': ('username', 'email'),
     'givenName': ('first_name', ),
     'sn': ('last_name', ),
     }
