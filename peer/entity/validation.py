@@ -122,7 +122,7 @@ def validate_domain_in_entityid(entity, doc, user=None):
 
 def validate_metadata_permissions(entity, doc, user=None):
     """
-    Checks whether the user has permission to change element metadata of
+    Checks whether the user has permission to change an element metadata of
     an entity.
     """
     errors, metadata = _parse_metadata(doc)
@@ -136,6 +136,8 @@ def validate_metadata_permissions(entity, doc, user=None):
         return errors
 
     permissions = expand_settings_permissions()
+    if permissions is None:
+        return errors
 
     for xpath, perm, desc in permissions:
         if old_etree is not None:
@@ -146,14 +148,14 @@ def validate_metadata_permissions(entity, doc, user=None):
 
         # Element addition
         if len(old_elems) < len(new_elems) and \
-            perm.startswith('add') and not \
+            perm.startswith('noadd') and \
             user.has_perm('.'.join(('entity', perm))):
             errors.append(u'Addition is forbidden in element %s' %
                           (new_elems[0].tag))
 
         # Element deletion
         elif len(old_elems) > len(new_elems) and \
-            perm.startswith('delete') and not\
+            perm.startswith('nodelete') and \
             user.has_perm('.'.join(('entity', perm))):
             errors.append(u'Deletion is forbidden in element %s' %
                           (new_elems[0].tag))
@@ -161,13 +163,12 @@ def validate_metadata_permissions(entity, doc, user=None):
         # Element modification
         elif (old_elems and new_elems) and \
             (len(old_elems) == len(new_elems)) and \
-            perm.startswith('modify') and not\
+            perm.startswith('nomodify') and \
             user.has_perm('.'.join(('entity', perm))):
             for old_elem, new_elem in zip(old_elems, new_elems):
                 if old_elem != new_elem:
                     errors.append(
                         u'Value modification is forbidden for element %s' %
                         (new_elem.tag))
-
                     break
     return errors
