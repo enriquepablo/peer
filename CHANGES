@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+0.6.1dev (unreleased)
+---------------------
+- ...
+
 0.6.0 (2011-11-30)
 ------------------
 - Attribute based restrictions. This mean, administrators can define
