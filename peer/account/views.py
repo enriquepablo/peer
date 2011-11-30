@@ -29,8 +29,10 @@
 import json
 
 from django.contrib.sites.models import get_current_site
+from django.contrib.auth import BACKEND_SESSION_KEY
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.views import logout as auth_logout
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
@@ -42,6 +44,8 @@ from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 from django.conf import settings
+
+from djangosaml2.views import logout as saml2_logout
 
 from peer.account.forms import PersonalInformationForm
 from peer.account.forms import FriendInvitationForm
@@ -129,3 +133,11 @@ def search_users_auto(request):
     users = _user_search(q)
     names = [{'value': u.username, 'label': safefullname(u)} for u in users]
     return HttpResponse(json.dumps(names))
+
+
+def logout(request):
+    if (BACKEND_SESSION_KEY in request.session and
+        request.session[BACKEND_SESSION_KEY] == 'djangosaml2.backends.Saml2Backend'):
+        return saml2_logout(request)
+    else:
+        return auth_logout(request, template_name='registration/logout.html')

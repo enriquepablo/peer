@@ -58,6 +58,9 @@ urlpatterns = patterns(
         'peer.account.views.search_users_auto', name='search_users_auto'),
     (r'^accounts/', include(registration_urls)),
 
+    url(r'^saml2/ls/$', 'djangosaml2.views.logout_service', {
+            'next_page': '/accounts/logout/',
+            }, name='saml2_ls'),
     (r'^saml2/', include('djangosaml2.urls')),
 
     (r'^domain/', include('peer.domain.urls')),
