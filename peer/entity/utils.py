@@ -61,6 +61,8 @@ def expand_settings_permissions(include_xpath=True):
     if not hasattr(settings, 'METADATA_PERMISSIONS'):
         return None
     permissions = list()
+    if hasattr(settings, 'METADATA_PERMISSIONS'):
+        return None
     perm_setts = settings.METADATA_PERMISSIONS
     for prefix in ('noadd', 'nodelete', 'nomodify'):
         for xpath, name, desc in perm_setts:

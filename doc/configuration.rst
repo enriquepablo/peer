@@ -281,16 +281,27 @@ validators.
 Metadata Permissions
 ~~~~~~~~~~~~~~~~~~~~
 
-The METADATA_PERMISSIONS settings specifies the SAML metadata attributes whose
-permissions can be managed. The permissions for each element are to forbid
-adding, forbid deleting and forbid modifying any element. By default everything
-is allowed unless the XPATH for metadata attribute is given in the settings file
-and the administrator assigns that the forbid permission to the users. The
-format for each metadata attribute in the settings is:
+The METADATA_PERMISSIONS settings specified the SAML metadata elements whose
+permissions can be managed. The permissions for each element are for adding,
+deleting and modifying the element. Any XPATH not specified in the settings file
+will by default will give permission any user to do anything. The format of each
+element of the settings is:
 
 .. code-block:: python
 
- ('XPATH', 'permission_name', 'Permission Description')
+ MEATADATA_PERMISSIONS = (
+      ('XPATH', 'permission_name', 'Permission Description')
+ )
+
+In a concrete example:
+
+.. code-block:: python
+
+ METADATA_PERMISSIONS = (
+     ('.//md:ServiceDescription', 'service_descriptor', 'Service Description'),
+     ('.//mdui:Description', 'description', 'Description'),
+     ('.//md:OrganizationName', 'organization_name', 'Organization Name'),
+ )
 
 Once the elements are specified a migration is needed by issuing:
 
@@ -300,17 +311,22 @@ Once the elements are specified a migration is needed by issuing:
 
 In order to manage permission for a given user, you need to login as superuser
 in the `Django admin interface`_, browse to *Users* and pick the user whose
-permissions you want to change. In *User permissions* there is a panel with the
-permissions that are available. For each element specified in the settings the
-permissions to forbid add, delete or modify should be present in the panel*;
-i.e.: permissions *noadd <Permission Description>*, *noedit <Permission
-Description>* and *nodelete <Permission Description>*. To give the user a forbid
+permissions you want to change (by default, once a permission is added to the
+settings, a normal user won't be able to do anything in the attribute specified
+in the settings). In *User permissions* there is a panel with the permissions that are
+available. For each element specified in the settings the permissions for
+adding, deleting and modifying should be present in the panel*; i.e.:
+permissions *Can add <Permission Description>*, *Can edit <Permission
+Description>* and *Can delete <Permission Description>*. To give the user a
 permission, pick the permission and move it to *Chosen user permissions*.
 
-Any registered user will be able to manage any SAML metadata element not present
-in the settings, unless it's explicitly forbidden. Thus, a normal user will be
-able to add, modify or delete any SAML medata element unless is not present in
-the settings and a superuser has forbidden the user to edit the element.
+.. figure:: _static/grant_permissions.png
+
+Any SAML metadata element not present in the settings has its permissions
+enabled by default. Once it's added a normal user won't be able to add, modify
+or delete any SAML medata element unless is not present in the settings and a
+superuser has granted the user with the permissions.
+>>>>>>> When no permission allow all, when permission forbidden
 
 SAMLmetaJS plugins
 ~~~~~~~~~~~~~~~~~~
@@ -477,6 +493,13 @@ that some settings need unique values you must provide yourself.
      'peer.entity.validation.validate_xml_syntax',
      'peer.entity.validation.validate_domain_in_endpoints',
      'peer.entity.validation.validate_domain_in_entityid',
+ )
+
+
+ METADATA_PERMISSIONS = (
+     ('.//md:ServiceDescription', 'service_descriptor', 'Service Description'),
+     ('.//mdui:Description', 'description', 'Description'),
+     ('.//md:OrganizationName', 'organization_name', 'Organization Name'),
  )
 
  SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'saml2sp', 'certs')
