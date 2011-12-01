@@ -153,6 +153,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'peer.portal.context_processors.peer_theme',
+    'peer.portal.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -276,7 +277,8 @@ EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(days=1)
 ENTITIES_PER_PAGE = 10
 
 # Federated auth
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SAML_ENABLED = False
+SESSION_EXPIRE_AT_BROWSER_CLOSE = SAML_ENABLED
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
     'mail': ('username', 'email'),

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n idplist mailtoadmins %}
+{% load i18n %}
 
 {% block content %}
 <section>
@@ -25,6 +25,9 @@
     </p>
   </div>
 
+  {% if SAML_ENABLED %}
+  {% load idplist mailtoadmins %}
+
   <div class="right block">
     <h2>{% trans "Federated sign in" %}</h2>
     <form id="federated-login" action="{% url saml2_login %}" method="get">{% csrf_token %}
@@ -43,7 +46,10 @@
       <fieldset class="actionRow">
         <input class="button" type="submit" value="{% trans "Federated sign in" %}" />
       </fieldset>
-
+    </form>
   </div>
+
+  {% endif %}
+
 </section>
 {% endblock %}

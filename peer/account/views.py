@@ -28,6 +28,7 @@
 
 import json
 
+from django.conf import settings
 from django.contrib.sites.models import get_current_site
 from django.contrib.auth import BACKEND_SESSION_KEY
 from django.contrib.auth.decorators import login_required
@@ -43,7 +44,6 @@ from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
-from django.conf import settings
 
 from djangosaml2.views import logout as saml2_logout
 
@@ -136,7 +136,8 @@ def search_users_auto(request):
 
 
 def logout(request):
-    if (BACKEND_SESSION_KEY in request.session and
+    if (getattr(settings, 'SAML_ENABLED', False) and
+        BACKEND_SESSION_KEY in request.session and
         request.session[BACKEND_SESSION_KEY] == 'djangosaml2.backends.Saml2Backend'):
         return saml2_logout(request)
     else:

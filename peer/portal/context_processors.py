@@ -21,3 +21,9 @@ def peer_theme(request):
     theme.update(DEFAULT_THEME)
     theme.update(user_theme)
     return theme
+
+
+def auth(request):
+    return {
+        'SAML_ENABLED': getattr(settings, 'SAML_ENABLED', False)
+        }
