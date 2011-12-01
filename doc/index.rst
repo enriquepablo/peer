@@ -26,6 +26,7 @@ Administration Manual
 
    install
    configuration
+   remote-auth
    upgrade
 
 User Manual

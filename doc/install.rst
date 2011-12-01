@@ -24,10 +24,10 @@ compiles a couple of Python modules.
 .. code-block:: bash
 
   # Fedora example:
-  $ yum install libxml2-devel libxml2 libxslt-devel libxslt
+  $ yum install libxml2-devel libxml2 libxslt-devel libxslt xmlsec1 xmlsec1-openssl
 
   # Debian/Ubuntu example:
-  $ apt-get install libxml2-dev libxml2 libxslt1-dev libxslt1.1
+  $ apt-get install libxml2-dev libxml2 libxslt1-dev libxslt1.1 xmlsec1 libxmlsec1-openssl
 
 Standard installation
 ---------------------
