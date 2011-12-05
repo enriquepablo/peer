@@ -13,5 +13,8 @@
       <li><a href="{% url password_change %}">{% trans "Change password" %}</a></li>
       {% endif %}
       <li><a href="{% url invite_friend %}">{% trans "Invite friend" %}</a></li>
+      {% if user.is_superuser %}
+      <li><a href="{% url manage_admin_team %}">{% trans "Manage admin team" %}</a></li>
+      {% endif %}
     </ul>
 {% endblock %}
