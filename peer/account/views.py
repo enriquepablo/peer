@@ -37,6 +37,7 @@ from django.contrib.auth.views import logout as auth_logout
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -142,3 +143,54 @@ def logout(request):
         return saml2_logout(request)
     else:
         return auth_logout(request, template_name='registration/logout.html')
+
+
+@login_required
+def manage_admin_team(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    return render_to_response('account/manage_admin_team.html', {
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def list_superusers(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    return render_to_response('account/list_superusers.html', {
+            'superusers': User.objects.filter(is_superuser=True),
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def add_superuser(request, username):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    new_superuser = User.objects.get(username=username)
+    if new_superuser:
+        if new_superuser.is_superuser:
+            return HttpResponse('superuser')
+        else:
+            new_superuser.is_superuser = True
+            new_superuser.save()
+    return list_superusers(request)
+
+
+@login_required
+def remove_superuser(request, username):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    new_superuser = User.objects.get(username=username)
+    if new_superuser:
+        if new_superuser.username == 'admin':
+            return HttpResponse('adminuser')
+        elif new_superuser.is_superuser:
+            new_superuser.is_superuser = False
+            new_superuser.save()
+        else:
+            return HttpResponse('notsuperuser')
+    return list_superusers(request)
