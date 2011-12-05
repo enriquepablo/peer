@@ -187,6 +187,22 @@ fieldset p {
     padding-left: 10px;
     line-height: 17px;
     background: transparent url(../images/help_icon.png) no-repeat left center;
+    width: 40%;
+}
+
+.block-left {
+    float: left;
+    width: 30%;
+}
+
+.block-right {
+    float: left;
+    font-size: 13px;
+    font-style: italic;
+    letter-spacing: 0.3px;
+    margin-top: 10px;
+    padding-left: 10px;
+    line-height: 17px;
     width: 30%;
 }
 
@@ -907,3 +923,4 @@ input.ui-autocomplete-input {
     -moz-box-shadow: 1px 0 0 #b2b3b5;
     -webkit-box-shadow: 1px 0 0 #b2b3b5;
 }
+
