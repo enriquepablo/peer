@@ -37,7 +37,8 @@ from django.utils.translation import ugettext as _
 
 from peer.domain.forms import DomainForm
 from peer.domain.models import Domain
-from peer.domain.validation import validate_ownership
+from peer.domain.validation import http_validate_ownership
+from peer.domain.validation import dns_validate_ownership
 
 
 @login_required
@@ -76,9 +77,26 @@ def domain_add_success(request, domain_id):
 @login_required
 def domain_verification(request, domain_id):
     domain = get_object_or_404(Domain, id=domain_id)
+    if request.method == 'POST':
+        if u'http' in request.POST:
+            validate_ownership = http_validate_ownership
+        elif u'dns' in request.POST:
+            validate_ownership = dns_validate_ownership
+        # else: return 500: must specify a method
+
+        if (validate_ownership(domain.validation_url) or
+            validate_ownership(domain.validation_url_with_www_prefix)):
+            domain.validated = True
+            domain.save()
+            messages.success(
+                request, _(u'The domain ownership was successfully verified'))
+        else:
+            messages.error(
+                request, _(u'Error while checking domain ownership'))
     return render_to_response('domain/verify.html', {
             'domain': domain,
             }, context_instance=RequestContext(request))
+
 
 @login_required
 def domain_remove(request, domain_id):
