@@ -41,16 +41,6 @@ from peer.domain.validation import validate_ownership
 
 
 @login_required
-def domain_list(request):
-    user = request.user
-    domains = Domain.objects.filter(owner=user)
-
-    return render_to_response('domain/list.html', {
-            'domains': domains,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
 def domain_add(request):
     if request.method == 'POST':
         form = DomainForm(request.POST)
