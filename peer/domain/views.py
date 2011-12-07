@@ -51,7 +51,7 @@ def domain_add(request):
             instance.owner = request.user
             instance.save()
             return HttpResponseRedirect(
-                reverse('domain_add_success',
+                reverse('domain_verify',
                         kwargs={'domain_id': instance.id}))
         else:
             messages.error(request, _('Please correct the errors'
@@ -75,7 +75,7 @@ def domain_add_success(request, domain_id):
 
 
 @login_required
-def domain_verification(request, domain_id):
+def domain_verify(request, domain_id):
     domain = get_object_or_404(Domain, id=domain_id, owner=request.user)
     valid = False
     if request.method == 'POST':
