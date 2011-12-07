@@ -9,13 +9,25 @@
   </hgroup>
 
   {% if not domain.validated %}
-    <p>{% trans "The verification key for this domain is" %} {{ domain.validation_key }}</p>
-    <p>{% trans "You can verify your domain by creating a file named as the verification in the root of your domain or by creating a TXT record in your domain containing the verification key" %}</p>
-    {% verification_button domain "http" %}
-    {% verification_button domain "dns" %}
+  <p class="helptext">{% trans "Now you have to prove that you actually have the ownership of this domain. To do this, follow these steps:" %}</p>
+
+  <ol class="addDomain">
+    <li>{% trans "Make sure this link is not broken:" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a> 
+    </br>{% trans "A HTTP request to that resource should return an HTTP 200 response" %}</li>
+    <li>{% trans "Click on the verification button:" %} {% verification_button domain "http" %}</li>
+  </ol>
+  <br/>
+  <p>
+    {% trans "You can also verify your domain by adding a TXT record:" %}
+  </p>
+  <ol class="addDomain">
+    <li>
+    {% trans "Add this value to a TXT record of your domain:" %} {{ domain.validation_key }}
+    </li>
+    <li>{% trans "Click on the verification button:" %} {% verification_button domain "dns" %}</li>
+  </ol>
   {% else %}
     <p>{% trans "This domain has been already verified" %}</p>
   {% endif %}
-
 </section>
 {% endblock %}
