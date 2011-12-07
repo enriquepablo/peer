@@ -66,15 +66,6 @@ def domain_add(request):
 
 
 @login_required
-def domain_add_success(request, domain_id):
-    domain = get_object_or_404(Domain, id=domain_id)
-
-    return render_to_response('domain/add_success.html', {
-            'domain': domain,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
 def domain_verify(request, domain_id):
     domain = get_object_or_404(Domain, id=domain_id, owner=request.user)
     valid = False
