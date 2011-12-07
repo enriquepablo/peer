@@ -76,25 +76,30 @@ def domain_add_success(request, domain_id):
 
 @login_required
 def domain_verification(request, domain_id):
-    domain = get_object_or_404(Domain, id=domain_id)
+    domain = get_object_or_404(Domain, id=domain_id, owner=request.user)
+    valid = False
     if request.method == 'POST':
         if u'http' in request.POST:
-            validate_ownership = http_validate_ownership
+            if (http_validate_ownership(domain.validation_url) or
+                http_validate_ownership(domain.validation_url_with_www_prefix)):
+                valid = True
         elif u'dns' in request.POST:
-            validate_ownership = dns_validate_ownership
+            if dns_validate_ownership(domain.name, domain.validation_key):
+                valid = True
         else:
             raise ValueError("No validation mode in POST request, "
                              "it must have either 'http' or 'dns'.")
 
-        if (validate_ownership(domain.validation_url) or
-            validate_ownership(domain.validation_url_with_www_prefix)):
+        if valid:
             domain.validated = True
             domain.save()
             messages.success(
                 request, _(u'The domain ownership was successfully verified'))
+            return HttpResponseRedirect(reverse('account_profile'))
         else:
             messages.error(
                 request, _(u'Error while checking domain ownership'))
+
     return render_to_response('domain/verify.html', {
             'domain': domain,
             }, context_instance=RequestContext(request))

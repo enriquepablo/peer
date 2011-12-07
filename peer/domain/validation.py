@@ -30,6 +30,8 @@ import datetime
 import hashlib
 import httplib
 import urllib2
+import dns.resolver
+from dns.exception import DNSException
 
 from django.conf import settings
 from django.utils.encoding import smart_str
@@ -69,29 +71,27 @@ def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
     return valid
 
 
-def dns_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
-    """ True if the validation_url exists and returns a 200 status code.
+def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT):
+    """ True if validation_record is in any of the DNS TXT records.
 
     False otherwise
     """
-    if not validation_url:
+    if not validation_record:
         return False
 
+    resolver = dns.resolver.Resolver()
+    resolver.timeout = timeout
     try:
-        request = urllib2.Request(validation_url)
-        custom_user_agent = get_custom_user_agent()
-        if custom_user_agent:
-            request.addheaders = [('User-agent', custom_user_agent)]
-        response = urllib2.urlopen(request, None, timeout)
-    except (urllib2.URLError, httplib.BadStatusLine):
+        answers = resolver.query(domain, 'TXT')
+    # All DNS exceptions subclass from this one
+    except DNSException:
         return False
 
-    if response.getcode() == 200:
-        valid = True
+    for ans in answers:
+        if ans.to_text().strip('\"') == validation_record:
+            return True
     else:
-        valid = False
-    response.close()
-    return valid
+        return False
 
 
 def generate_validation_key(domain_name, domain_owner=None):

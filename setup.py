@@ -81,6 +81,7 @@ setup(
         'django-vff==0.1b4',
         'lxml',
         'pygments',
+        'dnspython',
         'gitdb',
         'djangosaml2',
         ],
