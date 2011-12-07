@@ -82,7 +82,9 @@ def domain_verification(request, domain_id):
             validate_ownership = http_validate_ownership
         elif u'dns' in request.POST:
             validate_ownership = dns_validate_ownership
-        # else: return 500: must specify a method
+        else:
+            raise ValueError("No validation mode in POST request, "
+                             "it must have either 'http' or 'dns'.")
 
         if (validate_ownership(domain.validation_url) or
             validate_ownership(domain.validation_url_with_www_prefix)):
