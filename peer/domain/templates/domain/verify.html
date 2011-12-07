@@ -5,28 +5,11 @@
 {% block content %}
 <section>
   <hgroup>
-    <h1>{% trans "Domain" %}</h1>
+    <h1>{{ domain.name }}</h1>
   </hgroup>
 
-  <table class="domains">
-    <caption><h2>{% trans "Your domain" %}</h2></caption>
-    <thead>
-      <tr>
-        <th>{% trans "Name" %}</th>
-        <th>{% trans "Verified" %}</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>{{ domain.name }}</td>
-          <td>{{ domain.validated }}</td>
-          <td>
-            {% verification_button domain %}
-          </td>
-        </tr>
-    </tbody>
-  </table>
-</section>
+  <p>{% verification_button domain "http" %}</p>
+  <p>{% verification_button domain "dns"%}</p>
 
+</section>
 {% endblock %}
