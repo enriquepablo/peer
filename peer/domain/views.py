@@ -75,18 +75,10 @@ def domain_add_success(request, domain_id):
 
 @login_required
 def domain_verification(request, domain_id):
-    if request.method == 'POST':
-        domain = get_object_or_404(Domain, id=domain_id)
-        if (validate_ownership(domain.validation_url) or
-            validate_ownership(domain.validation_url_with_www_prefix)):
-            domain.validated = True
-            domain.save()
-            messages.success(
-                request, _(u'The domain ownership was successfully verified'))
-        else:
-            messages.error(
-                request, _(u'Error while checking domain ownership'))
-    return HttpResponseRedirect(reverse('domain_list'))
+    domain = get_object_or_404(Domain, id=domain_id)
+    return render_to_response('domain/verify.html', {
+            'domain': domain,
+            }, context_instance=RequestContext(request))
 
 @login_required
 def domain_remove(request, domain_id):
