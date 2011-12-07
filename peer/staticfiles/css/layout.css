@@ -568,51 +568,6 @@ footer hgroup h2 a {
 
 /* Styles for specific views */
 
-.domainList {
-    list-style: none;
-    margin-bottom: 20px;
-}
-
-.domainList li {
-    margin: 10px 0;
-    font-weight: bold;
-}
-
-.domainList li p {
-    font-weight: normal;
-    margin-top: 0;
-    margin-bottom: 3px;
-}
-
-.domainList ul {
-    list-style: none;
-    margin-left: 20px;
-}
-
-.domainList ul li {
-    font-weight: normal;
-    margin: 5px 0;
-    list-style: disc;
-}
-
-/* Domain view */
-.domains caption h2 {
-    text-align: left;
-}
-
-.domains tbody tr td {
-    line-height: 21px;
-}
-
-table.domains thead {
-    line-height: 17px;
-}
-
-table.domains form {
-    float: right;
-    margin-top: 10px;
-}
-
 ol.addDomain {
     margin-top: 1.5em;
 }
