@@ -44,7 +44,7 @@ def get_custom_user_agent():
         return None
 
 
-def validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
+def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
     """ True if the validation_url exists and returns a 200 status code.
 
     False otherwise
@@ -68,6 +68,30 @@ def validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
     response.close()
     return valid
 
+
+def dns_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
+    """ True if the validation_url exists and returns a 200 status code.
+
+    False otherwise
+    """
+    if not validation_url:
+        return False
+
+    try:
+        request = urllib2.Request(validation_url)
+        custom_user_agent = get_custom_user_agent()
+        if custom_user_agent:
+            request.addheaders = [('User-agent', custom_user_agent)]
+        response = urllib2.urlopen(request, None, timeout)
+    except (urllib2.URLError, httplib.BadStatusLine):
+        return False
+
+    if response.getcode() == 200:
+        valid = True
+    else:
+        valid = False
+    response.close()
+    return valid
 
 
 def generate_validation_key(domain_name, domain_owner=None):
