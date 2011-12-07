@@ -33,5 +33,5 @@ register = template.Library()
 
 @register.inclusion_tag('domain/verification_button.html',
                         takes_context=True)
-def verification_button(context, domain):
-    return {'domain': domain}
+def verification_button(context, domain, mode=u'http'):
+    return {'domain': domain, 'mode': mode}
