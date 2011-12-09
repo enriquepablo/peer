@@ -187,7 +187,6 @@ fieldset p {
     padding-left: 10px;
     line-height: 17px;
     background: transparent url(../images/help_icon.png) no-repeat left center;
-    width: 40%;
 }
 
 .block-left {
@@ -636,6 +635,12 @@ li.notValidated a.removeButton {
 
 a.removeButton span.ui-button-text {
     line-height: 1em;
+}
+
+li.notValidated a.button {
+    float: right;
+    margin-top: 6px;
+    margin-right: 6px;
 }
 
 ul.myEntities {

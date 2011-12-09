@@ -21,8 +21,8 @@
       <a href="{{ domain.validation_url }}">{{ domain }}</a>
       <a class="removeButton" href="{% url domain_remove domain.id %}">{% trans "Remove domain" %}</a>
       {% if not domain.validated %}
-        <a class="button" href="{% url domain_verify domain.id %}">Verify</a>
-        <p class="helptext">{% trans "Tip: you must verify the ownership of this domain in order to add entities associated with it" %}</p>
+        <a class="button" href="{% url domain_verify domain.id %}">{% trans "Verify Ownership" %}</a>
+        <p class="helptext">{% trans "You must verify the ownership of this domain in order to add entities associated with it" %}</p>
       {% endif %}
     </li>
     {% endfor %}
