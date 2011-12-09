@@ -7,7 +7,7 @@ a DNS domain, and a reference to a user, the owner of the domain. It also
 has a *verified* mark, the semantics of which will be explained below. Any
 user can have any number of domains.
 
-In the user profile view, accesible by clicking on the button labelled with
+In the user profile view, accessible by clicking on the button labelled with
 the username in the upper right corner, there is a link labelled
 **add domain**. Following it, the user is presented with a form to add a
 new domain. In this form the user simply has to fill in the name of the

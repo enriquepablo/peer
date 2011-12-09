@@ -27,7 +27,7 @@
     <li>{% trans "Click on the verification button:" %} {% verification_button domain "dns" %}</li>
   </ol>
   {% else %}
-    <p>{% trans "This domain has been already verified" %}</p>
+    <p>{% trans "This domain is already verified. If you want to verify it again you need to delete it first." %}</p>
   {% endif %}
 </section>
 {% endblock %}
