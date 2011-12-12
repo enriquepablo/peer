@@ -100,6 +100,12 @@
             $(".removename").live('click', set_dirty);
         }
 
+        // When submitting the forms we unset the dirty flag since the changes
+        // are going to be saved
+        $(".metadataForm").submit(function () {
+            unsaved_changes = false;
+        });
+
         // Warn the user that he may lose his changes if he navigates
         // out of this page
         window.onbeforeunload = function (event) {
