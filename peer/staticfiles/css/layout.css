@@ -189,23 +189,6 @@ fieldset p {
     background: transparent url(../images/help_icon.png) no-repeat left center;
 }
 
-.block-left {
-    float: left;
-    width: 30%;
-}
-
-.block-right {
-    float: left;
-    font-size: 13px;
-    font-style: italic;
-    letter-spacing: 0.3px;
-    margin-top: 10px;
-    padding-left: 10px;
-    line-height: 17px;
-    width: 30%;
-    margin-left: 40px;
-}
-
 span.ui-icon {
     clear: left;
     float: left;

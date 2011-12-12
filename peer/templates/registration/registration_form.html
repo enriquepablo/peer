@@ -14,7 +14,7 @@
 
   <p>{% trans "Please enter your personal information to register in PEER. An email will be sent to activate your account." %}</p>
 
-  <div class="block-left">
+  <div class="block left">
     <form id="sing-up-from" action="." method="post">{% csrf_token %}
       <fieldset>
         {{ form.as_p }}
@@ -25,7 +25,7 @@
     </form>
   </div>
 
-  <div class="block-right">
+  <div class="block right">
     <p>
       {% trans "Did you know that you can skip this process by using the Federated Sign In option of the" %}
      <a href="{% url auth_login %}">{% trans "Sign In" %}</a>?
