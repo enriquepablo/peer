@@ -18,11 +18,7 @@
     {% for domain in domains %}
     <li class="{% if domain.validated %}validated{% else%}notValidated{% endif %}">
       <span class="ui-icon ui-icon-link"></span>
-      {% if domain.validated %}
-        <a href="{% url domain_verify domain.id %}">{{ domain }}</a>
-      {% else %}
-        <a href="{{ domain.validation_url }}">{{ domain }}</a>
-      {% endif %}
+      <a href="{% url domain_verify domain.id %}">{{ domain }}</a>
       <a class="removeButton" href="{% url domain_remove domain.id %}">{% trans "Remove domain" %}</a>
       {% if not domain.validated %}
         <a class="button" href="{% url domain_verify domain.id %}">{% trans "Verify Ownership" %}</a>
