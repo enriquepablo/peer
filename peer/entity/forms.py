@@ -27,6 +27,7 @@
 # either expressed or implied, of Terena.
 
 from django import forms
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 
 from peer.customfields import TermsOfUseField, readtou
@@ -61,15 +62,17 @@ class EntityForm(forms.ModelForm):
         super(EntityForm, self).__init__(*args, **kwargs)
         self.user = user
         self.fields['domain'].queryset = self.fields['domain'].queryset.filter(
-            owner=self.user, validated=True)
+            Q(owner=self.user, validated=True) |
+            Q(team=self.user, validated=True))
         self.fields['domain'].label = _(u'Select Domain')
         self.fields['domain'].help_text = _(
             u'You need to associate the entity with a domain.')
 
     def clean_domain(self):
         domain = self.cleaned_data.get('domain')
-        if domain and (domain.owner != self.user):
-            raise forms.ValidationError(_('You are not the domain owner'))
+        if domain and domain.owner != self.user and \
+                self.user not in domain.team.all():
+            raise forms.ValidationError(_('You cannot use this domain'))
 
         return domain
 

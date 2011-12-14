@@ -125,7 +125,7 @@ def force_domain_ownership(request, domain_id):
         domain.validated = True
         domain.save()
         messages.success(request, _('Domain ownership set by force as verified'))
-        return HttpResponseRedirect(reverse('domain_verify', args=[domain.id]))
+        return HttpResponseRedirect(reverse('manage_domain', args=[domain.id]))
 
     return render_to_response('domain/force_ownership.html', {
             'domain': domain,
