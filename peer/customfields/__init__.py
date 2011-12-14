@@ -57,7 +57,7 @@ if HAS_SOUTH:
             [],
             {},
         ),
-    ], ["^customfields\.SafeCharField"])
+    ], ["^peer\.customfields\.SafeCharField"])
 
 
 def readfile(filename):
