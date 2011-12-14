@@ -128,3 +128,20 @@ def force_domain_ownership(request, domain_id):
     return render_to_response('domain/force_ownership.html', {
             'domain': domain,
             }, context_instance=RequestContext(request))
+
+
+@login_required
+def manage_domain_team(request, domain_id):
+    pass
+
+
+@login_required
+def manage_domain(request, domain_id):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if domain.owner != request.user:
+        raise PermissionDenied
+    
+    if request.user.is_superuser and domain.validated:
+        return manage_domain_team(request, domain_id)
+    
+    return domain_verify(request, domain_id)
