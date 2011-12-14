@@ -15,13 +15,13 @@
         $.getJSON(search_url + '?term='+q,
             function (resp) {
                 for (i in resp) {
-                    if (resp[i]["value"] == q) {
+                    if (resp[i].value == q) {
                         $.fn.delegates.add_selected_delegate(add_delegate_url_template);
                         $('button#add-delegate').button("disable");
                         return;
                     }
                 }
-                $('input#q').val(resp[0]["value"]);
+                $('input#q').val(resp[0].value);
                 $('#q').autocomplete("close");
                 $('button#add-delegate').button("enable");
             }
@@ -39,8 +39,8 @@
     };
 
     $.fn.delegates.add_selected_delegate = function (add_delegate_url_template) {
-        var entity_id = $('input#entity_id').val()
-        var username = $('input#q').val()
+        var entity_id = $('input#entity_id').val();
+        var username = $('input#q').val();
         var url = add_delegate_url_template.replace('__user__', username);
         $.get(url, function (html) {
             if (html == 'delegate') {
