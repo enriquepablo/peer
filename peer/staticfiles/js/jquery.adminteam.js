@@ -13,7 +13,7 @@
         var q = $('input#q').val();
         $.getJSON(search_url + '?term='+q,
             function (resp) {
-                for (var i in resp) {
+                for (i in resp) {
                     if (resp[i].value == q) {
                         $.fn.superusers.add_selected_superuser(add_superuser_url_template);
                         $('button#add-superuser').button("disable");
@@ -32,10 +32,16 @@
         var url = $(this).attr('id');
         $.get(url, function (html) {
             if (html == 'notsuperuser') {
-                $.fn.superusers.message('The selected user was not a membner of the admin team.')
+                $.fn.superusers.message('The selected user was not a memner of the admin team.');
             }
             else if (html == 'adminuser') {
-                $.fn.superusers.message('The admin user cannot be removed from the admin team.')
+                $.fn.superusers.message('The admin user cannot be removed from the admin team.');
+            }
+            else if (html == 'notdelegate') {
+                $.fn.superusers.message("The selected user was not a member of this domain's team.");
+            }
+            else if (html == 'hasentities') {
+                $.fn.superusers.message("The selected user has some entities using this domain.");
             }
             else {
                 $('div#superusers-list').html(html);
@@ -50,6 +56,8 @@
         $.get(url, function (html) {
             if (html == 'superuser') {
                 $.fn.superusers.message(username+' is already in the admin team');
+            } else if (html == 'delegate'){
+                $.fn.superusers.message(username+' can already use this domain');
             } else {
                 $('div#superusers-list').html(html);
                 $('button#add-superuser').button("disable");

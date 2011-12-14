@@ -28,6 +28,7 @@
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -36,7 +37,8 @@ from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from peer.domain.forms import DomainForm
-from peer.domain.models import Domain
+from peer.domain.models import Domain, DomainTeamMembership
+from peer.entity.models import Entity
 from peer.domain.validation import http_validate_ownership
 from peer.domain.validation import dns_validate_ownership
 
@@ -131,11 +133,6 @@ def force_domain_ownership(request, domain_id):
 
 
 @login_required
-def manage_domain_team(request, domain_id):
-    pass
-
-
-@login_required
 def manage_domain(request, domain_id):
     domain = get_object_or_404(Domain, id=domain_id)
     if domain.owner != request.user:
@@ -145,3 +142,72 @@ def manage_domain(request, domain_id):
         return manage_domain_team(request, domain_id)
     
     return domain_verify(request, domain_id)
+
+
+# DOMAIN SHARING
+
+def can_share_domain(user, domain):
+    return user.is_superuser and domain.validated and user == domain.owner
+
+@login_required
+def manage_domain_team(request, domain_id):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if not can_share_domain(request.user, domain):
+        raise PermissionDenied
+
+    return render_to_response('domain/sharing.html', {
+            'domain': domain,
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def list_delegates(request, domain_id):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if not can_share_domain(request.user, domain):
+        raise PermissionDenied
+
+    return render_to_response('domain/list_delegates.html', {
+            'domain': domain,
+            'delegates': domain.team.all(),
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def add_delegate(request, domain_id, username):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if not can_share_domain(request.user, domain):
+        raise PermissionDenied
+
+    user = User.objects.get(username=username)
+    if user:
+        if user in domain.team.all():
+            return 'delegate'
+        else:
+            membership = DomainTeamMembership(domain=domain, member=user)
+            membership.save()
+
+    return list_delegates(request, domain_id)
+
+
+@login_required
+def remove_delegate(request, domain_id, username):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if not can_share_domain(request.user, domain):
+        raise PermissionDenied
+
+    user = User.objects.get(username=username)
+    if user:
+        if user not in domain.team.all():
+            return 'notdelegate'
+        else:
+            entities = Entity.objects.filter(owner=user)
+            used = False
+            for entity in entities:
+                if entity.domain == domain:
+                    return 'hasentities'
+
+            membership = DomainTeamMembership.objects.get(domain=domain,
+                                                          member=user)
+            membership.delete()
+
+    return list_delegates(request, domain_id)
