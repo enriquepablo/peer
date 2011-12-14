@@ -26,6 +26,17 @@
     </li>
     <li>{% trans "Click on the verification button:" %} {% verification_button domain "dns" %}</li>
   </ol>
+  {% if user.is_superuser %}
+  <br/>
+  <p>{% trans "Or, you can forcefully set the ownership of this domain as verified:" %}</p>
+  <ol class="addDomain">
+    <li>{% trans "Click on the verification button:" %}
+      <form action="" method="post">{% csrf_token %}
+          <a class="button" href="{% url force_domain_ownership domain.id %}">{% trans "Verify ownership by force" %}</a>
+      </form>
+    </li>
+  </ol>
+  {% endif %}
   {% else %}
     <p>{% trans "This domain is already verified. If you want to verify it again you need to delete it first." %}</p>
   {% endif %}

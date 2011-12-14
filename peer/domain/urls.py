@@ -35,4 +35,6 @@ urlpatterns = patterns(
     url(r'^(?P<domain_id>\d+)$', 'domain_verify',
         name='domain_verify'),
     url(r'^(?P<domain_id>\d+)/remove$', 'domain_remove', name='domain_remove'),
+    url(r'^(?P<domain_id>\d+)/force_ownership$', 'force_domain_ownership',
+        name='force_domain_ownership'),
 )

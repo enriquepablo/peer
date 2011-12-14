@@ -111,3 +111,20 @@ def domain_remove(request, domain_id):
             'domain': domain,
             'entities': domain.entity_set.all(),
             }, context_instance=RequestContext(request))
+
+
+@login_required
+def force_domain_ownership(request, domain_id):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if not request.user.is_superuser or domain.owner != request.user:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        domain.validated = True
+        domain.save()
+        messages.success(request, _('Domain ownership set by force as verified'))
+        return HttpResponseRedirect(reverse('domain_verify', args=[domain.id]))
+
+    return render_to_response('domain/force_ownership.html', {
+            'domain': domain,
+            }, context_instance=RequestContext(request))
