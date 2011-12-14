@@ -37,6 +37,9 @@
             else if (html == 'adminuser') {
                 $.fn.superusers.message('The admin user cannot be removed from the admin team.');
             }
+            else if (html == 'delegateddomains') {
+                $.fn.superusers.message('This user has domains shared with other users.');
+            }
             else if (html == 'notdelegate') {
                 $.fn.superusers.message("The selected user was not a member of this domain's team.");
             }

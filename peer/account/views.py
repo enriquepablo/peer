@@ -189,6 +189,9 @@ def remove_superuser(request, username):
         if new_superuser.username == 'admin':
             return HttpResponse('adminuser')
         elif new_superuser.is_superuser:
+            for domain in Domain.objects.filter(owner=new_superuser):
+                if domain.team.count():
+                    return HttpResponse('delegateddomains')
             new_superuser.is_superuser = False
             new_superuser.save()
         else:
