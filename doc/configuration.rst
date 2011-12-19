@@ -309,6 +309,12 @@ Once the elements are specified a migration is needed by issuing:
 
  $ django-admin.py syncdb --all
 
+.. note::
+
+   After running this command you may get a warning telling you the applications
+   haven't been synced and that you need to use migrations. You can safely
+   ignore this warning since the permissions should have been already created.
+
 In order to manage permission for a given user, you need to login as superuser
 in the `Django admin interface`_, browse to *Users* and pick the user whose
 permissions you want to change (by default, once a permission is added to the
