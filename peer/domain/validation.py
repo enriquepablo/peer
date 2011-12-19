@@ -85,6 +85,11 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
         answers = resolver.query(domain, 'TXT')
     # All DNS exceptions subclass from this one
     except DNSException:
+        # Check for TXT in root domain
+        segs = domain.split('.')
+        if len(segs) > 2:
+            root_domain = '.'.join(segs[-2:])
+            dns_validate_ownership(root_domain, validation_record)
         return False
 
     for ans in answers:
