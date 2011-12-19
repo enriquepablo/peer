@@ -326,7 +326,7 @@ Any SAML metadata element not present in the settings has its permissions
 enabled by default. Once it's added a normal user won't be able to add, modify
 or delete any SAML medata element unless is not present in the settings and a
 superuser has granted the user with the permissions.
->>>>>>> When no permission allow all, when permission forbidden
+
 
 SAMLmetaJS plugins
 ~~~~~~~~~~~~~~~~~~
