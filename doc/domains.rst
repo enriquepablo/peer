@@ -30,7 +30,8 @@ code, it considers the domain (and marks it as) verified.
 For the DNS verification the user has to create a DNS TXT record in the domain
 with that string. Once created, when clicking in **Verify ownership by DNS**,
 the system checks that such record exists and only if it exits is the domain
-marked as verified.
+marked as verified. You can also verify a subdomain by adding the TXT record to
+the subdomain itself or to the second-level domain.
 
 .. note::
 
