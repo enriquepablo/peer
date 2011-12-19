@@ -327,6 +327,14 @@ enabled by default. Once it's added a normal user won't be able to add, modify
 or delete any SAML medata element unless is not present in the settings and a
 superuser has granted the user with the permissions.
 
+.. note::
+
+   As of version 0.7.0 of PEER, only the XPATH subset supported by the `XPATH
+   ElementTree API`_ can be used. This means that selectors by element value,
+   for example, are not supported.
+
+.. _`XPATH ElementTree API`: http://effbot.org/zone/element-xpath.htm
+
 
 SAMLmetaJS plugins
 ~~~~~~~~~~~~~~~~~~
