@@ -49,15 +49,15 @@ MDEntityDescriptor.prototype.hasCertOfType = function (type) {
 	var 
 		i;
 	
-	if (!this.saml2sp || !this.saml2sp.certs) return false;
+	if (!this.saml2sp || !this.saml2sp.certs) { return false; }
 	
 	for(i = 0; i < this.saml2sp.certs.length; i++) {
 		// console.log('Looking for certificate of type:'); console.log(type); console.log(this.saml2sp.certs[i]);
-		if (this.saml2sp.certs[i].use === 'both') return true;
-		if (this.saml2sp.certs[i].use === type) return true;
+		if (this.saml2sp.certs[i].use === 'both') { return true; }
+		if (this.saml2sp.certs[i].use === type) { return true; }
 	}
 	return false;
-}
+};
 
 
 /*
@@ -69,7 +69,7 @@ MDEntityDescriptor.prototype.hasCertOfType = function (type) {
  * text: a human readable textual description of the test.
  * value: Whether the test succeeded or failed.
  *		0	failed
- * 		1	suceeded
+ *    1	suceeded
  *		2	NA
  * significance: How signficant is it that this test fails.
  *		0	Not signficant at all. Just informative.
@@ -91,7 +91,7 @@ TestResult = function(id, text, value, significance) {
 	}
 
 	this.text = text;
-}
+};
 
 TestResult.prototype.getLevel = function () {
 	if (this.significance === 0 || this.value === 2) {
@@ -103,7 +103,7 @@ TestResult.prototype.getLevel = function () {
 	} else {
 		return 'error';
 	}
-}
+};
 
 TestResult.prototype.html = function () {
 	var 
@@ -120,13 +120,13 @@ TestResult.prototype.html = function () {
 	html = this.text; // + ' [' + this.significance + '] [' + this.id + ']';
 	html = '<div class="samlmetajs_testentry samlmetajs_testentry_' + this.id + ' ' + valueClass + ' ' + significanceClass + '">' + html + '</div>';
 	return html;
-}
+};
 
 
 MDException = function (message) {
 	this.name = 'Generic SAML Parser Error';
 	this.message = message;
-}
+};
 
 constants = {
 	'ns' : {
@@ -143,20 +143,21 @@ constants = {
 function processTest(t) {
 	// console.log('processTest(t) ');
 	// console.log(t);
-	if (settings.testProcessor) settings.testProcessor(t);
+	if (settings.testProcessor) { settings.testProcessor(t); }
 }
 
 
 function validateXML(string) {
 
 	// code for IE
+  var xmlDoc;
 	if (window.ActiveXObject) {
 		
-		var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+		xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
 		xmlDoc.async="false";
 		xmlDoc.loadXML(string);
 
-		if(xmlDoc.parseError.errorCode!=0) {
+		if(xmlDoc.parseError.errorCode !== 0) {
 			txt="XML Parsing failed error Code: " + xmlDoc.parseError.errorCode + "\n";
 			txt=txt+"Reason: " + xmlDoc.parseError.reason;
 			txt=txt+"Failed at line: " + xmlDoc.parseError.line;
@@ -169,7 +170,7 @@ function validateXML(string) {
 	} else if (document.implementation.createDocument) {
 
 		var parser=new DOMParser();
-		var xmlDoc=parser.parseFromString(string,"text/xml");
+		xmlDoc=parser.parseFromString(string,"text/xml");
 
 		if (xmlDoc.getElementsByTagName("parsererror").length>0) {
 			//throw new MDException(xmlDoc.getElementsByTagName("parsererror")[0]);
@@ -188,8 +189,8 @@ function validateXML(string) {
  * Push new element new element 'n' to an array stored in obj[name]. Create the array if not yet exists.
  */
 function apush(obj, name, n) {
-	if (!n) return;
-	if (!obj[name]) obj[name] = [];
+	if (!n) { return; }
+	if (!obj[name]) { obj[name] = []; }
 	obj[name].push(n);
 }
 
@@ -252,7 +253,7 @@ function nodeGetAttribute (node, attrname, defaultvalue) {
 	} else {
 		attr = node.getAttribute(attrname);
 	}
-	if (!attr) return defaultvalue;
+	if (!attr) { return defaultvalue; }
 	return attr;
 }
 
@@ -282,9 +283,9 @@ function nodeGetTextRecursive(node) {
 }
 
 function expectNode (node, name, namepsace) {
-	if (!node) throw new Exception('Expecting node with name [' + name + '] but node was not defined...');
-	if (nodeName(node) !== name) throw new MDException('Expecting node with name [' + name + '] but found a [' + nodeName(node) + ']');
-	if (nodeNamespace(node) !== namepsace) throw new MDException('Expecting node with namespace [' + namepsace + '] but found a [' + nodeNamespace(node) + ']');
+	if (!node) { throw new Exception('Expecting node with name [' + name + '] but node was not defined...'); }
+	if (nodeName(node) !== name) { throw new MDException('Expecting node with name [' + name + '] but found a [' + nodeName(node) + ']'); }
+	if (nodeNamespace(node) !== namepsace) { throw new MDException('Expecting node with namespace [' + namepsace + '] but found a [' + nodeNamespace(node) + ']'); }
 }
 
 function nodeProcessChildren(node, callbacks, fallback) {
@@ -297,11 +298,11 @@ function nodeProcessChildren(node, callbacks, fallback) {
 	for(j = 0; j < nc; j++) {
 		
 		curChild = nodeGetChild(node, j);
-		if (!nodeIsElement(curChild)) continue;
+		if (!nodeIsElement(curChild)) { continue; }
 		
 		for (i = 0; i < callbacks.length; i++) {
-			if (callbacks[i].name && callbacks[i].name !== nodeName(curChild)) continue;
-			if (callbacks[i].namespace && callbacks[i].namespace !== nodeNamespace(curChild)) continue;
+			if (callbacks[i].name && callbacks[i].name !== nodeName(curChild)) { continue; }
+			if (callbacks[i].namespace && callbacks[i].namespace !== nodeNamespace(curChild)) { continue; }
 
 			callbacks[i].callback(curChild, i);
 			processed = true;
@@ -326,17 +327,17 @@ reader = function() {
 validateEmail = function(string) {
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 	return reg.test(string);
-}
+};
 
 validateURL = function(string) {
 	var reg = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 	return reg.test(string);	
-}
+};
 
 isHTTPS = function(string) {
 	var reg = /(https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 	return reg.test(string);
-}
+};
 
 parseFromString = function(xmlstring) {
 
@@ -493,8 +494,8 @@ parseFromString = function(xmlstring) {
 		
 		expectNode(node, 'AttributeConsumingService', constants.ns.md);
 		
-		if (!acs.name) acs.name = {};
-		if (!acs.descr) acs.descr = {};
+		if (!acs.name) { acs.name = {}; }
+		if (!acs.descr) { acs.descr = {}; }
 		acs.attributes = {};
 
 
@@ -576,21 +577,21 @@ parseFromString = function(xmlstring) {
 			{	
 				namespace: constants.ns.mdui, name: 'DisplayName',
 				callback: function(n) {
-					if (!mdui.name) mdui.name = {};
+					if (!mdui.name) { mdui.name = {}; }
 					mdui.name[nodeGetAttribute(n, 'xml:lang', 'en')] = nodeGetTextRecursive(n);
 				}
 			},
 			{	
 				namespace: constants.ns.mdui, name: 'Description',
 				callback: function(n) {
-					if (!mdui.descr) mdui.descr = {};
+					if (!mdui.descr) { mdui.descr = {}; }
 					mdui.descr[nodeGetAttribute(n, 'xml:lang', 'en')] = nodeGetTextRecursive(n);
 				}
 			},
 			{	
 				namespace: constants.ns.mdui, name: 'Keywords',
 				callback: function(n) {
-					if (!mdui.tags) mdui.tags = {};
+					if (!mdui.tags) { mdui.tags = {}; }
 					mdui.tags[nodeGetAttribute(n, 'xml:lang', 'en')] = nodeGetTextRecursive(n);
 				}
 			},
@@ -757,7 +758,7 @@ parseFromString = function(xmlstring) {
 				namespace: constants.ns.saml, name: 'Attribute',
 				callback: function(n) {
 					var newAttr = parseAttribute(n);
-					if (newAttr.name) attributes[newAttr.name] = newAttr;
+					if (newAttr.name) { attributes[newAttr.name] = newAttr; }
 				}
 			},
 			{	
@@ -984,7 +985,7 @@ parseFromString = function(xmlstring) {
 
 	
 	return entitydescriptor;
-}
+};
 
 
 function setup (s) {
@@ -1001,5 +1002,3 @@ if (isnode) {
 
 
 })();
-
-
