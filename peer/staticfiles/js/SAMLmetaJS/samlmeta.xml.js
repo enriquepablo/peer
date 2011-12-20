@@ -220,6 +220,12 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 					this.addMDUIDescription(node, lang, entitydescriptor.descr[lang]);
 				}
 			}
+			if (SAMLmetaJS.tools.hasContents(entitydescriptor.tags)) {
+				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'Keywords');
+				for(lang in entitydescriptor.tags) {
+					this.addMDUIKeywords(node, lang, entitydescriptor.tags[lang]);
+				}
+			}
 			SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'GeolocationHint');
 			if (entitydescriptor.location) {
 				this.addMDUILocation(node, entitydescriptor.location);
@@ -242,6 +248,13 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		},
 		"addMDUIDescription": function(node, lang, text) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Description');
+			var text = doc.createTextNode(text);
+			newNode.setAttribute('xml:lang', lang);
+			newNode.appendChild(text);
+			node.appendChild(newNode);
+		},
+		"addMDUIKeywords": function(node, lang, text) {
+			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Keywords');
 			var text = doc.createTextNode(text);
 			newNode.setAttribute('xml:lang', lang);
 			newNode.appendChild(text);

@@ -588,6 +588,13 @@ parseFromString = function(xmlstring) {
 				}
 			},
 			{	
+				namespace: constants.ns.mdui, name: 'Keywords',
+				callback: function(n) {
+					if (!mdui.tags) mdui.tags = {};
+					mdui.tags[nodeGetAttribute(n, 'xml:lang', 'en')] = nodeGetTextRecursive(n);
+				}
+			},
+			{	
 				namespace: constants.ns.mdui, name: 'GeolocationHint',
 				callback: function(n) {
 					mdui.location = nodeGetTextRecursive(n).substr(4);
@@ -949,6 +956,9 @@ parseFromString = function(xmlstring) {
 	}
 	if (!entitydescriptor.descr) {
 		processTest(new TestResult('noentitydescr', 'The entity did not include a description', 0, 1));
+	}
+	if (!entitydescriptor.tags) {
+		processTest(new TestResult('noentitytags', 'The entity did not include keywords', 0, 1));
 	}
 	if (!entitydescriptor.saml2sp || !entitydescriptor.saml2sp.AssertionConsumerService) {
 		processTest(new TestResult('noacsendpoint', 'The entity did not include an AssertionConsumerService endpoint', 0, 2));

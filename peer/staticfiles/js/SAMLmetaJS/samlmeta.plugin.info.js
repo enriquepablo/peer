@@ -6,6 +6,9 @@
 		"clearInfodescr": function() {
 			$("div#info div#infodescr").empty();
 		},
+		"clearInfotags": function() {
+			$("div#info div#infotags").empty();
+		},
 		"addInfoname": function(lang, name) {
 			var randID = 'infoname' + Math.floor(Math.random() * 10000 + 1000);
 			var infoHTML = '<div class="infonamediv">' +
@@ -72,6 +75,39 @@
 				e.preventDefault();
 				$(e.target).closest('div.infodescrdiv').remove();
 			});
+		},
+		"addInfotags": function(lang, tags) {
+			var randID = 'infotags' + Math.floor(Math.random() * 10000 + 1000);
+			var infoHTML = '<div class="infotagsdiv">' +
+				'<select name="' + randID + '-lang-name" id="' + randID + '-lang">';
+			var languageFound = false;
+			var language, checked;
+
+			for (language in SAMLmetaJS.Constants.languages) {
+				if (SAMLmetaJS.Constants.languages.hasOwnProperty(language)) {
+					checked = '';
+					if (lang === language) {
+						checked = ' selected="selected" ';
+						languageFound = true;
+					}
+					infoHTML += '<option value="' + language + '" ' + checked + '>' +
+						SAMLmetaJS.Constants.languages[language] +
+						'</option>';
+				}
+			}
+			if (!languageFound) {
+				infoHTML += '<option value="' + lang + '" selected="selected">Unknown language (' + lang + ')</option>';
+			}
+
+			infoHTML += '</select>' +
+				'<input type="text" name="' + randID + '-name-name" id="' + randID + '-name" value="' + (tags || '') + '" />' +
+				'<button style="" class="removetags">Remove</button>' +
+				'</div>';
+
+			$(infoHTML).appendTo("div#info div#infotags").find('button.removetags').click(function (e) {
+				e.preventDefault();
+				$(e.target).closest('div.infotagsdiv').remove();
+			});
 		}
 	};
 
@@ -94,14 +130,21 @@
 					'<fieldset class="name"><legend>Name of Service</legend>' +
 						'<div id="infoname"></div>' +
 						'<div>' +
-							'<button class="addname">Add name in one more language</button>' +
+							'<button class="addname">Add name in one more languages</button>' +
 						'</div>' +
 					'</fieldset>' +
 
 					'<fieldset class="description"><legend>Description of Service</legend>' +
 						'<div id="infodescr"></div>' +
 						'<div>' +
-							'<button class="adddescr">Add description in one more language</button>' +
+							'<button class="adddescr">Add description in one more languages</button>' +
+						'</div>' +
+					'</fieldset>' +
+
+					'<fieldset class="tags"><legend>Keywords (space separated)</legend>' +
+						'<div id="infotags"></div>' +
+						'<div>' +
+							'<button class="addtags">Add keywords in one more languages</button>' +
 						'</div>' +
 					'</fieldset>' +
 
@@ -118,12 +161,16 @@
 				e.preventDefault();
 				UI.addInfodescr('en', '');
 			});
+			$("div#info button.addtags").click(function(e) {
+				e.preventDefault();
+				UI.addInfotags('en', '');
+			});
 		},
 
 		fromXML: function (entitydescriptor) {
 			var l;
 
-			// Add name and description
+			// Add name, description and tags
 			UI.clearInfoname();
 			if (entitydescriptor.name) {
 				for (l in entitydescriptor.name) {
@@ -138,6 +185,14 @@
 				for (l in entitydescriptor.descr) {
 					if (entitydescriptor.descr.hasOwnProperty(l)) {
 						UI.addInfodescr(l, entitydescriptor.descr[l]);
+					}
+				}
+			}
+			UI.clearInfotags();
+			if (entitydescriptor.tags) {
+				for (l in entitydescriptor.tags) {
+					if (entitydescriptor.tags.hasOwnProperty(l)) {
+						UI.addInfotags(l, entitydescriptor.tags[l]);
 					}
 				}
 			}
@@ -159,6 +214,14 @@
 				}
 				if (!entitydescriptor.descr) entitydescriptor.descr = {};
 				entitydescriptor.descr[$(element).find('div > select').val()] = value;
+			});
+			$('div#infotags > div').each(function (index, element) {
+				var value = $(element).children('input').attr('value');
+				if (!value) {
+					return;
+				}
+				if (!entitydescriptor.tags) entitydescriptor.tags = {};
+				entitydescriptor.tags[$(element).children('select').val()] = value;
 			});
 		}
 	};
