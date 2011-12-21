@@ -6,8 +6,8 @@
 		"clearInfodescr": function() {
 			$("div#info div#infodescr").empty();
 		},
-		"clearInfotags": function() {
-			$("div#info div#infotags").empty();
+		"clearInfokws": function() {
+			$("div#info div#infokws").empty();
 		},
 		"addInfoname": function(lang, name) {
 			var randID = 'infoname' + Math.floor(Math.random() * 10000 + 1000);
@@ -76,9 +76,9 @@
 				$(e.target).closest('div.infodescrdiv').remove();
 			});
 		},
-		"addInfotags": function(lang, tags) {
-			var randID = 'infotags' + Math.floor(Math.random() * 10000 + 1000);
-			var infoHTML = '<div class="infotagsdiv">' +
+		"addInfokws": function(lang, kws) {
+			var randID = 'infokws' + Math.floor(Math.random() * 10000 + 1000);
+			var infoHTML = '<div class="infokwsdiv">' +
 				'<select name="' + randID + '-lang-name" id="' + randID + '-lang">';
 			var languageFound = false;
 			var language, checked;
@@ -100,13 +100,13 @@
 			}
 
 			infoHTML += '</select>' +
-				'<input type="text" name="' + randID + '-name-name" id="' + randID + '-name" value="' + (tags || '') + '" />' +
-				'<button style="" class="removetags">Remove</button>' +
+				'<input type="text" name="' + randID + '-name-name" id="' + randID + '-name" value="' + (kws || '') + '" />' +
+				'<button style="" class="removekws">Remove</button>' +
 				'</div>';
 
-			$(infoHTML).appendTo("div#info div#infotags").find('button.removetags').click(function (e) {
+			$(infoHTML).appendTo("div#info div#infokws").find('button.removekws').click(function (e) {
 				e.preventDefault();
-				$(e.target).closest('div.infotagsdiv').remove();
+				$(e.target).closest('div.infokwsdiv').remove();
 			});
 		}
 	};
@@ -141,10 +141,10 @@
 						'</div>' +
 					'</fieldset>' +
 
-					'<fieldset class="tags"><legend>Keywords (space separated)</legend>' +
-						'<div id="infotags"></div>' +
+					'<fieldset class="kws"><legend>Keywords (space separated)</legend>' +
+						'<div id="infokws"></div>' +
 						'<div>' +
-							'<button class="addtags">Add keywords in one more languages</button>' +
+							'<button class="addkws">Add keywords in one more languages</button>' +
 						'</div>' +
 					'</fieldset>' +
 
@@ -161,16 +161,16 @@
 				e.preventDefault();
 				UI.addInfodescr('en', '');
 			});
-			$("div#info button.addtags").click(function(e) {
+			$("div#info button.addkws").click(function(e) {
 				e.preventDefault();
-				UI.addInfotags('en', '');
+				UI.addInfokws('en', '');
 			});
 		},
 
 		fromXML: function (entitydescriptor) {
 			var l;
 
-			// Add name, description and tags
+			// Add name, description and kws
 			UI.clearInfoname();
 			if (entitydescriptor.name) {
 				for (l in entitydescriptor.name) {
@@ -188,11 +188,11 @@
 					}
 				}
 			}
-			UI.clearInfotags();
-			if (entitydescriptor.tags) {
-				for (l in entitydescriptor.tags) {
-					if (entitydescriptor.tags.hasOwnProperty(l)) {
-						UI.addInfotags(l, entitydescriptor.tags[l]);
+			UI.clearInfokws();
+			if (entitydescriptor.kws) {
+				for (l in entitydescriptor.kws) {
+					if (entitydescriptor.kws.hasOwnProperty(l)) {
+						UI.addInfokws(l, entitydescriptor.kws[l]);
 					}
 				}
 			}
@@ -215,13 +215,13 @@
 				if (!entitydescriptor.descr) entitydescriptor.descr = {};
 				entitydescriptor.descr[$(element).find('div > select').val()] = value;
 			});
-			$('div#infotags > div').each(function (index, element) {
+			$('div#infokws > div').each(function (index, element) {
 				var value = $(element).children('input').attr('value');
 				if (!value) {
 					return;
 				}
-				if (!entitydescriptor.tags) entitydescriptor.tags = {};
-				entitydescriptor.tags[$(element).children('select').val()] = value;
+				if (!entitydescriptor.kws) entitydescriptor.kws = {};
+				entitydescriptor.kws[$(element).children('select').val()] = value;
 			});
 		}
 	};

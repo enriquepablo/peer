@@ -14,18 +14,18 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 
 			console.log('Update XML document');
 
-			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node;
+			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node, name;
 			root = this.addIfNotEntityDescriptor();
 
 			if (entitydescriptor.entityid)
-				root.setAttribute('entityID', entitydescriptor.entityid);
+                { root.setAttribute('entityID', entitydescriptor.entityid); }
 
 			if (entitydescriptor.entityAttributes) {
 				entityExtensions = this.addIfNotEntityExtensions(root);
 
 				entityAttributes = this.addIfNotEntityAttributes(entityExtensions);
 				SAMLmetaJS.XML.wipeChildren(entityAttributes, SAMLmetaJS.Constants.ns.saml, 'Attribute');
-				for(var name in entitydescriptor.entityAttributes) {
+				for(name in entitydescriptor.entityAttributes) {
 					this.addAttribute(entityAttributes, entitydescriptor.entityAttributes[name]);
 				}
 			}
@@ -220,10 +220,10 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 					this.addMDUIDescription(node, lang, entitydescriptor.descr[lang]);
 				}
 			}
-			if (SAMLmetaJS.tools.hasContents(entitydescriptor.tags)) {
+			if (SAMLmetaJS.tools.hasContents(entitydescriptor.kws)) {
 				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'Keywords');
-				for(lang in entitydescriptor.tags) {
-					this.addMDUIKeywords(node, lang, entitydescriptor.tags[lang]);
+				for(lang in entitydescriptor.kws) {
+					this.addMDUIKeywords(node, lang, entitydescriptor.kws[lang]);
 				}
 			}
 			SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'GeolocationHint');

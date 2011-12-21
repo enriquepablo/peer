@@ -136,7 +136,8 @@ constants = {
 		'saml': "urn:oasis:names:tc:SAML:2.0:assertion",
 		'xsd': "http://www.w3.org/2001/XMLSchema",
 		'ds': "http://www.w3.org/2000/09/xmldsig#",
-		'idpdisc': 'urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol'
+		'idpdisc': 'urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol',
+        'dcterms': 'http://purl.org/dc/terms/'
 	}
 };
 
@@ -591,8 +592,8 @@ parseFromString = function(xmlstring) {
 			{	
 				namespace: constants.ns.mdui, name: 'Keywords',
 				callback: function(n) {
-					if (!mdui.tags) { mdui.tags = {}; }
-					mdui.tags[nodeGetAttribute(n, 'xml:lang', 'en')] = nodeGetTextRecursive(n);
+					if (!mdui.kws) { mdui.kws = {}; }
+					mdui.kws[nodeGetAttribute(n, 'xml:lang', 'en')] = nodeGetTextRecursive(n);
 				}
 			},
 			{	
@@ -958,8 +959,8 @@ parseFromString = function(xmlstring) {
 	if (!entitydescriptor.descr) {
 		processTest(new TestResult('noentitydescr', 'The entity did not include a description', 0, 1));
 	}
-	if (!entitydescriptor.tags) {
-		processTest(new TestResult('noentitytags', 'The entity did not include keywords', 0, 1));
+	if (!entitydescriptor.kws) {
+		processTest(new TestResult('noentitykws', 'The entity did not include keywords', 0, 1));
 	}
 	if (!entitydescriptor.saml2sp || !entitydescriptor.saml2sp.AssertionConsumerService) {
 		processTest(new TestResult('noacsendpoint', 'The entity did not include an AssertionConsumerService endpoint', 0, 2));
