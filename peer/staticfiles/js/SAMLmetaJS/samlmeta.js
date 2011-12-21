@@ -62,8 +62,7 @@ var SAMLmetaJS = {};
 			'mdattr': "urn:oasis:names:tc:SAML:metadata:attribute",
 			'saml': "urn:oasis:names:tc:SAML:2.0:assertion",
 			'xsd': "http://www.w3.org/2001/XMLSchema",
-			'ds': "http://www.w3.org/2000/09/xmldsig#",
-            'dcterms': 'http://purl.org/dc/terms/'
+			'ds': "http://www.w3.org/2000/09/xmldsig#"
 		},
 		'certusage': {
 			'both': 'Both',

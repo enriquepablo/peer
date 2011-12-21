@@ -136,8 +136,7 @@ constants = {
 		'saml': "urn:oasis:names:tc:SAML:2.0:assertion",
 		'xsd': "http://www.w3.org/2001/XMLSchema",
 		'ds': "http://www.w3.org/2000/09/xmldsig#",
-		'idpdisc': 'urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol',
-        'dcterms': 'http://purl.org/dc/terms/'
+		'idpdisc': 'urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol'
 	}
 };
 
