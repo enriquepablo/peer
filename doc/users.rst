@@ -75,6 +75,9 @@ entities, and a user's menu with a few links:
   email address of the person she wants to invite, and can also edit the
   email's body text offered by default. Clicking on *send invitation* will
   immediately send an email to the given address.
+* **Manage admin team** is an option only available to administrator users.
+  It will take the administrator user to a form where she will be able
+  to add and remove other users from the administrator team.
 
 Authorization
 -------------
@@ -86,8 +89,20 @@ user can (except, of course, signing up).
 
 * **Administrator users**. Users of this type can access the *django admin
   interface*, and through this interface they can manage other users'
-  accounts (create, modify and delete them). Administrators can also create
-  entities and assign another user as its owner.
+  accounts (create, modify and delete them). Administrators has other special
+  powers in the PEER interface:
+
+  * They can create entities and assign another user as its owner.
+  * They can add and remove regular users to the administrators team. Once
+    a user becomes and administrator she has full powers and can add (and
+    remove!)  other users to the administrators team.
+  * They can validate domains directly without proving they are their
+    legitimate owners.
+  * They can set other users as members of a domain team, allowing them
+    to use such domain like they were its owners.
+
+  As you can see being an administrator users mean having a lot of powers.
+  Remember that with great powers comes great responsibilities.
 * **Regular users**. These users can create entities, of which they become
   owners. They can also assign ownership of their own entities to another
   user (thereby relinquishing ownership themselves), and delegate management
