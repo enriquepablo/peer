@@ -32,7 +32,7 @@
         var url = $(this).attr('id');
         $.get(url, function (html) {
             if (html == 'notsuperuser') {
-                $.fn.superusers.message('The selected user was not a memner of the admin team.');
+                $.fn.superusers.message('The selected user was not a member of the admin team.');
             }
             else if (html == 'adminuser') {
                 $.fn.superusers.message('The admin user cannot be removed from the admin team.');
