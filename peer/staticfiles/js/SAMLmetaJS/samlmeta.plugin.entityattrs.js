@@ -7,7 +7,7 @@
         "addEntityAttr": function(entityattr) {
             var randID = Math.floor(Math.random() * 10000 + 1000);
             var entityattrHTML = '<fieldset><legend>Attribute</legend>' +
-                '<div class="entityattrfield">' +
+                '<div class="entityattrfield" style="float:left; margin-right: 50px;">' +
                     '<label for="entityattr-' + randID + '-NameFormat">Name format: </label>' +
                     '<input type="text" name="entityattr-' + randID + '-NameFormat-name" id="entityattr-' + randID + '-NameFormat" value="' + (entityattr.nameFormat || '') + '" />' +
                 '</div>' +
@@ -17,7 +17,7 @@
                     '<input type="text" name="entityattr-' + randID + '-Name-name" id="entityattr-' + randID + '-Name" value="' + (entityattr.name || '') + '" />' +
                 '</div>' +
 
-                '<div class="entityattrfield">' +
+                '<div class="entityattrfield" style="float:left; margin-right: 50px;">' +
                     '<label for="entityattr-' + randID + '-FriendlyName">Friendly name: </label>' +
                     '<input type="text" name="entityattr-' + randID + '-FriendlyName-name" id="entityattr-' + randID + '-FriendlyName" value="' + (entityattr.friendlyName || '') + '" />' +
                 '</div>' +
