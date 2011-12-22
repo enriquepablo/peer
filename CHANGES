@@ -1,9 +1,14 @@
 CHANGES
 =======
 
-0.6.1dev (unreleased)
----------------------
-- ...
+0.7.0 (2011-12-22)
+------------------
+- DNS-based domain validation
+- Delegated domains: an administrator can validate a domain directly and
+  create a team that can manage such domains as if they were the owners.
+- Administration team: an administrator can add (and remove) other users
+  to the administrators team giving them full powers in the system.
+- Support for EntityAttributes SAML extension via a SAMLmetaJS new plugin.
 
 0.6.0 (2011-11-30)
 ------------------
