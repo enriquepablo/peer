@@ -201,7 +201,6 @@ def remove_delegate(request, domain_id, username):
             return 'notdelegate'
         else:
             entities = Entity.objects.filter(owner=user)
-            used = False
             for entity in entities:
                 if entity.domain == domain:
                     return 'hasentities'
