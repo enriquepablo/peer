@@ -17,7 +17,7 @@
 
   <section>
     <hgroup>
-      <h2>{% trans "HTTP Validation" %}</h2>
+      <h2>{% trans "HTTP validation" %}</h2>
     </hgroup>
     <ol class="steps">
       <li>{% trans "Make sure this link is not broken:" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>. {% trans "An HTTP request to that resource should return an HTTP 200 response" %}</li>
@@ -27,7 +27,7 @@
 
   <section>
     <hgroup>
-      <h2>{% trans "DNS Validation" %}</h2>
+      <h2>{% trans "DNS validation" %}</h2>
     </hgroup>
     <ol class="steps">
       <li>{% trans "Add this value to a TXT record of your domain:" %} {{ domain.validation_key }}</li>
