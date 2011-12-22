@@ -108,13 +108,6 @@
       (function ($) {
           $(document).ready(function () {
               $(".button").button();
-              var browserHeight = $(window).height();
-              // all content height including margin
-              var content = $('section').outerHeight(true) + $('#header').outerHeight(true) + $('footer').outerHeight(true) + $('.welcome header').outerHeight(true);
-              if(content < browserHeight){
-                  var minHeight = browserHeight - content - 65 + $('section').outerHeight(true);
-                  $('section').css("min-height", minHeight + 'px');
-              }
           });
       }(jQuery));
     </script>
