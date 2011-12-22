@@ -54,6 +54,11 @@ administrator user just need to click on the **Verify ownership by force**
 button to mark the domain as validated. The system trusts these kind of
 users and will do as they say without problems.
 
+When an administrator validates a domain using this option she will be
+redirected to another page where she will be able to add users to this
+domain's team. Being on a domain's team means having the same privileges
+as the owner of the team. This way an administrator can create several
+domains and assign teams to manage them.
 
 Other domain actions
 --------------------
@@ -62,6 +67,11 @@ The domains belonging to the user are listed in her profile as
 *verified* or *unverified*. In the case of unverified domains she can click
 on the **Verify Ownership** button which takes her to the
 *verification page*. She can also delete any domain from this page.
+
+In the case of verified domains the **Verify Ownership** button will
+dissapear and, in the case of an administrator user, it will be replaced
+by a **Manage domain team** button that will takes her to the page
+where she can add and remove users to such team.
 
 Every entity in PEER is associated with a domain object. This is used in
 some validators that check that some parts of the entity's metadata (such as
