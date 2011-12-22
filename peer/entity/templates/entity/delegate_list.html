@@ -9,7 +9,7 @@
       <li>
       <form action="{% url make_owner entity_id %}"
             method="POST"
-            class="change-owner-form">
+            class="list-user-form">
           {% csrf_token %}
           <input type="hidden"
                  name="new_owner_id"

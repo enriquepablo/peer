@@ -704,10 +704,10 @@ textarea {
 
 p.invitation {
     margin-bottom: 8px;
-    margin-top: 50px;
+    padding-top: 2em;
 }
 
-.change-owner-form {
+.list-users-form {
     margin: 0.5em 0;
     line-height: 19px;
 }
@@ -716,17 +716,19 @@ ul#delegate-list {
     overflow: hidden;
 }
 
+ul#superuser-list li,
 ul#delegate-list li {
     float: left;
     width: 100%;
     padding-bottom: 0.3em;
 }
 
-.change-owner-form span.user-name {
+.list-users-form span.user-name {
     float: left;
     max-width: 76%;
 }
 
+.list-users-form .ui-widget,
 #delegate-list .ui-widget {
     font-weight: normal;
     float: right;

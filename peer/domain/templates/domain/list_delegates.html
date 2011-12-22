@@ -8,7 +8,7 @@
   <ul id="superuser-list">
     {% for delegate in delegates %}
       <li>
-      <form class="superuser-form">
+      <form class="list-users-form">
           {% csrf_token %}
           <button type="button" id="{% url remove_domain_delegate domain.id,delegate.username %}"
                   class="button remove-superuser-button">
