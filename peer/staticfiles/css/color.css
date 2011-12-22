@@ -225,7 +225,6 @@ li.validated {
     color: #ff7b33;
     border-bottom: none;
     box-shadow: none;
-    text-shadow: 0.5px 0.5px 0 #f2f2f2;
 }
 
 .entityList > li {
