@@ -227,7 +227,10 @@ class Entity(models.Model):
 
         if metadata_attrs['tags_w_values']:
             for tag, value in metadata_attrs['tags_w_values']:
-                elems = metree.xpath(u'.//' + tag, namespaces=NAMESPACES)
+                try:
+                    elems = metree.xpath(u'.//' + tag, namespaces=NAMESPACES)
+                except etree.XPathEvalError:
+                    return False
                 if elems:
                     for e in elems:
                         if e.text == value:
