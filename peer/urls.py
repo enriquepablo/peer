@@ -62,9 +62,9 @@ urlpatterns = patterns(
         'peer.account.views.manage_admin_team', name='manage_admin_team'),
     url(r'^accounts/list_superusers/$',
         'peer.account.views.list_superusers', name='list_superusers'),
-    url(r'^accounts/add_superuser/(?P<username>.*)$',
+    url(r'^accounts/add_superuser/(?P<username>.+)$',
         'peer.account.views.add_superuser', name='add_superuser'),
-    url(r'^accounts/remove_superuser/(?P<username>.*)$',
+    url(r'^accounts/remove_superuser/(?P<username>.+)$',
         'peer.account.views.remove_superuser', name='remove_superuser'),
     (r'^accounts/', include(registration_urls)),
 

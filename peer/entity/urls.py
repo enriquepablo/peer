@@ -50,7 +50,7 @@ urlpatterns = patterns(
     url(r'^(?P<entity_id>\d+)/list_delegates/$', 'list_delegates', name='list_delegates'),
     url(r'^(?P<entity_id>\d+)/make_owner/$', 'make_owner', name='make_owner'),
     url(r'^(?P<entity_id>\d+)/remove_delegate/(?P<user_id>\d+)$', 'remove_delegate', name='remove_delegate'),
-    url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>\w+)$', 'add_delegate', name='add_delegate'),
+    url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>.+)$', 'add_delegate', name='add_delegate'),
     url(r'^(?P<entity_id>\d+)/get_diff/(?P<r1>\w+)/(?P<r2>\w+)$', 'get_diff', name='get_diff'),
     url(r'^(?P<entity_id>\d+)/get_revision/(?P<rev>\w+)$', 'get_revision', name='get_revision'),
     url(r'^(?P<entity_id>\d+)/latest_metadata/$', 'get_latest_metadata',
