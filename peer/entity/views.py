@@ -58,6 +58,7 @@ from peer.domain.models import Domain
 from peer.entity.filters import get_filters, filter_entities
 from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
+from peer.entity.forms import EditMetarefreshForm
 from peer.entity.models import Entity, PermissionDelegation
 from peer.entity.security import can_edit_entity, can_change_entity_team
 from peer.entity.utils import add_previous_revisions
@@ -184,6 +185,31 @@ def entity_edit(request, entity_id):
         form = EditEntityForm(instance=entity)
 
     return render_to_response('entity/edit.html', {
+            'entity': entity,
+            'form': form,
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def metarefresh_edit(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+    if not can_edit_entity(request.user, entity):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = EditEntityForm(request.POST, instance=entity)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Metarefresh edited succesfully'))
+            return HttpResponseRedirect(reverse('entity_view',
+                                                args=(entity_id,)))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
+    else:
+        form = EditMetarefreshForm(instance=entity)
+
+    return render_to_response('entity/edit_metarefresh.html', {
             'entity': entity,
             'form': form,
             }, context_instance=RequestContext(request))

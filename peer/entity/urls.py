@@ -43,6 +43,8 @@ urlpatterns = patterns(
     url(r'^(?P<entity_id>\d+)/remove/$', 'entity_remove', name='entity_remove'),
     url(r'^(?P<entity_id>\d+)/edit/$', 'entity_edit', name='entity_edit'),
     url(r'^(?P<entity_id>\d+)/edit_metadata/$', 'edit_metadata', name='edit_metadata'),
+    url(r'^(?P<entity_id>\d+)/edit_metarefresh/$', 'metarefresh_edit',
+        name='metarefresh_edit'),
     url(r'^(?P<entity_id>\d+)/text_edit_metadata/$', 'text_edit_metadata', name='text_edit_metadata'),
     url(r'^(?P<entity_id>\d+)/file_edit_metadata/$', 'file_edit_metadata', name='file_edit_metadata'),
     url(r'^(?P<entity_id>\d+)/remote_edit_metadata/$', 'remote_edit_metadata', name='remote_edit_metadata'),

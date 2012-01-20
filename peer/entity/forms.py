@@ -130,3 +130,12 @@ class MetadataRemoteEditForm(forms.Form):
                 label=_('Commit message'),
             help_text=_('Short description of the commited changes'))
     tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))
+
+
+class EditMetarefreshForm(forms.ModelForm):
+
+    metarefresh = forms.ChoiceField(
+        label=_(u'Metarefresh'),
+        choices=Entity.FREQ_CHOICES,
+        widget=forms.RadioSelect()
+        )
