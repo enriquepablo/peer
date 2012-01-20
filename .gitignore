@@ -11,6 +11,7 @@ lib/
 parts/
 src/
 var/
+peer/media/
 *.pyc
 *.pyo
 *.swp
