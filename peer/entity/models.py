@@ -163,6 +163,24 @@ class Entity(models.Model):
     modification_time = models.DateTimeField(verbose_name=_(u'Modification time'),
                                              auto_now=True)
 
+    FREQ_CHOICES = (
+        ('N', 'Never'),
+        ('D', 'Daily'),
+        ('W', 'Weekly'),
+        ('M', 'Monthly'),
+    )
+    metarefresh_frequency = models.CharField(
+        verbose_name=_(u'Metadata refreshing frequency'),
+        max_length=1,
+        choices=FREQ_CHOICES,
+        default=FREQ_CHOICES[0][0],
+    )
+
+    metarefresh_last_run = models.DateTimeField(
+        verbose_name=_(u'Last time refreshed'),
+        default=datetime.fromtimestamp(0),
+    )
+
     def __unicode__(self):
         return self.name
 
