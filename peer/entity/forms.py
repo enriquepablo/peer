@@ -132,7 +132,7 @@ class MetadataRemoteEditForm(forms.Form):
     tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))
 
 
-class EditMetarefreshForm(forms.ModelForm):
+class EditMetarefreshForm(forms.Form):
 
     metarefresh = forms.ChoiceField(
         label=_(u'Metarefresh'),

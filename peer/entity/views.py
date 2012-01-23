@@ -197,17 +197,18 @@ def metarefresh_edit(request, entity_id):
         raise PermissionDenied
 
     if request.method == 'POST':
-        form = EditEntityForm(request.POST, instance=entity)
+        form = EditMetarefreshForm(request.POST)
         if form.is_valid():
-            form.save()
+            entity.metarefresh_frequency = form.cleaned_data['metarefresh']
+            entity.save()
             messages.success(request, _('Metarefresh edited succesfully'))
-            return HttpResponseRedirect(reverse('entity_view',
+            return HttpResponseRedirect(reverse('metarefresh_edit',
                                                 args=(entity_id,)))
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
     else:
-        form = EditMetarefreshForm(instance=entity)
+        form = EditMetarefreshForm()
 
     return render_to_response('entity/edit_metarefresh.html', {
             'entity': entity,

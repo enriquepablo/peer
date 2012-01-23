@@ -33,12 +33,19 @@ from django.core.management.base import BaseCommand
 from peer.entity.models import Entity
 
 
+DELTA = {'D': datetime.timedelta(days=1),
+         'M': datetime.timedelta(days=30),
+         'W': datetime.timedelta(weeks=1),
+         }
+
 class Command(BaseCommand):
 
     help = 'Checks for updates in metadata'
 
     def handle(self, *args, **options):
         now = datetime.datetime.now()
-        # query models for non never frequency
-        # if last metadatarefresh > ...:
-        #     refresh
+        for entity in Entity.objects.exclude(metarefresh_frequency='N'):
+            delta = DELTA[entity.metarefresh_frequency]
+            last_run = entity.metarefresh_last_run
+            if now > last_run + delta:
+                entity.refresh()
