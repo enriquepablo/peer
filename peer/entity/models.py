@@ -323,6 +323,7 @@ class Entity(models.Model):
         return (self.has_metadata() and self.valid_until
                 and datetime.now() > self.valid_until)
 
+    @property
     def is_metarefreshable(self):
         result = False
         if isinstance(self.entityid, basestring):
