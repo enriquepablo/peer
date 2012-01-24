@@ -29,6 +29,7 @@
 import datetime
 
 from django.core.management.base import BaseCommand
+from django.core.mail import send_mail
 
 from peer.entity.models import Entity
 
@@ -37,6 +38,7 @@ DELTA = {'D': datetime.timedelta(days=1),
          'M': datetime.timedelta(days=30),
          'W': datetime.timedelta(weeks=1),
          }
+
 
 class Command(BaseCommand):
 
@@ -48,4 +50,19 @@ class Command(BaseCommand):
             delta = DELTA[entity.metarefresh_frequency]
             last_run = entity.metarefresh_last_run
             if now > last_run + delta:
-                print entity.metarefresh()
+                msg = entity.metarefresh()
+                if msg.startswith('Error: '):
+                    entity.owner.email_user(
+                        u'Error updating PEER metadata',
+                        EMAIL_BODY % (entity.id, entity.entityid, msg),
+                        )
+                print msg
+
+
+EMAIL_BODY ="""
+The following error has been detected while updating the metadata of the
+instance with id %s from url %s:
+
+%s
+"""
+
