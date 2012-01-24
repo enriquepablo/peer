@@ -132,10 +132,14 @@ class MetadataRemoteEditForm(forms.Form):
     tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))
 
 
-class EditMetarefreshForm(forms.Form):
+class EditMetarefreshForm(forms.ModelForm):
 
-    metarefresh = forms.ChoiceField(
-        label=_(u'Metarefresh'),
-        choices=Entity.FREQ_CHOICES,
-        widget=forms.RadioSelect()
-        )
+    class Meta:
+        model = Entity
+        fields = ('metarefresh_frequency', )
+
+    def __init__(self, *args, **kwargs):
+        super(EditMetarefreshForm, self).__init__(*args, **kwargs)
+        field = self.fields['metarefresh_frequency']
+        field.widget = forms.RadioSelect()
+        field.choices = Entity.FREQ_CHOICES

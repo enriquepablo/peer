@@ -199,7 +199,8 @@ def metarefresh_edit(request, entity_id):
     if request.method == 'POST':
         form = EditMetarefreshForm(request.POST)
         if form.is_valid():
-            entity.metarefresh_frequency = form.cleaned_data['metarefresh']
+            entity.metarefresh_frequency = \
+                    form.cleaned_data['metarefresh_frequency']
             entity.save()
             messages.success(request, _('Metarefresh edited succesfully'))
             return HttpResponseRedirect(reverse('metarefresh_edit',
@@ -208,7 +209,7 @@ def metarefresh_edit(request, entity_id):
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
     else:
-        form = EditMetarefreshForm()
+        form = EditMetarefreshForm(instance=entity)
 
     return render_to_response('entity/edit_metarefresh.html', {
             'entity': entity,
