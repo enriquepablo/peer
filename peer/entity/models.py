@@ -29,6 +29,7 @@
 from datetime import datetime
 from lxml import etree
 import urllib2
+from urlparse import urlparse
 from tempfile import NamedTemporaryFile
 
 from django.contrib.auth.models import User
@@ -321,6 +322,14 @@ class Entity(models.Model):
     def is_expired(self):
         return (self.has_metadata() and self.valid_until
                 and datetime.now() > self.valid_until)
+
+    def is_metarefreshable(self):
+        result = False
+        if isinstance(self.entityid, basestring):
+            url = urlparse(self.entityid)
+            result = url.scheme.startswith('http')
+            result = result and url.netloc.split('.')[-1]
+        return result
 
     def metarefresh(self):
 
