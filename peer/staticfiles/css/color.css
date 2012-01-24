@@ -309,8 +309,7 @@ strong.expired {
 }
 
 /* forms */
-section ul.errorlist li,
-.mainContent ul.errorlist li {
+ul.errorlist li {
     color: #f05400;
     border-bottom: 1px dotted;
     border-top: 1px dotted;

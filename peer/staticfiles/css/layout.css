@@ -734,12 +734,11 @@ ul#delegate-list li {
     float: right;
 }
 
-section ul.errorlist {
+ul.errorlist {
     margin: 0;
 }
 
-section ul.errorlist li,
-.mainContent ul.errorlist li {
+ul.errorlist li {
     border: none;
     margin: 0;
     margin: 5px 0;
@@ -870,4 +869,3 @@ input.ui-autocomplete-input {
     -moz-box-shadow: 1px 0 0 #b2b3b5;
     -webkit-box-shadow: 1px 0 0 #b2b3b5;
 }
-
