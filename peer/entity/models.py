@@ -28,11 +28,14 @@
 
 from datetime import datetime
 from lxml import etree
+import urllib2
+from tempfile import NamedTemporaryFile
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
+from django.core.files.base import File
 
 from vff.field import VersionedFileField
 
@@ -44,7 +47,7 @@ from peer.entity.utils import expand_settings_permissions
 
 XML_NAMESPACE = NAMESPACES['xml']
 XMLDSIG_NAMESPACE = NAMESPACES['ds']
-
+CONNECTION_TIMEOUT = 10
 
 class Metadata(object):
 
@@ -178,7 +181,7 @@ class Entity(models.Model):
 
     metarefresh_last_run = models.DateTimeField(
         verbose_name=_(u'Last time refreshed'),
-        default=datetime.fromtimestamp(0),
+        auto_now_add=True,
     )
 
     def __unicode__(self):
@@ -318,6 +321,58 @@ class Entity(models.Model):
     def is_expired(self):
         return (self.has_metadata() and self.valid_until
                 and datetime.now() > self.valid_until)
+
+    def metarefresh(self):
+
+        noid_msg = "Error: Entity %s doesn't have entityid" % (self.id)
+
+        if not hasattr(self, 'entityid'):
+            return noid_msg
+
+        url = self.entityid
+        if not url:
+            return noid_msg
+
+        try:
+            resp = urllib2.urlopen(url, None, CONNECTION_TIMEOUT)
+        except urllib2.URLError, e:
+            return 'Error URL: ' + str(e)
+        except urllib2.HTTPError, e:
+            return 'Error HTTP: ' + str(e)
+        except ValueError, e:
+            try:
+                resp = urllib2.urlopen('http://' + url,
+                                             None, CONNECTION_TIMEOUT)
+            except Exception:
+                return 'Error Value: ' + str(e)
+
+        if resp.getcode() != 200:
+            return 'Error: Non 200 response: %s' % (resp.msg)
+
+        text = resp.read()
+        if not text:
+            return 'Empty metadata not allowed'
+
+        try:
+            encoding = resp.headers['content-type'].split('charset=')[1]
+        except (KeyError, IndexError):
+            encoding = ''
+        resp.close()
+
+        tmp = NamedTemporaryFile(delete=True)
+        if encoding:
+            text = text.decode(encoding).encode('utf8')
+        tmp.write(text)
+        tmp.seek(0)
+        content = File(tmp)
+        name = self.metadata.name
+        commit_msg = 'Updated automatically from %s' % (url)
+        self.metadata.save(name, content, self.owner.username, commit_msg)
+
+        self.metarefresh_last_run = datetime.now()
+        self.save()
+
+        return 'Success: Data was updated successfully'
 
 
 class PermissionDelegation(models.Model):

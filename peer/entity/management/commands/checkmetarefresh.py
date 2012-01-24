@@ -48,4 +48,4 @@ class Command(BaseCommand):
             delta = DELTA[entity.metarefresh_frequency]
             last_run = entity.metarefresh_last_run
             if now > last_run + delta:
-                entity.refresh()
+                print entity.metarefresh()
