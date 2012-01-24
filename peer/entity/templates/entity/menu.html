@@ -12,6 +12,8 @@
       {% canchangeteam entity %}
       <li><a href="{% url sharing entity.id %}">{% trans "Team permissions" %}</a></li>
       {% endcanchangeteam %}
-      <li><a href="{% url metarefresh_edit entity.id %}">{% trans "Metarefresh" %}</a></li>
+      {% if entity.is_metarefreshable %}
+        <li><a href="{% url metarefresh_edit entity.id %}">{% trans "Metarefresh" %}</a></li>
+      {% endif %}
     </ul>
 {% endblock %}
