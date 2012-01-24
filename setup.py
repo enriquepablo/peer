@@ -78,7 +78,7 @@ setup(
         'django-registration==0.7',
         'django-recaptcha==0.0.1',
         'fudge==1.0.3',
-        'django-vff==0.1b5',
+        'django-vff==0.2b1',
         'lxml==2.3.2',
         'Pygments==1.4',
         'dnspython==1.9.4',
