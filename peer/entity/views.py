@@ -27,8 +27,6 @@
 # either expressed or implied, of Terena.
 
 import re
-from tempfile import NamedTemporaryFile
-import urllib2
 
 from pygments import highlight
 from pygments.lexers import XmlLexer, DiffLexer
@@ -41,10 +39,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core.files.base import File
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.cache import cache_page
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.loader import render_to_string
@@ -62,10 +59,6 @@ from peer.entity.forms import EditMetarefreshForm
 from peer.entity.models import Entity, PermissionDelegation
 from peer.entity.security import can_edit_entity, can_change_entity_team
 from peer.entity.utils import add_previous_revisions
-from peer.entity.validation import validate
-
-
-CONNECTION_TIMEOUT = 10
 
 
 def _paginated_list_of_entities(request, entities):
@@ -223,12 +216,13 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
     if form is None:
         if edit_mode == 'text':
             text = entity.metadata.get_revision()
-            form = MetadataTextEditForm(initial={'metadata_text': text})
+            form = MetadataTextEditForm(entity, request.user,
+                                        initial={'metadata_text': text})
         elif edit_mode == 'file':
             # XXX siempre vacia, imborrable, required
-            form = MetadataFileEditForm()
+            form = MetadataFileEditForm(entity, request.user)
         elif edit_mode == 'remote':
-            form = MetadataRemoteEditForm()
+            form = MetadataRemoteEditForm(entity, request.user)
     form_action = reverse('%s_edit_metadata' % edit_mode, args=(entity.id, ))
 
     context_instance = RequestContext(request)
@@ -241,6 +235,26 @@ def _get_edit_metadata_form(request, entity, edit_mode, form=None):
     }, context_instance=context_instance)
 
 
+def _handle_metadata_post(request, form, return_view):
+    if form.is_valid():
+        if request.is_ajax():
+            diff = form.get_diff()
+            html = highlight(diff, DiffLexer(), HtmlFormatter(linenos=True))
+            return HttpResponse(html.encode(settings.DEFAULT_CHARSET))
+        else:
+            form.save()
+            messages.success(request, _('Entity metadata has been modified'))
+            return_url = reverse(return_view, args=(form.entity.id, ))
+            return HttpResponseRedirect(return_url)
+    else:
+        messages.error(request, _('Please correct the errors indicated below'))
+        if request.is_ajax():
+            content = render_to_string('entity/validation_errors.html', {
+                    'errors': form.errors,
+                    }, context_instance=RequestContext(request))
+            return HttpResponseBadRequest(content)
+
+
 @login_required
 def text_edit_metadata(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
@@ -248,32 +262,13 @@ def text_edit_metadata(request, entity_id):
         raise PermissionDenied
 
     if request.method == 'POST':
-        form = MetadataTextEditForm(request.POST)
-        text = form['metadata_text'].data.strip()
-        if not text:
-            form.errors['metadata_text'] = [_('Empty metadata not allowed')]
-        else:
-            errors = validate(entity, text, user=request.user)
-            if errors:
-                form.errors['metadata_text'] = errors
-        if form.is_valid():
-            tmp = NamedTemporaryFile(delete=True)
-            tmp.write(text.encode('utf8'))
-            tmp.seek(0)
-            content = File(tmp)
-            name = entity.metadata.name
-            username = authorname(request.user)
-            commit_msg = form['commit_msg_text'].data.encode('utf8')
-            entity.metadata.save(name, content, username, commit_msg)
-            entity.save()
-            messages.success(request, _('Entity metadata has been modified'))
-            return HttpResponseRedirect(reverse('text_edit_metadata',
-                                                args=(entity_id,)))
-        else:
-            messages.error(request, _('Please correct the errors'
-                                      ' indicated below'))
+        form = MetadataTextEditForm(entity, request.user, request.POST)
+        result = _handle_metadata_post(request, form, 'text_edit_metadata')
+        if result is not None:
+            return result
     else:
         form = None
+
     return edit_metadata(request, entity.id, text_form=form,
                          edit_mode='text')
 
@@ -285,29 +280,11 @@ def file_edit_metadata(request, entity_id):
         raise PermissionDenied
 
     if request.method == 'POST':
-        form = MetadataFileEditForm(request.POST, request.FILES)
-        content = form['metadata_file'].data
-        if content is not None:
-            text = content.read()
-            content.seek(0)
-            if not text:
-                form.errors['metadata_file'] = [_('Empty metadata not allowed')]
-            else:
-                errors = validate(entity, text, user=request.user)
-                if errors:
-                    form.errors['metadata_file'] = errors
-        if form.is_valid():
-            name = entity.metadata.name
-            username = authorname(request.user)
-            commit_msg = form['commit_msg_file'].data.encode('utf8')
-            entity.metadata.save(name, content, username, commit_msg)
-            entity.save()
-            messages.success(request, _('Entity metadata has been modified'))
-            return HttpResponseRedirect(reverse('file_edit_metadata',
-                                                args=(entity_id,)))
-        else:
-            messages.error(request, _('Please correct the errors'
-                                      ' indicated below'))
+        form = MetadataFileEditForm(entity, request.user,
+                                    request.POST, request.FILES)
+        result = _handle_metadata_post(request, form, 'file_edit_metadata')
+        if result is not None:
+            return result
     else:
         form = None
     return edit_metadata(request, entity.id, edit_mode='upload',
@@ -321,60 +298,13 @@ def remote_edit_metadata(request, entity_id):
         raise PermissionDenied
 
     if request.method == 'POST':
-        form = MetadataRemoteEditForm(request.POST)
-        if form.is_valid():
-            content_url = form['metadata_url'].data
-            try:
-                resp = urllib2.urlopen(content_url, None, CONNECTION_TIMEOUT)
-            except urllib2.URLError, e:
-                form.errors['metadata_url'] = ['URL Error: ' + str(e)]
-            except urllib2.HTTPError, e:
-                form.errors['metadata_url'] = ['HTTP Error: ' + str(e)]
-            except ValueError, e:
-                try:
-                    resp = urllib2.urlopen('http://' + content_url,
-                                                 None, CONNECTION_TIMEOUT)
-                except Exception:
-                    form.errors['metadata_url'] = ['Value Error: ' + str(e)]
-            except Exception, e:
-                form.errors['metadata_url'] = ['Error: ' + str(e)]
-            if form.is_valid():
-                if resp.getcode() != 200:
-                    form.errors['metadata_url'] = [_(
-                                          'Error getting the data: %s'
-                                                    ) % resp.msg]
-                text = resp.read()
-                if not text:
-                    form.errors['metadata_url'] = [_('Empty metadata not allowed')]
-                else:
-                    errors = validate(entity, text, user=request.user)
-                    if errors:
-                        form.errors['metadata_url'] = errors
-                try:
-                    encoding = resp.headers['content-type'].split('charset=')[1]
-                except (KeyError, IndexError):
-                    encoding = ''
-                resp.close()
-        if form.is_valid():
-            tmp = NamedTemporaryFile(delete=True)
-            if encoding:
-                text = text.decode(encoding).encode('utf8')
-            tmp.write(text)
-            tmp.seek(0)
-            content = File(tmp)
-            name = entity.metadata.name
-            username = authorname(request.user)
-            commit_msg = form['commit_msg_remote'].data.encode('utf8')
-            entity.metadata.save(name, content, username, commit_msg)
-            entity.save()
-            messages.success(request, _('Entity metadata has been modified'))
-            return HttpResponseRedirect(reverse('remote_edit_metadata',
-                                                args=(entity_id,)))
-        else:
-            messages.error(request, _('Please correct the errors'
-                                      ' indicated below'))
+        form = MetadataRemoteEditForm(entity, request.user, request.POST)
+        result = _handle_metadata_post(request, form, 'remote_edit_metadata')
+        if result is not None:
+            return result
     else:
         form = None
+
     return edit_metadata(request, entity.id, edit_mode='remote',
                          remote_form=form)
 

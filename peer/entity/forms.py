@@ -26,12 +26,19 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import difflib
+import urllib2
+from tempfile import NamedTemporaryFile
+
 from django import forms
+from django.core.files.base import File
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 
+from peer.account.templatetags.account import authorname
 from peer.customfields import TermsOfUseField, readtou
 from peer.entity.models import Entity
+from peer.entity.validation import validate
 
 
 class EditEntityForm(forms.ModelForm):
@@ -94,42 +101,169 @@ class EntityForm(forms.ModelForm):
         return self.cleaned_data
 
 
-class MetadataTextEditForm(forms.Form):
-
-    metadata_text = forms.CharField('metadata_text',
-                label=_('Metadata'),
-            help_text=_('Edit the metadata for this entity'),
-        widget=forms.Textarea())
-    commit_msg_text = forms.CharField('commit_msg_text',
-                    required=True,
-                label=_('Commit message'),
-            help_text=_('Short description of the commited changes'))
+def commitMessageWidgetFactory(suffix):
+    return forms.CharField(
+        'commit_msg_' + suffix,
+        required=True,
+        label=_('Commit message'),
+        help_text=_('Short description of the commited changes'),
+        widget=forms.TextInput(attrs={'class': 'commitMessage'}),
+        )
 
 
-class MetadataFileEditForm(forms.Form):
+def check_metadata_is_new(entity, new_metadata):
+    old_metadata = entity.metadata.get_revision()
+    if old_metadata == new_metadata:
+        raise forms.ValidationError('There are no changes in the metadata')
 
-    metadata_file = forms.FileField('metadata_file',
-                label=_('Metadata'),
-            help_text=_('Upload a file with the metadata for this entity'))
-    commit_msg_file = forms.CharField('commit_msg_file',
-                    required=True,
-                label=_('Commit message'),
-            help_text=_('Short description of the commited changes'))
+
+def check_metadata_is_valid(form, entity, user, new_metadata, field):
+    errors = validate(entity, new_metadata, user)
+    if errors:
+        # We don't raise ValidationError since we can have multiple errors
+        form._errors[field] = form.error_class(errors)
+        del form.cleaned_data[field]
+
+
+class BaseMetadataEditForm(forms.Form):
+
+    type = ''
+
+    def __init__(self, entity, user, *args, **kwargs):
+        self.entity = entity
+        self.user = user
+        self.metadata = None
+        super(BaseMetadataEditForm, self).__init__(*args, **kwargs)
+
+    def _clean_metadata_field(self, fieldname):
+        data = self.cleaned_data[fieldname].strip()
+        if not data:
+            raise forms.ValidationError('Empty metadata is not allowed')
+
+        metadata = self._field_value_to_metadata(data)
+
+        if not metadata:
+            raise forms.ValidationError('Empty metadata is not allowed')
+
+        check_metadata_is_new(self.entity, metadata)
+        check_metadata_is_valid(
+            self, self.entity, self.user, metadata, fieldname)
+
+        self.metadata = metadata
+
+        return data
+
+    def _field_value_to_metadata(self, field_value):
+        return field_value
+
+    def get_metadata(self):
+        return self.metadata
+
+    def get_diff(self):
+        text1 = self.metadata.split('\n')
+        text2 = self.entity.metadata.get_revision().split('\n')
+        return u'\n'.join(difflib.unified_diff(text1, text2))
+
+    def save(self):
+        tmp = NamedTemporaryFile(delete=True)
+        tmp.write(self.metadata.encode('utf8'))
+        tmp.seek(0)
+        content = File(tmp)
+        name = self.entity.metadata.name
+        username = authorname(self.user)
+        commit_msg = self.cleaned_data['commit_msg_' + self.type].encode('utf8')
+        self.entity.metadata.save(name, content, username, commit_msg)
+        self.entity.save()
+
+
+class MetadataTextEditForm(BaseMetadataEditForm):
+
+    type = 'text'
+
+    metadata_text = forms.CharField(
+        'metadata_text',
+        label=_('Metadata'),
+        help_text=_('Edit the metadata for this entity'),
+        widget=forms.Textarea,
+        )
+    commit_msg_text = commitMessageWidgetFactory('text')
+
+    def clean_metadata_text(self):
+        return self._clean_metadata_field('metadata_text')
+
+
+class MetadataFileEditForm(BaseMetadataEditForm):
+
+    type = 'file'
+
+    metadata_file = forms.FileField(
+        'metadata_file',
+        label=_('Metadata'),
+        help_text=_('Upload a file with the metadata for this entity'),
+        )
+    commit_msg_file = commitMessageWidgetFactory('file')
     tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
 
+    def clean_metadata_file(self):
+        return self._clean_metadata_field('metadata_file')
 
-class MetadataRemoteEditForm(forms.Form):
+    def _field_value_to_metadata(self, fileobj):
+        data = fileobj.data.read()
+        fileobj.data.seek(0)
+        return data
 
-    metadata_url = forms.URLField('metadata_url',
-                    required=True,
-                label=_('Metadata'),
-            help_text=_('Enter the URL of an XML document'
-                        ' with the metadata for this entity'))
-    commit_msg_remote = forms.CharField('commit_msg_remote',
-                    required=True,
-                label=_('Commit message'),
-            help_text=_('Short description of the commited changes'))
+
+CONNECTION_TIMEOUT = 10
+
+
+class MetadataRemoteEditForm(BaseMetadataEditForm):
+
+    type = 'remote'
+
+    metadata_url = forms.URLField(
+        'metadata_url',
+        required=True,
+        label=_('Metadata'),
+        help_text=_('Enter the URL of an XML document'
+                    ' with the metadata for this entity'),
+        )
+    commit_msg_remote = commitMessageWidgetFactory('remote')
     tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))
+
+    def clean_metadata_url(self):
+        return self._clean_metadata_field('metadata_url')
+
+    def _field_value_to_metadata(self, remote_url):
+        def _fetch_metadata(url):
+            try:
+                resp = urllib2.urlopen(url, None, CONNECTION_TIMEOUT)
+            except urllib2.URLError, e:
+                raise forms.ValidationError('URL Error: ' + str(e))
+            except urllib2.HTTPError, e:
+                raise forms.ValidationError('HTTP Error: ' + str(e))
+            except:
+                return None
+
+            if resp.getcode() != 200:
+                raise forms.ValidationError('Error in the response: %d'
+                                            % resp.getcode())
+            text = resp.read()
+            try:
+                encoding = resp.headers['content-type'].split('charset=')[1]
+                text = text.decode(encoding)
+            except (KeyError, IndexError):
+                pass
+            resp.close()
+            return text
+
+        data = _fetch_metadata(remote_url)
+        if data is None:
+            data = _fetch_metadata('http://' + remote_url)
+
+            if data is None:
+                raise forms.ValidationError('Unknown error while fetching the url')
+
+        return data
 
 
 class EditMetarefreshForm(forms.ModelForm):
@@ -143,3 +277,4 @@ class EditMetarefreshForm(forms.ModelForm):
         field = self.fields['metarefresh_frequency']
         field.widget = forms.RadioSelect()
         field.choices = Entity.FREQ_CHOICES
+

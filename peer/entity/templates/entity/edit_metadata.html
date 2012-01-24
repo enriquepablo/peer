@@ -8,6 +8,7 @@
 
 {% block extracss %}
 <link type="text/css" href="{{ STATIC_URL }}css/terms-of-use.css" rel="Stylesheet" />
+<link type="text/css" href="{% url get_pygments_css %}" rel="Stylesheet" />
 {% endblock %}
 
 {% block content %}
@@ -43,6 +44,8 @@
 <script type="text/javascript" src="{{ STATIC_URL }}/js/SAMLmetaJS/samlmeta.xml.js"></script>
 {% for plugin in samlmetajs_plugins %}
 <script type="text/javascript" src="{{ STATIC_URL }}/js/SAMLmetaJS/samlmeta.plugin.{{ plugin }}.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/spin.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mesh.js"></script>
 {% endfor %}
 
 <script type="text/javascript">
@@ -119,6 +122,18 @@
                 return msg;
             }
         }
+
+        // Metadata Editor Shell (commit dialog)
+        $(".metadataForm").mesh({
+            validatingMsg: '{% trans "Validating metadata ..." %}',
+            validMetadataMsg: '{% trans "The metadata is valid!" %}',
+            invalidMetadataMsg: '{% trans "The metadata is not valid!" %}',
+            submitButtonLabel: '{% trans "Submit changes" %}',
+            closeButtonLabel: '{% trans "Cancel" %}',
+            noMessageAlert: '{% trans "Please write a commit message" %}',
+            noTOUAcceptedAlert: '{% trans "You must accept the terms of use" %}'
+        });
+
     });
 })(jQuery);
 </script>
