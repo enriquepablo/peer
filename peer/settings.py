@@ -243,8 +243,13 @@ METADATA_VALIDATORS = (
     #('.//md:OrganizationName', 'organization_name', 'Organization Name'),
 #)
 
-# VFF VERSIONED FILE BACKEND
-VERSIONEDFILE_BACKEND = 'vff.git_backend.GitBackend'
+# VFF VERSIONED FILE BACKEND:
+VFF_BACKEND = 'vff.git_backend.GitBackend'
+# VFF (git backend) Path to the root of the git repo:
+# VFF_REPO_ROOT = '/path/to/git/repo'
+# VFF (git backend) Relative path within the git repo
+# to the directory where vff keeps its managed files:
+# VFF_REPO_PATH = 'my/dir'
 
 # POSTGRESQL FULL TEXT SEARCH
 
