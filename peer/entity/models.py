@@ -178,6 +178,7 @@ class Entity(models.Model):
         max_length=1,
         choices=FREQ_CHOICES,
         default=FREQ_CHOICES[0][0],
+        db_index=True,
     )
 
     metarefresh_last_run = models.DateTimeField(
