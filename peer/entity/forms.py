@@ -136,7 +136,10 @@ class BaseMetadataEditForm(forms.Form):
         super(BaseMetadataEditForm, self).__init__(*args, **kwargs)
 
     def _clean_metadata_field(self, fieldname):
-        data = self.cleaned_data[fieldname].strip()
+        data = self.cleaned_data[fieldname]
+        if hasattr(data, 'strip'):
+            data = data.strip()
+
         if not data:
             raise forms.ValidationError('Empty metadata is not allowed')
 
@@ -208,8 +211,8 @@ class MetadataFileEditForm(BaseMetadataEditForm):
         return self._clean_metadata_field('metadata_file')
 
     def _field_value_to_metadata(self, fileobj):
-        data = fileobj.data.read()
-        fileobj.data.seek(0)
+        data = fileobj.read()
+        fileobj.seek(0)
         return data
 
 

@@ -159,14 +159,23 @@
                 // Put an invalid commit message to pass server validation
                 $commitMsgInput.val('commit message');
 
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: 'POST',
-                    data: $form.serialize(),
-                    dataType: 'html',
-                    success: successHandler,
-                    error: errorHandler
-                });
+                if ($form.find('input[type=file]').size() > 0) {
+                    // Use jquery.form.js to upload files via ajax
+                    $form.ajaxSubmit({
+                        dataType: 'html',
+                        success: successHandler,
+                        error: errorHandler
+                    });
+                } else {
+                    $.ajax({
+                        url: $form.attr('action'),
+                        type: 'POST',
+                        data: $form.serialize(),
+                        dataType: 'html',
+                        success: successHandler,
+                        error: errorHandler
+                    });
+                }
             };
 
             // Create the dialog
