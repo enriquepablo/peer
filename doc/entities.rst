@@ -38,6 +38,14 @@ This menu presents the following links:
   of this entity to another user. Another warning is shown in that case since
   that action can not be undone neither.
 
+* **Metarefresh**: This link is only displayed when an *entity* provides an
+  *Entity ID* which is a valid URL. Clicking on this link will take the user to
+  a page where she can select the frequency to check and update for changes in
+  the URL of the entity ID. The frequency options are *Never*, *Daily*, *Weekly*
+  and *Monthly*. By default the refresh frequency will be never. If there is any
+  problem while refreshing an automatic email will be sent to the owner of the
+  identity with the error message.
+
 Metadata edition
 ----------------
 
