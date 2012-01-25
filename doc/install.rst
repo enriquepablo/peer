@@ -77,7 +77,7 @@ will use it to create a new virtual environment where we will install PEER.
 
 .. code-block:: bash
 
-  $ virtualenv /vaw/www/peer --no-site-packages
+  $ virtualenv /var/www/peer --no-site-packages
 
 The *--no-site-packages* option tells virtualenv to not depend on any system
 package. For example, even if you already have Django installed on your
