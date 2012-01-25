@@ -408,6 +408,18 @@ This feature requires that you setup a cron job that calls the
 
  0 * * * * /var/www/peer/bin/django-admin.py expirationwarnings --settings=peer.settings
 
+Metadata refresh
+~~~~~~~~~~~~~~~~
+
+In order for the users to use the metarefresh option in :ref:`entity-management`,
+this cron job needs to be setup:
+
+.. code-block:: bash
+
+ * * * * * /var/www/peer/bin/django-admin.py checkmetarefresh --settings=peer.settings
+
+This command looks for the entities that need to be refreshed and triggers the
+update.
 
 Domain Ownership Proof
 ~~~~~~~~~~~~~~~~~~~~~~

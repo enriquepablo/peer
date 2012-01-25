@@ -1,3 +1,4 @@
+.. _entity-management:
 
 Entity management
 =================
