@@ -63,7 +63,7 @@ class EntityForm(forms.ModelForm):
         self.user = user
         self.fields['domain'].queryset = self.fields['domain'].queryset.filter(
             Q(owner=self.user, validated=True) |
-            Q(team=self.user, validated=True))
+            Q(team=self.user, validated=True)).distinct()
         self.fields['domain'].label = _(u'Select Domain')
         self.fields['domain'].help_text = _(
             u'You need to associate the entity with a domain.')
