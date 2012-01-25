@@ -69,16 +69,18 @@ are accessible from the *Edit metadata* page for the entity.
   XML metadata document. The system will download the document pointed at by
   the URL and use it as metadata for the entity.
 
-In all three cases, changing the metadata will create a new revision of the
-document that contains it. In the three forms there is a text input labelled
-*commit message*, and the text entered in this input will be associated with
-the new revision, and used to identify it.
-
 In the last two cases the user needs to agree with the Terms of Use text by
 activating the related checkbox.
 
-All the inputs in these forms (two inputs in each form, one for the metadata
-and one for the commit message) are required: leaving one of them empty will
+When the submit button is clicked a commit dialog pops up with validation
+errors or, if everything went well, the differences between this version
+and the previous one. If the changes are fine a commit message must be
+filled before being able to submit the form. This text will be associated
+with the new revision, and used to identify it. If there are errors the error
+messages will be displayed in the main page after closing the commit dialog
+in order to make it easier to fix these problems.
+
+All the inputs in these forms are required: leaving one of them empty will
 trigger a validation error, and the user will be prompted to fill in the
 missing value. Additionally, the system will check that the entered metadata
 (irrespective of the method used to enter it) is valid acording tot the
