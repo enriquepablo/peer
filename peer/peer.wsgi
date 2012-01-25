@@ -30,8 +30,6 @@ import os
 import site
 import sys
 
-from django.core.handlers.wsgi import WSGIHandler
-
 
 def grandparent(path):
     return os.path.dirname(os.path.dirname(path))
@@ -63,4 +61,8 @@ def activate_virtualenv():
 
 activate_virtualenv()
 os.environ['DJANGO_SETTINGS_MODULE'] = 'peer.settings'
+
+# now it is safe to import django
+from django.core.handlers.wsgi import WSGIHandler
+
 application = WSGIHandler()
