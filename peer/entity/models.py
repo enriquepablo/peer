@@ -173,11 +173,12 @@ class Entity(models.Model):
         ('W', 'Weekly'),
         ('M', 'Monthly'),
     )
+
     metarefresh_frequency = models.CharField(
         verbose_name=_(u'Metadata refreshing frequency'),
         max_length=1,
         choices=FREQ_CHOICES,
-        default=FREQ_CHOICES[0][0],
+        default='N',  # Never
         db_index=True,
     )
 
@@ -329,8 +330,8 @@ class Entity(models.Model):
         result = False
         if isinstance(self.entityid, basestring):
             url = urlparse(self.entityid)
-            result = url.scheme.startswith('http')
-            result = result and url.netloc.split('.')[-1]
+            result = bool(url.scheme.startswith('http'))
+            result = result and bool(url.netloc.split('.')[0])
         return result
 
     def metarefresh(self):
@@ -384,6 +385,11 @@ class Entity(models.Model):
         self.save()
 
         return 'Success: Data was updated successfully'
+
+def handler_entity_pre_save(sender, instance, **kwargs):
+    if not instance.is_metarefreshable:
+        instance.metarefresh_frequency = 'N'  # Never
+models.signals.pre_save.connect(handler_entity_pre_save, sender=Entity)
 
 
 class PermissionDelegation(models.Model):
