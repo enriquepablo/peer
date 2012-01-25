@@ -128,10 +128,22 @@
             };
 
             closeButtonHandler = function () {
+                // Move the errors to the main page
+                $dialog.find('.errorlist').each(function (index, element) {
+                    var field = $(element).attr('id').replace('-errors', '');
+                    $form.find('#id_' + field).parent().prepend(element);
+                });
+                $dialog.find('.ui-state-error').parent().insertAfter("#header");
+
                 $dialog.dialog('close');
             };
 
             openHandler = function (event, ui) {
+                // Hide the messages at the top of the page
+                $('.ui-state-error').parent().remove();
+                // Hide the errors at each widget
+                $('.errorlist').remove();
+
                 $dialog.dialog("option", "buttons", [{
                     text: settings.closeButtonLabel,
                     click: closeButtonHandler
