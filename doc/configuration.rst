@@ -151,6 +151,41 @@ upgrade PEER.
 Also, remember that the user that your web server is run as needs to have
 write access to the *MEDIA_ROOT* directory.
 
+Version control for SAML metadata documents
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this system, endpoints are represented by SAML documents,
+that are kept under version control by `GIT`_. Some other VCS might be
+used; this is controlled by the setting:
+
+.. _`GIT`: http://git-scm.com
+
+.. code-block:: python
+
+ VFF_BACKEND = 'vff.git_backend.GitBackend'
+
+This setting is required, and, at the moment, there is only one VCS backend,
+the GIT backend, so this setting must be set exactly as shown.
+
+The git backend can be configured by 2 additional settings, both of which are
+optional. With *VFF_REPO_ROOT* you point to the git repo that will keep the
+documents. This repo can exist previously, otherwise it will be initialized
+on first access. If this setting is not provided, the system will default to
+``os.path.join(settings.MEDIA_ROOT, 'vf_repo``:
+
+.. code-block:: python
+
+ VFF_REPO_ROOT = '/path/to/my/repo'
+
+With *VFF_REPO_PATH*, you can specify a relative path within the repository.
+This may be useful if you use a repository that was in use before for other
+purposes, and want to keep metadata files separated from other content. If
+unset, it will default to no subpath:
+
+.. code-block:: python
+
+ VFF_REPO_PATH = 'my/subpath'
+
 Terms of use texts
 ~~~~~~~~~~~~~~~~~~
 
