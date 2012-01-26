@@ -390,6 +390,7 @@ class Entity(models.Model):
 
         return 'Success: Data was updated successfully'
 
+
 def handler_entity_pre_save(sender, instance, **kwargs):
     if not instance.is_metarefreshable:
         instance.metarefresh_frequency = 'N'  # Never

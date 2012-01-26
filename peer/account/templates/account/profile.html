@@ -60,6 +60,19 @@
   </ul>
   {% endif %}
 
+  {% if owned_group_entities %}
+  <h2 class="separator">{% trans "Your entity groups" %}</h2>
+  <ul class="simpleList">
+    {% for entity_group in owned_group_entities %}
+      <li>
+        <a href="{% url entity_group_view entity_group.id %}">{{ entity_group.name }}</a>
+        <a class="button" href="{% url entity_group_edit entity_group.id %}">{% trans "Edit" %}</a>
+        <a class="button" href="{% url entity_group_remove entity_group.id %}">{% trans "Remove" %}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
 </section>
 {% endblock %}
 
