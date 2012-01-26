@@ -101,6 +101,13 @@ class EntityForm(forms.ModelForm):
         return self.cleaned_data
 
 
+class EditEntityGroupForm(forms.ModelForm):
+
+    class Meta:
+        model = EntityGroup
+        fields = ('name', 'query')
+
+
 class EntityGroupForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

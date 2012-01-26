@@ -56,7 +56,7 @@ from peer.entity.filters import get_filters, filter_entities
 from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
-from peer.entity.forms import EntityGroupForm
+from peer.entity.forms import EntityGroupForm, EditEntityGroupForm
 from peer.entity.models import Entity, PermissionDelegation, EntityGroup
 from peer.entity.security import can_edit_entity, can_change_entity_team
 from peer.entity.utils import add_previous_revisions
@@ -220,11 +220,9 @@ def entity_group_edit(request, entity_group_id,
                       return_view_name='account_profile'):
     entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
     if request.method == 'POST':
-        form = EditGroupForm(request.POST, entity_group)
+        form = EditEntityGroupForm(request.POST, instance=entity_group)
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.owner = request.user
-            instance.save()
+            form.save()
             messages.success(request, _(u'Entity edited succesfully'))
             return HttpResponseRedirect(reverse(return_view_name))
         else:
