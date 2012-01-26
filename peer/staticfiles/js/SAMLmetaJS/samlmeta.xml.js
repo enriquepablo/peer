@@ -14,7 +14,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 
 			console.log('Update XML document');
 
-			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node;
+			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node, hasRequestInitiator, hasDiscoveryResponse;
 			root = this.addIfNotEntityDescriptor();
 
 			if (entitydescriptor.entityid)
@@ -29,18 +29,36 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 					this.addAttribute(entityAttributes, entitydescriptor.entityAttributes[name]);
 				}
 			}
-			
-			
+
+			hasRequestInitiator = SAMLmetaJS.tools.hasEndpoint(entitydescriptor, 'RequestInitiator');
+			hasDiscoveryResponse = SAMLmetaJS.tools.hasEndpoint(entitydescriptor, 'DiscoveryResponse');
+
 			spdescriptor = this.addIfNotSPSSODescriptor(root);
 			
 			if (
 				SAMLmetaJS.tools.hasContents(entitydescriptor.name) ||
 				SAMLmetaJS.tools.hasContents(entitydescriptor.descr) ||
-				entitydescriptor.location
+				entitydescriptor.location ||
+				hasRequestInitiator ||
+				hasDiscoveryResponse
 			) {
 				extensions = this.addIfNotExtensions(spdescriptor);
 				mdui = this.addIfNotMDUI(extensions);
 				this.updateMDUI(mdui, entitydescriptor);
+				SAMLmetaJS.XML.wipeChildren(extensions, SAMLmetaJS.Constants.ns.init, 'RequestInitiator');
+				if (hasRequestInitiator) {
+					for (i = 0; i < entitydescriptor.saml2sp.RequestInitiator.length; i += 1) {
+						this.addExtensionEndpoint(extensions, entitydescriptor.saml2sp.RequestInitiator[i], 'init:RequestInitiator', SAMLmetaJS.Constants.ns.init);
+					}
+				}
+
+				SAMLmetaJS.XML.wipeChildren(extensions, SAMLmetaJS.Constants.ns.idpdisc, 'DiscoveryResponse');
+				if (hasDiscoveryResponse) {
+					for (i = 0; i < entitydescriptor.saml2sp.DiscoveryResponse.length; i += 1) {
+						this.addExtensionEndpoint(extensions, entitydescriptor.saml2sp.DiscoveryResponse[i], 'idpdisc:DiscoveryResponse', SAMLmetaJS.Constants.ns.idpdisc);
+					}
+				}
+
 			} else {
 				SAMLmetaJS.XML.wipeChildren(spdescriptor, SAMLmetaJS.Constants.ns.md, 'Extensions');
 			}
@@ -57,15 +75,14 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 			}
 
 			SAMLmetaJS.XML.wipeChildren(spdescriptor, SAMLmetaJS.Constants.ns.md, 'AssertionConsumerService');
-			if (entitydescriptor.saml2sp && entitydescriptor.saml2sp.AssertionConsumerService &&
-					entitydescriptor.saml2sp.AssertionConsumerService.length > 0) {
+			if (SAMLmetaJS.tools.hasEndpoint(entitydescriptor, 'AssertionConsumerService')) {
 				for(i = 0; i< entitydescriptor.saml2sp.AssertionConsumerService.length; i++) {
 					this.addEndpoint(spdescriptor, 'AssertionConsumerService', entitydescriptor.saml2sp.AssertionConsumerService[i]);
 				}
 			}
 
 			SAMLmetaJS.XML.wipeChildren(spdescriptor, SAMLmetaJS.Constants.ns.md, 'SingleLogoutService');
-			if (entitydescriptor.saml2sp && entitydescriptor.saml2sp.SingleLogoutService && entitydescriptor.saml2sp.SingleLogoutService.length > 0) {
+			if (SAMLmetaJS.tools.hasEndpoint(entitydescriptor, 'SingleLogoutService')) {
 				for(i = 0; i< entitydescriptor.saml2sp.SingleLogoutService.length; i++) {
 					this.addEndpoint(spdescriptor, 'SingleLogoutService', entitydescriptor.saml2sp.SingleLogoutService[i]);
 				}
@@ -208,7 +225,6 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		},
 		
 		"updateMDUI": function(node, entitydescriptor) {
-			var hasKeywords = false;
 			if (SAMLmetaJS.tools.hasContents(entitydescriptor.name)) {
 				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'DisplayName');
 				for(lang in entitydescriptor.name) {
@@ -219,16 +235,6 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'Description');
 				for(lang in entitydescriptor.descr) {
 					this.addMDUIDescription(node, lang, entitydescriptor.descr[lang]);
-				}
-			}
-			hasKeywords = (entitydescriptor.saml2sp
-						&& entitydescriptor.saml2sp.mdui
-						&& entitydescriptor.saml2sp.mdui.keywords
-						&& SAMLmetaJS.tools.hasContents(entitydescriptor.saml2sp.mdui.keywords));
-			if (hasKeywords) {
-				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'Keywords');
-				for(lang in entitydescriptor.saml2sp.mdui.keywords) {
-					this.addMDUIKeywords(node, lang, entitydescriptor.saml2sp.mdui.keywords[lang]);
 				}
 			}
 			SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'GeolocationHint');
@@ -253,13 +259,6 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		},
 		"addMDUIDescription": function(node, lang, text) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Description');
-			var text = doc.createTextNode(text);
-			newNode.setAttribute('xml:lang', lang);
-			newNode.appendChild(text);
-			node.appendChild(newNode);
-		},
-		"addMDUIKeywords": function(node, lang, text) {
-			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Keywords');
 			var text = doc.createTextNode(text);
 			newNode.setAttribute('xml:lang', lang);
 			newNode.appendChild(text);
@@ -312,9 +311,6 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		"addAttribute": function(node, attr) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.saml, 'saml:Attribute');
 			newNode.setAttribute('Name', attr.name);
-			if (attr.friendlyName) {
-				newNode.setAttribute('FriendlyName', attr.friendlyName);
-			}
 			if (attr.nameFormat) {
 				newNode.setAttribute('NameFormat', attr.nameFormat);
 			}
@@ -325,6 +321,16 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 					newNode.appendChild(newValue);
 				}
 
+			}
+			node.appendChild(newNode);
+		},
+		"addExtensionEndpoint": function (node, endpoint, endpointname, ns) {
+			var newNode = doc.createElementNS(ns, endpointname);
+			if (endpoint.Binding) {
+				newNode.setAttribute('Binding', endpoint.Binding);
+			}
+			if (endpoint.Location) {
+				newNode.setAttribute('Location', endpoint.Location);
 			}
 			node.appendChild(newNode);
 		},
@@ -551,7 +557,16 @@ SAMLmetaJS.tools = {
 			return true;
 		}
 		return false;
-	}
+	},
+    hasEndpoint: function (obj, endpoint) {
+        if (!obj.saml2sp) {
+            return false;
+        }
+        if (!obj.saml2sp[endpoint]) {
+            return false;
+        }
+        return obj.saml2sp[endpoint].length > 0;
+    }
 };
 
 SAMLmetaJS.XML = {

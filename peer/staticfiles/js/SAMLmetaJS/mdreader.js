@@ -545,7 +545,6 @@ parseFromString = function(xmlstring) {
 		
 		attribute.name = nodeGetAttribute(node, 'Name', null);
 		attribute.nameFormat = nodeGetAttribute(node, 'NameFormat', null);
-		attribute.friendlyName = nodeGetAttribute(node, 'FriendlyName', null);
 
 
 		// Process children of EntityDescriptor
@@ -593,13 +592,6 @@ parseFromString = function(xmlstring) {
 				callback: function(n) {
 					mdui.location = nodeGetTextRecursive(n).substr(4);
 				}
-			},
-			{
-				namespace: constants.ns.mdui, name: 'Keywords',
-				callback: function (n) {
-					if (!mdui.keywords) mdui.keywords = {};
-					mdui.keywords[nodeGetAttribute(n, 'xml:lang', 'en')] = nodeGetTextRecursive(n);
-				}
 			}
 		// Fallback	
 		], function(n) {
@@ -615,7 +607,7 @@ parseFromString = function(xmlstring) {
 	function parseSPSSODescriptorExtensions(node, saml2sp) {
 		expectNode(node, 'Extensions', constants.ns.md);
 		
-		// Process children of EntityDescriptor
+		// Process children of Extensions
 		nodeProcessChildren(node, [
 			{	
 				namespace: constants.ns.mdui, name: 'UIInfo',
@@ -635,6 +627,26 @@ parseFromString = function(xmlstring) {
 				callback: function(n) {
 					processTest(new TestResult('extillegalnamespacemd', 'Illegal namespace (md) in Extensions at SPSSODescriptor [' + nodeName(n) + ']', 0, 2));
 					//throw new MDException('Illegal namespace (md) in Extensions at SPSSODescriptor: ' + nodeName(n));
+				}
+			},
+			{
+				namespace: constants.ns.init, name: 'RequestInitiator',
+				callback: function (n) {
+					var e = parseEndpoint(n);
+					apush(saml2sp, 'RequestInitiator', e);
+					if (!validateURL(e.Location)) {
+						processTest(new TestResult('RequestInitiatorInvalidURL', 'RequestInitiator/@Location was not a valid URL', 0, 2));
+					}
+				}
+			},
+			{
+				namespace: constants.ns.idpdisc, namee: 'DiscoveryResponse',
+				callback: function (n) {
+					var e = parseEndpoint(n);
+					apush(saml2sp, 'DiscoveryResponse', e);
+					if (!validateURL(e.Location)) {
+						processTest(new TestResult('DiscoveryResponseInvalidURL', 'DiscoveryResponse/@Location was not a valid URL', 0, 2));
+					}
 				}
 			}
 		// Fallback	
