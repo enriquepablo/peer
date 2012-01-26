@@ -39,11 +39,11 @@
 {% if needs_google_maps %}
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 {% endif %}
-<script type="text/javascript" src="{{ STATIC_URL }}/js/SAMLmetaJS/samlmeta.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}/js/SAMLmetaJS/mdreader.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}/js/SAMLmetaJS/samlmeta.xml.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/SAMLmetaJS/samlmeta.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/SAMLmetaJS/mdreader.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/SAMLmetaJS/samlmeta.xml.js"></script>
 {% for plugin in samlmetajs_plugins %}
-<script type="text/javascript" src="{{ STATIC_URL }}/js/SAMLmetaJS/samlmeta.plugin.{{ plugin }}.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/SAMLmetaJS/samlmeta.plugin.{{ plugin }}.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/spin.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mesh.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.form.min.js"></script>
