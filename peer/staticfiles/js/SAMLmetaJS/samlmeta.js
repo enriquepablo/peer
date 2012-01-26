@@ -1,5 +1,5 @@
 /*jslint rhino: true, browser:true, onevar:false*/
-if (typeof console === "undefined" || typeof console.log === "undefined") {var console = { log: function() {} };}
+if (typeof console === "undefined" || typeof console.log === "undefined") {var console = { log: function() {} }}
 
 // Hack to initiatlize a DOMParser in browser that do not support this natively.
 // Hack found here:
@@ -189,14 +189,14 @@ var SAMLmetaJS = {};
 		if (
 			(typeof ruleset === 'undefined') ||
 			(ruleset === null)
-           ){
+		 	){
 			
-			this.ruleset = {};
+			this.ruleset = {}
 		} else {
 			this.ruleset = ruleset;			
 		}
 		this.tests = [];
-	};
+	}
 	
 	SAMLmetaJS.TestEngine.prototype.addTest = function(test) {
 		if (this.ruleset.hasOwnProperty(test.id)) {
@@ -204,22 +204,22 @@ var SAMLmetaJS = {};
 			test.significance = this.ruleset[test.id];			
 		}
 		this.tests.push(test);
-	};
+	}
 	
 	SAMLmetaJS.TestEngine.prototype.getResult = function() {
 		return this.tests;
-	};
+	}
 
 	SAMLmetaJS.TestEngine.prototype.reset = function() {
 		this.tests = [];
-	};
+	}
 
 
 	SAMLmetaJS.sync = function(node, options) {
 
 		var 
 			currentTab = 'xml',
-			mdreaderSetup,
+			mdreaderSetup = undefined,
 			showValidation = false,
 			showValidationLevel = {
 				'info': true,
@@ -251,13 +251,13 @@ var SAMLmetaJS = {};
 				}
 			}
 			
-		};
+		}
 
 
 		// This section extracts the information from the Metadata XML document,
 		// and updates the UI elements to reflect that.
 		var fromXML = function () {
-			if (currentTab !== 'xml') { return; }
+			if (currentTab !== 'xml') return;
 			currentTab = 'other';
 
 			console.log('fromXML()');
@@ -280,7 +280,7 @@ var SAMLmetaJS = {};
 		// This section extracts the information from the Metadata UI elements,
 		// and applies this to the XML metadata document.
 		var toXML = function() {
-			if (currentTab !== 'other') { return; }
+			if (currentTab !== 'other') return;
 			currentTab = 'xml';
 			console.log('toXML()');
 

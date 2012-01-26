@@ -14,21 +14,19 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 
 			console.log('Update XML document');
 
-			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node, name;
+			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node;
 			root = this.addIfNotEntityDescriptor();
 
 			if (entitydescriptor.entityid)
-                { root.setAttribute('entityID', entitydescriptor.entityid); }
+				root.setAttribute('entityID', entitydescriptor.entityid);
 
 			if (entitydescriptor.entityAttributes) {
 				entityExtensions = this.addIfNotEntityExtensions(root);
 
 				entityAttributes = this.addIfNotEntityAttributes(entityExtensions);
 				SAMLmetaJS.XML.wipeChildren(entityAttributes, SAMLmetaJS.Constants.ns.saml, 'Attribute');
-				for(name in entitydescriptor.entityAttributes) {
-                    if (entitydescriptor.entityAttributes.hasOwnProperty(name)){
-					    this.addAttribute(entityAttributes, entitydescriptor.entityAttributes[name]);
-                    }
+				for(var name in entitydescriptor.entityAttributes) {
+					this.addAttribute(entityAttributes, entitydescriptor.entityAttributes[name]);
 				}
 			}
 			
@@ -210,6 +208,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		},
 		
 		"updateMDUI": function(node, entitydescriptor) {
+			var hasKeywords = false;
 			if (SAMLmetaJS.tools.hasContents(entitydescriptor.name)) {
 				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'DisplayName');
 				for(lang in entitydescriptor.name) {
@@ -222,10 +221,14 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 					this.addMDUIDescription(node, lang, entitydescriptor.descr[lang]);
 				}
 			}
-			if (SAMLmetaJS.tools.hasContents(entitydescriptor.kws)) {
+			hasKeywords = (entitydescriptor.saml2sp
+						&& entitydescriptor.saml2sp.mdui
+						&& entitydescriptor.saml2sp.mdui.keywords
+						&& SAMLmetaJS.tools.hasContents(entitydescriptor.saml2sp.mdui.keywords));
+			if (hasKeywords) {
 				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'Keywords');
-				for(lang in entitydescriptor.kws) {
-					this.addMDUIKeywords(node, lang, entitydescriptor.kws[lang]);
+				for(lang in entitydescriptor.saml2sp.mdui.keywords) {
+					this.addMDUIKeywords(node, lang, entitydescriptor.saml2sp.mdui.keywords[lang]);
 				}
 			}
 			SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'GeolocationHint');
@@ -308,8 +311,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		},
 		"addAttribute": function(node, attr) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.saml, 'saml:Attribute');
-            var i;
-            newNode.setAttribute('Name', attr.name);
+			newNode.setAttribute('Name', attr.name);
 			if (attr.friendlyName) {
 				newNode.setAttribute('FriendlyName', attr.friendlyName);
 			}
@@ -317,7 +319,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				newNode.setAttribute('NameFormat', attr.nameFormat);
 			}
 			if (attr.values) {
-				for (i = 0; i < attr.values.length; i++ ) {
+				for (var i = 0; i < attr.values.length; i++ ) {
 					var newValue = doc.createElementNS(SAMLmetaJS.Constants.ns.saml, 'saml:AttributeValue');
 					newValue.appendChild(doc.createTextNode(attr.values[i]));
 					newNode.appendChild(newValue);
@@ -327,20 +329,20 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 			node.appendChild(newNode);
 		},
 		"addIfNotEntityExtensions": function(node) {
-			var newNode, i;
+			var newNode;
 
 			// Iterate the root children
-			for (i = 0; i < node.childNodes.length; i++ ) {
+			for (var i = 0; i < node.childNodes.length; i++ ) {
 				var currentChild = node.childNodes[i];
 				if (
 						currentChild.nodeType == 1 &&  // type is Element
 						currentChild.localName === 'Extensions' &&
 						currentChild.namespaceURI === SAMLmetaJS.Constants.ns.md
 					)
-                { return currentChild; }
+					return currentChild;
 			}
 
-			newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:Extensions');
+			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:Extensions');
 			node.insertBefore(newNode, SAMLmetaJS.XML.findChildElement(node,
 				[
 					{'localName': 'SPSSODescriptor', 'namespaceURI': SAMLmetaJS.Constants.ns.md},
@@ -350,17 +352,17 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 			return newNode;
 		},
 		"addIfNotExtensions": function(node) {
-			var newNode, i;
+			var newNode;
 
 			// Iterate the root children
-			for (i = 0; i < node.childNodes.length; i++ ) {
+			for (var i = 0; i < node.childNodes.length; i++ ) {
 				var currentChild = node.childNodes[i];
 				if (
 						currentChild.nodeType == 1 &&  // type is Element
 						currentChild.localName === 'Extensions' &&
 						currentChild.namespaceURI === SAMLmetaJS.Constants.ns.md
 					)
-                { return currentChild; }
+					return currentChild;
 			}
 
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.md, 'md:Extensions');
