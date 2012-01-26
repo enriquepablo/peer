@@ -37,7 +37,7 @@ from django.utils.translation import ugettext as _
 
 from peer.account.templatetags.account import authorname
 from peer.customfields import TermsOfUseField, readtou
-from peer.entity.models import Entity
+from peer.entity.models import Entity, EntityGroup
 from peer.entity.validation import validate
 
 
@@ -100,6 +100,17 @@ class EntityForm(forms.ModelForm):
 
         return self.cleaned_data
 
+
+class EntityGroupForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(EntityGroupForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = _("Name of the entity group")
+        self.fields['query'].label = _("Query for the entity group")
+
+    class Meta:
+        model = EntityGroup
+        fields = ('name', 'query')
 
 def commitMessageWidgetFactory(suffix):
     return forms.CharField(

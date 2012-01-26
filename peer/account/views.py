@@ -53,12 +53,16 @@ from peer.account.forms import FriendInvitationForm
 from peer.account.templatetags.account import safefullname
 from peer.domain.models import Domain
 from peer.entity.models import Entity, PermissionDelegation
+from peer.entity.models import Entity
+from peer.entity.models import PermissionDelegation
+from peer.entity.models import EntityGroup
 
 
 @login_required
 def profile(request):
     domains = Domain.objects.filter(owner=request.user)
     owned_entities = Entity.objects.filter(owner=request.user)
+    owned_group_entities = EntityGroup.objects.filter(owner=request.user)
     delegations = PermissionDelegation.objects.filter(delegate=request.user)
     return render_to_response('account/profile.html', {
             'domains': domains,

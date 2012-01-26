@@ -35,6 +35,7 @@ urlpatterns = patterns(
     url(r'^$', 'entities_list', name='entities_list'),
     url(r'^rss$', EntitiesFeed(), name='entities_feed'),
     url(r'^add$', 'entity_add', name='entity_add'),
+    url(r'^add_entity_group$', 'entity_group_add', name='entity_group_add'),
     url(r'^(?P<domain_name>\w.+)/add$', 'entity_add_with_domain',
         name='entity_add_with_domain'),
     url(r'^search$', 'search_entities', name='search_entities'),

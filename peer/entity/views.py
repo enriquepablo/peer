@@ -56,6 +56,7 @@ from peer.entity.filters import get_filters, filter_entities
 from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
+from peer.entity.forms import EntityGroupForm
 from peer.entity.models import Entity, PermissionDelegation
 from peer.entity.security import can_edit_entity, can_change_entity_team
 from peer.entity.utils import add_previous_revisions
@@ -181,6 +182,47 @@ def entity_edit(request, entity_id):
             'entity': entity,
             'form': form,
             }, context_instance=RequestContext(request))
+
+
+# ENTITY GROUP
+
+@login_required
+def entity_group_add(request, return_view_name='account_profile'):
+    if request.method == 'POST':
+        form = EntityGroupForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.owner = request.user
+            instance.save()
+            messages.success(request, _(u'Entity group created'))
+            return HttpResponseRedirect(
+                reverse(return_view_name)
+                )
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
+
+    else:
+        form = EntityGroupForm()
+
+    return render_to_response('entity/add_entity_group.html', {
+            'form': form,
+            }, context_instance=RequestContext(request))
+
+
+@login_required
+def entity_group_view(request, entity_group_id):
+    pass
+
+
+@login_required
+def entity_group_edit(request, entity_group_id):
+    pass
+
+
+@login_required
+def entity_group_remove(request, entity_group_id):
+    pass
 
 
 @login_required

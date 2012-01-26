@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<section>
+  <hgroup>
+    <h1>{% trans "Add entitity group" %}</h1>
+  </hgroup>
+
+  <p>{% trans "TODO: To fill in later" %}</p>
+
+  <form action="{% url entity_group_add %}" method="post">{% csrf_token %}
+    <fieldset>
+    {{ form.as_p }}
+    </fieldset>
+    <fieldset class="actionRow">
+      <input class="button" type="submit" value="{% trans "Add entity group" %}" />
+      {% trans "or" %} <a class="button" href="{% url account_profile %}">{% trans "Cancel" %}</a>
+    </fieldset>
+  </form>
+
+</section>
+{% endblock %}
