@@ -216,7 +216,28 @@ def entity_group_view(request, entity_group_id):
 
 
 @login_required
-def entity_group_edit(request, entity_group_id):
+def entity_group_edit(request, entity_group_id,
+                      return_view_name='account_profile'):
+    entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
+    if request.method == 'POST':
+        form = EditGroupForm(request.POST, entity_group)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.owner = request.user
+            instance.save()
+            messages.success(request, _(u'Entity edited succesfully'))
+            return HttpResponseRedirect(reverse(return_view_name))
+        else:
+            messages.error(request, _('Please correct the errors'
+                                      ' indicated below'))
+
+    else:
+        form = EntityGroupForm(instance=entity_group)
+
+    return render_to_response('entity/edit_entity_group.html', {
+            'entity_group': entity_group,
+            'form': form,
+            }, context_instance=RequestContext(request))
     pass
 
 
