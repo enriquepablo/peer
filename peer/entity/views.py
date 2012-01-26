@@ -57,7 +57,7 @@ from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
 from peer.entity.forms import EntityGroupForm
-from peer.entity.models import Entity, PermissionDelegation
+from peer.entity.models import Entity, PermissionDelegation, EntityGroup
 from peer.entity.security import can_edit_entity, can_change_entity_team
 from peer.entity.utils import add_previous_revisions
 
@@ -221,8 +221,20 @@ def entity_group_edit(request, entity_group_id):
 
 
 @login_required
-def entity_group_remove(request, entity_group_id):
-    pass
+def entity_group_remove(request, entity_group_id,
+                        return_view_name='account_profile'):
+    entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
+    if not can_edit_entity(request.user, entity_group):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        entity_group.delete()
+        messages.success(request, _('Entity removed succesfully'))
+        return HttpResponseRedirect(reverse(return_view_name))
+
+    return render_to_response('entity/remove_entity_group.html', {
+            'entity_group': entity_group,
+            }, context_instance=RequestContext(request))
 
 
 @login_required
