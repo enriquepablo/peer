@@ -52,7 +52,6 @@ from peer.account.forms import PersonalInformationForm
 from peer.account.forms import FriendInvitationForm
 from peer.account.templatetags.account import safefullname
 from peer.domain.models import Domain
-from peer.entity.models import Entity, PermissionDelegation
 from peer.entity.models import Entity
 from peer.entity.models import PermissionDelegation
 from peer.entity.models import EntityGroup
@@ -68,6 +67,7 @@ def profile(request):
             'domains': domains,
             'owned_entities': owned_entities,
             'permission_delegations': delegations,
+            'owned_group_entities': owned_group_entities,
             }, context_instance=RequestContext(request))
 
 
