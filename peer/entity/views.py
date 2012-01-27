@@ -216,11 +216,12 @@ def entity_group_add(request, return_view_name='account_profile'):
 def entity_group_view(request, entity_group_id):
     entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
     query = entity_group.query
+    parsed_query = parse_entity_group_query(query)
     # TODO: This should be encapsulated in a Model Manager
     # This is repeated in .feeds.EntitiesFeed.items
     # TODO: Pagination, see #57
-    entities_in_group = (q for q in Entity.objects.all()
-                           if q.has_metadata_attrs(query))
+    entities_in_group = (q for q in EntityGroup.objects.all()
+                           if q.has_metadata_attrs(parsed_query))
 
     # Can't do it at the model because of circular dependency
     entity_group.feed_url = EntitiesFeed().link() + '?' + query
