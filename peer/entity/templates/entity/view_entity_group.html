@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load i18n account %}
+
+
+{% block extracss %}
+<link type="text/css" href="{{ STATIC_URL }}css/flags.css" rel="Stylesheet" />
+<link type="text/css" href="{% url get_pygments_css %}" rel="Stylesheet" />
+{% endblock %}
+
+{% block content %}
+<section class="mainContent">
+
+  <hgroup>
+    <h1>{% trans "Entity group details" %}</h1>
+    <h2>{{ entity_group.name }}</h2>
+  </hgroup>
+
+  <p>{% trans "Owned by" %} {% safefullname entity_group.owner %}</p>
+
+  {% if entities_in_group %}
+    <dl>
+      <dt>
+        <dd>
+          <table>
+            <tbody>
+              {% for entity in entities_in_group %}
+                <tr>
+                  <td><a href="{{ entity.feed_url }}">{{ entity.name }}</a></tr>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </dd>
+      </dt>
+      <dt class="ui-icon ui-icon-signal-diag" title="{% trans "Entity group feed" %}">{% trans "Entity group feed" %}</dt>
+        <dd><a href="{{ entity_group.feed_url }}">{% trans "Entity group feed" %}</a></dd>
+      </dt>
+  </dl>
+
+  {% endif %}
+
+{% endblock %}
