@@ -328,8 +328,12 @@ class Entity(models.Model):
     @property
     def is_metarefreshable(self):
         result = False
-        if isinstance(self.entityid, basestring):
-            url = urlparse(self.entityid)
+        try:
+            entityid = self.entityid
+        except IOError:
+            return result
+        if isinstance(entityid, basestring):
+            url = urlparse(entityid)
             result = bool(url.scheme.startswith('http'))
             result = result and bool(url.netloc.split('.')[0])
         return result
