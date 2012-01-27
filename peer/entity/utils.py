@@ -78,3 +78,39 @@ def expand_settings_permissions(include_xpath=True):
     return tuple(permissions)
 
 
+def parse_entity_group_query(query):
+    """ Query must look like the query string of a feed.
+        Query can be a a key-value tuple or a basestring.
+
+        TODO: Document 'specification' for query.
+    """
+    if isinstance(query, basestring):
+        try:
+            query = (tuple(y.split('='))
+                      for y in (x for x in query.split('&'))
+                      )
+        except ValueError:
+            return None
+        else:
+            # TODO: there should be a way to avoid this fix
+            # string partition? list zipping?
+            query = tuple((x[0], None) for x in query if len(x) < 2)
+
+    tags = list()
+    tags_w_values = list()
+    tags_w_attrs = list()
+    try:
+        for k, v in query:
+            if '$' in k:
+                tag, attr = k.split('$')
+                tags_w_attrs.append((tag, attr, v))
+            elif v:
+                tags_w_values.append((k, v))
+            else:
+                tags.append(k)
+        return dict(tags=tuple(tags),
+                    tags_w_values=tuple(tags_w_values),
+                    tags_w_attrs=tuple(tags_w_attrs))
+
+    except ValueError:
+        return None

@@ -41,6 +41,7 @@ from pygments.formatters import HtmlFormatter
 from peer.account.templatetags.account import authorname
 from peer.entity.models import Entity
 from peer.entity.utils import add_previous_revisions
+from peer.entity.utils import parse_entity_group_query
 
 
 class EntitiesFeed(Feed):
@@ -55,20 +56,7 @@ class EntitiesFeed(Feed):
         return reverse('entities_feed')
 
     def _parse_url_filters(self, url_params):
-        tags = list()
-        tags_w_values = list()
-        tags_w_attrs = list()
-        for k, v in url_params.iteritems():
-            if '$' in k:
-                tag, attr = k.split('$')
-                tags_w_attrs.append((tag, attr, v))
-            elif v:
-                tags_w_values.append((k, v))
-            else:
-                tags.append(k)
-        return dict(tags=tuple(tags),
-                    tags_w_values=tuple(tags_w_values),
-                    tags_w_attrs=tuple(tags_w_attrs))
+        return parse_entity_group_query(url_params.iteritems())
 
     def items(self):
         metadata_attrs = self._parse_url_filters(self.request.GET)

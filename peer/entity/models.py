@@ -236,6 +236,9 @@ class Entity(models.Model):
               'tag2', 'attr2', 'attr_value2')
         }
         """
+        if not metadata_attrs:
+            return False
+
         metree = self.metadata_etree
 
         if metree is None:
