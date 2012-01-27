@@ -103,6 +103,7 @@ class EntityForm(forms.ModelForm):
 
 class EditEntityGroupForm(forms.ModelForm):
 
+    # TODO: Validate query syntax
     class Meta:
         model = EntityGroup
         fields = ('name', 'query')
@@ -110,6 +111,7 @@ class EditEntityGroupForm(forms.ModelForm):
 
 class EntityGroupForm(forms.ModelForm):
 
+    # TODO: Validate query syntax
     def __init__(self, *args, **kwargs):
         super(EntityGroupForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = _("Name of the entity group")
