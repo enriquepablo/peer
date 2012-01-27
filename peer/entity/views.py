@@ -60,6 +60,8 @@ from peer.entity.forms import EntityGroupForm, EditEntityGroupForm
 from peer.entity.models import Entity, PermissionDelegation, EntityGroup
 from peer.entity.security import can_edit_entity, can_change_entity_team
 from peer.entity.utils import add_previous_revisions
+from peer.entity.utils import parse_entity_group_query
+from peer.entity.feeds import EntitiesFeed
 
 
 def _paginated_list_of_entities(request, entities):
@@ -212,7 +214,21 @@ def entity_group_add(request, return_view_name='account_profile'):
 
 @login_required
 def entity_group_view(request, entity_group_id):
-    pass
+    entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
+    query = entity_group.query
+    # TODO: This should be encapsulated in a Model Manager
+    # This is repeated in .feeds.EntitiesFeed.items
+    # TODO: Pagination, see #57
+    entities_in_group = (q for q in Entity.objects.all()
+                           if q.has_metadata_attrs(query))
+
+    # Can't do it at the model because of circular dependency
+    entity_group.feed_url = EntitiesFeed().link() + '?' + query
+
+    return render_to_response('entity/view_entity_group.html', {
+            'entity_group': entity_group,
+            'entities_in_group': entities_in_group,
+            }, context_instance=RequestContext(request))
 
 
 @login_required
