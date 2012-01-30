@@ -40,7 +40,8 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				SAMLmetaJS.tools.hasContents(entitydescriptor.descr) ||
 				entitydescriptor.location ||
 				hasRequestInitiator ||
-				hasDiscoveryResponse
+				hasDiscoveryResponse ||
+				entitydescriptor.hasLogo()
 			) {
 				extensions = this.addIfNotExtensions(spdescriptor);
 				mdui = this.addIfNotMDUI(extensions);
@@ -225,6 +226,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		},
 		
 		"updateMDUI": function(node, entitydescriptor) {
+			var hasKeywords = false;
 			if (SAMLmetaJS.tools.hasContents(entitydescriptor.name)) {
 				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'DisplayName');
 				for(lang in entitydescriptor.name) {
@@ -237,11 +239,38 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 					this.addMDUIDescription(node, lang, entitydescriptor.descr[lang]);
 				}
 			}
+			if (entitydescriptor.hasLogo()) {
+				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'Logo');
+				for(lang in entitydescriptor.saml2sp.mdui.logo) {
+					if (entitydescriptor.saml2sp.mdui.logo.hasOwnProperty(lang)) {
+						this.addMDUILogo(node, lang, entitydescriptor.saml2sp.mdui.logo[lang]);
+					}
+				}
+			}
+			hasKeywords = (entitydescriptor.saml2sp
+						&& entitydescriptor.saml2sp.mdui
+						&& entitydescriptor.saml2sp.mdui.keywords
+						&& SAMLmetaJS.tools.hasContents(entitydescriptor.saml2sp.mdui.keywords));
+			if (hasKeywords) {
+				SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'Keywords');
+				for(lang in entitydescriptor.saml2sp.mdui.keywords) {
+					this.addMDUIKeywords(node, lang, entitydescriptor.saml2sp.mdui.keywords[lang]);
+				}
+			}
 			SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'GeolocationHint');
 			if (entitydescriptor.location) {
 				this.addMDUILocation(node, entitydescriptor.location);
 			}
 
+		},
+		"addMDUILogo": function(node, lang, logo) {
+			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Logo');
+			var text = doc.createTextNode(logo.location);
+			newNode.appendChild(text);
+			newNode.setAttribute('xml:lang', lang);
+			newNode.setAttribute('width', logo.width);
+			newNode.setAttribute('height', logo.height);
+			node.appendChild(newNode);
 		},
 		"addMDUILocation": function(node, location) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:GeolocationHint');
@@ -259,6 +288,13 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		},
 		"addMDUIDescription": function(node, lang, text) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Description');
+			var text = doc.createTextNode(text);
+			newNode.setAttribute('xml:lang', lang);
+			newNode.appendChild(text);
+			node.appendChild(newNode);
+		},
+		"addMDUIKeywords": function(node, lang, text) {
+			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Keywords');
 			var text = doc.createTextNode(text);
 			newNode.setAttribute('xml:lang', lang);
 			newNode.appendChild(text);
@@ -311,6 +347,9 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 		"addAttribute": function(node, attr) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.saml, 'saml:Attribute');
 			newNode.setAttribute('Name', attr.name);
+			if (attr.friendlyName) {
+				newNode.setAttribute('FriendlyName', attr.friendlyName);
+			}
 			if (attr.nameFormat) {
 				newNode.setAttribute('NameFormat', attr.nameFormat);
 			}
@@ -456,13 +495,13 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				
 				From SSORoleDescriptorType
 					<element ref="md:ArtifactResolutionService" minOccurs="0" maxOccurs="unbounded"/>
-		            <element ref="md:SingleLogoutService" minOccurs="0" maxOccurs="unbounded"/>
-		            <element ref="md:ManageNameIDService" minOccurs="0" maxOccurs="unbounded"/>
-		            <element ref="md:NameIDFormat" minOccurs="0" maxOccurs="unbounded"/>
+					<element ref="md:SingleLogoutService" minOccurs="0" maxOccurs="unbounded"/>
+					<element ref="md:ManageNameIDService" minOccurs="0" maxOccurs="unbounded"/>
+					<element ref="md:NameIDFormat" minOccurs="0" maxOccurs="unbounded"/>
 				
 				From SPSSORoleDescriptor
 					<element ref="md:AssertionConsumerService" maxOccurs="unbounded"/>
-		            <element ref="md:AttributeConsumingService" minOccurs="0" maxOccurs="unbounded"/>
+					<element ref="md:AttributeConsumingService" minOccurs="0" maxOccurs="unbounded"/>
 			*/
 			if (endpointtype = 'ArtifactResolutionService') {
 				beforeNode = [
@@ -558,15 +597,15 @@ SAMLmetaJS.tools = {
 		}
 		return false;
 	},
-    hasEndpoint: function (obj, endpoint) {
-        if (!obj.saml2sp) {
-            return false;
-        }
-        if (!obj.saml2sp[endpoint]) {
-            return false;
-        }
-        return obj.saml2sp[endpoint].length > 0;
-    }
+	hasEndpoint: function (obj, endpoint) {
+		if (!obj.saml2sp) {
+			return false;
+		}
+		if (!obj.saml2sp[endpoint]) {
+			return false;
+		}
+		return obj.saml2sp[endpoint].length > 0;
+	}
 };
 
 SAMLmetaJS.XML = {
