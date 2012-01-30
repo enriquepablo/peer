@@ -682,8 +682,13 @@ div#tabs div#rawmetadata textarea#id_metadata_text {
     height: 350px;
 }
 
-div#tabs div#info div.infonamediv input {
+div#tabs div#info div.infonamediv input,
+div#tabs div#info div.infologodiv input[type=url] {
     width: 380px;
+}
+
+div#tabs div.infologodiv {
+    clear: both;
 }
 
 div#tabs div#attributes div.content {
