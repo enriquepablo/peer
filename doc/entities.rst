@@ -151,7 +151,7 @@ select the group. The query syntax is exactly the same as specified in `Entities
 Feed`_. Here it's shown the query for all entities which have the tag
 ``md:SPSSODescriptor``:
 
-.. image:: _static/entity_groups_add.png
+.. figure:: _static/entity_groups_add.png
 
 
 Every entity group created by the user will be listed in the profile view under
