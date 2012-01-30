@@ -124,6 +124,10 @@
       <dd><a href="{% url changes_feed entity.id %}">{% trans "Changes feed" %}</a></dd>
     </dl>
 
+    {% if entity.geolocationhint %}
+    <div id="map" style="width: 100%; height: 400px"></div>
+    {% endif %}
+
     <div class="history">
       <h2 class="clear"><span class="left ui-icon ui-icon-triangle-1-e"></span><a href="#" id="show-history">Show history</a></h2>
       <table>
@@ -180,6 +184,10 @@
 {% block extrajs %}
   {% if entity.has_metadata %}
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.entitymd.js"></script>
+  {% if entity.geolocationhint %}
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  {% endif %}
+
   <script type="text/javascript">
   (function($) {
     $(document).ready(function () {
@@ -206,6 +214,20 @@
             }
         );
         $('.history table').hide();
+
+        {% if entity.geolocationhint %}
+        var latlng = new google.maps.LatLng({{ entity.geolocationhint.latitude }}, {{ entity.geolocationhint.longitude }});
+        var map = new google.maps.Map($('#map').get(0), {
+            zoom: 6,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        var mapmarker = new google.maps.Marker({
+            position: latlng,
+            title: '{{ entity.geolocationhint.latitude }}, {{ entity.geolocationhint.longitude }}',
+            map: map
+        });
+        {% endif %}
     });
   })(jQuery);
   </script>

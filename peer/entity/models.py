@@ -48,7 +48,10 @@ from peer.entity.utils import expand_settings_permissions
 
 XML_NAMESPACE = NAMESPACES['xml']
 XMLDSIG_NAMESPACE = NAMESPACES['ds']
+MDUI_NAMESPACE = NAMESPACES['mdui']
+
 CONNECTION_TIMEOUT = 10
+
 
 class Metadata(object):
 
@@ -149,6 +152,18 @@ class Metadata(object):
             result.append(lss_endpoint)
 
         return result
+
+    @property
+    def geolocationhint(self):
+        path = [addns('SPSSODescriptor'), addns('Extensions'),
+                addns('UIInfo', MDUI_NAMESPACE),
+                addns('GeolocationHint', MDUI_NAMESPACE)]
+        result = self.etree.find('/'.join(path))
+        if result is not None:
+            latitude, longitude = result.text.replace('geo:', '').split(',')
+            return {'latitude': latitude, 'longitude': longitude}
+        else:
+            return None
 
 
 class Entity(models.Model):
@@ -316,6 +331,10 @@ class Entity(models.Model):
     @property
     def endpoints(self):
         return self._load_metadata().endpoints
+
+    @property
+    def geolocationhint(self):
+        return self._load_metadata().geolocationhint
 
     @property
     def metadata_etree(self):
