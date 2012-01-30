@@ -42,7 +42,7 @@ from vff.field import VersionedFileField
 
 from peer.customfields import SafeCharField
 from peer.domain.models import Domain
-from peer.entity.utils import NAMESPACES, addns, delns
+from peer.entity.utils import NAMESPACES, addns, delns, getlang
 from peer.entity.utils import expand_settings_permissions
 
 
@@ -79,11 +79,8 @@ class Metadata(object):
             for attr in ('name', 'displayName', 'URL'):
                 node_name = 'Organization' + attr[0].upper() + attr[1:]
                 for node in org_node.findall(addns(node_name)):
-                    if 'lang' in node.attrib:
-                        lang = node.attrib['lang']
-                    elif addns('lang', XML_NAMESPACE) in node.attrib:
-                        lang = node.attrib[addns('lang', XML_NAMESPACE)]
-                    else:
+                    lang = getlang(node)
+                    if lang is None:
                         continue  # the lang attribute is required
 
                     lang_dict = languages.setdefault(lang, {})
@@ -164,6 +161,29 @@ class Metadata(object):
             return {'latitude': latitude, 'longitude': longitude}
         else:
             return None
+
+    @property
+    def logos(self):
+        languages = {}
+        path = [addns('SPSSODescriptor'), addns('Extensions'),
+                addns('UIInfo', MDUI_NAMESPACE),
+                addns('Logo', MDUI_NAMESPACE)]
+        for logo_node in self.etree.findall('/'.join(path)):
+            lang = getlang(logo_node)
+            if lang is None:
+                continue  # the lang attribute is required
+
+            lang_dict = languages.setdefault(lang, {})
+            lang_dict['width'] = logo_node.attrib.get('width', '')
+            lang_dict['height'] = logo_node.attrib.get('height', '')
+            lang_dict['location'] = logo_node.text
+
+        result = []
+        for lang, data in languages.items():
+            data['lang'] = lang
+            result.append(data)
+
+        return result
 
 
 class Entity(models.Model):
@@ -335,6 +355,10 @@ class Entity(models.Model):
     @property
     def geolocationhint(self):
         return self._load_metadata().geolocationhint
+
+    @property
+    def logos(self):
+        return self._load_metadata().logos
 
     @property
     def metadata_etree(self):

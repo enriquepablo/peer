@@ -51,6 +51,26 @@
       <dd>{% if entity.is_expired %}<strong class="expired">{{ entity.valid_until }} ({% trans "Expired!" %})</strong>{% else %}{{ entity.valid_until }}{% endif %}</dd>
       {% endif %}
 
+      {% if entity.logos %}
+      <dt class="ui-icon ui-icon-image" title="{% trans "Logo" %}">{% trans "Logo" %}</dt>
+      <dd>
+        <table>
+          <tbody>
+          {% for l10n_logo in entity.logos %}
+          <tr>
+            <td><span class="flag {{ l10n_logo.lang }}" title="{{ l10n_logo.lang }}"></span></td>
+            <td>
+              <a href="{{ l10n_logo.location }}">
+                <img src="{{ l10n_logo.location }}" width="{{ l10n_logo.width }}" height="{{ l10n_logo.height }}" />
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </dd>
+      {% endif %}
+
       {% if entity.endpoints %}
       <dt class="ui-icon ui-icon-link" title="{% trans "Endpoints" %}">{% trans "Endpoints" %}</dt>
       <dd>

@@ -51,6 +51,13 @@ def delns(node, namespace=SAML_METADATA_NAMESPACE):
     return node.replace('{' + namespace + '}', '')
 
 
+def getlang(node):
+    if 'lang' in node.attrib:
+        return node.attrib['lang']
+    elif addns('lang', NAMESPACES['xml']) in node.attrib:
+        return node.attrib[addns('lang', NAMESPACES['xml'])]
+
+
 def add_previous_revisions(revisions):
     prev, revs = '', []
     for rev in revisions[::-1]:

@@ -236,6 +236,7 @@ dd table {
 
 dd table td {
     padding: 0.4em 1em 0.4em 0;
+    vertical-align: middle;
 }
 
 dd ul li {
