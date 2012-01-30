@@ -14,7 +14,8 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 
 			console.log('Update XML document');
 
-			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node, hasRequestInitiator, hasDiscoveryResponse;
+			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node, mdui, hasRequestInitiator, hasDiscoveryResponse;
+
 			root = this.addIfNotEntityDescriptor();
 
 			if (entitydescriptor.entityid)
@@ -41,7 +42,8 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				entitydescriptor.location ||
 				hasRequestInitiator ||
 				hasDiscoveryResponse ||
-				entitydescriptor.hasLogo()
+				entitydescriptor.hasLogo() ||
+				entitydescriptor.hasLocation()
 			) {
 				extensions = this.addIfNotExtensions(spdescriptor);
 				mdui = this.addIfNotMDUI(extensions);
@@ -258,10 +260,9 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				}
 			}
 			SAMLmetaJS.XML.wipeChildren(node, SAMLmetaJS.Constants.ns.mdui, 'GeolocationHint');
-			if (entitydescriptor.location) {
-				this.addMDUILocation(node, entitydescriptor.location);
+			if (entitydescriptor.hasLocation()) {
+				this.addMDUILocation(node, entitydescriptor.getLocation());
 			}
-
 		},
 		"addMDUILogo": function(node, lang, logo) {
 			var newNode = doc.createElementNS(SAMLmetaJS.Constants.ns.mdui, 'mdui:Logo');
