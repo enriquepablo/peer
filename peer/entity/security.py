@@ -45,6 +45,16 @@ def can_edit_entity(user, entity):
     return False
 
 
+def can_edit_entity_group(user, entity_group):
+    if user.is_superuser:
+        return True
+
+    if entity_group.owner == user:
+        return True
+
+    return False
+
+
 def can_change_entity_team(user, entity):
     if user.is_superuser:
         return True

@@ -58,7 +58,9 @@ from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
 from peer.entity.forms import EntityGroupForm, EditEntityGroupForm
 from peer.entity.models import Entity, PermissionDelegation, EntityGroup
-from peer.entity.security import can_edit_entity, can_change_entity_team
+from peer.entity.security import can_edit_entity
+from peer.entity.security import can_change_entity_team
+from peer.entity.security import can_edit_entity_group
 from peer.entity.utils import add_previous_revisions
 from peer.entity.utils import parse_entity_group_query
 from peer.entity.feeds import EntitiesFeed
@@ -235,7 +237,12 @@ def entity_group_view(request, entity_group_id):
 @login_required
 def entity_group_edit(request, entity_group_id,
                       return_view_name='account_profile'):
+
     entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
+
+    if not can_edit_entity_group(request.user, entity_group):
+        raise PermissionDenied
+
     if request.method == 'POST':
         form = EditEntityGroupForm(request.POST, instance=entity_group)
         if form.is_valid():
@@ -259,8 +266,10 @@ def entity_group_edit(request, entity_group_id,
 @login_required
 def entity_group_remove(request, entity_group_id,
                         return_view_name='account_profile'):
+
     entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
-    if not can_edit_entity(request.user, entity_group):
+
+    if not can_edit_entity_group(request.user, entity_group):
         raise PermissionDenied
 
     if request.method == 'POST':
