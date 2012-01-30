@@ -115,7 +115,6 @@ clicking on the *Id* cell. She can also see the differences between any
 revision (but the last) and the previous revision by clicking on the *Diff*
 cell.
 
-
 Entities Feed
 -------------
 
@@ -139,3 +138,24 @@ Where:
 
 There can be as many parameters as needed provided that they are always
 combined with ``AND`` logic conjunction.
+
+Entity Groups
+-------------
+
+*Entity groups* allow to group entities by metadata.
+
+To create an entity group by metadata, the user has to navigate to her profile
+page. In the menu she would click on *Add entity group*. This link will take the
+user to a form where she has to type the name of the group and the query to
+select the group. The query syntax is exactly the same as specified in `Entities
+Feed`_. Here it's shown the query for all entities which have the tag
+``md:SPSSODescriptor``:
+
+.. image:: _static/entity_groups_add.png
+
+
+Every entity group created by the user will be listed in the profile view under
+*Your entity groups*. From there the entity group can be deleted or edited.
+Clicking on the link with the name of the group will take the user to the main
+view of entity group, where all the entities in the group will be displayed as
+well as providing a link to the correspondent feed for the entity group.
