@@ -83,7 +83,7 @@ in order to make it easier to fix these problems.
 All the inputs in these forms are required: leaving one of them empty will
 trigger a validation error, and the user will be prompted to fill in the
 missing value. Additionally, the system will check that the entered metadata
-(irrespective of the method used to enter it) is valid acording tot the
+(irrespective of the method used to enter it) is valid according tot the
 validators that are configured in this PEER site. If it isn't valid,
 the metadata will not be saved and the user will be prompted to enter
 correct values, with indications, whenever possible, of the detected errors.
