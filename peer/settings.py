@@ -263,7 +263,7 @@ PG_FTS_OPERATOR = u'&'
 
 # SAMLmetaJS plugins
 SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'saml2sp', 'certs',
-                        'attributes', 'entityattrs')
+                        'attributes', 'entityattrs', 'location')
 
 
 # Terms of Use
