@@ -220,7 +220,7 @@ def entity_group_view(request, entity_group_id):
     # TODO: This should be encapsulated in a Model Manager
     # This is repeated in .feeds.EntitiesFeed.items
     # TODO: Pagination, see #57
-    entities_in_group = (q for q in EntityGroup.objects.all()
+    entities_in_group = (q for q in Entity.objects.all()
                            if q.has_metadata_attrs(parsed_query))
 
     # Can't do it at the model because of circular dependency
