@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+0.8.1dev (unreleased)
+---------------------
+- ...
+
 0.8.0 (2012-01-31)
 ------------------
 - Rich metadata support. Now it is possible to edit the logo and
