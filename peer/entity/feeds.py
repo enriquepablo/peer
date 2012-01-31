@@ -55,14 +55,17 @@ class EntitiesFeed(Feed):
         return reverse('entities_feed')
 
     def items(self):
-        queries = self.request.GET.getlist('xpath')
-        filtered_entities = Entity.objects.xpath_filters(queries)
+        if not self.request.GET:
+            entities = Entity.objects.all()
+        else:
+            queries = self.request.GET.getlist('xpath')
+            entities = Entity.objects.xpath_filters(queries)
 
         try:
-            return islice(filtered_entities, 0,
+            return islice(entities, 0,
                           settings.MAX_FEED_ENTRIES)
         except AttributeError:
-            return filtered_entities
+            return entities
 
     def item_title(self, item):
         return item.name

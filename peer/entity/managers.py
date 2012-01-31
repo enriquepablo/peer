@@ -37,10 +37,10 @@ class EntityManager(models.Manager):
 
     def xpath_filters(self, queries):
 
-        if queries == list():
-            return self.all()
-
         result = []
+
+        if not queries:
+            return result
 
         for entity in self.all():
             if not entity.has_metadata():
