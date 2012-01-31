@@ -379,6 +379,14 @@ class EntityGroup(models.Model):
     query = SafeCharField(_(u'Group query'), max_length=100)
     owner = models.ForeignKey(User, verbose_name=_('Owner'))
 
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _(u'Entity group')
+        verbose_name_plural = _('Entity groups')
+
+
 class PermissionDelegation(models.Model):
 
     entity = models.ForeignKey(Entity, verbose_name=_(u'Entity'))
