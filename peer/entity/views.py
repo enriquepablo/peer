@@ -594,6 +594,7 @@ HTML_WRAPPER = u'''<!DOCTYPE html>
 </html>
 '''
 
+
 def get_diff(request, entity_id, r1, r2):
     entity = get_object_or_404(Entity, id=entity_id)
     diff = entity.metadata.get_diff(r1, r2)
