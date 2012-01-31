@@ -288,7 +288,7 @@ The recommended way to serve a PEER site is with a real web server that
 supports the WSGI (Web Server Gateway Interface) protocol. This is no
 surprise since the same applies to Django.
 
-If you use the Apacche web server all you need to do is write the
+If you use the Apache web server all you need to do is write the
 following configuration into your specific virtual host section:
 
 .. code-block:: none
@@ -298,6 +298,16 @@ following configuration into your specific virtual host section:
 
 Bear in mind that the exact path may be different in your case, specially
 the Python and PEER version numbers.
+
+The packages needed for installing Apache and wsgi support are:
+
+.. code-block:: bash
+
+  # Fedora example:
+  $ yum install httpd mod_wsgi
+
+  # Debian/Ubuntu example:
+  $ apt-get install apache2 libapache2-mod-wsgi
 
 .. note::
   If you use someting different from Apache, please check the documentation
