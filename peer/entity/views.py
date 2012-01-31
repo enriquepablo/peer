@@ -256,7 +256,6 @@ def entity_group_edit(request, entity_group_id,
             'entity_group': entity_group,
             'form': form,
             }, context_instance=RequestContext(request))
-    pass
 
 
 @login_required
