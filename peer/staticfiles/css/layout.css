@@ -502,6 +502,22 @@ footer hgroup h2 a {
     padding-left: 20px;
 }
 
+.fancyList li {
+    font-weight: 300;
+    font-size: 13px;
+    box-shadow: none;
+    margin-bottom: 1.2em;
+    height: 3em;
+}
+
+.fancyList form,
+.fancyList a.removeButton,
+.fancyList a.button {
+    float: right;
+    margin-top: 6px;
+    margin-right: 6px;
+}
+
 .steps {
     padding-left: 3em;
 }
@@ -602,22 +618,6 @@ div.history {
 }
 
 /* profile view */
-li.validated,
-li.notValidated {
-    font-weight: 300;
-    font-size: 13px;
-    box-shadow: none;
-    margin-bottom: 1.2em;
-    height: 3em;
-}
-
-li.notValidated form,
-li.validated a.removeButton,
-li.notValidated a.removeButton {
-    float: right;
-    margin-top: 6px;
-    margin-right: 6px;
-}
 
 a.removeButton span.ui-button-text {
     line-height: 1em;

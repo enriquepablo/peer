@@ -14,7 +14,7 @@
   <h2 class="separator">{% trans "Your domains" %}</h2>
 
   {% if domains %}
-  <ul class="domainList">
+  <ul class="fancyList">
     {% for domain in domains %}
     <li class="{% if domain.validated %}{% if user.is_superuser %}notValidated{% else %}validated{% endif %}{% else%}notValidated{% endif %}">
       <span class="ui-icon ui-icon-link"></span>
@@ -62,12 +62,13 @@
 
   {% if owned_group_entities %}
   <h2 class="separator">{% trans "Your entity groups" %}</h2>
-  <ul class="simpleList">
+  <ul class="fancyList">
     {% for entity_group in owned_group_entities %}
-      <li>
+      <li class="validated">
+        <span class="ui-icon ui-icon-copy"></span>
         <a href="{% url entity_group_view entity_group.id %}">{{ entity_group.name }}</a>
-        <a class="button" href="{% url entity_group_edit entity_group.id %}">{% trans "Edit" %}</a>
-        <a class="button" href="{% url entity_group_remove entity_group.id %}">{% trans "Remove" %}</a>
+        <a class="removeButton" href="{% url entity_group_remove entity_group.id %}">{% trans "Remove entity group" %}</a>
+        <a class="button" href="{% url entity_group_edit entity_group.id %}">{% trans "Edit entity group" %}</a>
       </li>
     {% endfor %}
   </ul>
