@@ -1,9 +1,29 @@
 CHANGES
 =======
 
-0.7.1dev (unreleased)
----------------------
-- ...
+0.8.0 (2012-01-31)
+------------------
+- Rich metadata support. Now it is possible to edit the logo and
+  geolocalization hint of an entity. This feature is used
+  to display richer multimedia information through PEER.
+- Improve the metadata editor with request initiator and
+  discovery response endpoint support. Also improve the localization
+  plugin and add keywords and logo to the information plugin.
+- Metadata refresh: if the entity id is a URL that points to the
+  metadata itself the user can activate a periodic fetch of this
+  metadata.
+- Preview before commit: now the editing and commiting flows are
+  separated by a modal dialog that ask for the commit message only
+  when the changes are ready. In this dialog a diff of the current
+  changes is available for easy reviewing.
+- Git repositry co-existence: if there is already a Git repository
+  with metadata files it can be reused in PEER by specifing the
+  directory that PEER 'owns' inside this repository.
+- Metadata grouping: a user can define an entity group by writing
+  a query. A custom feed and map for this group are created
+  automatically so following the changes for related entities
+  becomes easier.
+- Lots of bug fixes and documentation improvements.
 
 0.7.0 (2011-12-22)
 ------------------
