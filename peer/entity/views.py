@@ -56,7 +56,7 @@ from peer.entity.filters import get_filters, filter_entities
 from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
-from peer.entity.forms import EntityGroupForm, EditEntityGroupForm
+from peer.entity.forms import EntityGroupForm
 from peer.entity.models import Entity, PermissionDelegation, EntityGroup
 from peer.entity.security import can_edit_entity
 from peer.entity.security import can_change_entity_team
@@ -238,7 +238,7 @@ def entity_group_edit(request, entity_group_id,
         raise PermissionDenied
 
     if request.method == 'POST':
-        form = EditEntityGroupForm(request.POST, instance=entity_group)
+        form = EntityGroupForm(request.POST, instance=entity_group)
         if form.is_valid():
             form.save()
             messages.success(request, _(u'Entity group edited succesfully'))

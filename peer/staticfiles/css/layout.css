@@ -704,6 +704,10 @@ input {
     padding: 2px 4px;
 }
 
+input.longInput {
+    width: 90%;
+}
+
 textarea {
     display: block;
 }

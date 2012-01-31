@@ -100,25 +100,15 @@ class EntityForm(forms.ModelForm):
         return self.cleaned_data
 
 
-class EditEntityGroupForm(forms.ModelForm):
-
-    # TODO: Validate query syntax
-    class Meta:
-        model = EntityGroup
-        fields = ('name', 'query')
-
-
 class EntityGroupForm(forms.ModelForm):
 
-    # TODO: Validate query syntax
-    def __init__(self, *args, **kwargs):
-        super(EntityGroupForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label = _("Name of the entity group")
-        self.fields['query'].label = _("Query for the entity group")
-
     class Meta:
         model = EntityGroup
         fields = ('name', 'query')
+        widgets = {
+            'query': forms.TextInput(attrs={'class': 'longInput'}),
+            }
+
 
 def commitMessageWidgetFactory(suffix):
     return forms.CharField(

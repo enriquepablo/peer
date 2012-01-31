@@ -357,8 +357,8 @@ models.signals.pre_save.connect(handler_entity_pre_save, sender=Entity)
 
 class EntityGroup(models.Model):
 
-    name = SafeCharField(_(u'Entity group name'), max_length=200)
-    query = SafeCharField(_(u'Group query'), max_length=100)
+    name = SafeCharField(_(u'Name of the group'), max_length=200)
+    query = SafeCharField(_(u'Query that defines the group'), max_length=100)
     owner = models.ForeignKey(User, verbose_name=_('Owner'))
 
     def __unicode__(self):
