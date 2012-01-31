@@ -61,12 +61,12 @@ from peer.entity.models import Entity, PermissionDelegation, EntityGroup
 from peer.entity.security import can_edit_entity
 from peer.entity.security import can_change_entity_team
 from peer.entity.security import can_edit_entity_group
-from peer.entity.utils import add_previous_revisions
+from peer.entity.utils import add_previous_revisions, EntitiesPaginator
 from peer.entity.feeds import EntitiesFeed
 
 
 def _paginated_list_of_entities(request, entities):
-    paginator = Paginator(entities, get_entities_per_page())
+    paginator = EntitiesPaginator(entities, get_entities_per_page())
 
     try:
         page = int(request.GET.get('page', '1'))

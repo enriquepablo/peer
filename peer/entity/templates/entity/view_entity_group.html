@@ -19,6 +19,17 @@
     <dd><a href="{{ entity_group.feed_url }}">{% trans "Entity group feed" %}</a></dd>
   </dl>
   {% include "entity/listing.include.html" %}
+
+  {% if entities.has_geoinfo %}
+  <div class="map"></div>
   {% endif %}
 
+  {% endif %}
+
+{% endblock %}
+
+{% block extrajs %}
+  {% if entities %}
+  {% include "entity/map.include.html" %}
+  {% endif %}
 {% endblock %}

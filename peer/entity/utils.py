@@ -31,6 +31,9 @@ from tempfile import NamedTemporaryFile
 
 from django.conf import settings
 from django.core.files.base import File
+from django.core.paginator import Paginator, Page
+from django.utils.simplejson import dumps
+
 
 NAMESPACES = {
     'xml': 'http://www.w3.org/XML/1998/namespace',
@@ -159,3 +162,34 @@ def write_temp_file(text, encoding='utf-8', delete=True):
     tmp.write(text.encode(encoding))
     tmp.seek(0)
     return File(tmp)
+
+
+class EntitiesPaginator(Paginator):
+
+    def page(self, number):
+        plain_page = super(EntitiesPaginator, self).page(number)
+        return EntitiesPage(plain_page.object_list, plain_page.number,
+                            plain_page.paginator)
+
+
+class EntitiesPage(Page):
+
+    def __init__(self, object_list, number, paginator):
+        super(EntitiesPage, self).__init__(object_list, number, paginator)
+
+        self.geo_list = []
+        for entity in object_list:
+            if entity.has_metadata() and entity.geolocationhint:
+                self.geo_list.append({
+                        'entity': entity.name,
+                        'geolocationhint': entity.geolocationhint
+                        })
+
+    def has_geoinfo(self):
+        return len(self.geo_list) > 0
+
+    def geoinfo(self):
+        return self.geo_list
+
+    def geoinfo_as_json(self):
+        return dumps(self.geo_list)

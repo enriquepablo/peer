@@ -585,7 +585,10 @@ dl.examples dt {
 }
 
 /* Styles for specific views */
-
+.map {
+    width: 100%;
+    height: 400px;
+}
 
 /* Entity View */
 div.history {

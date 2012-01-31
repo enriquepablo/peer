@@ -145,7 +145,7 @@
     </dl>
 
     {% if entity.geolocationhint %}
-    <div id="map" style="width: 100%; height: 400px"></div>
+    <div class="map"></div>
     {% endif %}
 
     <div class="history">
@@ -237,7 +237,7 @@
 
         {% if entity.geolocationhint %}
         var latlng = new google.maps.LatLng({{ entity.geolocationhint.latitude }}, {{ entity.geolocationhint.longitude }});
-        var map = new google.maps.Map($('#map').get(0), {
+        var map = new google.maps.Map($('.map').get(0), {
             zoom: 6,
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
