@@ -42,6 +42,7 @@ from vff.field import VersionedFileField
 
 from peer.customfields import SafeCharField
 from peer.domain.models import Domain
+from peer.entity.managers import EntityManager
 from peer.entity.utils import NAMESPACES, addns, delns, getlang
 from peer.entity.utils import expand_settings_permissions
 
@@ -222,6 +223,8 @@ class Entity(models.Model):
         auto_now_add=True,
     )
 
+    objects = EntityManager();
+
     def __unicode__(self):
         return self.name
 
@@ -254,80 +257,6 @@ class Entity(models.Model):
             return False
         else:
             return True
-
-    def has_metadata_attrs(self, metadata_attrs):
-        """
-        Checks whether the entity has metadata with any of the attributes
-        specficied in metadata_attrs. metadata_attrs is a container with
-        the following data strucure:
-
-        {'tags: ('tag1', 'tag2'),  # tags only
-         'tags_w_values: (         # tags with values
-             ('tag1', 'value1'),
-             ('tag2', 'value2')
-          ),
-          tags_w_attrs: (          # tags with attributes and values
-             ('tag1', 'attr1', 'attr_value1',
-              'tag2', 'attr2', 'attr_value2')
-        }
-        """
-        # When there is no attributes in the query return always
-        if not metadata_attrs:
-            return True
-
-        metree = self.metadata_etree
-
-        if metree is None:
-            return False
-
-        if metadata_attrs['tags']:
-            for tag in metadata_attrs['tags']:
-                try:
-                    if metree.xpath(u'.//' + tag, namespaces=NAMESPACES):
-                        break
-                except etree.XPathEvalError:
-                    return False
-            else:
-                self.metadata.seek(0)
-                return False
-
-        if metadata_attrs['tags_w_values']:
-            for tag, value in metadata_attrs['tags_w_values']:
-                try:
-                    elems = metree.xpath(u'.//' + tag, namespaces=NAMESPACES)
-                except etree.XPathEvalError:
-                    return False
-                if elems:
-                    for e in elems:
-                        if e.text == value:
-                            break
-                    else:
-                        self.metadata.seek(0)
-                        return False
-                    break
-            else:
-                return False
-
-        if metadata_attrs['tags_w_attrs']:
-            for tag, attr, value in metadata_attrs['tags_w_attrs']:
-                try:
-                    es = metree.xpath(u'.//' + tag + u'[@' + attr + u']',
-                                      namespaces=NAMESPACES)
-                except etree.XPathEvalError:
-                    return False
-
-                if es and es[0].attrib[attr] == value:
-                    break
-                else:
-                    self.metadata.seek(0)
-                    return False
-                break
-
-            else:
-                return False
-
-        self.metadata.seek(0)
-        return True
 
     @property
     def entityid(self):

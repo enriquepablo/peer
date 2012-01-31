@@ -121,23 +121,52 @@ Entities Feed
 A feed listing the metadata of every entity is available at
 http://127.0.0.1:8000/entitiy/rss
 
-It's possible to filter entities by adding parameters to the URL that
-look like this
-http://127.0.0.1:8000/entity/rss?key1&key2=value2&key3$attr3=value3
+It's possible to filter entities by adding xpath expressions to the URL.
+Each xpath expression is preceeded with the `xpath` parameter name:
 
-Where:
+.. code-block:: rest
 
-* ``key1`` selects the entities that have the element ``key1`` in its
-  metadata. i.e: ``<key1></key1>``.
-* ``key2=value2`` selects the entities that have the element ``key2`` with
-  the value ``values2``. i.e: ``<key2>value2</key2>``.
-* ``key3$attr3=value3`` selects the entities that have the element ``key3``
-  with the attribute ``attr3`` and the value of the attribute ``value3``. i.e:
-  ``<key3 attr3="value3"></key3>``.
+  http://127.0.0.1:8000/entity/rss?xpath=query1&xpath=query2
 
+The value of each xpath parameter is a xpath expression supported
+by ElementTree http://effbot.org/zone/element-xpath.htm
 
-There can be as many parameters as needed provided that they are always
-combined with ``AND`` logic conjunction.
+In addition to this API you can also match the text of any node
+of the metadata by adding a `=` and the text you are searching to
+the end of the xpath expression:
+
+.. code-block:: rest
+
+  http://127.0.0.1:8000/entity/rss?xpath=query1=text1
+
+This means that if a set of nodes matches the `query1` xpath then
+the metadata will be a match if any of those nodes has `text1` as
+its text contents.
+
+When using multiple xpath parameters they are combined with the
+``AND`` boolean operator.
+
+Examples
+~~~~~~~~
+
+Get all entities with a SingleLogout endpoint
+
+.. code-block:: rest
+
+  http://127.0.0.1:8000/entity/rss?xpath=//md:SingleLogoutService
+
+Get all entities from organization Acme:
+
+.. code-block:: rest
+
+  http://127.0.0.1:8000/entity/rss?xpath=//md:OrganizationName=Acme
+
+Get all entities in the category Research & Scholarship
+
+.. code-block:: rest
+
+  http://127.0.0.1:8000/entity/rss?//Attribute[@Name='http://id.incommon.org/attribute/entity/category']/AttributeValue=http://id.incommon.org/category/research-and-scholarship
+
 
 Entity Groups
 -------------

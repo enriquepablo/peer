@@ -85,43 +85,37 @@ def expand_settings_permissions(include_xpath=True):
     return tuple(permissions)
 
 
-def parse_entity_group_query(query):
-    """ Query must look like the query string of a feed.
-        Query can be a a key-value tuple or a basestring.
+def safe_split(text, split_chars=' ',
+               start_protected_chars='[', end_protected_chars=']'):
+    """Safely split text even in split_chars are inside protected regions.
 
-        TODO: Document 'specification' for query.
+    Protected regions starts with any character from the start_protected_chars
+    argument and ends with any character from the end_protected_chars argument.
+
+    If a char from split_chars is found inside a protected region it will be
+    ignored and the text will not be splited at that position.
     """
-    if isinstance(query, basestring):
-        try:
-            query = (tuple(y.split('='))
-                      for y in (x for x in query.split('&'))
-                      )
-        except ValueError:
-            return None
-        else:
-            # TODO: there should be a way to avoid this fix
-            # string partition? list zipping?
-            query = tuple((x[0], None) for x in query if len(x) < 2)
+    parts = []
+    inside_protected_region = False
+    last_part = []
+    for char in text:
+        if char in start_protected_chars:
+            inside_protected_region = True
 
-    tags = list()
-    tags_w_values = list()
-    tags_w_attrs = list()
+        if char in end_protected_chars:
+            inside_protected_region = False
 
-    try:
-        for k, v in query:
-            if '$' in k:
-                tag, attr = k.split('$')
-                tags_w_attrs.append((tag, attr, v))
-            elif v:
-                tags_w_values.append((k, v))
+        if char in split_chars:
+            if inside_protected_region:
+                last_part.append(char)
             else:
-                tags.append(k)
+                parts.append(u''.join(last_part))
+                last_part = []
 
-    except ValueError:
-        return None
+        else:
+            last_part.append(char)
 
-    else:
-        return dict(tags=tuple(tags),
-                    tags_w_values=tuple(tags_w_values),
-                    tags_w_attrs=tuple(tags_w_attrs))
+    if last_part:
+        parts.append(u''.join(last_part))
 
+    return parts
