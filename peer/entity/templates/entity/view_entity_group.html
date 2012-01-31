@@ -26,7 +26,7 @@
             <tbody>
               {% for entity in entities_in_group %}
                 <tr>
-                  <td><a href="{{ entity.feed_url }}">{{ entity.name }}</a></tr>
+                  <td><a href="{{ entity.get_absolute_url }}">{{ entity.name }}</a></tr>
                 </tr>
               {% endfor %}
             </tbody>
