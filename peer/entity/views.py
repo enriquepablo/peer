@@ -208,7 +208,7 @@ def entity_group_add(request, return_view_name='entity_group_view'):
     else:
         form = EntityGroupForm()
 
-    return render_to_response('entity/add_entity_group.html', {
+    return render_to_response('entity/edit_entity_group.html', {
             'form': form,
             }, context_instance=RequestContext(request))
 
