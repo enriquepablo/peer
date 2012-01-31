@@ -191,7 +191,7 @@ def entity_edit(request, entity_id):
 # ENTITY GROUP
 
 @login_required
-def entity_group_add(request, return_view_name='account_profile'):
+def entity_group_add(request, return_view_name='entity_group_view'):
     if request.method == 'POST':
         form = EntityGroupForm(request.POST)
         if form.is_valid():
@@ -200,7 +200,7 @@ def entity_group_add(request, return_view_name='account_profile'):
             instance.save()
             messages.success(request, _(u'Entity group created'))
             return HttpResponseRedirect(
-                reverse(return_view_name)
+                reverse(return_view_name, args=[instance.id])
                 )
         else:
             messages.error(request, _('Please correct the errors'
@@ -236,7 +236,7 @@ def entity_group_view(request, entity_group_id):
 
 @login_required
 def entity_group_edit(request, entity_group_id,
-                      return_view_name='account_profile'):
+                      return_view_name='entity_group_view'):
 
     entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
 
@@ -248,7 +248,9 @@ def entity_group_edit(request, entity_group_id,
         if form.is_valid():
             form.save()
             messages.success(request, _(u'Entity edited succesfully'))
-            return HttpResponseRedirect(reverse(return_view_name))
+            return HttpResponseRedirect(
+                reverse(return_view_name, args=[form.instance.id])
+                )
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
