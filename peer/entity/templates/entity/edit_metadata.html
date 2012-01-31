@@ -90,12 +90,10 @@
                     'error': true
                 }
             });
-            $("form#text_edit_form").submit(
-                function () {
-                    $("a[href='#rawmetadata']").click();
-                    return true;
-                }
-            );
+            $("form#text_edit_form input[type=submit]").click(function () {
+                $("a[href='#rawmetadata']").click();
+                return true;
+            });
 
             // There should be an API in SAMLmetaJS for this
             // This is just a hack until we add such API
