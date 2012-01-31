@@ -241,7 +241,7 @@ def entity_group_edit(request, entity_group_id,
         form = EditEntityGroupForm(request.POST, instance=entity_group)
         if form.is_valid():
             form.save()
-            messages.success(request, _(u'Entity edited succesfully'))
+            messages.success(request, _(u'Entity group edited succesfully'))
             return HttpResponseRedirect(
                 reverse(return_view_name, args=[form.instance.id])
                 )
@@ -270,7 +270,7 @@ def entity_group_remove(request, entity_group_id,
 
     if request.method == 'POST':
         entity_group.delete()
-        messages.success(request, _('Entity removed succesfully'))
+        messages.success(request, _('Entity group removed succesfully'))
         return HttpResponseRedirect(reverse(return_view_name))
 
     return render_to_response('entity/remove_entity_group.html', {
