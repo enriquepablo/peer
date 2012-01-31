@@ -222,9 +222,11 @@ def entity_group_view(request, entity_group_id):
     # Can't do it at the model because of circular dependency
     entity_group.feed_url = EntitiesFeed().link() + '?xpath=' + entity_group.query
 
+    entities = _paginated_list_of_entities(request, entities_in_group)
+
     return render_to_response('entity/view_entity_group.html', {
             'entity_group': entity_group,
-            'entities_in_group': entities_in_group,
+            'entities': entities,
             }, context_instance=RequestContext(request))
 
 
