@@ -16,6 +16,25 @@
   <form action="{% if entity_group %}{% url entity_group_edit entity_group.id %}{% else %}{% url entity_group_add %}{% endif %}" method="post">{% csrf_token %}
     <fieldset>
     {{ form.as_p }}
+    <p>Some tips about the query field:</p>
+    <ul class="simpleList">
+      <li>The query is composed by one ore more XPATH expressions separated
+        by the <strong>&amp;</strong> character.</li>
+      <li>Only a subset of the XPATH standard is actually implemented. Check
+        <a href="http://effbot.org/zone/element-xpath.htm">this subset
+        as implemented by ElementTree</a></li>
+      <li>You can also use the <strong>=</strong> operator in each expression
+      to add the text value of a node.</li>
+    </ul>
+    <p>Example queries:</p>
+    <dl class="examples">
+      <dt>//md:SingleLogoutService</dt>
+      <dd>Entities that have a SingleLogout endpoint node</dd>
+      <dt>//md:OrganizationName=Acme</dt>
+      <dd>Entities which OrganizationName is Acme</dd>
+      <dt>//Attribute[@Name='http://id.incommon.org/attribute/entity/category']/AttributeValue=http://id.incommon.org/category/research-and-scholarship</dt>
+      <dd>Entities in the Research & Scholarship category</dd>
+    </dl>
     </fieldset>
     <fieldset class="actionRow">
       {% if entity_group %}
