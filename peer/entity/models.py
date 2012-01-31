@@ -28,15 +28,12 @@
 
 from datetime import datetime
 from lxml import etree
-import urllib2
 from urlparse import urlparse
-from tempfile import NamedTemporaryFile
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
-from django.core.files.base import File
 
 from vff.field import VersionedFileField
 
@@ -45,6 +42,8 @@ from peer.domain.models import Domain
 from peer.entity.managers import EntityManager
 from peer.entity.utils import NAMESPACES, addns, delns, getlang
 from peer.entity.utils import expand_settings_permissions
+from peer.entity.utils import FetchError, fetch_resource
+from peer.entity.utils import write_temp_file
 
 
 XML_NAMESPACE = NAMESPACES['xml']
@@ -326,37 +325,20 @@ class Entity(models.Model):
             return noid_msg
 
         try:
-            resp = urllib2.urlopen(url, None, CONNECTION_TIMEOUT)
-        except urllib2.URLError, e:
-            return 'Error URL: ' + str(e)
-        except urllib2.HTTPError, e:
-            return 'Error HTTP: ' + str(e)
-        except ValueError, e:
-            try:
-                resp = urllib2.urlopen('http://' + url,
-                                             None, CONNECTION_TIMEOUT)
-            except Exception:
-                return 'Error Value: ' + str(e)
+            text = fetch_resource(url)
+            if text is None:
+                text = fetch_resource('http://' + url)
 
-        if resp.getcode() != 200:
-            return 'Error: Non 200 response: %s' % (resp.msg)
+                if text is None:
+                    return 'Unknown error while fetching the url'
+        except FetchError, e:
+            return str(e)
 
-        text = resp.read()
         if not text:
             return 'Empty metadata not allowed'
 
-        try:
-            encoding = resp.headers['content-type'].split('charset=')[1]
-        except (KeyError, IndexError):
-            encoding = ''
-        resp.close()
 
-        tmp = NamedTemporaryFile(delete=True)
-        if encoding:
-            text = text.decode(encoding).encode('utf8')
-        tmp.write(text)
-        tmp.seek(0)
-        content = File(tmp)
+        content = write_temp_file(text)
         name = self.metadata.name
         commit_msg = 'Updated automatically from %s' % (url)
         self.metadata.save(name, content, self.owner.username, commit_msg)

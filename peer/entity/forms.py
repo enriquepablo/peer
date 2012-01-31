@@ -27,11 +27,8 @@
 # either expressed or implied, of Terena.
 
 import difflib
-import urllib2
-from tempfile import NamedTemporaryFile
 
 from django import forms
-from django.core.files.base import File
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 
@@ -39,6 +36,8 @@ from peer.account.templatetags.account import authorname
 from peer.customfields import TermsOfUseField, readtou
 from peer.entity.models import Entity, EntityGroup
 from peer.entity.validation import validate
+from peer.entity.utils import FetchError, fetch_resource
+from peer.entity.utils import write_temp_file
 
 
 class EditEntityForm(forms.ModelForm):
@@ -188,10 +187,8 @@ class BaseMetadataEditForm(forms.Form):
         return u'\n'.join(difflib.unified_diff(text1, text2))
 
     def save(self):
-        tmp = NamedTemporaryFile(delete=True)
-        tmp.write(self.metadata.encode('utf8'))
-        tmp.seek(0)
-        content = File(tmp)
+        content = write_temp_file(self.metadata)
+
         name = self.entity.metadata.name
         username = authorname(self.user)
         commit_msg = self.cleaned_data['commit_msg_' + self.type].encode('utf8')
@@ -236,9 +233,6 @@ class MetadataFileEditForm(BaseMetadataEditForm):
         return data
 
 
-CONNECTION_TIMEOUT = 10
-
-
 class MetadataRemoteEditForm(BaseMetadataEditForm):
 
     type = 'remote'
@@ -257,34 +251,15 @@ class MetadataRemoteEditForm(BaseMetadataEditForm):
         return self._clean_metadata_field('metadata_url')
 
     def _field_value_to_metadata(self, remote_url):
-        def _fetch_metadata(url):
-            try:
-                resp = urllib2.urlopen(url, None, CONNECTION_TIMEOUT)
-            except urllib2.URLError, e:
-                raise forms.ValidationError('URL Error: ' + str(e))
-            except urllib2.HTTPError, e:
-                raise forms.ValidationError('HTTP Error: ' + str(e))
-            except:
-                return None
-
-            if resp.getcode() != 200:
-                raise forms.ValidationError('Error in the response: %d'
-                                            % resp.getcode())
-            text = resp.read()
-            try:
-                encoding = resp.headers['content-type'].split('charset=')[1]
-                text = text.decode(encoding)
-            except (KeyError, IndexError):
-                pass
-            resp.close()
-            return text
-
-        data = _fetch_metadata(remote_url)
-        if data is None:
-            data = _fetch_metadata('http://' + remote_url)
-
+        try:
+            data = fetch_resource(remote_url)
             if data is None:
-                raise forms.ValidationError('Unknown error while fetching the url')
+                data = fetch_resource('http://' + remote_url)
+
+                if data is None:
+                    raise forms.ValidationError('Unknown error while fetching the url')
+        except FetchError, e:
+            raise forms.ValidationError(str(e))
 
         return data
 

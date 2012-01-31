@@ -26,7 +26,11 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import urllib2
+from tempfile import NamedTemporaryFile
+
 from django.conf import settings
+from django.core.files.base import File
 
 NAMESPACES = {
     'xml': 'http://www.w3.org/XML/1998/namespace',
@@ -40,6 +44,8 @@ NAMESPACES = {
     }
 
 SAML_METADATA_NAMESPACE = NAMESPACES['md']
+
+CONNECTION_TIMEOUT = 10
 
 
 def addns(node_name, namespace=SAML_METADATA_NAMESPACE):
@@ -119,3 +125,37 @@ def safe_split(text, split_chars=' ',
         parts.append(u''.join(last_part))
 
     return parts
+
+
+class FetchError(Exception):
+    pass
+
+
+def fetch_resource(url):
+    try:
+        resp = urllib2.urlopen(url, None, CONNECTION_TIMEOUT)
+    except urllib2.URLError, e:
+        raise FetchError('URL Error: ' + str(e))
+    except urllib2.HTTPError, e:
+        raise FetchError('HTTP Error: ' + str(e))
+    except:
+        return None
+
+    if resp.getcode() != 200:
+        raise FetchError('Error in the response: %d' % resp.getcode())
+
+    text = resp.read()
+    try:
+        encoding = resp.headers['content-type'].split('charset=')[1]
+        text = text.decode(encoding)
+    except (KeyError, IndexError):
+        pass
+    resp.close()
+    return text
+
+
+def write_temp_file(text, encoding='utf-8', delete=True):
+    tmp = NamedTemporaryFile(delete=delete)
+    tmp.write(text.encode(encoding))
+    tmp.seek(0)
+    return File(tmp)
