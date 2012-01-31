@@ -17,6 +17,7 @@
   </hgroup>
 
   <p>{% trans "Owned by" %} {% safefullname entity_group.owner %}</p>
+  <p>{% trans "The query defined in this entity group is: " %} <strong>{{ entity_group.query }}</strong></p>
 
   {% if entities_in_group %}
     <dl>
