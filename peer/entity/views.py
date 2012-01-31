@@ -62,7 +62,6 @@ from peer.entity.security import can_edit_entity
 from peer.entity.security import can_change_entity_team
 from peer.entity.security import can_edit_entity_group
 from peer.entity.utils import add_previous_revisions
-from peer.entity.utils import parse_entity_group_query
 from peer.entity.feeds import EntitiesFeed
 
 
@@ -217,16 +216,11 @@ def entity_group_add(request, return_view_name='account_profile'):
 @login_required
 def entity_group_view(request, entity_group_id):
     entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
-    query = entity_group.query
-    parsed_query = parse_entity_group_query(query)
-    # TODO: This should be encapsulated in a Model Manager
-    # This is repeated in .feeds.EntitiesFeed.items
-    # TODO: Pagination, see #57
-    entities_in_group = (q for q in Entity.objects.all()
-                           if q.has_metadata_attrs(parsed_query))
+    queries = entity_group.query.split('&')
+    entities_in_group = Entity.objects.xpath_filters(queries)
 
     # Can't do it at the model because of circular dependency
-    entity_group.feed_url = EntitiesFeed().link() + '?' + query
+    entity_group.feed_url = EntitiesFeed().link() + '?' + entity_group.query
 
     return render_to_response('entity/view_entity_group.html', {
             'entity_group': entity_group,

@@ -41,7 +41,6 @@ from pygments.formatters import HtmlFormatter
 from peer.account.templatetags.account import authorname
 from peer.entity.models import Entity
 from peer.entity.utils import add_previous_revisions
-from peer.entity.utils import parse_entity_group_query
 
 
 class EntitiesFeed(Feed):
@@ -55,16 +54,10 @@ class EntitiesFeed(Feed):
     def link(self):
         return reverse('entities_feed')
 
-    def _parse_url_filters(self, url_params):
-        return parse_entity_group_query(url_params.iteritems())
-
     def items(self):
-        metadata_attrs = self._parse_url_filters(self.request.GET)
-        # TODO: This should be encapsulated in a Model Manager
-        # This is repeated in .views.entity_group_view.
-        entities = Entity.objects.all()
-        filtered_entities = (q for q in entities
-                               if q.has_metadata_attrs(metadata_attrs))
+        queries = self.request.GET.getlist('xpath')
+        filtered_entities = Entity.objects.xpath_filters(queries)
+
         try:
             return islice(filtered_entities, 0,
                           settings.MAX_FEED_ENTRIES)
