@@ -24,10 +24,11 @@ compiles a couple of Python modules.
 .. code-block:: bash
 
   # Fedora example:
-  $ yum install libxml2-devel libxml2 libxslt-devel libxslt xmlsec1 xmlsec1-openssl
+  $ yum install python-devel libxml2-devel libxml2 libxslt-devel libxslt xmlsec1 xmlsec1-openssl postgresql-devel
+  $ yum groupinstall "Development Tools"
 
   # Debian/Ubuntu example:
-  $ apt-get install libxml2-dev libxml2 libxslt1-dev libxslt1.1 xmlsec1 libxmlsec1-openssl
+  $ apt-get install build-essential python-dev libxml2-dev libxml2 libxslt1-dev libxslt1.1 xmlsec1 libxmlsec1-openssl libpq-dev
 
 Standard installation
 ---------------------
