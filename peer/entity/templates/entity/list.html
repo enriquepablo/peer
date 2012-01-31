@@ -12,5 +12,15 @@
 
   {% include "entity/listing.include.html" %}
 
+  {% if entities.has_geoinfo %}
+  <div class="map"></div>
+  {% endif %}
+
 </section>
+{% endblock %}
+
+{% block extrajs %}
+  {% if entities %}
+  {% include "entity/map.include.html" %}
+  {% endif %}
 {% endblock %}
