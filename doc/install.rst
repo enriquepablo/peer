@@ -24,10 +24,11 @@ compiles a couple of Python modules.
 .. code-block:: bash
 
   # Fedora example:
-  $ yum install libxml2-devel libxml2 libxslt-devel libxslt xmlsec1 xmlsec1-openssl
+  $ yum install python-devel libxml2-devel libxml2 libxslt-devel libxslt xmlsec1 xmlsec1-openssl postgresql-devel
+  $ yum groupinstall "Development Tools"
 
   # Debian/Ubuntu example:
-  $ apt-get install libxml2-dev libxml2 libxslt1-dev libxslt1.1 xmlsec1 libxmlsec1-openssl
+  $ apt-get install build-essential python-dev libxml2-dev libxml2 libxslt1-dev libxslt1.1 xmlsec1 libxmlsec1-openssl libpq-dev
 
 Standard installation
 ---------------------
@@ -244,7 +245,7 @@ Then, activate the virtualenv:
 
 .. code-block:: bash
 
-  $ source /vaw/www/peer/bin/activate
+  $ source /var/www/peer/bin/activate
 
 And run the Django syncdb command to create the database schema:
 
@@ -287,16 +288,26 @@ The recommended way to serve a PEER site is with a real web server that
 supports the WSGI (Web Server Gateway Interface) protocol. This is no
 surprise since the same applies to Django.
 
-If you use the Apacche web server all you need to do is write the
+If you use the Apache web server all you need to do is write the
 following configuration into your specific virtual host section:
 
 .. code-block:: none
 
- WSGIScriptAlias / /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/peer.wsgi
- Alias /static/ /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/static/
+ WSGIScriptAlias / /var/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/peer.wsgi
+ Alias /static/ /var/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/static/
 
 Bear in mind that the exact path may be different in your case, specially
 the Python and PEER version numbers.
+
+The packages needed for installing Apache and wsgi support are:
+
+.. code-block:: bash
+
+  # Fedora example:
+  $ yum install httpd mod_wsgi
+
+  # Debian/Ubuntu example:
+  $ apt-get install apache2 libapache2-mod-wsgi
 
 .. note::
   If you use someting different from Apache, please check the documentation
@@ -309,10 +320,10 @@ the Git repository for the entities' metadata is created and maintained.
 .. code-block:: bash
 
   # Fedora example:
-  $ chown apache:apache /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
+  $ chown apache:apache /var/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
 
   # Debian/Ubuntu example:
-  $ chown www-data:wwwd-data /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
+  $ chown www-data:wwwd-data /var/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
 
 Development installation
 ------------------------
