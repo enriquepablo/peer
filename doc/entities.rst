@@ -165,7 +165,7 @@ Get all entities in the category Research & Scholarship
 
 .. code-block:: rest
 
-  http://127.0.0.1:8000/entity/rss?//Attribute[@Name='http://id.incommon.org/attribute/entity/category']/AttributeValue=http://id.incommon.org/category/research-and-scholarship
+  http://127.0.0.1:8000/entity/rss?xpath=//Attribute[@Name='http://id.incommon.org/attribute/entity/category']/AttributeValue=http://id.incommon.org/category/research-and-scholarship
 
 
 Entity Groups
