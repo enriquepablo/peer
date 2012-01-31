@@ -36,6 +36,10 @@ from peer.entity.utils import NAMESPACES, safe_split
 class EntityManager(models.Manager):
 
     def xpath_filters(self, queries):
+
+        if queries == list():
+            return self.all()
+
         result = []
 
         for entity in self.all():
