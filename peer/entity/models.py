@@ -271,8 +271,9 @@ class Entity(models.Model):
               'tag2', 'attr2', 'attr_value2')
         }
         """
+        # When there is no attributes in the query return always
         if not metadata_attrs:
-            return False
+            return True
 
         metree = self.metadata_etree
 

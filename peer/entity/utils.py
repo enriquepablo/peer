@@ -106,6 +106,7 @@ def parse_entity_group_query(query):
     tags = list()
     tags_w_values = list()
     tags_w_attrs = list()
+
     try:
         for k, v in query:
             if '$' in k:
@@ -115,9 +116,12 @@ def parse_entity_group_query(query):
                 tags_w_values.append((k, v))
             else:
                 tags.append(k)
+
+    except ValueError:
+        return None
+
+    else:
         return dict(tags=tuple(tags),
                     tags_w_values=tuple(tags_w_values),
                     tags_w_attrs=tuple(tags_w_attrs))
 
-    except ValueError:
-        return None

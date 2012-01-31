@@ -56,6 +56,8 @@ class EntitiesFeed(Feed):
         return reverse('entities_feed')
 
     def _parse_url_filters(self, url_params):
+        if not url_params:
+            return None
         return parse_entity_group_query(url_params.iteritems())
 
     def items(self):
@@ -63,8 +65,8 @@ class EntitiesFeed(Feed):
         # TODO: This should be encapsulated in a Model Manager
         # This is repeated in .views.entity_group_view.
         entities = Entity.objects.all()
-        filtered_entities = (q for q in entities
-                               if q.has_metadata_attrs(metadata_attrs))
+        filtered_entities = [e for e in entities
+                               if e.has_metadata_attrs(metadata_attrs)]
         try:
             return islice(filtered_entities, 0,
                           settings.MAX_FEED_ENTRIES)
@@ -78,10 +80,11 @@ class EntitiesFeed(Feed):
         if item.metadata:
             formatter = HtmlFormatter(linenos=False,
                                       outencoding=settings.DEFAULT_CHARSET)
-            xml = item.metadata.read()
-            return highlight(xml, XmlLexer(), formatter)
-        else:
-            return ugettext(u'No metadata yet')
+            if item.has_metadata():
+                xml = item.metadata.read()
+                return highlight(xml, XmlLexer(), formatter)
+            else:
+                return ugettext(u'No metadata yet')
 
     def item_link(self, item):
         return item.get_absolute_url()
