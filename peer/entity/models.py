@@ -282,7 +282,7 @@ class Entity(models.Model):
         if metadata_attrs['tags']:
             for tag in metadata_attrs['tags']:
                 try:
-                    if metree.xpath(u'.//' + tag, namespaces=NAMESPACES):
+                    if metree.xpath(u'//' + tag, namespaces=NAMESPACES):
                         break
                 except etree.XPathEvalError:
                     return False
@@ -293,7 +293,7 @@ class Entity(models.Model):
         if metadata_attrs['tags_w_values']:
             for tag, value in metadata_attrs['tags_w_values']:
                 try:
-                    elems = metree.xpath(u'.//' + tag, namespaces=NAMESPACES)
+                    elems = metree.xpath(u'//' + tag, namespaces=NAMESPACES)
                 except etree.XPathEvalError:
                     return False
                 if elems:
@@ -310,8 +310,9 @@ class Entity(models.Model):
         if metadata_attrs['tags_w_attrs']:
             for tag, attr, value in metadata_attrs['tags_w_attrs']:
                 try:
-                    es = metree.xpath(u'.//' + tag + u'[@' + attr + u']',
-                                      namespaces=NAMESPACES)
+                    es = [e for e in metree.xpath(u'//' + tag,
+                                                  namespaces=NAMESPACES)
+                          if attr in e.attrib]
                 except etree.XPathEvalError:
                     return False
 
