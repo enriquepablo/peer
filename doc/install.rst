@@ -218,7 +218,7 @@ database. This will be described with more deails in the :doc:`configuration`
 chapter.
 
 Add the following information into the
-*/var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/local_settings.py* file:
+*/var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/local_settings.py* file:
 
 .. code-block:: python
 
