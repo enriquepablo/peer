@@ -38,7 +38,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -50,10 +49,8 @@ from django.db.utils import DatabaseError
 from django.db import transaction
 from django.utils.translation import ugettext as _
 
-from peer.account.templatetags.account import authorname
-from peer.domain.models import Domain
 from peer.entity.filters import get_filters, filter_entities
-from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
+from peer.entity.forms import MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
 from peer.entity.forms import EditMonitoringPreferencesForm
@@ -62,135 +59,10 @@ from peer.entity.models import Entity, PermissionDelegation, EntityGroup
 from peer.entity.security import can_edit_entity
 from peer.entity.security import can_change_entity_team
 from peer.entity.security import can_edit_entity_group
-from peer.entity.utils import add_previous_revisions, EntitiesPaginator
 from peer.entity.utils import is_subscribed, add_subscriber, remove_subscriber
 from peer.entity.feeds import EntitiesFeed
+from peer.entity.paginator import paginated_list_of_entities
 
-
-def _paginated_list_of_entities(request, entities):
-    paginator = EntitiesPaginator(entities, get_entities_per_page())
-
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        entities = paginator.page(page)
-    except (EmptyPage, InvalidPage):
-        entities = paginator.page(paginator.num_pages)
-    return entities
-
-
-def get_entities_per_page():
-    if hasattr(settings, 'ENTITIES_PER_PAGE'):
-        return settings.ENTITIES_PER_PAGE
-    else:
-        return 10
-
-
-def entities_list(request):
-    entities = Entity.objects.all()
-    paginated_entities = _paginated_list_of_entities(request, entities)
-
-    return render_to_response('entity/list.html', {
-            'entities': paginated_entities,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
-def entity_add(request):
-    return entity_add_with_domain(request, None, 'edit_metadata')
-
-
-@login_required
-def entity_add_with_domain(request, domain_name=None,
-                           return_view_name='account_profile'):
-    if domain_name is None:
-        entity = None
-    else:
-        domain = get_object_or_404(Domain, name=domain_name)
-        entity = Entity(domain=domain)
-
-    if request.method == 'POST':
-        form = EntityForm(request.user, request.POST, instance=entity)
-        if form.is_valid():
-            form.save()
-            form.instance.owner = request.user
-            form.instance.save()
-            messages.success(request, _('Entity created succesfully'))
-            if return_view_name == 'edit_metadata':
-                url = reverse(return_view_name, args=[form.instance.id])
-            else:
-                url = reverse(return_view_name)
-            return HttpResponseRedirect(url)
-        else:
-            messages.error(request, _('Please correct the errors'
-                                      ' indicated below'))
-
-    else:
-        form = EntityForm(request.user, instance=entity)
-
-    return render_to_response('entity/add.html', {
-            'form': form,
-            }, context_instance=RequestContext(request))
-
-
-def entity_view(request, entity_id):
-    entity = get_object_or_404(Entity, id=entity_id)
-    if entity.has_metadata():
-        revs = add_previous_revisions(entity.metadata.list_revisions())
-    else:
-        revs = []
-
-    return render_to_response('entity/view.html', {
-            'entity': entity,
-            'revs': revs,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
-def entity_remove(request, entity_id):
-    entity = get_object_or_404(Entity, id=entity_id)
-    if not can_edit_entity(request.user, entity):
-        raise PermissionDenied
-
-    if request.method == 'POST':
-        username = authorname(request.user)
-        commit_msg = u'entity removed'
-        entity.metadata.delete(username, commit_msg)
-        entity.delete()
-        messages.success(request, _('Entity removed succesfully'))
-        return HttpResponseRedirect(reverse('entities_list'))
-
-    return render_to_response('entity/remove.html', {
-            'entity': entity,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
-def entity_edit(request, entity_id):
-    entity = get_object_or_404(Entity, id=entity_id)
-    if not can_edit_entity(request.user, entity):
-        raise PermissionDenied
-
-    if request.method == 'POST':
-        form = EditEntityForm(request.POST, instance=entity)
-        if form.is_valid():
-            form.save()
-            messages.success(request, _('Entity edited succesfully'))
-            return HttpResponseRedirect(reverse('entity_view',
-                                                args=(entity_id,)))
-        else:
-            messages.error(request, _('Please correct the errors'
-                                      ' indicated below'))
-    else:
-        form = EditEntityForm(instance=entity)
-
-    return render_to_response('entity/edit.html', {
-            'entity': entity,
-            'form': form,
-            }, context_instance=RequestContext(request))
 
 
 # ENTITY GROUP
@@ -228,7 +100,7 @@ def entity_group_view(request, entity_group_id):
     # Can't do it at the model because of circular dependency
     entity_group.feed_url = EntitiesFeed().link() + '?xpath=' + entity_group.query
 
-    entities = _paginated_list_of_entities(request, entities_in_group)
+    entities = paginated_list_of_entities(request, entities_in_group)
 
     return render_to_response('entity/view_entity_group.html', {
             'entity_group': entity_group,
@@ -487,7 +359,7 @@ def search_entities(request):
     if search_terms_raw:
         query_string.append(u'query=%s' % search_terms_raw)
 
-    paginated_entities = _paginated_list_of_entities(request, entities)
+    paginated_entities = paginated_list_of_entities(request, entities)
     return render_to_response('entity/search_results.html', {
             'entities': paginated_entities,
             'search_terms': search_terms_raw,
