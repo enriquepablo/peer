@@ -30,7 +30,8 @@ import difflib
 
 from django import forms
 from django.db.models import Q
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as U
 
 from peer.account.templatetags.account import authorname
 from peer.customfields import TermsOfUseField, readtou
@@ -52,7 +53,7 @@ class EditEntityForm(forms.ModelForm):
             for ch in r'!:&\|':
                 if ch in name:
                     raise forms.ValidationError(
-                            _('Illegal characters in the name: '
+                            U('Illegal characters in the name: '
                               'You cannot use &, |, !, : or \\'))
 
         return self.cleaned_data
@@ -70,15 +71,15 @@ class EntityForm(forms.ModelForm):
         self.fields['domain'].queryset = self.fields['domain'].queryset.filter(
             Q(owner=self.user, validated=True) |
             Q(team=self.user, validated=True)).distinct()
-        self.fields['domain'].label = _(u'Select Domain')
-        self.fields['domain'].help_text = _(
+        self.fields['domain'].label = U(u'Select Domain')
+        self.fields['domain'].help_text = U(
             u'You need to associate the entity with a domain.')
 
     def clean_domain(self):
         domain = self.cleaned_data.get('domain')
         if domain and domain.owner != self.user and \
                 self.user not in domain.team.all():
-            raise forms.ValidationError(_('You cannot use this domain'))
+            raise forms.ValidationError(U('You cannot use this domain'))
 
         return domain
 
@@ -89,11 +90,11 @@ class EntityForm(forms.ModelForm):
         if name and domain:
             for ch in r'!:&\|':
                 if ch in name:
-                    raise forms.ValidationError(_('Illegal characters in the name: '
+                    raise forms.ValidationError(U('Illegal characters in the name: '
                                                   'You cannot use &, |, !, : or \\'))
             try:
                 Entity.objects.get(name=name, domain=domain)
-                raise forms.ValidationError(_('There is already an entity with that name for that domain'))
+                raise forms.ValidationError(U('There is already an entity with that name for that domain'))
             except Entity.DoesNotExist:
                 pass
 
