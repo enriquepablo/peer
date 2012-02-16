@@ -5,6 +5,7 @@
 
 {% block contentMenu %}
     <ul>
+      {% canedit entity %}
       <li><a href="{% url entity_view entity.id %}">{% trans "Details" %}</a></li>
       <li><a href="{% url entity_edit entity.id %}">{% trans "Change name" %}</a></li>
       <li><a href="{% url edit_metadata entity.id %}">{% trans "Edit metadata" %}</a></li>
@@ -15,5 +16,7 @@
       {% if entity.is_metarefreshable %}
         <li><a href="{% url metarefresh_edit entity.id %}">{% trans "Metarefresh" %}</a></li>
       {% endif %}
+      {% endcanedit %}
+      <li><a href="">{% trans "Monitor endpoints" %}</a></li>
     </ul>
 {% endblock %}

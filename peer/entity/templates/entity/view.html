@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n account entity_permissions %}
+{% load i18n account %}
 
 {% block extralinks %}
 <link href="{% url changes_feed entity.id %}" rel="alternate" type="application/rss+xml" title="{% trans "Changes feed" %}" />
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-{% canedit entity %}{% include "entity/menu.html" %}{% endcanedit %}
+{% include "entity/menu.html" %}
 <section class="mainContent">
 
   <hgroup>
