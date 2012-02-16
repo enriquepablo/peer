@@ -76,6 +76,10 @@ urlpatterns = patterns(
     url(r'^(?P<entity_id>\d+)/remove_delegate/(?P<user_id>\d+)$', 'remove_delegate', name='remove_delegate'),
     url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>.+)$', 'add_delegate', name='add_delegate'),
 
+    # Monitor endpoint views
+    url(r'^(?P<entity_id>\d+)/monitoring_prefs/$', 'monitoring_prefs',
+        name='monitoring_prefs'),
+
     # Metadata revision views
     url(r'^(?P<entity_id>\d+)/get_diff/(?P<r1>\w+)/(?P<r2>\w+)$', 'get_diff', name='get_diff'),
     url(r'^(?P<entity_id>\d+)/get_revision/(?P<rev>\w+)$', 'get_revision', name='get_revision'),

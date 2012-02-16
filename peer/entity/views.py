@@ -56,12 +56,14 @@ from peer.entity.filters import get_filters, filter_entities
 from peer.entity.forms import EditEntityForm, EntityForm, MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
+from peer.entity.forms import EditMonitoringPreferencesForm
 from peer.entity.forms import EntityGroupForm
 from peer.entity.models import Entity, PermissionDelegation, EntityGroup
 from peer.entity.security import can_edit_entity
 from peer.entity.security import can_change_entity_team
 from peer.entity.security import can_edit_entity_group
 from peer.entity.utils import add_previous_revisions, EntitiesPaginator
+from peer.entity.utils import is_subscribed, add_subscriber, remove_subscriber
 from peer.entity.feeds import EntitiesFeed
 
 
@@ -585,6 +587,41 @@ def make_owner(request, entity_id):
         msg = _('You must provide the user id of the new owner')
     messages.success(request, msg)
     return HttpResponseRedirect(reverse('entity_view', args=(entity_id,)))
+
+
+# Monitor endpoints
+
+@login_required
+def monitoring_prefs(request, entity_id):
+    entity = get_object_or_404(Entity, id=entity_id)
+
+    initial = {'want_alerts': is_subscribed(entity, request.user)}
+
+    if request.method == 'POST':
+        form = EditMonitoringPreferencesForm(request.POST, initial=initial)
+        if form.is_valid():
+            want_alerts = form.cleaned_data['want_alerts']
+            if want_alerts:
+                add_subscriber(entity, request.user)
+                msg = _("You are subscribed to this entity's alerts")
+            else:
+                remove_subscriber(entity, request.user)
+                msg = _("You are not subscribed anymore to this entity's alerts")
+            entity.save()
+            messages.success(request, msg)
+            return HttpResponseRedirect(reverse('entity_view',
+                                                args=(entity_id, )))
+        else:
+            messages.error(request,
+                           _('Please correct the errors indicated below'))
+    else:
+        form = EditMonitoringPreferencesForm(initial=initial)
+
+    return render_to_response('entity/edit_monitoring_preferences.html', {
+            'entity': entity,
+            'form': form,
+            }, context_instance=RequestContext(request))
+
 
 # ENTITY DETAILS
 

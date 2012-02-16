@@ -266,3 +266,10 @@ class EditMetarefreshForm(forms.ModelForm):
         field.widget = forms.RadioSelect()
         field.choices = Entity.FREQ_CHOICES
 
+
+class EditMonitoringPreferencesForm(forms.Form):
+
+    want_alerts = forms.BooleanField(
+        label=_('Receive email alerts when any endpoint of this entity is down'),
+        required=False,  # to allow falsy values
+        )

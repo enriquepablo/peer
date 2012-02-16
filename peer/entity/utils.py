@@ -32,6 +32,7 @@ from tempfile import NamedTemporaryFile
 from django.conf import settings
 from django.core.files.base import File
 from django.core.paginator import Paginator, Page
+from django.contrib.auth.models import User
 from django.utils.simplejson import dumps
 
 
@@ -193,3 +194,21 @@ class EntitiesPage(Page):
 
     def geoinfo_as_json(self):
         return dumps(self.geo_list)
+
+
+def is_subscribed(entity, user):
+    try:
+        entity.subscribers.get(id=user.id)
+        return True
+    except User.DoesNotExist:
+        return False
+
+
+def add_subscriber(entity, user):
+    if not is_subscribed(entity, user):
+        entity.subscribers.add(user)
+
+
+def remove_subscriber(entity, user):
+    if is_subscribed(entity, user):
+        entity.subscribers.remove(user)
