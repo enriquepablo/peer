@@ -201,6 +201,8 @@ class Entity(models.Model):
                                          auto_now_add=True)
     modification_time = models.DateTimeField(verbose_name=_(u'Modification time'),
                                              auto_now=True)
+    subscribers = models.ManyToManyField(User, verbose_name=_('Subscribers'),
+                                         related_name='monitor_entities')
 
     FREQ_CHOICES = (
         ('N', 'Never'),
