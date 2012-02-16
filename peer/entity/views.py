@@ -54,107 +54,11 @@ from peer.entity.forms import MetadataTextEditForm
 from peer.entity.forms import MetadataFileEditForm, MetadataRemoteEditForm
 from peer.entity.forms import EditMetarefreshForm
 from peer.entity.forms import EditMonitoringPreferencesForm
-from peer.entity.forms import EntityGroupForm
-from peer.entity.models import Entity, PermissionDelegation, EntityGroup
+from peer.entity.models import Entity, PermissionDelegation
 from peer.entity.security import can_edit_entity
 from peer.entity.security import can_change_entity_team
-from peer.entity.security import can_edit_entity_group
 from peer.entity.utils import is_subscribed, add_subscriber, remove_subscriber
-from peer.entity.feeds import EntitiesFeed
 from peer.entity.paginator import paginated_list_of_entities
-
-
-
-# ENTITY GROUP
-
-@login_required
-def entity_group_add(request, return_view_name='entity_group_view'):
-    if request.method == 'POST':
-        form = EntityGroupForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.owner = request.user
-            instance.save()
-            messages.success(request, _(u'Entity group created'))
-            return HttpResponseRedirect(
-                reverse(return_view_name, args=[instance.id])
-                )
-        else:
-            messages.error(request, _('Please correct the errors'
-                                      ' indicated below'))
-
-    else:
-        form = EntityGroupForm()
-
-    return render_to_response('entity/edit_entity_group.html', {
-            'form': form,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
-def entity_group_view(request, entity_group_id):
-    entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
-    queries = entity_group.query.split('&')
-    entities_in_group = Entity.objects.xpath_filters(queries)
-
-    # Can't do it at the model because of circular dependency
-    entity_group.feed_url = EntitiesFeed().link() + '?xpath=' + entity_group.query
-
-    entities = paginated_list_of_entities(request, entities_in_group)
-
-    return render_to_response('entity/view_entity_group.html', {
-            'entity_group': entity_group,
-            'entities': entities,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
-def entity_group_edit(request, entity_group_id,
-                      return_view_name='entity_group_view'):
-
-    entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
-
-    if not can_edit_entity_group(request.user, entity_group):
-        raise PermissionDenied
-
-    if request.method == 'POST':
-        form = EntityGroupForm(request.POST, instance=entity_group)
-        if form.is_valid():
-            form.save()
-            messages.success(request, _(u'Entity group edited succesfully'))
-            return HttpResponseRedirect(
-                reverse(return_view_name, args=[form.instance.id])
-                )
-        else:
-            messages.error(request, _('Please correct the errors'
-                                      ' indicated below'))
-
-    else:
-        form = EntityGroupForm(instance=entity_group)
-
-    return render_to_response('entity/edit_entity_group.html', {
-            'entity_group': entity_group,
-            'form': form,
-            }, context_instance=RequestContext(request))
-
-
-@login_required
-def entity_group_remove(request, entity_group_id,
-                        return_view_name='account_profile'):
-
-    entity_group = get_object_or_404(EntityGroup, id=entity_group_id)
-
-    if not can_edit_entity_group(request.user, entity_group):
-        raise PermissionDenied
-
-    if request.method == 'POST':
-        entity_group.delete()
-        messages.success(request, _('Entity group removed succesfully'))
-        return HttpResponseRedirect(reverse(return_view_name))
-
-    return render_to_response('entity/remove_entity_group.html', {
-            'entity_group': entity_group,
-            }, context_instance=RequestContext(request))
 
 
 @login_required

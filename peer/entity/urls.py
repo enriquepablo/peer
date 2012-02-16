@@ -38,13 +38,14 @@ urlpatterns = patterns(
     url(r'^add$', 'entity_add', name='entity_add'),
 
     # Group Views
-    url(r'^group/add$', 'entity_group_add', name='entity_group_add'),
-    url(r'^group/(?P<entity_group_id>\d+)$', 'entity_group_view',
-        name='entity_group_view'),
-    url(r'^group/(?P<entity_group_id>\d+)/edit$', 'entity_group_edit',
-        name='entity_group_edit'),
-    url(r'^group/(?P<entity_group_id>\d+)/remove$', 'entity_group_remove',
-        name='entity_group_remove'),
+    url(r'^group/add$',
+        'group.entity_group_add', name='entity_group_add'),
+    url(r'^group/(?P<entity_group_id>\d+)$',
+        'group.entity_group_view', name='entity_group_view'),
+    url(r'^group/(?P<entity_group_id>\d+)/edit$',
+        'group.entity_group_edit', name='entity_group_edit'),
+    url(r'^group/(?P<entity_group_id>\d+)/remove$',
+        'group.entity_group_remove', name='entity_group_remove'),
 
     # Search view
     url(r'^search$', 'search_entities', name='search_entities'),
