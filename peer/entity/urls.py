@@ -66,9 +66,14 @@ urlpatterns = patterns(
     # Metarefresh views
     url(r'^(?P<entity_id>\d+)/edit_metarefresh/$', 'metarefresh_edit',
         name='metarefresh_edit'),
-    url(r'^(?P<entity_id>\d+)/text_edit_metadata/$', 'text_edit_metadata', name='text_edit_metadata'),
-    url(r'^(?P<entity_id>\d+)/file_edit_metadata/$', 'file_edit_metadata', name='file_edit_metadata'),
-    url(r'^(?P<entity_id>\d+)/remote_edit_metadata/$', 'remote_edit_metadata', name='remote_edit_metadata'),
+
+    # Metadata views
+    url(r'^(?P<entity_id>\d+)/text_edit_metadata/$',
+        'metadata.text_edit_metadata', name='text_edit_metadata'),
+    url(r'^(?P<entity_id>\d+)/file_edit_metadata/$',
+        'metadata.file_edit_metadata', name='file_edit_metadata'),
+    url(r'^(?P<entity_id>\d+)/remote_edit_metadata/$',
+        'metadata.remote_edit_metadata', name='remote_edit_metadata'),
 
     # Team views
     url(r'^(?P<entity_id>\d+)/sharing/$', 'sharing', name='sharing'),
