@@ -136,7 +136,11 @@ def entity_add_with_domain(request, domain_name=None,
 
 def entity_view(request, entity_id):
     entity = get_object_or_404(Entity, id=entity_id)
-    revs = add_previous_revisions(entity.metadata.list_revisions())
+    if entity.has_metadata():
+        revs = add_previous_revisions(entity.metadata.list_revisions())
+    else:
+        revs = []
+
     return render_to_response('entity/view.html', {
             'entity': entity,
             'revs': revs,
