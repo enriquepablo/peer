@@ -37,6 +37,16 @@ urlpatterns = patterns(
     url(r'^rss$', EntitiesFeed(), name='entities_feed'),
     url(r'^add$', 'entity_add', name='entity_add'),
 
+    # Entity basic views
+    url(r'^(?P<entity_id>\d+)$', 'entity_view',
+        name='entity_view'),
+    url(r'^(?P<entity_id>\d+)/remove/$', 'entity_remove',
+        name='entity_remove'),
+    url(r'^(?P<entity_id>\d+)/edit/$', 'entity_edit',
+        name='entity_edit'),
+    url(r'^(?P<domain_name>\w+)/add$', 'entity_add_with_domain',
+        name='entity_add_with_domain'),
+
     # Group Views
     url(r'^group/add$',
         'group.entity_group_add', name='entity_group_add'),
@@ -48,26 +58,11 @@ urlpatterns = patterns(
         'group.entity_group_remove', name='entity_group_remove'),
 
     # Search view
-    url(r'^search$', 'search_entities', name='search_entities'),
-
-    # CSS with highlight colors
-    url(r'^pygments.css$', 'get_pygments_css', name='get_pygments_css'),
-
-    # Main add view
-    url(r'^(?P<domain_name>\w+)/add$', 'entity_add_with_domain',
-        name='entity_add_with_domain'),
-
-    # Entity basic views
-    url(r'^(?P<entity_id>\d+)$', 'entity_view', name='entity_view'),
-    url(r'^(?P<entity_id>\d+)/remove/$', 'entity_remove', name='entity_remove'),
-    url(r'^(?P<entity_id>\d+)/edit/$', 'entity_edit', name='entity_edit'),
-    url(r'^(?P<entity_id>\d+)/edit_metadata/$', 'edit_metadata', name='edit_metadata'),
-
-    # Metarefresh views
-    url(r'^(?P<entity_id>\d+)/edit_metarefresh/$', 'metarefresh_edit',
-        name='metarefresh_edit'),
+    url(r'^search$', 'search.search_entities', name='search_entities'),
 
     # Metadata views
+    url(r'^(?P<entity_id>\d+)/edit_metadata/$',
+        'metadata.edit_metadata', name='edit_metadata'),
     url(r'^(?P<entity_id>\d+)/text_edit_metadata/$',
         'metadata.text_edit_metadata', name='text_edit_metadata'),
     url(r'^(?P<entity_id>\d+)/file_edit_metadata/$',
@@ -76,21 +71,37 @@ urlpatterns = patterns(
         'metadata.remote_edit_metadata', name='remote_edit_metadata'),
 
     # Team views
-    url(r'^(?P<entity_id>\d+)/sharing/$', 'sharing', name='sharing'),
-    url(r'^(?P<entity_id>\d+)/list_delegates/$', 'list_delegates', name='list_delegates'),
-    url(r'^(?P<entity_id>\d+)/make_owner/$', 'make_owner', name='make_owner'),
-    url(r'^(?P<entity_id>\d+)/remove_delegate/(?P<user_id>\d+)$', 'remove_delegate', name='remove_delegate'),
-    url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>.+)$', 'add_delegate', name='add_delegate'),
+    url(r'^(?P<entity_id>\d+)/sharing/$',
+        'teams.sharing', name='sharing'),
+    url(r'^(?P<entity_id>\d+)/list_delegates/$',
+        'teams.list_delegates', name='list_delegates'),
+    url(r'^(?P<entity_id>\d+)/make_owner/$',
+        'teams.make_owner', name='make_owner'),
+    url(r'^(?P<entity_id>\d+)/remove_delegate/(?P<user_id>\d+)$',
+        'teams.remove_delegate', name='remove_delegate'),
+    url(r'^(?P<entity_id>\d+)/add_delegate/(?P<username>.+)$',
+        'teams.add_delegate', name='add_delegate'),
+
+
+    # Metarefresh views
+    url(r'^(?P<entity_id>\d+)/edit_metarefresh/$',
+        'metadata_utils.metarefresh_edit', name='metarefresh_edit'),
 
     # Monitor endpoint views
-    url(r'^(?P<entity_id>\d+)/monitoring_prefs/$', 'monitoring_prefs',
-        name='monitoring_prefs'),
+    url(r'^(?P<entity_id>\d+)/monitoring_prefs/$',
+        'metadata_utils.monitoring_prefs', name='monitoring_prefs'),
 
     # Metadata revision views
-    url(r'^(?P<entity_id>\d+)/get_diff/(?P<r1>\w+)/(?P<r2>\w+)$', 'get_diff', name='get_diff'),
-    url(r'^(?P<entity_id>\d+)/get_revision/(?P<rev>\w+)$', 'get_revision', name='get_revision'),
-    url(r'^(?P<entity_id>\d+)/latest_metadata/$', 'get_latest_metadata',
-        name='get_latest_metadata'),
+    url(r'^(?P<entity_id>\d+)/get_diff/(?P<r1>\w+)/(?P<r2>\w+)$',
+        'revisions.get_diff', name='get_diff'),
+    url(r'^(?P<entity_id>\d+)/get_revision/(?P<rev>\w+)$',
+        'revisions.get_revision', name='get_revision'),
+    url(r'^(?P<entity_id>\d+)/latest_metadata/$',
+        'revisions.get_latest_metadata', name='get_latest_metadata'),
+
+    # CSS with highlight colors
+    url(r'^pygments.css$', 'revisions.get_pygments_css',
+        name='get_pygments_css'),
 
     # Entity feed
     url(r'^(?P<entity_id>\d+)/rss$', ChangesFeed(), name='changes_feed'),
