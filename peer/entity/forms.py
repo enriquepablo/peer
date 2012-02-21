@@ -173,8 +173,8 @@ class BaseMetadataEditForm(forms.Form):
         return self.metadata
 
     def get_diff(self):
-        text1 = self.metadata.split('\n')
-        text2 = self.entity.metadata.get_revision().split('\n')
+        text1 = self.entity.metadata.get_revision().split('\n')
+        text2 = self.metadata.split('\n')
         return u'\n'.join(difflib.unified_diff(text1, text2))
 
     def save(self):
