@@ -128,7 +128,7 @@ def check_metadata_is_new(entity, new_metadata):
 
 
 def check_metadata_is_valid(form, entity, user, new_metadata, field):
-    errors = validate(entity, new_metadata, user)
+    errors = validate(entity, new_metadata.encode('utf-8'), user)
     if errors:
         # We don't raise ValidationError since we can have multiple errors
         form._errors[field] = form.error_class(errors)
