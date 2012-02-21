@@ -133,7 +133,7 @@ class FetchError(Exception):
     pass
 
 
-def fetch_resource(url):
+def fetch_resource(url, decode=True):
     try:
         resp = urllib2.urlopen(url, None, CONNECTION_TIMEOUT)
     except urllib2.URLError, e:
@@ -147,11 +147,12 @@ def fetch_resource(url):
         raise FetchError('Error in the response: %d' % resp.getcode())
 
     text = resp.read()
-    try:
-        encoding = resp.headers['content-type'].split('charset=')[1]
-        text = text.decode(encoding)
-    except (KeyError, IndexError):
-        pass
+    if decode:
+        try:
+            encoding = resp.headers['content-type'].split('charset=')[1]
+            text = text.decode(encoding)
+        except (KeyError, IndexError):
+            pass
     resp.close()
     return text
 
