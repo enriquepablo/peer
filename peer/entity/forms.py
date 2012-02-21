@@ -213,7 +213,7 @@ class MetadataFileEditForm(BaseMetadataEditForm):
         help_text=_('Upload a file with the metadata for this entity'),
         )
     commit_msg_file = commitMessageWidgetFactory('file')
-    tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
+    tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))
 
     def clean_metadata_file(self):
         return self._clean_metadata_field('metadata_file')
