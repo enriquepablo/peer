@@ -15,7 +15,6 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 			console.log('Update XML document');
 
 			var root, spdescriptor, attributeconsumer, extensions, i, attr, lang, node, mdui, hasRequestInitiator, hasDiscoveryResponse;
-
 			root = this.addIfNotEntityDescriptor();
 
 			if (entitydescriptor.entityid)
