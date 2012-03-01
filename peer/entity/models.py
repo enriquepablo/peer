@@ -141,17 +141,32 @@ class Metadata(object):
                 if attr in node.attrib:
                     endpoint[attr] = node.attrib[attr]
 
-        path = [addns('SPSSODescriptor'), addns('AssertionConsumerService')]
-        for acs_node in self.etree.findall('/'.join(path)):
-            acs_endpoint = {'Type': 'Assertion Consumer Service'}
-            populate_endpoint(acs_node, acs_endpoint)
-            result.append(acs_endpoint)
+        for role, endpoints in {
+            'IDPSSODescriptor': [
+                'Artifact Resolution Service',
+                'Assertion ID Request Service',
+                'Manage Name ID Service',
+                'Name ID Mapping Service',
+                'Single Logout Service',
+                'Single Sign On Service',
+                ],
+            'SPSSODescriptor': [
+                'Artifact Resolution Service',
+                'Assertion Consumer Service',
+                'Manage Name ID Service',
+                'Single Logout Service',
+                'Request Initiator',
+                'Discovery Response',
+                ],
+            }.items():
 
-        path = [addns('SPSSODescriptor'), addns('SingleLogoutService')]
-        for lss_node in self.etree.findall('/'.join(path)):
-            lss_endpoint = {'Type': 'Single Logout Service'}
-            populate_endpoint(lss_node, lss_endpoint)
-            result.append(lss_endpoint)
+            for endpoint in endpoints:
+                endpoint_id = endpoint.replace(' ', '') # remove spaces
+                path = [addns(role), addns(endpoint_id)]
+                for endpoint_node in self.etree.findall('/'.join(path)):
+                    endpoint = {'Type': endpoint}
+                    populate_endpoint(endpoint_node, endpoint)
+                    result.append(endpoint)
 
         return result
 
