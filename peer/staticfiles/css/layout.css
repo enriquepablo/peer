@@ -659,7 +659,7 @@ ul.myEntities li a {
 /* Metadata edit view */
 #metadata-tabs {
     float: left;
-    width: 650px;
+    width: 680px;
 }
 
 #metadata-tabs input[type=text], #metadata-tabs textarea {
