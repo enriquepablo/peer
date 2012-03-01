@@ -682,9 +682,11 @@ div#tabs fieldset legend {
     border: 0;
 }
 
+/*
 #metadata-tabs div#tabs input[type=text] {
     width: auto;
 }
+*/
 
 div#tabs div#rawmetadata textarea#id_metadata_text {
     width: 99%;
