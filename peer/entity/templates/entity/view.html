@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n account %}
+{% load i18n account entity_renderers %}
 
 {% block extralinks %}
 <link href="{% url changes_feed entity.id %}" rel="alternate" type="application/rss+xml" title="{% trans "Changes feed" %}" />
@@ -131,7 +131,7 @@
           <tbody>
           {% for certificate in entity.certificates %}
           <tr>
-            <td>{{ certificate.text }}</td>
+            <td><pre>{{ certificate.text|letterwrap:64 }}</pre></td>
             <td>{% trans "Used for" %} {{ certificate.use }}</td>
           </tr>
           {% endfor %}

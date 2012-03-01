@@ -73,3 +73,15 @@ def truncatechars(value, length):
         return value[0:int(length)] + u'...'
     else:
         return value
+
+
+@register.filter
+def letterwrap(value, length):
+    result = []
+    data = str(value)  # make a copy
+    while data:
+        size = min(length, len(data))
+        result.append(data[:size])
+        data = data[size:]
+
+    return '\n'.join(result)
