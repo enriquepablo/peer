@@ -110,20 +110,25 @@ class Metadata(object):
     @property
     def certificates(self):
         result = []
-        key_descr_path = [addns('SPSSODescriptor'),
-                          addns('KeyDescriptor')]
 
-        for key_descriptor in self.etree.findall('/'.join(key_descr_path)):
-            cert_path = [addns('KeyInfo', XMLDSIG_NAMESPACE),
-                         addns('X509Data', XMLDSIG_NAMESPACE),
-                         addns('X509Certificate', XMLDSIG_NAMESPACE)]
-            for cert in key_descriptor.findall('/'.join(cert_path)):
-                if 'use' in key_descriptor.attrib:
-                    result.append({'use': key_descriptor.attrib['use'],
+        def collect_certificates_for_role(role):
+            key_descr_path = [addns(role), addns('KeyDescriptor')]
+
+            for key_descriptor in self.etree.findall('/'.join(key_descr_path)):
+                cert_path = [addns('KeyInfo', XMLDSIG_NAMESPACE),
+                             addns('X509Data', XMLDSIG_NAMESPACE),
+                             addns('X509Certificate', XMLDSIG_NAMESPACE)]
+                for cert in key_descriptor.findall('/'.join(cert_path)):
+                    if 'use' in key_descriptor.attrib:
+                        result.append({'use': key_descriptor.attrib['use'],
                                    'text': cert.text})
-                else:
-                    result.append({'use': 'signing and encryption',
-                                   'text': cert.text})
+                    else:
+                        result.append({'use': 'signing and encryption',
+                                       'text': cert.text})
+
+
+        collect_certificates_for_role('IDPSSODescriptor')
+        collect_certificates_for_role('SPSSODescriptor')
 
         return result
 
