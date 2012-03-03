@@ -20,7 +20,7 @@ CHANGES
   - Fix bad use of ugettext_lazy and use ugettext instead.
   - Fix a crash when an entity is new and does not have metadata yet.
   - Fix the way the diff is computed when submitting a change to the
-    metadata of an entity.
+  metadata of an entity.
 
 0.8.0 (2012-01-31)
 ------------------
