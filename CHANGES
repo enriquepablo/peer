@@ -1,9 +1,26 @@
 CHANGES
 =======
 
-0.8.1dev (unreleased)
----------------------
-- ...
+0.9.0 (2012-03-03)
+------------------
+- Several changes to the SAMLmetaJS editor:
+  - Support for IdP endpoints and certificates.
+  - Support for EncryptionMethod in KeyDescriptors
+  - Support for MDUI.PrivacyStatementURL and MDUI.InformationURL.
+  - Many refactorings to improve code reuse.
+  - Merge features from PEER 0.8.0 into SAMLmetaJS master branch.
+- Show IdP information (endpoints and certificates) in the details view.
+- Improve certificate rendering in the details view.
+- Send emails to subscribers of entities when their endpoints are down.
+- Allow to subscribe to entities for updates about their endpoints state.
+- Refactor the views module of the entities application into a package
+  which is easier to handle.
+- Several bug fixes:
+  - Fix the terms of use file in the metadata upload file form (issue #2).
+  - Fix bad use of ugettext_lazy and use ugettext instead.
+  - Fix a crash when an entity is new and does not have metadata yet.
+  - Fix the way the diff is computed when submitting a change to the
+    metadata of an entity.
 
 0.8.0 (2012-01-31)
 ------------------
