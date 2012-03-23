@@ -540,11 +540,6 @@ footer hgroup h2 a {
     padding: 8px 1em 2px 0;
 }
 
-.entityList .entityId {
-    left: 120px;
-    position: absolute;
-}
-
 .entityList li ul {
     margin: 8px 0 0 0;
 }
