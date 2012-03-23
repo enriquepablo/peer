@@ -114,7 +114,7 @@ configuration for protecting a PEER instance:
     'entityid': PEER_BASE_URL + '/saml2/metadata/',
 
     # directory with attribute mapping
-    'attribute_map_dir': path.join(BASEDIR, 'pysaml2', 'attribute-maps'),
+    'attribute_map_dir': path.join(BASEDIR, 'pysaml2', 'attributemaps'),
 
     # this block states what services we provide
     'service': {
