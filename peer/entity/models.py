@@ -172,6 +172,21 @@ class Metadata(object):
         return result
 
     @property
+    def display_name(self):
+        languages = {}
+        path = [addns('SPSSODescriptor'), addns('Extensions'),
+                addns('UIInfo', MDUI_NAMESPACE),
+                addns('DisplayName', MDUI_NAMESPACE)]
+        for dn_node in self.etree.findall('/'.join(path)):
+            lang = getlang(dn_node)
+            if lang is None:
+                continue  # the lang attribute is required
+
+            languages[lang] = dn_node.text
+
+        return languages
+
+    @property
     def geolocationhint(self):
         path = [addns('SPSSODescriptor'), addns('Extensions'),
                 addns('UIInfo', MDUI_NAMESPACE),
@@ -248,7 +263,22 @@ class Entity(models.Model):
     objects = EntityManager();
 
     def __unicode__(self):
-        return self.name
+        result = unicode(self.id)
+        if self.has_metadata():
+            if self.display_name:
+                dn_by_langs = self.display_name
+                if 'en' in dn_by_langs:
+                    result = dn_by_langs['en']
+                else:
+                    first_lang = dn_by_langs.keys()[0]
+                    result = dn_by_langs[first_lang]
+            elif self.entityid:
+                result = self.entityid
+            else:
+                result += u' (no display name or entityid)'
+        else:
+            result += u' (no metadata yet)'
+        return result
 
     @models.permalink
     def get_absolute_url(self):
@@ -283,6 +313,10 @@ class Entity(models.Model):
     @property
     def entityid(self):
         return self._load_metadata().entityid
+
+    @property
+    def display_name(self):
+        return self._load_metadata().display_name
 
     @property
     def valid_until(self):
