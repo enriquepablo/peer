@@ -222,6 +222,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'peer.nagios': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
     }
 }
 
@@ -280,6 +285,17 @@ EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(days=1)
 
 # Entities pagination
 ENTITIES_PER_PAGE = 10
+
+# Entities modificated nagios notification command (watch man send_nsca)
+# Disabled if None
+# NSCA_COMMAND = '/usr/sbin/send_nsca -H nagios.fqdn'
+NSCA_COMMAND = None
+
+# Nagios accept 0, 1, 2, 3 as 0=OK, 1=WARNING, 2=CRITICAL, 3=UNKNOWN
+NSCA_NOTIFICATION_LEVEL = 3
+
+# Nagios service name
+NSCA_SERVICE = 'peer'
 
 # Federated auth
 SAML_ENABLED = False

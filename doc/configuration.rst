@@ -477,6 +477,75 @@ is used is specified in Python standard library. This happens to be
 *Python-urllib/2.6*
 
 
+Nagios Integration
+~~~~~~~~~~~~~~~~~~
+
+There is a config option to allow send events to nagios vía NSCA (nagios
+agent) when a Entity is modified, createad or deleted.
+
+Nagios hosts and services must be set to allow notifications for *service peer*
+and *server entitydomain.fqdn* as configured in settings.
+
+This a simple example service/hosts nagios config to allow NSCA:
+
+.. code-block:: bash
+
+ ;; Passive service template definition
+ define service{
+     name                    passive-service
+     use                     generic-service
+     check_freshness         1
+     passive_checks_enabled  1
+     active_checks_enabled   0
+     is_volatile             0
+     flap_detection_enabled  0
+     notification_options    w,u,c,s
+     freshness_threshold     57600     ;12hr
+     check_command           check_dummy!3!"No Data Received"
+ }
+
+ define host{
+     use             generic-host
+     host_name       entitydomain.fqdn
+     alias           testing peer domain
+     address         192.168.1.122
+     contact_groups  admins
+ }
+
+ define service{
+     use                 passive-service
+     host_name           entitydomain.fqdn
+     service_description peer
+     contact_groups      admins
+ }
+
+
+You must setup your nsca.conf on nagios server and send_nsca.conf on nagios
+agent host.
+
+*service_description* must be set as *NSCA_SERVICE* settings value
+*host_name* is the same that domain field on Entity objects
+
+Remeber that nsca agent must be installed on peer server.
+
+To enable nagios notification from django peer application you must set the
+correct properties on settings:
+
+.. code-block:: python
+
+  # Entities modificated nagios notification command (watch man send_nsca)
+  # Disabled if None
+  # NSCA_COMMAND = None
+  NSCA_COMMAND = '/usr/sbin/send_nsca -H nagios.fqdn'
+
+  # Nagios accept 0, 1, 2, 3 as 0=OK, 1=WARNING, 2=CRITICAL, 3=UNKNOWN
+  NSCA_NOTIFICATION_LEVEL = 3
+
+  # Nagios service name
+  NSCA_SERVICE = 'peer'
+
+
+
 Administrators
 ~~~~~~~~~~~~~~
 
@@ -569,3 +638,12 @@ that some settings need unique values you must provide yourself.
  ADMINS = (
      # ('Your Name', 'your_email@example.com'),
  )
+
+ # Entities modificated nagios notification command (watch man send_nsca)
+ NSCA_COMMAND = '/usr/sbin/send_nsca -H nagios.fqdn'
+
+ # Nagios accept 0, 1, 2, 3 as 0=OK, 1=WARNING, 2=CRITICAL, 3=UNKNOWN
+ NSCA_NOTIFICATION_LEVEL = 3
+
+ # Nagios service name
+ NSCA_SERVICE = 'peer'
