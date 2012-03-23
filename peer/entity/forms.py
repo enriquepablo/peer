@@ -63,7 +63,7 @@ class EntityForm(forms.ModelForm):
 
     class Meta:
         model = Entity
-        fields = ('name', 'domain')
+        fields = ('domain', )
 
     def __init__(self, user, *args, **kwargs):
         super(EntityForm, self).__init__(*args, **kwargs)
