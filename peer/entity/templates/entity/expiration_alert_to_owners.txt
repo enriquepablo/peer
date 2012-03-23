@@ -1,4 +1,4 @@
-The metadata for entity {{ entity.name }} {% if is_expired %}has expired{% else %}is about to expire{% endif %}.
+The metadata for entity {{ entity }} {% if is_expired %}has expired{% else %}is about to expire{% endif %}.
 
 You are receiving this mail because you are either the owner of this entity or a member of its team.
 

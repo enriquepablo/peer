@@ -1,4 +1,4 @@
-The metadata for entity {{ entity.name }} {% if is_expired %}has expired{% else %}is about to expire{% endif %} but neither the entity's owner neither the members of its team has an email defined.
+The metadata for entity {{ entity }} {% if is_expired %}has expired{% else %}is about to expire{% endif %} but neither the entity's owner neither the members of its team has an email defined.
 
 You are receiving this mail because you are an administrator of this PEER instance.
 
