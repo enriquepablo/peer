@@ -41,24 +41,6 @@ from peer.entity.utils import FetchError, fetch_resource
 from peer.entity.utils import write_temp_file
 
 
-class EditEntityForm(forms.ModelForm):
-
-    class Meta:
-        model = Entity
-        fields = ('name', )
-
-    def clean(self):
-        name = self.cleaned_data.get('name')
-        if name:
-            for ch in r'!:&\|':
-                if ch in name:
-                    raise forms.ValidationError(
-                            U('Illegal characters in the name: '
-                              'You cannot use &, |, !, : or \\'))
-
-        return self.cleaned_data
-
-
 class EntityForm(forms.ModelForm):
 
     class Meta:

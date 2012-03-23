@@ -42,8 +42,6 @@ urlpatterns = patterns(
         name='entity_view'),
     url(r'^(?P<entity_id>\d+)/remove/$', 'entity_remove',
         name='entity_remove'),
-    url(r'^(?P<entity_id>\d+)/edit/$', 'entity_edit',
-        name='entity_edit'),
     url(r'^(?P<domain_name>\w+)/add$', 'entity_add_with_domain',
         name='entity_add_with_domain'),
 
