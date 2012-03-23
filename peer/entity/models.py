@@ -29,8 +29,6 @@
 from datetime import datetime
 from lxml import etree
 from urlparse import urlparse
-from subprocess import Popen, PIPE
-import logging
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -47,7 +45,7 @@ from peer.entity.utils import NAMESPACES, addns, delns, getlang
 from peer.entity.utils import expand_settings_permissions
 from peer.entity.utils import FetchError, fetch_resource
 from peer.entity.utils import write_temp_file
-
+from peer.entity.nagios import send_nagios_notification
 
 XML_NAMESPACE = NAMESPACES['xml']
 XMLDSIG_NAMESPACE = NAMESPACES['ds']
@@ -55,7 +53,6 @@ MDUI_NAMESPACE = NAMESPACES['mdui']
 
 CONNECTION_TIMEOUT = 10
 
-logger = logging.getLogger('peer.nagios')
 
 class Metadata(object):
 
@@ -379,27 +376,6 @@ def handler_entity_pre_save(sender, instance, **kwargs):
     if not instance.is_metarefreshable:
         instance.metarefresh_frequency = 'N'  # Never
 models.signals.pre_save.connect(handler_entity_pre_save, sender=Entity)
-
-
-
-
-def send_nagios_notification(server, action):
-    nagios_msg = ('%(server)s\t%(service)s\t%(level)s\t%(action)s\n' %
-                    {'server': server,
-                     'service': getattr(settings, 'NSCA_SERVICE', 'peer'),
-                     'level': getattr(settings, 'NSCA_NOTIFICATION_LEVEL', 3),
-                     'action': action,
-                    })
-    try:
-        p = Popen(settings.NSCA_COMMAND, stdin=PIPE, stderr=PIPE, stdout=PIPE,
-                  shell=True)
-        p.stdin.write(nagios_msg)
-        p.stdin.close()
-    except OSError:
-        logger.error("OSError with settings.NSCA_COMMAND, maybe it doesn't exist")
-    if p.wait() != 0:
-        logger.error("settings.NSCA_COMMAND doesn't run correctly\n\n\n%s" 
-                     % (p.stderr.read()))
 
 
 def handler_entity_post_save(sender, instance, created, **kwargs):
