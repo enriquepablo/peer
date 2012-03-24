@@ -297,6 +297,10 @@ SAML_ATTRIBUTE_MAPPING = {
     'sn': ('last_name', ),
     }
 
+# Remote user auth
+REMOTE_USER_ENABLED = False
+
+
 try:
     from local_settings import *
 except ImportError:

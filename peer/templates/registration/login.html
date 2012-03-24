@@ -51,5 +51,17 @@
 
   {% endif %}
 
+
+  {% if REMOTE_USER_ENABLED %}
+
+  <div class="right block">
+    <h2>{% trans "Remote User sign in" %}</h2>
+    <p>{% trans "Sign in using your web server REMOTE_USER header" %}</p>
+    <p><a class ="button" href="{% url remote_user_login %}">{% trans "REMOTE_USER Sign in" %}</a></p>
+  </div>
+
+  {% endif %}
+
+
 </section>
 {% endblock %}

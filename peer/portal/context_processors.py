@@ -25,5 +25,6 @@ def peer_theme(request):
 
 def auth(request):
     return {
-        'SAML_ENABLED': getattr(settings, 'SAML_ENABLED', False)
+        'SAML_ENABLED': getattr(settings, 'SAML_ENABLED', False),
+        'REMOTE_USER_ENABLED': getattr(settings, 'REMOTE_USER_ENABLED', False),
         }

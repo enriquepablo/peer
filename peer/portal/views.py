@@ -26,6 +26,9 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -42,3 +45,11 @@ def index(request):
            'entities': entities,
            'filters': get_filters(request.GET),
            }, context_instance=RequestContext(request))
+
+
+@login_required
+def remote_user_login(request):
+    # The Web Server should handle the authentication for us
+    # By having the RemoteUser auth backend enabled everything
+    # is managed automatically
+    return HttpResponseRedirect(reverse('account_profile'))

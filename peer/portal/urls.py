@@ -32,4 +32,6 @@ from django.conf.urls.defaults import patterns, url
 urlpatterns = patterns(
     'peer.portal.views',
     url(r'^$', 'index', name='index'),
+
+    url('^remote-user-login', 'remote_user_login', name='remote_user_login')
 )
