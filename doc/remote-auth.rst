@@ -5,7 +5,7 @@ In this section you will learn how to configure your PEER instance to allow
 other authentication mechanism besides the standard local authentication
 system based on user names and passwords stored locally.
 
-There three other ways to handle the authentication in PEER:
+There are three other ways to handle the authentication in PEER:
 
 - SAML
 - Remote User
@@ -233,3 +233,96 @@ You can get this information starting your Django development server and
 going to the http://localhost:8000/saml2/metadata url. If you have included
 the djangosaml2 urls under a different url prefix you need to correct this
 url.
+
+
+Remote User Authentication
+--------------------------
+
+The REMOTE_USER header authentication is a common way to delegate the
+authentication step to the web server. It doesn't matter how the
+web server handles the authentication, when a user is authenticated, the
+web server puts the user information in a REMOTE_USER header before
+passing the request into the application.
+
+The PEER application can read the user information from the REMOTE_USER
+and create a user session for that user. It will create the user in
+the PEER database if it is not already created.
+
+In this section we will cover how to setup this mechanism in PEER using
+a simple authentication mechanism with the Apache web server. A
+htpasswd type file will be use to store user credentials and Auth Basic
+will be used to challenge the user for entering those credentials. Please
+note that this is just an example and any authentication method supported
+by Apache or any other web server will just work the same way.
+
+Web server setup
+~~~~~~~~~~~~~~~~
+
+As said in the previous parragraph a htpasswd file will be use to store
+the users credentials. So it need to be created:
+
+.. code-block:: bash
+
+  $ htpasswd -c /tmp/passwords.htpasswd lgs@yaco.es
+  New password: 
+  Re-type new password: 
+  Adding password for user lgs@yaco.es
+
+As you can see, emails are using as identifiers for PEER users.
+
+.. note::
+
+  Make sure the passwords.htpasswd file is readable for the user
+  running the web server.
+
+Then the Apache web server needs to be configured to handle the
+authentication. Go to the virtual host section where the PEER
+application is being served and add this code:
+
+.. code-block:: bash
+
+  <Location /remote-user-login>
+      AuthType Basic
+      AuthName "PEER realm"
+      AuthUserFile /tmp/passwords.htpasswd
+      Require valid-user
+  </Location>
+
+Note that in the AuthUserFile option you need to put the full path
+for the file you created in the previous step.
+
+PEER setup
+~~~~~~~~~~
+
+Once the web server is configured to send the authenticated user
+in the REMOTE_USER request header we need to enable that in PEER.
+
+There are three settings you need to change in the *local_settings.py*
+file. First, a middleware to process the header need to be added to
+the MIDDLEWARE_CLASSES option:
+
+.. code-block:: python
+
+  MIDDLEWARE_CLASSES = (
+      'django.middleware.common.CommonMiddleware',
+      'django.contrib.sessions.middleware.SessionMiddleware',
+      'django.middleware.csrf.CsrfViewMiddleware',
+      'django.contrib.auth.middleware.AuthenticationMiddleware',
+      'django.contrib.auth.middleware.RemoteUserMiddleware',  # This is the addition
+      'django.contrib.messages.middleware.MessageMiddleware',
+  )
+
+Then, a new authentication backend need to be added:
+
+.. code-block:: python
+
+  AUTHENTICATION_BACKENDS = (
+      'django.contrib.auth.backends.RemoteUserBackend',
+  )
+
+Finally, a PEER specific option needs to be enabled to show
+this authentication option in the login page:
+
+.. code-block:: python
+
+  REMOTE_USER_ENABLED = False
