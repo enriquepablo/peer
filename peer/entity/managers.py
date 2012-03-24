@@ -78,3 +78,22 @@ class EntityManager(models.Manager):
                 result.append(entity)
 
         return result
+
+    def text_filters(self, query):
+        result = []
+
+        if not query:
+            return result
+
+        for entity in self.all():
+            if not entity.has_metadata():
+                continue
+
+            metadata = entity.metadata.get_revision()
+            if not metadata:
+                continue
+
+            if query in metadata:
+                result.append(entity)
+
+        return result

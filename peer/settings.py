@@ -256,16 +256,6 @@ VFF_BACKEND = 'vff.git_backend.GitBackend'
 # to the directory where vff keeps its managed files:
 # VFF_REPO_PATH = 'my/dir'
 
-# POSTGRESQL FULL TEXT SEARCH
-
-# What language to use for full text searches (only Postgresql)
-PG_FT_INDEX_LANGUAGE = u'english'
-
-# If the user enters various terms in a serch, do we join them
-# with OR or with AND
-# PG_FTS_OPERATOR = u'|'
-PG_FTS_OPERATOR = u'&'
-
 # SAMLmetaJS plugins
 SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'endpoints', 'certs',
                         'attributes', 'entityattrs', 'location')

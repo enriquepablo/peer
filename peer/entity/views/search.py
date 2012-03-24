@@ -26,13 +26,7 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-import re
-
-from django import db
-from django.conf import settings
 from django.contrib import messages
-from django.db import transaction
-from django.db.utils import DatabaseError
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
@@ -42,43 +36,17 @@ from peer.entity.models import Entity
 from peer.entity.paginator import paginated_list_of_entities
 
 
-def _search_entities(search_terms):
-    lang = getattr(settings, 'PG_FT_INDEX_LANGUAGE', u'english')
-    sql = u"select * from entity_entity where to_tsvector(%s, name) @@ to_tsquery(%s, %s)"
-    return Entity.objects.raw(sql, [lang, lang, search_terms])
-
-
 def search_entities(request):
     search_terms_raw = request.GET.get('query', '').strip()
-    op = getattr(settings, 'PG_FTS_OPERATOR', '&')
-    sid = transaction.savepoint()
-    if db.database['ENGINE'] == 'django.db.backends.postgresql_psycopg2':
-        search_terms = re.sub(ur'\s+', op, search_terms_raw)
-        entities = _search_entities(search_terms)
+    if search_terms_raw == '':
+        entities = Entity.objects.all()
     else:
-        search_terms_list = search_terms_raw.split(' ')
-        where = (u' %s ' % op).join([u"name ilike '%s'"] * len(search_terms_list))
-        sql = u"select * from entity_entity where " + where
-        entities = Entity.objects.raw(sql, search_terms_list)
-        search_terms = op.join(search_terms_raw)
-
-    try:
-        entities = list(entities)
-    except DatabaseError:
-        transaction.savepoint_rollback(sid)
-        entities = []
-        msg = _(u'There seem to be illegal characters in your search.\n'
-                u'You should not use !, :, &, | or \\')
-        messages.error(request, msg)
-    else:
-        if search_terms_raw == '':
-            entities = Entity.objects.all()
-        else:
-            n = len(entities)
-            plural = n == 1 and 'entity' or 'entities'
-            msg = _(u'Found %d %s matching "%s"') % (n, plural,
-                                                     search_terms_raw)
-            messages.success(request, msg)
+        entities = Entity.objects.text_filters(search_terms_raw)
+        n = len(entities)
+        plural = (n == 1 and 'entity' or 'entities')
+        msg = _(u'Found %d %s matching "%s"') % (n, plural,
+                                                 search_terms_raw)
+        messages.success(request, msg)
 
     filters = get_filters(request.GET)
     entities = filter_entities(filters, entities)
