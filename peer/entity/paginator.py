@@ -49,7 +49,7 @@ class EntitiesPage(Page):
         for entity in object_list:
             if entity.has_metadata() and entity.geolocationhint:
                 self.geo_list.append({
-                        'entity': entity.name,
+                        'entity': unicode(entity),
                         'geolocationhint': entity.geolocationhint
                         })
 

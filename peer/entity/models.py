@@ -224,7 +224,6 @@ class Metadata(object):
 
 class Entity(models.Model):
 
-    name = SafeCharField(_(u'Entity name'), max_length=100)
     metadata = VersionedFileField('metadata', verbose_name=_(u'Entity metadata'),
                                 blank=True, null=True,)
     owner = models.ForeignKey(User, verbose_name=_('Owner'),
@@ -450,7 +449,7 @@ class PermissionDelegation(models.Model):
     def __unicode__(self):
         return ugettext(
             u'%(user)s delegates permissions for %(entity)s entity') % {
-            'user': self.entity.owner.username, 'entity': self.entity.name}
+            'user': self.entity.owner.username, 'entity': unicode(self.entity)}
 
     class Meta:
         verbose_name = _(u'Permission delegation')
