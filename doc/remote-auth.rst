@@ -268,7 +268,7 @@ the users credentials. So it need to be created:
   Re-type new password: 
   Adding password for user lgs@yaco.es
 
-As you can see, emails are using as identifiers for PEER users.
+As you can see, emails are used as identifiers for PEER users.
 
 .. note::
 
@@ -325,4 +325,4 @@ this authentication option in the login page:
 
 .. code-block:: python
 
-  REMOTE_USER_ENABLED = False
+  REMOTE_USER_ENABLED = True
