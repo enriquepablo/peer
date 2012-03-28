@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+0.10.1dev (unreleased)
+----------------------
+- ...
+
 0.10.0 (2012-03-28)
 -------------------
 - Nagios integration by implementing a passive nagios agent that
