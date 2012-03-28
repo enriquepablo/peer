@@ -1,9 +1,22 @@
 CHANGES
 =======
 
-0.9.1dev (unreleased)
----------------------
-- ...
+0.10.0 (2012-03-28)
+-------------------
+- Nagios integration by implementing a passive nagios agent that
+  listen for Entity's updates (creations, updates and deletions)
+  and send them to a Nagios server.
+- Remove PEER names. If the DisplayName is present it is used as
+  the label for the entity. Otherwise, the entity id is used and
+  if neither of them exists, the PEER numeric id is used.
+- Improve the usability of the SAMLmetaJS editor by showing
+  user errors as soon as possible and asking the user either to
+  fix them or to remove the information that is giving trouble.
+- Implement REMOTE_USER authentication with an easy to switch
+  settings option. Also document the web server part of the setup.
+- Update djangosaml2 dependency version. This uses newest pysaml2 version.
+  As a consequence encrypted assertions and signed response and requests
+  work better now. Djangosaml2 0.4.2 also adds logging support.
 
 0.9.0 (2012-03-03)
 ------------------
