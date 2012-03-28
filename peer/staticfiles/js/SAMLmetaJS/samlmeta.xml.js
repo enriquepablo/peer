@@ -23,8 +23,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 
 			if (entitydescriptor.entityAttributes) {
 				entityExtensions = this.addIfNotEntityExtensions(root);
-
-				entityAttributes = this.addNodIfNotExists(entityExtensions, 'EntityAttributes', SAMLmetaJS.Constants.ns.mdattr, mdattr); 
+				entityAttributes = SAMLmetaJS.XML.addNodeIfNotExists(doc, entityExtensions, 'EntityAttributes', SAMLmetaJS.Constants.ns.mdattr, 'mdattr');
 
 				SAMLmetaJS.XML.wipeChildren(entityAttributes, SAMLmetaJS.Constants.ns.saml, 'Attribute');
 				for(var name in entitydescriptor.entityAttributes) {
@@ -35,11 +34,15 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 			if (entitydescriptor.saml2idp) {
 				idpdescriptor = this.addIfNotIDPSSODescriptor(root);
 				this.addIdP(idpdescriptor, entitydescriptor);
+			} else {
+				SAMLmetaJS.XML.wipeChildren(root, SAMLmetaJS.Constants.ns.md, 'IDPSSODescriptor');
 			}
 
 			if (entitydescriptor.saml2sp) {
 				spdescriptor = this.addIfNotSPSSODescriptor(root);
 				this.addSP(spdescriptor, entitydescriptor);
+			} else {
+				SAMLmetaJS.XML.wipeChildren(root, SAMLmetaJS.Constants.ns.md, 'SPSSODescriptor');
 			}
 
 			if (entitydescriptor.contacts) {
