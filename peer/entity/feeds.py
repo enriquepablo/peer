@@ -68,7 +68,7 @@ class EntitiesFeed(Feed):
             return entities
 
     def item_title(self, item):
-        return item.name
+        return unicode(item)
 
     def item_description(self, item):
         if item.metadata:
@@ -91,14 +91,14 @@ class ChangesFeed(Feed):
 
     def title(self, entity):
         return (ugettext(u'Changes on the metadata of entity %s')
-                % entity.name)
+                % unicode(entity))
 
     def link(self, entity):
         return entity.get_absolute_url()
 
     def description(self, entity):
         return (ugettext(u'Recent changes made on the metadata of entity %s')
-                % entity.name)
+                % unicode(entity))
 
     def author_name(self, entity):
         return authorname(entity.owner)
