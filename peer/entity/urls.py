@@ -37,13 +37,8 @@ urlpatterns = patterns(
     url(r'^rss$', EntitiesFeed(), name='entities_feed'),
     url(r'^add$', 'entity_add', name='entity_add'),
 
-    # Entity basic views
-    url(r'^(?P<entity_id>\d+)$', 'entity_view',
-        name='entity_view'),
-    url(r'^(?P<entity_id>\d+)/remove/$', 'entity_remove',
-        name='entity_remove'),
-    url(r'^(?P<domain_name>\w+)/add$', 'entity_add_with_domain',
-        name='entity_add_with_domain'),
+    # Search view
+    url(r'^search$', 'search.search_entities', name='search_entities'),
 
     # Group Views
     url(r'^group/add$',
@@ -55,8 +50,13 @@ urlpatterns = patterns(
     url(r'^group/(?P<entity_group_id>\d+)/remove$',
         'group.entity_group_remove', name='entity_group_remove'),
 
-    # Search view
-    url(r'^search$', 'search.search_entities', name='search_entities'),
+    # Entity basic views
+    url(r'^(?P<entity_id>\d+)$', 'entity_view',
+        name='entity_view'),
+    url(r'^(?P<entity_id>\d+)/remove/$', 'entity_remove',
+        name='entity_remove'),
+    url(r'^(?P<domain_name>\w+)/add$', 'entity_add_with_domain',
+        name='entity_add_with_domain'),
 
     # Metadata views
     url(r'^(?P<entity_id>\d+)/edit_metadata/$',
