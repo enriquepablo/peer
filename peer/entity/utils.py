@@ -29,6 +29,8 @@
 import urllib2
 from tempfile import NamedTemporaryFile
 
+from lxml import etree
+
 from django.conf import settings
 from django.core.files.base import File
 from django.contrib.auth.models import User
@@ -180,3 +182,26 @@ def add_subscriber(entity, user):
 def remove_subscriber(entity, user):
     if is_subscribed(entity, user):
         entity.subscribers.remove(user)
+
+
+def strip_entities_descriptor(metadata_text):
+    """Strip off the EntitiesDescriptor element from the metadata_text.
+
+    If the metadata's root node is EntityDescriptor it will be left
+    untouched. Otherwise (the root node is EntitiesDescriptor), it will
+    remove the root node and the child will be the new root node.
+
+    If the root node is an EntitiesDescriptor and there are more than one
+    EntityDescriptor, it will raise a ValueError.
+    """
+    result = metadata_text
+    if result:
+        root = etree.XML(result)
+        if addns('EntitiesDescriptor') == root.tag:
+            children = root.getchildren()
+            if len(children) != 1:
+                raise ValueError("The metadata must have just one EntityDescriptor")
+            else:
+                result = etree.tostring(children[0])
+
+    return result

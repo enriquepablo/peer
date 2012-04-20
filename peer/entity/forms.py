@@ -38,7 +38,7 @@ from peer.customfields import TermsOfUseField, readtou
 from peer.entity.models import Entity, EntityGroup
 from peer.entity.validation import validate
 from peer.entity.utils import FetchError, fetch_resource
-from peer.entity.utils import write_temp_file
+from peer.entity.utils import write_temp_file, strip_entities_descriptor
 
 
 class EntityForm(forms.ModelForm):
@@ -143,6 +143,11 @@ class BaseMetadataEditForm(forms.Form):
         check_metadata_is_new(self.entity, metadata)
         check_metadata_is_valid(
             self, self.entity, self.user, metadata, fieldname)
+
+        try:
+            metadata = strip_entities_descriptor(metadata)
+        except ValueError, e:
+            raise forms.ValidationError(unicode(e))
 
         self.metadata = metadata
 
