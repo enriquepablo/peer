@@ -256,7 +256,9 @@ And run the Django syncdb command to create the database schema:
 .. note::
   The syncdb Django command will ask you if you want to create an admin
   user. You should answer yes to that question and write this admin's
-  username and password down. You will need them later.
+  username and password down. You will need them later. This administrator's
+  name should be `admin` because there are fixtures that depends on this
+  name. You can create more administrators in the future with other names.
 
 Collecting static files
 ~~~~~~~~~~~~~~~~~~~~~~~
