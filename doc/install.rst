@@ -238,8 +238,8 @@ installation, as performed in the previous step.
 
 .. note::
   The location of the *local_settings.py* file depends on the PEER version
-  that you have. The path fragment *peer-X.Y.Z-py2.6* is ficticious and will
-  be something like *peer-0.4.0-py2.6* in real life.
+  that you have. The path fragment :file:`peer-X.Y.Z-py2.6` is ficticious and will
+  be something like |full_release_name| in real life.
 
 Then, activate the virtualenv:
 
@@ -293,11 +293,16 @@ following configuration into your specific virtual host section:
 
 .. code-block:: none
 
- WSGIScriptAlias / /var/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/peer.wsgi
- Alias /static/ /var/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/static/
+ WSGIScriptAlias / /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/peer.wsgi
+ Alias /static/ /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/static/
 
-Bear in mind that the exact path may be different in your case, specially
-the Python and PEER version numbers.
+
+.. note::
+  Bear in mind that the exact path may be different in your case, specially
+  the Python and PEER version numbers. The path
+  fragment :file:`peer-X.Y.Z-py2.6` is ficticious and will be something like
+  |full_release_name| in real life.
+
 
 The packages needed for installing Apache and wsgi support are:
 
@@ -320,10 +325,17 @@ the Git repository for the entities' metadata is created and maintained.
 .. code-block:: bash
 
   # Fedora example:
-  $ chown apache:apache /var/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
+  $ chown apache:apache /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/media
 
   # Debian/Ubuntu example:
-  $ chown www-data:www-data /var/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
+  $ chown www-data:www-data /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/media
+
+.. note::
+  As mentioned before, the exact path may be different in your case, specially
+  the Python and PEER version numbers. The path
+  fragment :file:`peer-X.Y.Z-py2.6` is ficticious and will be something like
+  |full_release_name| in real life.
+
 
 Development installation
 ------------------------
