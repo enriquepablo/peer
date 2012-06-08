@@ -584,8 +584,8 @@ that some settings need unique values you must provide yourself.
      }
  }
 
- DEFAULT_FROM_EMAIL = 'no-reply@peer.terena.org'
- EMAIL_HOST = 'smtp.terena.org'
+ DEFAULT_FROM_EMAIL = 'no-reply@example.com'
+ EMAIL_HOST = 'smtp.example.com'
  EMAIL_PORT = 25
 
  # do not use these keys: they are invalid
