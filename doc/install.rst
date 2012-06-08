@@ -323,7 +323,7 @@ the Git repository for the entities' metadata is created and maintained.
   $ chown apache:apache /var/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
 
   # Debian/Ubuntu example:
-  $ chown www-data:wwwd-data /var/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
+  $ chown www-data:www-data /var/www/peer/lib/python2.6/site-packages/peer-0.4.0dev-py2.6.egg/peer/media
 
 Development installation
 ------------------------
