@@ -67,7 +67,7 @@ setup(
     packages=find_packages('.'),
     package_dir={'peer': 'peer'},
     package_data={
-        'peer': recursive_include('peer', ['*.html', '*.css', '*.js',
+        'peer': recursive_include('peer', ['*.html', '*.css', '*.js', '*.txt',
                                            '*.png', '*.ico', '*.wsgi'])
         },
     zip_safe=False,
