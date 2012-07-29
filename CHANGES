@@ -3,17 +3,19 @@ CHANGES
 
 0.10.1 (2012-07-29)
 -------------------
-- Fix url hiding by reordering some url definitions
+- Fix url hiding by reordering some url definitions.
 - When importing an entity's metadata inside the EntitiesDescriptor tag, strip
-  off such tag
-- Update SAMLmeteaJS to latest version upstream to fix issue #3
+  off such tag.
+- Update SAMLmeteaJS to latest version upstream to fix issue #3.
 - Several fixes in the documentation:
+
   - Make the paths more generic and add notes with real paths depending on the
-    current version
-  - Add a note about the initial administrator's name
-  - Replace terena.org with example.com in the example configuration
-  - Fix some typos
-- Include txt templates in the distribution
+    current version.
+  - Add a note about the initial administrator's name.
+  - Replace terena.org with example.com in the example configuration.
+  - Fix some typos.
+
+- Include txt templates in the distribution.
 
 0.10.0 (2012-03-28)
 -------------------
