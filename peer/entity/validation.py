@@ -95,7 +95,7 @@ def validate_domain_in_endpoints(entity, doc, user=None):
     for endpoint in metadata.endpoints:
         if 'Location' in endpoint:
             url = urlparse.urlparse(endpoint['Location'])
-            if url.netloc.lower() != domain.lower():
+            if url.hostname.lower() != domain.lower():
                 errors.append(
                     u'The endpoint at %s does not belong to the domain %s' %
                     (endpoint['Location'], domain))
