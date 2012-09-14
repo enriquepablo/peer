@@ -201,6 +201,9 @@ LOGIN_REDIRECT_URL = '/'
 # reCaptcha keys. Not filled for security
 RECAPTCHA_PUBLIC_KEY = ''
 RECAPTCHA_PRIVATE_KEY = ''
+# Uncomment the following line to make reCaptcha validation submits
+# to be made over SSL
+#RECAPTCHA_USE_SSL = True
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

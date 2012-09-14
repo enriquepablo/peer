@@ -76,7 +76,7 @@ setup(
         'South==0.7.3',
         'psycopg2==2.4.2',
         'django-registration==0.7',
-        'django-recaptcha==0.0.1',
+        'django-recaptcha==0.0.4',
         'fudge==1.0.3',
         'django-vff==0.2b2',
         'lxml==2.3.2',
