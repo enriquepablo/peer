@@ -31,16 +31,20 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
-from captcha.forms import RegistrationFormCaptcha
+from captcha.fields import ReCaptchaField
+from registration.forms import RegistrationForm
+
 from peer.customfields import TermsOfUseField, readtou
 
 
-class RegistrationFormCaptchaTOU(RegistrationFormCaptcha):
+class RegistrationFormCaptchaTOU(RegistrationForm):
+
+    captcha = ReCaptchaField(attrs={'theme': 'white'})
 
     tou = TermsOfUseField(readtou('USER_REGISTER_TERMS_OF_USE'))
 
     def __init__ (self, *args, **kwargs):
-        super(RegistrationFormCaptcha, self).__init__(*args, **kwargs)
+        super(RegistrationFormCaptchaTOU, self).__init__(*args, **kwargs)
         username_field = self.fields['username']
         username_field.help_text = _(
             u"This will be the name to login into PEER.")
