@@ -1,8 +1,13 @@
 CHANGES
 =======
 
-0.10.2dev (unreleased)
-----------------------
+0.10.2 (2013-02-28)
+-------------------
+- Upgrade django-recaptcha so it supports SSL
+- Minor cleanups of staled files
+- Use just the hostname to validate if an endpoint belongs to a domain.
+  This allows using non standard ports for the endpoints. Patch by
+  Hans Zandbelt
 
 0.10.1 (2012-07-29)
 -------------------
