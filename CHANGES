@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+0.10.3dev (unreleased)
+----------------------
+- ...
+
 0.10.2 (2013-02-28)
 -------------------
 - Upgrade django-recaptcha so it supports SSL

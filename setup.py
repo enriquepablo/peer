@@ -46,7 +46,7 @@ def recursive_include(directory, patterns):
 
 # be careful with the syntax of this line since it is parsed from
 # the docs/conf.py file
-VERSION = '0.10.2'
+VERSION = '0.10.3dev'
 
 setup(
     name='peer',
