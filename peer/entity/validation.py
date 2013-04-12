@@ -34,6 +34,7 @@ from django.conf import settings
 
 from peer.entity.models import Metadata
 from peer.entity.utils import NAMESPACES, expand_settings_permissions
+from peer.entity.utils import compare_elements, load_schema
 
 
 def validate(entity, doc, user=None):
@@ -175,18 +176,17 @@ def validate_metadata_permissions(entity, doc, user=None):
     return errors
 
 
-def compare_elements(element1, element2):
-    """Return True if both elements are equivalent. False otherwise"""
-    if element1.tag != element2.tag:
-        return False
+def validate_schema(entity, doc, user=None):
+    """
+    Makes sure the the entity is correct regarding the XML Schema.
+    """
+    errors, metadata = _parse_metadata(doc)
+    if errors:
+        return errors
 
-    if element1.keys() != element2.keys():
-        return False
+    schema = load_schema()
+    if not schema.validate(metadata.etree):
+        for error in schema.error_log:
+            errors.append(unicode(error))
 
-    if element1.values() != element2.values():
-        return False
-
-    if element1.text != element2.text:
-        return False
-
-    return True
+    return errors

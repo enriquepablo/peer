@@ -26,14 +26,19 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import logging
 import urllib2
 from tempfile import NamedTemporaryFile
 
 from lxml import etree
+import pkg_resources
 
 from django.conf import settings
 from django.core.files.base import File
 from django.contrib.auth.models import User
+
+
+logger = logging.getLogger('peer.utils')
 
 
 NAMESPACES = {
@@ -205,3 +210,56 @@ def strip_entities_descriptor(metadata_text):
                 result = etree.tostring(children[0])
 
     return result
+
+
+def compare_elements(element1, element2):
+    """Return True if both elements are equivalent. False otherwise"""
+    if element1.tag != element2.tag:
+        return False
+
+    if element1.keys() != element2.keys():
+        return False
+
+    if element1.values() != element2.values():
+        return False
+
+    if element1.text != element2.text:
+        return False
+
+    return True
+
+
+class ResourceResolver(etree.Resolver):
+
+    def resolve(self, system_url, public_id, context):
+        """
+        Resolves URIs using the resource API
+        """
+        logger.debug("resolve SYSTEM URL' %s' for '%s'" % (system_url, public_id))
+        path = system_url.split("/")
+        fn = path[len(path) - 1]
+        if pkg_resources.resource_exists(__name__, fn):
+            return self.resolve_file(pkg_resources.resource_stream(__name__, fn), context)
+        elif pkg_resources.resource_exists(__name__, "schema/%s" % fn):
+            return self.resolve_file(pkg_resources.resource_stream(__name__, "schema/%s" % fn), context)
+        else:
+            raise ValueError("Unable to locate %s" % fn)
+
+
+def load_schema():
+    """
+    Returns an etree.XMLSchema object with the contents of schema/schema.xsd
+    """
+    schema = None
+    try:
+        parser = etree.XMLParser()
+        parser.resolvers.add(ResourceResolver())
+        schema_stream = pkg_resources.resource_stream(__name__, "schema/schema.xsd")
+        st = etree.parse(schema_stream, parser)
+        schema = etree.XMLSchema(st)
+    except etree.XMLSchemaParseError, ex:
+        error_lines = ["%s" % e for e in ex.error_log if ":WARNING:" not in e]
+        logger.error('\n'.join(error_lines))
+        raise ex
+
+    return schema

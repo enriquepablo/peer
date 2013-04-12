@@ -240,6 +240,7 @@ METADATA_VALIDATORS = (
     'peer.entity.validation.validate_domain_in_endpoints',
     'peer.entity.validation.validate_metadata_permissions',
 #    'peer.entity.validation.validate_domain_in_entityid',
+    'peer.entity.validation.validate_schema',
 )
 
 # Permissions for metadata attribute. The metadata attribute is defined by
