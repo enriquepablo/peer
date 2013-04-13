@@ -68,7 +68,7 @@ setup(
     package_dir={'peer': 'peer'},
     package_data={
         'peer': recursive_include('peer', ['*.html', '*.css', '*.js', '*.txt',
-                                           '*.png', '*.ico', '*.wsgi'])
+                                           '*.png', '*.ico', '*.wsgi', '*.xsd'])
         },
     zip_safe=False,
     install_requires=[
