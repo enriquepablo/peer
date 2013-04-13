@@ -4,6 +4,7 @@ CHANGES
 0.10.3dev (unreleased)
 ----------------------
 - Add support for schema validation (code stolen from pyff).
+- Allow more customizations in the federated login UI.
 - ...
 
 0.10.2 (2013-02-28)
