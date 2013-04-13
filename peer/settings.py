@@ -31,6 +31,8 @@
 import datetime
 import os
 
+_ = lambda s: s
+
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = False
@@ -293,7 +295,7 @@ NSCA_NOTIFICATION_LEVEL = 3
 NSCA_SERVICE = 'peer'
 
 # Federated auth
-SAML_ENABLED = False
+SAML_ENABLED = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = SAML_ENABLED
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
@@ -301,6 +303,9 @@ SAML_ATTRIBUTE_MAPPING = {
     'givenName': ('first_name', ),
     'sn': ('last_name', ),
     }
+
+SAML_ONE_IDP_SIGN_IN_BUTTON = _('Federated sign in')
+SAML_SEVERAL_IDPS_SIGN_IN_BUTTON = _('Federated sign in')
 
 # Remote user auth
 REMOTE_USER_ENABLED = False

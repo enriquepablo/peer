@@ -24,7 +24,15 @@ def peer_theme(request):
 
 
 def auth(request):
-    return {
+    result = {
         'SAML_ENABLED': getattr(settings, 'SAML_ENABLED', False),
         'REMOTE_USER_ENABLED': getattr(settings, 'REMOTE_USER_ENABLED', False),
         }
+
+    if result['SAML_ENABLED']:
+        result.update({
+                'SAML_ONE_IDP_SIGN_IN_BUTTON': getattr(settings, 'SAML_ONE_IDP_SIGN_IN_BUTTON', 'Federated sign in'),
+                'SAML_SEVERAL_IDPS_SIGN_IN_BUTTON': getattr(settings, 'SAML_SEVERAL_IDPS_SIGN_IN_BUTTON', 'Federated sign in'),
+                })
+
+    return result

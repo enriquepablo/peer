@@ -31,11 +31,19 @@
   <div class="right block">
     <h2>{% trans "Federated sign in" %}</h2>
     <form id="federated-login" action="{% url saml2_login %}" method="get">{% csrf_token %}
+      {% idplist as idps %}
+      {% if idps|length_is:"0" %}
+      <p>{% trans "There are no IdPs configured, please check the configuration" %}</p>
+      {% elif idps|length_is:"1" %}
+      <input type="hidden" name="idp" value="{{ idps.keys.0 }}" />
+      <fieldset class="actionRow">
+        <input class="button" type="submit" value="{% blocktrans %}{{ SAML_ONE_IDP_SIGN_IN_BUTTON }}{% endblocktrans %}" />
+      </fieldset>
+      {% else %}
       <fieldset>
         <p>
           <label for="id_idp">{% trans "Identity Provider" %}:</label>
           <select id="id_idp" name="idp">
-            {% idplist as idps %}
             {% for url, name in idps.items %}
             <option value="{{ url }}">{% if name %}{{ name }}{% else %}{{ url }}{% endif %}</option>
             {% endfor %}
@@ -44,8 +52,9 @@
         <p>{% trans "Don't see your IdP in this list?" %} {% mailtoadmins %}</p>
       </fieldset>
       <fieldset class="actionRow">
-        <input class="button" type="submit" value="{% trans "Federated sign in" %}" />
+        <input class="button" type="submit" value="{% blocktrans %}{{ SAML_SEVERAL_IDPS_SIGN_IN_BUTTON }}{% endblocktrans %}" />
       </fieldset>
+      {% endif %}
     </form>
   </div>
 
