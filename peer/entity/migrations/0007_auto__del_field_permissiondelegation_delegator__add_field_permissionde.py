@@ -12,7 +12,11 @@ class Migration(SchemaMigration):
         db.delete_column('entity_permissiondelegation', 'delegator_id')
 
         # Adding field 'PermissionDelegation.delegate'
-        db.add_column('entity_permissiondelegation', 'delegate', self.gf('django.db.models.fields.related.ForeignKey')(default=self.gf('django.contrib.auth.models.User').objects.get(username='admin').pk, related_name='permission_delegate', to=orm['auth.User']), keep_default=False)
+        superusers = self.gf('django.contrib.auth.models.User').objects.filter(is_superuser=True)
+        if not superusers:
+            raise Exception("This migration requires that at least one superuser exist")
+        supersuser = superusers[0]
+        db.add_column('entity_permissiondelegation', 'delegate', self.gf('django.db.models.fields.related.ForeignKey')(default=supersuser.pk, related_name='permission_delegate', to=orm['auth.User']), keep_default=False)
 
         # Adding field 'PermissionDelegation.date'
         db.add_column('entity_permissiondelegation', 'date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now), keep_default=False)
