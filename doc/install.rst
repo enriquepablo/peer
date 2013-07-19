@@ -28,7 +28,7 @@ compiles a couple of Python modules.
   $ yum groupinstall "Development Tools"
 
   # Debian/Ubuntu example:
-  $ apt-get install build-essential python-dev libxml2-dev libxml2 libxslt1-dev libxslt1.1 xmlsec1 libxmlsec1-openssl libpq-dev
+  $ apt-get install build-essential python-dev libxml2-dev libxml2 libxslt1-dev libxslt1.1 xmlsec1 libxmlsec1-openssl libpq-dev swig
 
 Standard installation
 ---------------------
