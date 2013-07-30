@@ -63,7 +63,7 @@ if HAS_SOUTH:
 
 def readfile(filename):
     if os.path.exists(filename):
-        return codecs.open(filename, encoding='utf-8').read()
+        return codecs.open(filename, encoding='utf-8', errors='replace').read()
 
 
 
