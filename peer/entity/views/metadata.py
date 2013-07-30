@@ -89,8 +89,18 @@ def _handle_metadata_post(request, form, return_view):
     else:
         messages.error(request, _('Please correct the errors indicated below'))
         if request.is_ajax():
+            sorted_errors = {}
+            for field, errors in form.errors.items():
+                sorted_error_list = []
+                for error in errors:
+                    if ':ERROR:' in error or ':FATAL:' in error:
+                        sorted_error_list.insert(0, error)
+                    else:
+                        sorted_error_list.append(error)
+                sorted_errors[field] = sorted_error_list
+
             content = render_to_string('entity/validation_errors.html', {
-                    'errors': form.errors,
+                    'errors': sorted_errors,
                     }, context_instance=RequestContext(request))
             return HttpResponseBadRequest(content)
 

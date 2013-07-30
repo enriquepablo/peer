@@ -317,6 +317,16 @@ ul.errorlist li {
     background: rgba(255, 201, 172, 0.4) url(../images/error_icon.png) 2px 2px no-repeat;
 }
 
+ul.errorlist li.warning {
+    padding-left: 20px;
+    background: rgba(253, 239, 183, 0.4) url(../images/warning_icon.png) 4px 2px no-repeat;
+}
+
+ul.errorlist li.error {
+    padding-left: 20px;
+    background: rgba(255, 201, 172, 0.4) url(../images/error_icon.png) 4px 2px no-repeat;
+}
+
 /* jquery UI */
 #tabs .ui-widget-content {
     background-color: #D7DEFB;

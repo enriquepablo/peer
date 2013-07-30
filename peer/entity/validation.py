@@ -26,11 +26,11 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+from lxml import etree
 import urlparse
 
-from lxml import etree
-from django.utils.importlib import import_module
 from django.conf import settings
+from django.utils.importlib import import_module
 
 from peer.entity.models import Metadata
 from peer.entity.utils import NAMESPACES, expand_settings_permissions
@@ -187,6 +187,7 @@ def validate_schema(entity, doc, user=None):
     schema = load_schema()
     if not schema.validate(metadata.etree):
         for error in schema.error_log:
-            errors.append(unicode(error))
+            if error.type_name != "SCHEMAP_WARN_SKIP_SCHEMA":
+                errors.append(unicode(error))
 
     return errors
