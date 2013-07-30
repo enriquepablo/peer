@@ -27,6 +27,7 @@
 # either expressed or implied, of Terena.
 
 import os
+import codecs
 
 from django import forms
 from django.conf import settings
@@ -62,7 +63,8 @@ if HAS_SOUTH:
 
 def readfile(filename):
     if os.path.exists(filename):
-        return open(filename, 'r').read()
+        return codecs.open(filename, encoding='utf-8').read()
+
 
 
 def readtou(tou):
