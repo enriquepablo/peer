@@ -81,8 +81,15 @@ def send_mail_for_validation(request, domain, token, mailto):
 
 
 def get_administrative_emails(domain_name):
+    administrative_emails = []
+    default_administrative_email_addresses = getattr(settings, 'ADMINISTRATIVE_EMAIL_ADDRESSES', [])
+    for default_administrative_email_address in default_administrative_email_addresses:
+        administrative_emails.append('%s@%s' % (default_administrative_email_address, domain_name))
+
     whois_data = whois.whois(domain_name)
     if whois_data:
-        return whois_data.emails
-    return []
+        administrative_emails += whois_data.emails
+    administrative_emails = list(set(administrative_emails))
+    return administrative_emails
+
 

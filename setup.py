@@ -84,7 +84,7 @@ setup(
         'dnspython==1.9.4',
         'gitdb==0.5.4',
         'djangosaml2==0.4.2',
-        'python-whois>=0.2' 
+        'python-whois==0.2' 
         ],
     dependency_links=[
         'http://launchpad.net/pysaml2/0.2.1/0.2.1/+download/pysaml2-0.2.1.tgz',

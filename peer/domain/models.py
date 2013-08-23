@@ -89,16 +89,26 @@ class DomainTeamMembership(models.Model):
                                        related_name='domain_teams')
     date = models.DateTimeField(_(u'Membership date'), default=datetime.now)
 
+    class Meta:
+        verbose_name = _(u'Domain team membership')
+        verbose_name_plural = _(u'Domain team memberships')
+
     def __unicode__(self):
         return ugettext(
             u'%(user)s can create entities with domain %(domain)s') % {
             'user': self.member.username, 'domain': self.domain.name}
 
-    class Meta:
-        verbose_name = _(u'Domain team membership')
-        verbose_name_plural = _(u'Domain team memberships')
 
 
-class DomainTokens(models.Model):
+
+class DomainToken(models.Model):
+
     domain = models.CharField(_(u'Domain name'), max_length=100)
-    token = models.CharField(_(u'Token'), max_length=100)
+    token = models.CharField(_(u'Token'), unique=True, max_length=100)
+
+    class Meta:
+        verbose_name = _(u'Domain token')
+        verbose_name_plural = _(u'Domain tokens')
+
+    def __unicode__(self):
+        return u'%s  -  %s' % (self.domain, self.token)

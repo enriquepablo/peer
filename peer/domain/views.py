@@ -28,7 +28,6 @@
 
 import uuid
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -40,7 +39,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from peer.domain.forms import DomainForm
-from peer.domain.models import Domain, DomainTeamMembership, DomainTokens
+from peer.domain.models import Domain, DomainTeamMembership, DomainToken
 from peer.entity.models import Entity
 from peer.domain.utils import send_mail_for_validation, get_administrative_emails
 from peer.domain.validation import (http_validate_ownership,
@@ -89,7 +88,7 @@ def domain_verify(request, domain_id, token=False):
         elif u'email' in request.POST:
             check = False
             token = uuid.uuid4().hex
-            DomainTokens.objects.create(domain=domain.name, token=token)
+            DomainToken.objects.create(domain=domain.name, token=token)
             send_mail_for_validation(request, domain, token, request.POST.get('mail'))
             messages.success(
                 request, _(u'An email has been sent to %(domain_email)s') % {'domain_email': request.POST.get('mail')})
@@ -112,13 +111,8 @@ def domain_verify(request, domain_id, token=False):
         else:
             messages.error(
                 request, _(u'Error while checking domain ownership'))
-
-    default_administrative_email_addresses = getattr(settings, 'ADMINISTRATIVE_EMAIL_ADDRESSES', [])
-    domain_contact_list = []
-    for default_administrative_email_address in default_administrative_email_addresses:
-        domain_contact_list.append('%s@%s' % (default_administrative_email_address, domain.name))
-    domain_contact_list += get_administrative_emails(domain.name)
-    domain_contact_list = list(set(domain_contact_list))
+    
+    domain_contact_list = get_administrative_emails(domain.name)
 
     return render_to_response('domain/verify.html', {
         'domain': domain,

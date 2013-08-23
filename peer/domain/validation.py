@@ -32,7 +32,7 @@ import urllib2
 import dns.resolver
 from dns.exception import DNSException
 
-from peer.domain.models import DomainTokens
+from peer.domain.models import DomainToken
 from peer.domain.utils import get_custom_user_agent
 
 
@@ -93,9 +93,7 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
 
 
 def email_validate_ownership(domain_name, token):
-    valid_token = DomainTokens.objects.filter(domain=domain_name, token=token)
+    valid_token = DomainToken.objects.filter(domain=domain_name, token=token).exists()
     if valid_token:
-        DomainTokens.objects.filter(domain=domain_name).delete()
-        return True
-    else:
-        return False
+        DomainToken.objects.filter(domain=domain_name).delete()
+    return valid_token
