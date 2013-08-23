@@ -36,7 +36,7 @@ from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 
 from peer.customfields import SafeCharField
-from peer.domain.validation import generate_validation_key
+from peer.domain.utils import generate_validation_key
 
 
 class Domain(models.Model):
@@ -97,3 +97,8 @@ class DomainTeamMembership(models.Model):
     class Meta:
         verbose_name = _(u'Domain team membership')
         verbose_name_plural = _(u'Domain team memberships')
+
+
+class DomainTokens(models.Model):
+    domain = models.CharField(_(u'Domain name'), max_length=100)
+    token = models.CharField(_(u'Token'), max_length=100)

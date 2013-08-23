@@ -32,7 +32,7 @@ from django.conf.urls.defaults import patterns, url
 urlpatterns = patterns(
     'peer.domain.views',
     url(r'^add$', 'domain_add', name='domain_add'),
-    url(r'^(?P<domain_id>\d+)$', 'domain_verify',
+    url(r'^(?P<domain_id>\d+)(?:/token/(?P<token>\w+))?$', 'domain_verify',
         name='domain_verify'),
     url(r'^(?P<domain_id>\d+)/remove$', 'domain_remove', name='domain_remove'),
     url(r'^(?P<domain_id>\d+)/force_ownership$', 'force_domain_ownership',

@@ -35,6 +35,25 @@
     </ol>
   </section>
 
+  <section>
+    <form action="{% url domain_verify domain.id %}" method="post">{% csrf_token %}
+    <hgroup>
+      <h2>{% trans "Email validation" %}</h2>
+    </hgroup>
+    <ol class="steps">
+      <li>{% trans "Select an email address that will recieve an once-link for domain validation" %}</li>
+          <select name="mail" id="mail">
+            {% for domain_contact in domain_contact_list %}
+                <option value="{{ domain_contact }}">{{ domain_contact }}</option>
+            {% endfor %}
+		 </select>	
+      <li>{% trans "Click on the verification button to recieve an email with more instructions:" %} <br>
+          <input class="button" type="submit" name="email" value="{% trans "Verify ownership by EMAIL" %}" /></li>
+    </ol>
+    </form>
+  </section>
+
+
   {% if user.is_superuser %}
   <section>
     <hgroup>

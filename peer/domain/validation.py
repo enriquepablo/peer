@@ -26,24 +26,17 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
-import datetime
-import hashlib
+
 import httplib
 import urllib2
 import dns.resolver
 from dns.exception import DNSException
 
-from django.conf import settings
-from django.utils.encoding import smart_str
+from peer.domain.models import DomainTokens
+from peer.domain.utils import get_custom_user_agent
+
 
 CONNECTION_TIMEOUT = 10
-
-
-def get_custom_user_agent():
-    if hasattr(settings, 'DOP_USER_AGENT'):
-        return settings.DOP_USER_AGENT
-    else:
-        return None
 
 
 def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
@@ -99,14 +92,10 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
         return False
 
 
-def generate_validation_key(domain_name, domain_owner=None):
-    """ Generates a unique validation key """
-    m = hashlib.sha256()
-    m.update(smart_str(domain_name))
-
-    # add also current datetime and owner for more security
-    m.update(datetime.datetime.now().isoformat())
-    if domain_owner:
-        m.update(domain_owner)
-
-    return m.hexdigest()
+def email_validate_ownership(domain_name, token):
+    valid_token = DomainTokens.objects.filter(domain=domain_name, token=token)
+    if valid_token:
+        DomainTokens.objects.filter(domain=domain_name).delete()
+        return True
+    else:
+        return False

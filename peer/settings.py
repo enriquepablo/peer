@@ -263,6 +263,11 @@ VFF_BACKEND = 'vff.git_backend.GitBackend'
 # to the directory where vff keeps its managed files:
 # VFF_REPO_PATH = 'my/dir'
 
+
+# DOMAIN Verification by MAIL: Administrative email addresses supported
+ADMINISTRATIVE_EMAIL_ADDRESSES = ('webmaster', 'hostmaster', 'abuse',
+                                  'postmaster', 'admin')
+
 # SAMLmetaJS plugins
 SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'endpoints', 'certs',
                         'attributes', 'entityattrs', 'location')

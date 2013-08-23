@@ -26,6 +26,9 @@
 # of the authors and should not be interpreted as representing official policies,
 # either expressed or implied, of Terena.
 
+import uuid
+
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -37,10 +40,12 @@ from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
 from peer.domain.forms import DomainForm
-from peer.domain.models import Domain, DomainTeamMembership
+from peer.domain.models import Domain, DomainTeamMembership, DomainTokens
 from peer.entity.models import Entity
-from peer.domain.validation import http_validate_ownership
-from peer.domain.validation import dns_validate_ownership
+from peer.domain.utils import send_mail_for_validation, get_administrative_emails
+from peer.domain.validation import (http_validate_ownership,
+                                    dns_validate_ownership,
+                                    email_validate_ownership)
 
 
 @login_required
@@ -68,21 +73,36 @@ def domain_add(request):
 
 
 @login_required
-def domain_verify(request, domain_id):
+def domain_verify(request, domain_id, token=False):
     domain = get_object_or_404(Domain, id=domain_id, owner=request.user)
     valid = False
+    check = False
     if request.method == 'POST':
+        check = True
         if u'http' in request.POST:
             if (http_validate_ownership(domain.validation_url) or
                 http_validate_ownership(domain.validation_url_with_www_prefix)):
                 valid = True
         elif u'dns' in request.POST:
             if dns_validate_ownership(domain.name, domain.validation_key):
-                valid = True
+                check = valid = True
+        elif u'email' in request.POST:
+            check = False
+            token = uuid.uuid4().hex
+            DomainTokens.objects.create(domain=domain.name, token=token)
+            send_mail_for_validation(request, domain, token, request.POST.get('mail'))
+            messages.success(
+                request, _(u'An email has been sent to %(domain_email)s') % {'domain_email': request.POST.get('mail')})
         else:
             raise ValueError("No validation mode in POST request, "
                              "it must have either 'http' or 'dns'.")
 
+    if request.method == 'GET' and token:
+        check = True
+        if email_validate_ownership(domain.name, token):
+            valid = True
+
+    if check:
         if valid:
             domain.validated = True
             domain.save()
@@ -93,9 +113,17 @@ def domain_verify(request, domain_id):
             messages.error(
                 request, _(u'Error while checking domain ownership'))
 
+    default_administrative_email_addresses = getattr(settings, 'ADMINISTRATIVE_EMAIL_ADDRESSES', [])
+    domain_contact_list = []
+    for default_administrative_email_address in default_administrative_email_addresses:
+        domain_contact_list.append('%s@%s' % (default_administrative_email_address, domain.name))
+    domain_contact_list += get_administrative_emails(domain.name)
+    domain_contact_list = list(set(domain_contact_list))
+
     return render_to_response('domain/verify.html', {
-            'domain': domain,
-            }, context_instance=RequestContext(request))
+        'domain': domain,
+        'domain_contact_list': domain_contact_list,
+        }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -137,10 +165,10 @@ def manage_domain(request, domain_id):
     domain = get_object_or_404(Domain, id=domain_id)
     if domain.owner != request.user:
         raise PermissionDenied
-    
+
     if request.user.is_superuser and domain.validated:
         return manage_domain_team(request, domain_id)
-    
+
     return domain_verify(request, domain_id)
 
 
@@ -148,6 +176,7 @@ def manage_domain(request, domain_id):
 
 def can_share_domain(user, domain):
     return user.is_superuser and domain.validated and user == domain.owner
+
 
 @login_required
 def manage_domain_team(request, domain_id):
