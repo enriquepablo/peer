@@ -91,5 +91,3 @@ def get_administrative_emails(domain_name):
         administrative_emails += whois_data.emails
     administrative_emails = list(set(administrative_emails))
     return administrative_emails
-
-

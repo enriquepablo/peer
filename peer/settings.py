@@ -266,7 +266,7 @@ VFF_BACKEND = 'vff.git_backend.GitBackend'
 
 # DOMAIN Verification by MAIL: Administrative email addresses supported
 ADMINISTRATIVE_EMAIL_ADDRESSES = ('webmaster', 'hostmaster', 'abuse',
-                                  'postmaster', 'admin', 'smartin')
+                                  'postmaster', 'admin')
 
 # SAMLmetaJS plugins
 SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'endpoints', 'certs',

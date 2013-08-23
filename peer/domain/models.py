@@ -99,8 +99,6 @@ class DomainTeamMembership(models.Model):
             'user': self.member.username, 'domain': self.domain.name}
 
 
-
-
 class DomainToken(models.Model):
 
     domain = models.CharField(_(u'Domain name'), max_length=100)

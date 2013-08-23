@@ -111,7 +111,7 @@ def domain_verify(request, domain_id, token=False):
         else:
             messages.error(
                 request, _(u'Error while checking domain ownership'))
-    
+
     domain_contact_list = get_administrative_emails(domain.name)
 
     return render_to_response('domain/verify.html', {
