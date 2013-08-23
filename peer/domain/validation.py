@@ -93,6 +93,10 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
 
 
 def email_validate_ownership(domain_name, token):
+""" True if exists an entry in the database with the domain_name and the token
+
+    False otherwise
+    """
     valid_token = DomainToken.objects.filter(domain=domain_name, token=token).exists()
     if valid_token:
         DomainToken.objects.filter(domain=domain_name).delete()

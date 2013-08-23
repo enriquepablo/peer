@@ -61,6 +61,7 @@ def generate_validation_key(domain_name, domain_owner=None):
 
 
 def send_mail_for_validation(request, domain, token, mailto):
+    """ Send an email with a link to validate a domain """
     url_prefix = 'http'
     if request.is_secure():
         url_prefix += 's'
@@ -81,6 +82,10 @@ def send_mail_for_validation(request, domain, token, mailto):
 
 
 def get_administrative_emails(domain_name):
+    """ For a given domain, get an administrative email list based on default
+        names defined in the settings and the emails obtained by a Whois Lookup
+        of the domain
+    """      
     administrative_emails = []
     default_administrative_email_addresses = getattr(settings, 'ADMINISTRATIVE_EMAIL_ADDRESSES', [])
     for default_administrative_email_address in default_administrative_email_addresses:
