@@ -17,11 +17,14 @@
 
   <section>
     <hgroup>
-      <h2>{% trans "HTTP validation" %}</h2>
+      <h2>{% trans "HTTP / HTTPS validation" %}</h2>
     </hgroup>
     <ol class="steps">
-      <li>{% trans "Make sure this link is not broken:" %} <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>. {% trans "An HTTP request to that resource should return an HTTP 200 response" %}</li>
-      <li>{% trans "Click on the verification button:" %} {% verification_button domain "http" %}</li>
+      <li>{% trans "Make sure the proper link is not broken:" %}<br>
+      a). <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>.<br>
+      b). <a href="{{ domain.validation_secure_url }}">{{ domain.validation_secure_url }}</a><br>
+     {% trans "An HTTP request to that resource should return an HTTP 200 response" %}</li>
+      <li>{% trans "Click on the verification button:" %} {% verification_button domain "http" %} {% verification_button domain "https" %}</li>
     </ol>
   </section>
 

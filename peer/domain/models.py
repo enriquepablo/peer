@@ -64,6 +64,17 @@ class Domain(models.Model):
             domain = u'http://www.%s' % self.name
             return urlparse.urljoin(domain, self.validation_key)
 
+    @property
+    def validation_secure_url(self):
+        domain = u'https://%s' % self.name
+        return urlparse.urljoin(domain, self.validation_key)
+
+    @property
+    def validation_secure_url_with_www_prefix(self):
+        if not self.name.startswith(u'www'):
+            domain = u'https://www.%s' % self.name
+            return urlparse.urljoin(domain, self.validation_key)
+
     def __unicode__(self):
         return self.name
 
