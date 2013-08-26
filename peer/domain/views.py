@@ -94,7 +94,7 @@ def domain_verify(request, domain_id, token=False):
             check = False
             token = uuid.uuid4().hex
             DomainToken.objects.create(domain=domain.name, token=token)
-            send_mail_for_validation(domain, token, request.POST.get('mail'))
+            send_mail_for_validation(request, domain, token, request.POST.get('mail'))
             messages.success(
                 request, _(u'An email has been sent to %(domain_email)s') % {'domain_email': request.POST.get('mail')})
         else:
