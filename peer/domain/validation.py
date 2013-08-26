@@ -30,7 +30,11 @@
 import httplib
 import urllib2
 import dns.resolver
+from dns.resolver import NXDOMAIN
 from dns.exception import DNSException
+
+from django.contrib import messages
+from django.utils.translation import ugettext as _
 
 from peer.domain.models import DomainToken
 from peer.domain.utils import get_custom_user_agent
@@ -64,7 +68,7 @@ def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
     return valid
 
 
-def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT):
+def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT, request=None):
     """ True if validation_record is in any of the DNS TXT records.
 
     False otherwise
@@ -76,6 +80,11 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
     resolver.timeout = timeout
     try:
         answers = resolver.query(domain, 'TXT')
+    except NXDOMAIN:
+        if request:
+            messages.error(
+                request, _(u'Do not try again until the zone has been propagated and the nxdomain cached response cleaned'))
+        return False
     # All DNS exceptions subclass from this one
     except DNSException:
         # Check for TXT in root domain
