@@ -85,7 +85,7 @@ def domain_verify(request, domain_id, token=False):
         if u'http' in request.POST:
             valid = (http_validate_ownership(domain.validation_url) or
                 http_validate_ownership(domain.validation_url_with_www_prefix))
-        if u'https' in request.POST:
+        elif u'https' in request.POST:
             valid = (http_validate_ownership(domain.validation_secure_url) or
                 http_validate_ownership(domain.validation_secure_url_with_www_prefix))
         elif u'dns' in request.POST:
@@ -98,8 +98,7 @@ def domain_verify(request, domain_id, token=False):
             messages.success(
                 request, _(u'An email has been sent to %(domain_email)s') % {'domain_email': request.POST.get('mail')})
         else:
-            raise ValueError("No validation mode in POST request, "
-                             "it must have either 'http' or 'dns'.")
+            raise ValueError("No validation mode selected'.")
 
     if request.method == 'GET' and token:
         check = True
