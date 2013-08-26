@@ -77,12 +77,13 @@ def send_notification_mail_to_domain_owner(request, domain, token):
         mailto = whois_data.emails
     mailto = list(set(mailto))
 
-    invalidation_url = generate_url(request, domain, token, 'domain_invalidate')
+    if mailto:
+        invalidation_url = generate_url(request, domain, token, 'domain_invalidate')
 
-    data = Context({'domain_name': domain.name, 'invalidation_url': invalidation_url})
+        data = Context({'domain_name': domain.name, 'invalidation_url': invalidation_url})
 
-    subject = _("The domain %(domain_name)s was validated") % {'domain_name': domain.name}
-    send_mail(subject, data, 'notify_domain_activity', mailto)
+        subject = _("The domain %(domain_name)s was validated") % {'domain_name': domain.name}
+        send_mail(subject, data, 'notify_domain_activity', mailto)
 
 
 def send_mail(subject, data, template_name, mailto):
@@ -110,7 +111,7 @@ def get_administrative_emails(domain_name):
     """ For a given domain, get an administrative email list based on default
         names defined in the settings and the emails obtained by a Whois Lookup
         of the domain
-    """      
+    """
     administrative_emails = []
     default_administrative_email_addresses = getattr(settings, 'ADMINISTRATIVE_EMAIL_ADDRESSES', [])
     for default_administrative_email_address in default_administrative_email_addresses:
