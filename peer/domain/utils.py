@@ -29,6 +29,7 @@
 
 import datetime
 import hashlib
+import urllib2
 import whois
 
 from django.conf import settings
@@ -122,3 +123,23 @@ def get_administrative_emails(domain_name):
         administrative_emails += whois_data.emails
     administrative_emails = list(set(administrative_emails))
     return administrative_emails
+
+
+class SmartRedirectHandler(urllib2.HTTPRedirectHandler):
+    def http_error_301(self, req, fp, code, msg, headers):
+        result = urllib2.HTTPRedirectHandler.http_error_301(
+            self, req, fp, code, msg, headers)
+        result.redirection = True
+        return result
+
+    def http_error_302(self, req, fp, code, msg, headers):
+        result = urllib2.HTTPRedirectHandler.http_error_302(
+            self, req, fp, code, msg, headers)
+        result.redirection = True
+        return result
+
+    def http_error_303(self, req, fp, code, msg, headers):
+        result = urllib2.HTTPRedirectHandler.http_error_303(
+            self, req, fp, code, msg, headers)
+        result.redirection = True
+        return result

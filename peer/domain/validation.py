@@ -37,7 +37,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext as _
 
 from peer.domain.models import DomainToken
-from peer.domain.utils import get_custom_user_agent
+from peer.domain.utils import get_custom_user_agent, SmartRedirectHandler
 
 
 CONNECTION_TIMEOUT = 10
@@ -48,6 +48,7 @@ def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
 
     False otherwise
     """
+
     if not validation_url:
         return False
 
@@ -56,11 +57,13 @@ def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
         custom_user_agent = get_custom_user_agent()
         if custom_user_agent:
             request.addheaders = [('User-agent', custom_user_agent)]
-        response = urllib2.urlopen(request, None, timeout)
+        # To avoid redirections
+        opener = urllib2.build_opener(SmartRedirectHandler())
+        response = opener.open(request, None, timeout)
     except (urllib2.URLError, httplib.BadStatusLine):
         return False
 
-    if response.getcode() == 200:
+    if response.getcode() == 200 and not hasattr(response, 'redirection'):
         valid = True
     else:
         valid = False
