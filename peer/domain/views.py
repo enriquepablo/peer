@@ -28,6 +28,7 @@
 
 import uuid
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -41,10 +42,13 @@ from django.utils.translation import ugettext as _
 from peer.domain.forms import DomainForm
 from peer.domain.models import Domain, DomainTeamMembership, DomainToken
 from peer.entity.models import Entity
-from peer.domain.utils import send_mail_for_validation, get_administrative_emails
+from peer.domain.utils import (send_mail_for_validation,
+                               send_notification_mail_to_domain_owner,
+                               get_administrative_emails)
 from peer.domain.validation import (http_validate_ownership,
                                     dns_validate_ownership,
-                                    email_validate_ownership)
+                                    email_validate_ownership,
+                                    check_domain_token)
 
 
 @login_required
@@ -105,6 +109,10 @@ def domain_verify(request, domain_id, token=False):
         if valid:
             domain.validated = True
             domain.save()
+            if getattr(settings, 'NOTIFY_DOMAIN_OWNER', False):
+                token = uuid.uuid4().hex
+                DomainToken.objects.create(domain=domain.name, token=token)
+                send_notification_mail_to_domain_owner(request, domain, token)
             messages.success(
                 request, _(u'The domain ownership was successfully verified'))
             return HttpResponseRedirect(reverse('account_profile'))
@@ -118,6 +126,19 @@ def domain_verify(request, domain_id, token=False):
         'domain': domain,
         'domain_contact_list': domain_contact_list,
         }, context_instance=RequestContext(request))
+
+
+def domain_invalidate(request, domain_id, token):
+    domain = get_object_or_404(Domain, id=domain_id)
+    if check_domain_token(domain.name, token):
+        domain.validated = False
+        domain.save()
+        messages.success(
+            request, _(u'The domain was successfully invalidated'))
+    else:
+        messages.error(
+            request, _(u'Error while checking token, the domain is still active'))
+    return HttpResponseRedirect(reverse('index'))
 
 
 @login_required

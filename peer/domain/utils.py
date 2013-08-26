@@ -62,23 +62,48 @@ def generate_validation_key(domain_name, domain_owner=None):
 
 def send_mail_for_validation(request, domain, token, mailto):
     """ Send an email with a link to validate a domain """
-    url_prefix = 'http'
-    if request.is_secure():
-        url_prefix += 's'
-    relative_path = reverse('domain_verify',
-                             kwargs={'domain_id': domain.id, 'token': token})
-    validation_url = "%s://%s%s" % (url_prefix, request.get_host(), relative_path)
-
-    plaintext = get_template('domain/validation_by_mail.txt')
-    htmly = get_template('domain/validation_by_mail.html')
+    validation_url = generate_url(request, domain, token, 'domain_verify')
 
     data = Context({'domain_name': domain.name, 'validation_url': validation_url})
+
     subject = _("Activate domain %(domain_name)s") % {'domain_name': domain.name}
+    send_mail(subject, data, 'validation_by_mail', mailto)
+
+
+def send_notification_mail_to_domain_owner(request, domain, token):
+    """ Send an email with a link to invalidate a domain """
+    whois_data = whois.whois(domain.name)
+    if whois_data:
+        mailto = whois_data.emails
+    mailto = list(set(mailto))
+
+    invalidation_url = generate_url(request, domain, token, 'domain_invalidate')
+
+    data = Context({'domain_name': domain.name, 'invalidation_url': invalidation_url})
+
+    subject = _("The domain %(domain_name)s was validated") % {'domain_name': domain.name}
+    send_mail(subject, data, 'notify_domain_activity', mailto)
+
+
+def send_mail(subject, data, template_name, mailto):
+
+    plaintext = get_template("domain/%s.txt" % template_name)
+    htmly = get_template("domain/%s.html" % template_name)
     text_content = plaintext.render(data)
     html_content = htmly.render(data)
+
     msg = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [mailto])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+
+def generate_url(request, domain, token, action):
+    url_prefix = 'http'
+    if request.is_secure():
+        url_prefix += 's'
+    relative_path = reverse(action,
+                             kwargs={'domain_id': domain.id, 'token': token})
+    return "%s://%s%s" % (url_prefix, request.get_host(), relative_path)
 
 
 def get_administrative_emails(domain_name):

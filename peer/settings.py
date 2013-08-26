@@ -268,6 +268,11 @@ VFF_BACKEND = 'vff.git_backend.GitBackend'
 ADMINISTRATIVE_EMAIL_ADDRESSES = ('webmaster', 'hostmaster', 'abuse',
                                   'postmaster', 'admin')
 
+# DOMAIN Invalidation: Send to the administrative contact of a domain 
+# returned by a WHOIS LOOKUP an email when the domain is validated to allow
+# revoke the action
+NOTIFY_DOMAIN_OWNER = False
+
 # SAMLmetaJS plugins
 SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'endpoints', 'certs',
                         'attributes', 'entityattrs', 'location')

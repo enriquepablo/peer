@@ -34,6 +34,7 @@ urlpatterns = patterns(
     url(r'^add$', 'domain_add', name='domain_add'),
     url(r'^(?P<domain_id>\d+)(?:/token/(?P<token>\w+))?$', 'domain_verify',
         name='domain_verify'),
+    url(r'^(?P<domain_id>\d+)/token/(?P<token>\w+)/invalidate$', 'domain_invalidate', name='domain_invalidate'),
     url(r'^(?P<domain_id>\d+)/remove$', 'domain_remove', name='domain_remove'),
     url(r'^(?P<domain_id>\d+)/force_ownership$', 'force_domain_ownership',
         name='force_domain_ownership'),

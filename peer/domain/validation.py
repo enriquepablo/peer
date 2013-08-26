@@ -93,6 +93,12 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
 
 
 def email_validate_ownership(domain_name, token):
+    """ Checks if the given token matchs an entry of the database, that token
+        was provided in an email """
+    return check_domain_token(domain_name, token)
+
+
+def check_domain_token(domain_name, token):
     """ True if exists an entry in the database with the domain_name and the token
 
     False otherwise
