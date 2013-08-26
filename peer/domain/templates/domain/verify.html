@@ -20,6 +20,10 @@
       <h2>{% trans "HTTP / HTTPS validation" %}</h2>
     </hgroup>
     <ol class="steps">
+      <li>{% trans "Create a file named" %} {{ domain.validation_key }} {% trans "with the following content" %}:<br>
+        validation-code={{ domain.validation_key }}
+      </li>
+      <li>{% trans "Place it on the root of the domain" %}: {{ domain.name }}</li>
       <li>{% trans "Make sure the proper link is not broken:" %}<br>
       a). <a href="{{ domain.validation_url }}">{{ domain.validation_url }}</a>.<br>
       b). <a href="{{ domain.validation_secure_url }}">{{ domain.validation_secure_url }}</a><br>

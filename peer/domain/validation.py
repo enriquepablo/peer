@@ -43,15 +43,15 @@ from peer.domain.utils import get_custom_user_agent, SmartRedirectHandler
 CONNECTION_TIMEOUT = 10
 
 
-def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
-    """ True if the validation_url exists and returns a 200 status code.
-
+def http_validate_ownership(validation_url, validation_code, timeout=CONNECTION_TIMEOUT):
+    """ True if the validation_url exists returning a 200 status code and 
+        the file contains the validation_code.
     False otherwise
     """
-
     if not validation_url:
         return False
 
+    valid = False
     try:
         request = urllib2.Request(validation_url)
         custom_user_agent = get_custom_user_agent()
@@ -64,9 +64,10 @@ def http_validate_ownership(validation_url, timeout=CONNECTION_TIMEOUT):
         return False
 
     if response.getcode() == 200 and not hasattr(response, 'redirection'):
-        valid = True
-    else:
-        valid = False
+        search_string = 'validation-code=%s' % validation_code
+        content = response.read()
+        if search_string in content:
+            valid = True
     response.close()
     return valid
 

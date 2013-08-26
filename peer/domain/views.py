@@ -83,11 +83,11 @@ def domain_verify(request, domain_id, token=False):
     if request.method == 'POST':
         check = True
         if u'http' in request.POST:
-            valid = (http_validate_ownership(domain.validation_url) or
-                http_validate_ownership(domain.validation_url_with_www_prefix))
+            valid = (http_validate_ownership(domain.validation_url, domain.validation_key) or
+                http_validate_ownership(domain.validation_url_with_www_prefix, domain.validation_key))
         elif u'https' in request.POST:
-            valid = (http_validate_ownership(domain.validation_secure_url) or
-                http_validate_ownership(domain.validation_secure_url_with_www_prefix))
+            valid = (http_validate_ownership(domain.validation_secure_url, domain.validation_key) or
+                http_validate_ownership(domain.validation_secure_url_with_www_prefix, domain.validation_key))
         elif u'dns' in request.POST:
             valid = dns_validate_ownership(domain.name, domain.validation_key, request=request)
         elif u'email' in request.POST:
