@@ -156,7 +156,6 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				entitydescriptor.hasLogo() ||
 				entitydescriptor.hasInformationURL() ||
 				entitydescriptor.hasPrivacyStatementURL() ||
-				entitydescriptor.hasLocation() ||
 				entitydescriptor.hasKeywords
 			) {
 				extensions = this.addIfNotExtensions(spdescriptor);
@@ -181,7 +180,11 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 			}
 
 			this.addKeyDescriptor(spdescriptor, entitydescriptor, 'sp');
-			this.addEndpoints(spdescriptor, SAMLmetaJS.Constants.endpointTypes.sp, entitydescriptor.saml2sp);
+            // Remove already handled end points from endPointTypes
+            var notExtensionEndPointTypes = jQuery.extend({}, SAMLmetaJS.Constants.endpointTypes.sp);
+            delete notExtensionEndPointTypes.DiscoveryResponse;
+            delete notExtensionEndPointTypes.RequestInitiator;
+			this.addEndpoints(spdescriptor, notExtensionEndPointTypes, entitydescriptor.saml2sp);
 
 			if (SAMLmetaJS.tools.hasContents(entitydescriptor.name) &&
 					entitydescriptor.saml2sp &&
@@ -335,7 +338,7 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 				}
 			}
 			SAMLmetaJS.XML.wipeChildren(node.parentNode, SAMLmetaJS.Constants.ns.mdui, 'DiscoHints');
-			if (entitydescriptor.hasLocation()) {
+			if (endpoint === "saml2idp" && entitydescriptor.hasLocation()) {
 				this.addMDUILocation(node.parentNode, entitydescriptor.getLocation());
 			}
 		},
@@ -419,6 +422,12 @@ SAMLmetaJS.xmlupdater = function(xmlstring) {
 			}
 			if (endpoint.Location) {
 				newNode.setAttribute('Location', endpoint.Location);
+			}
+            if (endpoint.ResponseLocation) {
+				newNode.setAttribute('ResponseLocation', endpoint.ResponseLocation);
+			}
+            if (endpoint.index) {
+				newNode.setAttribute('index', endpoint.index);
 			}
 			node.appendChild(newNode);
 		},
