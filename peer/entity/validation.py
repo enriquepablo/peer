@@ -65,6 +65,8 @@ def validate(entity, doc, user=None):
 
 def _parse_metadata(doc):
     """Aux function that returns a list of errors and a metadata object"""
+    if type(doc) == unicode:
+        doc = doc.encode('utf-8', 'ignore')
     try:
         metadata = Metadata(etree.XML(doc))
     except etree.XMLSyntaxError, e:

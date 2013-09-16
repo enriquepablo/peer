@@ -110,7 +110,9 @@ def check_metadata_is_new(entity, new_metadata):
 
 
 def check_metadata_is_valid(form, entity, user, new_metadata, field):
-    errors = validate(entity, new_metadata.encode('utf-8'), user)
+    if type(new_metadata) != unicode:
+        new_metadata = new_metadata.decode('utf-8', 'ignore')
+    errors = validate(entity, new_metadata, user)
     if errors:
         # We don't raise ValidationError since we can have multiple errors
         form._errors[field] = form.error_class(errors)
@@ -160,9 +162,13 @@ class BaseMetadataEditForm(forms.Form):
         return self.metadata
 
     def get_diff(self):
-        text1 = self.entity.metadata.get_revision().split('\n')
-        text2 = self.metadata.split('\n')
-        return u'\n'.join(difflib.unified_diff(text1, text2))
+        text1 = self.entity.metadata.get_revision()
+        if type(text1) != unicode:
+            text1 = text1.decode('utf-8', 'ignore')
+        text2 = self.metadata
+        if type(text2) != unicode:
+            text2 = text2.decode('utf-8', 'ignore')
+        return u'\n'.join(difflib.unified_diff(text1.split('\n'), text2.split('\n')))
 
     def save(self):
         content = write_temp_file(self.metadata)

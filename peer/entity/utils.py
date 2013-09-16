@@ -166,7 +166,9 @@ def fetch_resource(url, decode=True):
 
 def write_temp_file(text, encoding='utf-8', delete=True):
     tmp = NamedTemporaryFile(delete=delete)
-    tmp.write(text.encode(encoding))
+    if type(text) == unicode:
+        text = text.encode(encoding, 'ignore')
+    tmp.write(text)
     tmp.seek(0)
     return File(tmp)
 
