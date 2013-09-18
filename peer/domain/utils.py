@@ -73,10 +73,11 @@ def send_mail_for_validation(request, domain, token, mailto):
 
 def send_notification_mail_to_domain_owner(request, domain, token):
     """ Send an email with a link to invalidate a domain """
+    mailto = []
     whois_data = whois.whois(domain.name)
-    if whois_data:
+    if whois_data and hasattr(whois_data, 'emails'):
         mailto = whois_data.emails
-    mailto = list(set(mailto))
+        mailto = list(set(mailto))
 
     if mailto:
         invalidation_url = generate_url(request, domain, token, 'domain_invalidate')
@@ -88,7 +89,7 @@ def send_notification_mail_to_domain_owner(request, domain, token):
 
 
 def send_mail(subject, data, template_name, mailto):
-
+    """ Aux function to send an email """ 
     plaintext = get_template("domain/%s.txt" % template_name)
     htmly = get_template("domain/%s.html" % template_name)
     text_content = plaintext.render(data)
@@ -119,7 +120,7 @@ def get_administrative_emails(domain_name):
         administrative_emails.append('%s@%s' % (default_administrative_email_address, domain_name))
 
     whois_data = whois.whois(domain_name)
-    if whois_data:
+    if whois_data and hasattr(whois_data, 'emails'):
         administrative_emails += whois_data.emails
     administrative_emails = list(set(administrative_emails))
     return administrative_emails
