@@ -85,11 +85,20 @@ def domain_verify(request, domain_id, token=False):
         if u'http' in request.POST:
             valid = (http_validate_ownership(domain.validation_url, domain.validation_key) or
                 http_validate_ownership(domain.validation_url_with_www_prefix, domain.validation_key))
+            if not valid:
+                messages.error(
+                    request, _(u'Error HTTP validation: Unreachable URL or the validation-code was not found'))
         elif u'https' in request.POST:
             valid = (http_validate_ownership(domain.validation_secure_url, domain.validation_key) or
                 http_validate_ownership(domain.validation_secure_url_with_www_prefix, domain.validation_key))
+            if not valid:
+                messages.error(
+                    request, _(u'Error HTTPs validation: Unreachable URL or the validation-code was not found'))
         elif u'dns' in request.POST:
             valid = dns_validate_ownership(domain.name, domain.validation_key, request=request)
+            if not valid:
+                messages.info(
+                    request, _(u'Do not try again until the zone has been propagated and the DNS cached cleaned'))
         elif u'email' in request.POST:
             check = False
             token = uuid.uuid4().hex
@@ -103,6 +112,9 @@ def domain_verify(request, domain_id, token=False):
     if request.method == 'GET' and token:
         check = True
         valid = email_validate_ownership(domain.name, token)
+        if not valid:
+            messages.warning(
+                request, _(u'Error Email validation: Invalid token provided'))
 
     if check:
         if valid:

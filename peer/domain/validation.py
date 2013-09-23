@@ -31,7 +31,7 @@ import httplib
 import urllib2
 import dns.resolver
 from dns.resolver import NXDOMAIN
-from dns.exception import DNSException
+from dns.exception import DNSException, Timeout
 
 from django.contrib import messages
 from django.utils.translation import ugettext as _
@@ -44,7 +44,7 @@ CONNECTION_TIMEOUT = 10
 
 
 def http_validate_ownership(validation_url, validation_code, timeout=CONNECTION_TIMEOUT):
-    """ True if the validation_url exists returning a 200 status code and 
+    """ True if the validation_url exists returning a 200 status code and
         the file contains the validation_code.
     False otherwise
     """
@@ -87,7 +87,11 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
     except NXDOMAIN:
         if request:
             messages.error(
-                request, _(u'Do not try again until the zone has been propagated and the nxdomain cached response cleaned'))
+                request, _(u'Error DNS validation: Domain %s not found' % domain))
+        return False
+    except Timeout:
+        messages.error(
+            request, _(u'Error DNS validation: Timeout'))
         return False
     # All DNS exceptions subclass from this one
     except DNSException:
@@ -98,11 +102,16 @@ def dns_validate_ownership(domain, validation_record, timeout=CONNECTION_TIMEOUT
             dns_validate_ownership(root_domain, validation_record)
         return False
 
-    for ans in answers:
-        if ans.to_text().strip('\"') == validation_record:
-            return True
+    if not answers:
+        messages.error(
+            request, _(u'Error DNS validation: Zone file does not contain a TXT record'))
     else:
-        return False
+        for ans in answers:
+            if ans.to_text().strip('\"') == validation_record:
+                return True
+    messages.error(
+        request, _(u'Error DNS validation: The required TXT record was not found'))
+    return False
 
 
 def email_validate_ownership(domain_name, token):
