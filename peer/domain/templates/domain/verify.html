@@ -53,7 +53,14 @@
             {% for domain_contact in domain_contact_list %}
                 <option value="{{ domain_contact }}">{{ domain_contact }}</option>
             {% endfor %}
-		 </select>	
+		 </select>
+        {% if not whois_has_emails %}
+            <div style="width:50%;">
+                <ul class="errorlist">
+                    <li class="warning">{% trans "Mail addresses could not be retrieved from the whois register" %}</li>
+                </ul>
+            </div>
+        {% endif %}
       <li>{% trans "Click on the verification button to recieve an email with more instructions:" %} <br>
           <input class="button" type="submit" name="email" value="{% trans "Verify ownership by EMAIL" %}" /></li>
     </ol>

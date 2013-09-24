@@ -44,7 +44,8 @@ from peer.domain.models import Domain, DomainTeamMembership, DomainToken
 from peer.entity.models import Entity
 from peer.domain.utils import (send_mail_for_validation,
                                send_notification_mail_to_domain_owner,
-                               get_administrative_emails)
+                               get_administrative_emails_from_settings,
+                               get_administrative_emails_from_whois)
 from peer.domain.validation import (http_validate_ownership,
                                     dns_validate_ownership,
                                     email_validate_ownership,
@@ -131,11 +132,19 @@ def domain_verify(request, domain_id, token=False):
             messages.error(
                 request, _(u'Error while checking domain ownership'))
 
-    domain_contact_list = get_administrative_emails(domain.name)
+    domain_contact_list = get_administrative_emails_from_whois(domain.name)
+
+    whois_has_emails = False
+    if domain_contact_list:
+        whois_has_emails = True
+
+    domain_contact_list += get_administrative_emails_from_settings(domain.name)
+    domain_contact_list = list(set(domain_contact_list))
 
     return render_to_response('domain/verify.html', {
         'domain': domain,
         'domain_contact_list': domain_contact_list,
+        'whois_has_emails': whois_has_emails,
         }, context_instance=RequestContext(request))
 
 

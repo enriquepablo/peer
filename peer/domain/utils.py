@@ -73,11 +73,7 @@ def send_mail_for_validation(request, domain, token, mailto):
 
 def send_notification_mail_to_domain_owner(request, domain, token):
     """ Send an email with a link to invalidate a domain """
-    mailto = []
-    whois_data = whois.whois(domain.name)
-    if whois_data and hasattr(whois_data, 'emails'):
-        mailto = whois_data.emails
-        mailto = list(set(mailto))
+    mailto = get_administrative_emails_from_whois(domain.name)
 
     if mailto:
         invalidation_url = generate_url(request, domain, token, 'domain_invalidate')
@@ -89,7 +85,7 @@ def send_notification_mail_to_domain_owner(request, domain, token):
 
 
 def send_mail(subject, data, template_name, mailto):
-    """ Aux function to send an email """ 
+    """ Aux function to send an email """
     plaintext = get_template("domain/%s.txt" % template_name)
     htmly = get_template("domain/%s.html" % template_name)
     text_content = plaintext.render(data)
@@ -109,20 +105,27 @@ def generate_url(request, domain, token, action):
     return "%s://%s%s" % (url_prefix, request.get_host(), relative_path)
 
 
-def get_administrative_emails(domain_name):
+def get_administrative_emails_from_settings(domain_name):
     """ For a given domain, get an administrative email list based on default
-        names defined in the settings and the emails obtained by a Whois Lookup
-        of the domain
+        names defined in the settings
     """
     administrative_emails = []
     default_administrative_email_addresses = getattr(settings, 'ADMINISTRATIVE_EMAIL_ADDRESSES', [])
     for default_administrative_email_address in default_administrative_email_addresses:
         administrative_emails.append('%s@%s' % (default_administrative_email_address, domain_name))
+    administrative_emails = list(set(administrative_emails))
+    return administrative_emails
 
+
+def get_administrative_emails_from_whois(domain_name):
+    """ For a given domain, get an administrative email list based on emails
+        obtained by a Whois Lookup of the domain
+    """
+    administrative_emails = []
     whois_data = whois.whois(domain_name)
     if whois_data and hasattr(whois_data, 'emails'):
-        administrative_emails += whois_data.emails
-    administrative_emails = list(set(administrative_emails))
+        administrative_emails = whois_data.emails
+        administrative_emails = list(set(administrative_emails))
     return administrative_emails
 
 
