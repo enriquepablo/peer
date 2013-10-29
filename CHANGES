@@ -3,7 +3,7 @@ CHANGES
 
 0.12.0 (2013-10-29)
 -------------------
-- Add swig dependencel.
+- Add swig dependence.
 - Bugfix in 0007 migration.
 - Display validation errors and warnings in a more useful way, with only
   relevant information.
