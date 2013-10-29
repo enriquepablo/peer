@@ -203,13 +203,16 @@ def strip_entities_descriptor(metadata_text):
     """
     result = metadata_text
     if result:
-        root = etree.XML(result)
-        if addns('EntitiesDescriptor') == root.tag:
-            children = root.getchildren()
-            if len(children) != 1:
-                raise ValueError("The metadata must have just one EntityDescriptor")
-            else:
-                result = etree.tostring(children[0])
+        try:
+            root = etree.XML(result)
+            if addns('EntitiesDescriptor') == root.tag:
+                children = root.getchildren()
+                if len(children) != 1:
+                    raise ValueError("The metadata must have just one EntityDescriptor")
+                else:
+                    result = etree.tostring(children[0])
+        except etree.XMLSyntaxError as e:
+            raise ValueError("Invalid XML Syntax: %s" % e.msg)
 
     return result
 
