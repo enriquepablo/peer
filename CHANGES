@@ -1,6 +1,27 @@
 CHANGES
 =======
 
+0.12.0 (2013-10-29)
+-------------------
+- Add swig dependencel.
+- Bugfix in 0007 migration.
+- Display validation errors and warnings in a more useful way, with only
+  relevant information.
+- Fix some encoding errors.
+- Support domain validation through email. Add python-whois dependence.
+- Add support for domain validation through https.
+- Notify the domain owner of validation activity related to that domain.
+- Support domain invalidation.
+- Bugfix in email notifications.
+- Warn about nxdomain response cached in DNS-based validation.
+- Validate that DiscoHints elements only appears on IdP SSO nodes.
+- Fix parsing the mdUI Info.
+- Enforce that KeyDescriptor nodes appear before NameIDFormat ones.
+- Avoid crashing in the prettify function with comments.
+- Catch the XMLSyntax exception to avoid 500 error when invalid metadata.
+- Check for multiple SSO of the same type and warn the user, because that is
+  unsupported by SAMLmetaJS.
+
 0.11.0 (2012-04-18)
 -------------------
 - Add support for schema validation (code stolen from pyff).

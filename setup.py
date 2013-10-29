@@ -46,7 +46,7 @@ def recursive_include(directory, patterns):
 
 # be careful with the syntax of this line since it is parsed from
 # the docs/conf.py file
-VERSION = '0.11.0'
+VERSION = '0.12.0'
 
 setup(
     name='peer',
@@ -63,13 +63,13 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        ],
+    ],
     packages=find_packages('.'),
     package_dir={'peer': 'peer'},
     package_data={
         'peer': recursive_include('peer', ['*.html', '*.css', '*.js', '*.txt',
                                            '*.png', '*.ico', '*.wsgi', '*.xsd'])
-        },
+    },
     zip_safe=False,
     install_requires=[
         'Django>=1.3,<1.5',
@@ -84,9 +84,9 @@ setup(
         'dnspython==1.11.0',
         'gitdb==0.5.4',
         'djangosaml2==0.4.2',
-        'python-whois==0.2' 
-        ],
+        'python-whois==0.2'
+    ],
     dependency_links=[
         'http://launchpad.net/pysaml2/0.2.1/0.2.1/+download/pysaml2-0.2.1.tgz',
-        ]
+    ]
 )
