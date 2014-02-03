@@ -49,7 +49,7 @@ from peer.entity.security import can_edit_entity
 
 
 DEFAULT_SAML_META_JS_PLUGINS = ('attributes', 'certs', 'contact', 'info',
-                                'location', 'saml2sp')
+                                'location', 'endpoints')
 
 
 def _get_edit_metadata_form(request, entity, edit_mode, form=None):
