@@ -47,7 +47,7 @@ urlpatterns = patterns(
         name='account_profile'),
     url(r'^accounts/profile/edit/$', 'peer.account.views.profile_edit',
         name='account_profile_edit'),
-    url(r'^accounts/register/$', 'registration.views.register', {
+    url(r'^accounts/register/$', 'registration.views.RegistrationView', {
         'form_class': RegistrationFormCaptchaTOU
         }, name='registration_register'),
     url(r'^accounts/password_change/$',

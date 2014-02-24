@@ -78,7 +78,7 @@ def get_latest_metadata(request, entity_id):
                         mimetype="application/samlmetadata+xml")
 
 
-@cache_page
+@cache_page(60 * 60 * 24)
 def get_pygments_css(request):
     formatter = HtmlFormatter(linenos=True, outencoding='utf-8')
     return HttpResponse(

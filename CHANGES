@@ -3,6 +3,14 @@ CHANGES
 
 0.12.0 (2013-10-29)
 -------------------
+
+- Upgrade to Django 1.6.2
+- Upgrade djangosaml to 0.10.0
+- Upgrade django-registration to 1.0
+- Adapt form fields
+- Adapt urls.py
+- Adapt url tag in templates
+- Fix license header (80 char length)
 - Add swig dependence.
 - Bugfix in 0007 migration.
 - Display validation errors and warnings in a more useful way, with only
