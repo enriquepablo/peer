@@ -3,28 +3,28 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-
+#
 #    1. Redistributions of source code must retain the above copyright notice,
 #       this list of conditions and the following disclaimer.
-
-#    2. Redistributions in binary form must reproduce the above copyright notice,
-#       this list of conditions and the following disclaimer in the documentation
-#        and/or other materials provided with the distribution.
-
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
 # THIS SOFTWARE IS PROVIDED BY TERENA ``AS IS'' AND ANY EXPRESS OR IMPLIED
 # WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 # MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
 # EVENT SHALL TERENA OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 # INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-# The views and conclusions contained in the software and documentation are those
-# of the authors and should not be interpreted as representing official policies,
-# either expressed or implied, of Terena.
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# The views and conclusions contained in the software and documentation are
+# those of the authors and should not be interpreted as representing official
+# policies, either expressed or implied, of Terena.
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -53,7 +53,7 @@ def entity_group_add(request, return_view_name='entity_group_view'):
             messages.success(request, _(u'Entity group created'))
             return HttpResponseRedirect(
                 reverse(return_view_name, args=[instance.id])
-                )
+            )
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
@@ -62,8 +62,8 @@ def entity_group_add(request, return_view_name='entity_group_view'):
         form = EntityGroupForm()
 
     return render_to_response('entity/edit_entity_group.html', {
-            'form': form,
-            }, context_instance=RequestContext(request))
+        'form': form,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -78,9 +78,9 @@ def entity_group_view(request, entity_group_id):
     entities = paginated_list_of_entities(request, entities_in_group)
 
     return render_to_response('entity/view_entity_group.html', {
-            'entity_group': entity_group,
-            'entities': entities,
-            }, context_instance=RequestContext(request))
+        'entity_group': entity_group,
+        'entities': entities,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -99,7 +99,7 @@ def entity_group_edit(request, entity_group_id,
             messages.success(request, _(u'Entity group edited succesfully'))
             return HttpResponseRedirect(
                 reverse(return_view_name, args=[form.instance.id])
-                )
+            )
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
@@ -108,9 +108,9 @@ def entity_group_edit(request, entity_group_id,
         form = EntityGroupForm(instance=entity_group)
 
     return render_to_response('entity/edit_entity_group.html', {
-            'entity_group': entity_group,
-            'form': form,
-            }, context_instance=RequestContext(request))
+        'entity_group': entity_group,
+        'form': form,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -128,5 +128,5 @@ def entity_group_remove(request, entity_group_id,
         return HttpResponseRedirect(reverse(return_view_name))
 
     return render_to_response('entity/remove_entity_group.html', {
-            'entity_group': entity_group,
-            }, context_instance=RequestContext(request))
+        'entity_group': entity_group,
+    }, context_instance=RequestContext(request))

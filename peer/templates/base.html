@@ -59,18 +59,18 @@
     <header id="header">
       {% block header %}
       <hgroup>
-        <h1><a href="{% url index %}">PEER</a></h1>
-        <h2><a href="{% url index %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
+        <h1><a href="{% url 'index' %}">PEER</a></h1>
+        <h2><a href="{% url 'index' %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
       </hgroup>
 
       <ul id="user-actions">
         {% block user_actions %}
           {% if user.is_anonymous %}
-            <li><a class="button" href="{% url registration_register %}">{% trans "Sign up" %}</a></li>
-            <li><a class="button" href="{% url auth_login %}">{% trans "Sign in" %}</a></li>
+            <li><a class="button" href="{% url 'registration_register' %}">{% trans "Sign up" %}</a></li>
+            <li><a class="button" href="{% url 'auth_login' %}">{% trans "Sign in" %}</a></li>
           {% else %}
-            <li><a class="button" href="{% url account_profile %}">{{ user }}</a></li>
-            <li><a class="button" href="{% url auth_logout %}">{% trans "Logout" %}</a></li>
+            <li><a class="button" href="{% url 'account_profile' %}">{{ user }}</a></li>
+            <li><a class="button" href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
           {% endif %}
         {% endblock %}
       </ul>
@@ -89,8 +89,8 @@
         <li><a href="#">Terena PEER 2011</a></li>
       </ul>
       <hgroup>
-        <h1><a href="{% url index %}">PEER</a></h1>
-        <h2><a href="{% url index %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
+        <h1><a href="{% url 'index' %}">PEER</a></h1>
+        <h2><a href="{% url 'index' %}">{% trans "Public Endpoint Entities Registry" %}</a></h2>
       </hgroup>
     </footer>
 

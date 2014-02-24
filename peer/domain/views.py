@@ -3,28 +3,28 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-
+#
 #    1. Redistributions of source code must retain the above copyright notice,
 #       this list of conditions and the following disclaimer.
-
-#    2. Redistributions in binary form must reproduce the above copyright notice,
-#       this list of conditions and the following disclaimer in the documentation
-#        and/or other materials provided with the distribution.
-
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
 # THIS SOFTWARE IS PROVIDED BY TERENA ``AS IS'' AND ANY EXPRESS OR IMPLIED
 # WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 # MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
 # EVENT SHALL TERENA OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 # INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-# The views and conclusions contained in the software and documentation are those
-# of the authors and should not be interpreted as representing official policies,
-# either expressed or implied, of Terena.
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# The views and conclusions contained in the software and documentation are
+# those of the authors and should not be interpreted as representing official
+# policies, either expressed or implied, of Terena.
 
 import uuid
 
@@ -72,8 +72,8 @@ def domain_add(request):
         form = DomainForm()
 
     return render_to_response('domain/add.html', {
-            'form': form,
-            }, context_instance=RequestContext(request))
+        'form': form,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -85,13 +85,13 @@ def domain_verify(request, domain_id, token=False):
         check = True
         if u'http' in request.POST:
             valid = (http_validate_ownership(domain.validation_url, domain.validation_key) or
-                http_validate_ownership(domain.validation_url_with_www_prefix, domain.validation_key))
+                     http_validate_ownership(domain.validation_url_with_www_prefix, domain.validation_key))
             if not valid:
                 messages.error(
                     request, _(u'Error HTTP validation: Unreachable URL or the validation-code was not found'))
         elif u'https' in request.POST:
             valid = (http_validate_ownership(domain.validation_secure_url, domain.validation_key) or
-                http_validate_ownership(domain.validation_secure_url_with_www_prefix, domain.validation_key))
+                     http_validate_ownership(domain.validation_secure_url_with_www_prefix, domain.validation_key))
             if not valid:
                 messages.error(
                     request, _(u'Error HTTPs validation: Unreachable URL or the validation-code was not found'))
@@ -145,7 +145,7 @@ def domain_verify(request, domain_id, token=False):
         'domain': domain,
         'domain_contact_list': domain_contact_list,
         'whois_has_emails': whois_has_emails,
-        }, context_instance=RequestContext(request))
+    }, context_instance=RequestContext(request))
 
 
 def domain_invalidate(request, domain_id, token):
@@ -173,9 +173,9 @@ def domain_remove(request, domain_id):
         return HttpResponseRedirect(reverse('account_profile'))
 
     return render_to_response('domain/remove.html', {
-            'domain': domain,
-            'entities': domain.entity_set.all(),
-            }, context_instance=RequestContext(request))
+        'domain': domain,
+        'entities': domain.entity_set.all(),
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -191,8 +191,8 @@ def force_domain_ownership(request, domain_id):
         return HttpResponseRedirect(reverse('manage_domain', args=[domain.id]))
 
     return render_to_response('domain/force_ownership.html', {
-            'domain': domain,
-            }, context_instance=RequestContext(request))
+        'domain': domain,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -220,8 +220,8 @@ def manage_domain_team(request, domain_id):
         raise PermissionDenied
 
     return render_to_response('domain/sharing.html', {
-            'domain': domain,
-            }, context_instance=RequestContext(request))
+        'domain': domain,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -231,9 +231,9 @@ def list_delegates(request, domain_id):
         raise PermissionDenied
 
     return render_to_response('domain/list_delegates.html', {
-            'domain': domain,
-            'delegates': domain.team.all(),
-            }, context_instance=RequestContext(request))
+        'domain': domain,
+        'delegates': domain.team.all(),
+    }, context_instance=RequestContext(request))
 
 
 @login_required

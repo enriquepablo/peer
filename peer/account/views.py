@@ -3,28 +3,28 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-
+#
 #    1. Redistributions of source code must retain the above copyright notice,
 #       this list of conditions and the following disclaimer.
-
-#    2. Redistributions in binary form must reproduce the above copyright notice,
-#       this list of conditions and the following disclaimer in the documentation
-#        and/or other materials provided with the distribution.
-
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
 # THIS SOFTWARE IS PROVIDED BY TERENA ``AS IS'' AND ANY EXPRESS OR IMPLIED
 # WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 # MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
 # EVENT SHALL TERENA OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 # INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-# The views and conclusions contained in the software and documentation are those
-# of the authors and should not be interpreted as representing official policies,
-# either expressed or implied, of Terena.
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# The views and conclusions contained in the software and documentation are
+# those of the authors and should not be interpreted as representing official
+# policies, either expressed or implied, of Terena.
 
 import json
 
@@ -64,11 +64,11 @@ def profile(request):
     owned_group_entities = EntityGroup.objects.filter(owner=request.user)
     delegations = PermissionDelegation.objects.filter(delegate=request.user)
     return render_to_response('account/profile.html', {
-            'domains': domains,
-            'owned_entities': owned_entities,
-            'permission_delegations': delegations,
-            'owned_group_entities': owned_group_entities,
-            }, context_instance=RequestContext(request))
+        'domains': domains,
+        'owned_entities': owned_entities,
+        'permission_delegations': delegations,
+        'owned_group_entities': owned_group_entities,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -86,8 +86,8 @@ def profile_edit(request):
         form = PersonalInformationForm(instance=request.user)
 
     return render_to_response('account/edit.html', {
-            'form': form,
-            }, context_instance=RequestContext(request))
+        'form': form,
+    }, context_instance=RequestContext(request))
 
 
 @login_required
@@ -101,22 +101,22 @@ def invite_friend(request):
             subject = _(u'%s invites you to the Peer project') % sendername
             send_mail(subject, body,  settings.DEFAULT_FROM_EMAIL, [email])
             messages.success(request,
-                                _('Invitation message sent to %s') % email)
+                             _('Invitation message sent to %s') % email)
             return HttpResponseRedirect(reverse('account_profile'))
         else:
             messages.error(request, _('Please correct the errors'
                                       ' indicated below'))
     else:
         body = render_to_string('account/invitation_email.txt',
-                                       {
-                                        'site': get_current_site(request),
-                                        'user': sendername,
-                                        })
+                                {
+                                    'site': get_current_site(request),
+                                    'user': sendername,
+                                })
         form = FriendInvitationForm(initial={'body_text': body})
 
     return render_to_response('account/invite_friend.html', {
-            'form': form,
-            }, context_instance=RequestContext(request))
+        'form': form,
+    }, context_instance=RequestContext(request))
 
 
 def _user_search(q):
@@ -125,8 +125,8 @@ def _user_search(q):
         terms = q.split()
         for term in terms:
             queries = Q(username__icontains=term) | \
-                      Q(first_name__icontains=term) | \
-                      Q(last_name__icontains=term)
+                Q(first_name__icontains=term) | \
+                Q(last_name__icontains=term)
             query = query and (query & queries) or queries
 
         return User.objects.filter(query)
@@ -142,8 +142,8 @@ def search_users_auto(request):
 
 def logout(request):
     if (getattr(settings, 'SAML_ENABLED', False) and
-        BACKEND_SESSION_KEY in request.session and
-        request.session[BACKEND_SESSION_KEY] == 'djangosaml2.backends.Saml2Backend'):
+            BACKEND_SESSION_KEY in request.session and
+            request.session[BACKEND_SESSION_KEY] == 'djangosaml2.backends.Saml2Backend'):
         return saml2_logout(request)
     else:
         return auth_logout(request, template_name='registration/logout.html')
@@ -154,8 +154,8 @@ def manage_admin_team(request):
     if not request.user.is_superuser:
         raise PermissionDenied
 
-    return render_to_response('account/manage_admin_team.html', {
-            }, context_instance=RequestContext(request))
+    return render_to_response('account/manage_admin_team.html', {},
+                              context_instance=RequestContext(request))
 
 
 @login_required
@@ -164,8 +164,8 @@ def list_superusers(request):
         raise PermissionDenied
 
     return render_to_response('account/list_superusers.html', {
-            'superusers': User.objects.filter(is_superuser=True),
-            }, context_instance=RequestContext(request))
+        'superusers': User.objects.filter(is_superuser=True),
+    }, context_instance=RequestContext(request))
 
 
 @login_required

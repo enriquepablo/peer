@@ -3,28 +3,28 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-
+#
 #    1. Redistributions of source code must retain the above copyright notice,
 #       this list of conditions and the following disclaimer.
-
-#    2. Redistributions in binary form must reproduce the above copyright notice,
-#       this list of conditions and the following disclaimer in the documentation
-#        and/or other materials provided with the distribution.
-
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
 # THIS SOFTWARE IS PROVIDED BY TERENA ``AS IS'' AND ANY EXPRESS OR IMPLIED
 # WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 # MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
 # EVENT SHALL TERENA OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 # INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-# The views and conclusions contained in the software and documentation are those
-# of the authors and should not be interpreted as representing official policies,
-# either expressed or implied, of Terena.
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# The views and conclusions contained in the software and documentation are
+# those of the authors and should not be interpreted as representing official
+# policies, either expressed or implied, of Terena.
 
 # Django settings for peer project.
 
@@ -49,11 +49,11 @@ DEFAULT_FROM_EMAIL = 'no-reply@example.com'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'peer',                      # Or path to database file if using sqlite3.
-        'USER': 'peer',                      # Not used with sqlite3.
-        'PASSWORD': 'peer',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'NAME': 'peer',                                      # Or path to database file if using sqlite3.
+        'USER': 'peer',                                      # Not used with sqlite3.
+        'PASSWORD': 'peer',                                  # Not used with sqlite3.
+        'HOST': '',                                          # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                                          # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -112,7 +112,7 @@ STATICFILES_DIRS = (
     os.path.join(BASEDIR, 'staticfiles'),
 )
 
-# Aditional theme custom styles 
+# Aditional theme custom styles
 PEER_THEME = {
     'LINK_COLOR': '#5669CE',
     'LINK_HOVER': '#1631BC',
@@ -131,17 +131,17 @@ PEER_THEME = {
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ''
+SECRET_KEY = 'w^e-s0n)+#^ottb%lm+%9=_etmv8p&s3hacm6^i41+1+u_nw-3'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 
@@ -169,7 +169,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'peer.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like "/home/html/django_templates" or
+    # "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(BASEDIR, 'templates'),
@@ -197,7 +198,8 @@ INSTALLED_APPS = (
 ACCOUNT_ACTIVATION_DAYS = 2
 LOGIN_REDIRECT_URL = '/'
 
-# Email settings. Commented by security, but should be rewrite on a local or production settings
+# Email settings. Commented by security, but should be rewrite on a local or
+# production settings
 # EMAIL_HOST = 'smtp.example.com'
 # EMAIL_PORT = 25
 
@@ -241,13 +243,13 @@ METADATA_VALIDATORS = (
     'peer.entity.validation.validate_xml_syntax',
     'peer.entity.validation.validate_domain_in_endpoints',
     'peer.entity.validation.validate_metadata_permissions',
-#    'peer.entity.validation.validate_domain_in_entityid',
+    # 'peer.entity.validation.validate_domain_in_entityid',
     'peer.entity.validation.validate_schema',
 )
 
 # Permissions for metadata attribute. The metadata attribute is defined by
 # its XPATH. The triplets are (<XPATH>, <Permission name>, <Permission
-# description>) 
+# description>)
 #METADATA_PERMISSIONS = (
     #('/md:EntityDescriptor', 'entity_descriptor', 'Entity Descriptor'),
     #('.//md:ServiceDescription', 'service_descriptor', 'Service Description'),
@@ -268,7 +270,7 @@ VFF_BACKEND = 'vff.git_backend.GitBackend'
 ADMINISTRATIVE_EMAIL_ADDRESSES = ('webmaster', 'hostmaster', 'abuse',
                                   'postmaster', 'admin')
 
-# DOMAIN Invalidation: Send to the administrative contact of a domain 
+# DOMAIN Invalidation: Send to the administrative contact of a domain
 # returned by a WHOIS LOOKUP an email when the domain is validated to allow
 # revoke the action
 NOTIFY_DOMAIN_OWNER = False
@@ -312,7 +314,7 @@ SAML_ATTRIBUTE_MAPPING = {
     'mail': ('username', 'email'),
     'givenName': ('first_name', ),
     'sn': ('last_name', ),
-    }
+}
 
 SAML_ONE_IDP_SIGN_IN_BUTTON = _('Federated sign in')
 SAML_SEVERAL_IDPS_SIGN_IN_BUTTON = _('Federated sign in')

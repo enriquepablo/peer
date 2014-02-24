@@ -34,7 +34,7 @@
 
   <div class="clear">
     <p class="invitation">{% trans "Don't find your colleague?" %}</p>
-    <a class="button" href="{% url invite_friend %}">{% trans "Invite him to peer!" %}</a>
+    <a class="button" href="{% url 'invite_friend' %}">{% trans "Invite him to peer!" %}</a>
   </div>
 
 </section>
@@ -45,9 +45,9 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function () {
-        var search_url = '{% url search_users_auto %}';
-        var add_superuser_url_template = '{% url add_superuser '__user__' %}';
-        var load_superusers_url = "{% url list_superusers %}";
+        var search_url = '{% url "search_users_auto" %}';
+        var add_superuser_url_template = '{% url "add_superuser" "__user__" %}';
+        var load_superusers_url = "{% url 'list_superusers' %}";
         $.fn.superusers.load_superusers(load_superusers_url);
         $('#q').autocomplete({source: search_url,
                               select: $.fn.superusers.enable_add_superuser});

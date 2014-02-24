@@ -43,7 +43,7 @@
   </section>
 
   <section>
-    <form action="{% url domain_verify domain.id %}" method="post">{% csrf_token %}
+    <form action="{% url 'domain_verify' domain.id %}" method="post">{% csrf_token %}
     <hgroup>
       <h2>{% trans "Email validation" %}</h2>
     </hgroup>
@@ -77,7 +77,7 @@
     <ol class="steps">
       <li>{% trans "Click on the verification button:" %}
         <form action="" method="post">{% csrf_token %}
-          <a class="button" href="{% url force_domain_ownership domain.id %}">{% trans "Verify ownership by force" %}</a>
+          <a class="button" href="{% url 'force_domain_ownership' domain.id %}">{% trans "Verify ownership by force" %}</a>
         </form>
       </li>
     </ol>

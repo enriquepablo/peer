@@ -1,13 +1,41 @@
 # encoding: utf-8
-import datetime
+
+# Copyright 2011 Terena. All rights reserved.
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+#    1. Redistributions of source code must retain the above copyright notice,
+#       this list of conditions and the following disclaimer.
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY TERENA ``AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL TERENA OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# The views and conclusions contained in the software and documentation are
+# those of the authors and should not be interpreted as representing official
+# policies, either expressed or implied, of Terena.
+
 from south.db import db
 from south.v2 import SchemaMigration
-from django.db import models
+
 
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Entity.vff_username'
         db.add_column('entity_entity', 'vff_username', self.gf('peer.customfields.SafeCharField')(max_length=255, null=True, blank=True), keep_default=False)
 
@@ -17,9 +45,8 @@ class Migration(SchemaMigration):
         # Changing field 'Entity.vff_commit_msg'
         db.alter_column('entity_entity', 'vff_commit_msg', self.gf('peer.customfields.SafeCharField')(max_length=255, null=True))
 
-
     def backwards(self, orm):
-        
+
         # Deleting field 'Entity.vff_username'
         db.delete_column('entity_entity', 'vff_username')
 
@@ -28,7 +55,6 @@ class Migration(SchemaMigration):
 
         # Changing field 'Entity.vff_commit_msg'
         db.alter_column('entity_entity', 'vff_commit_msg', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
-
 
     models = {
         'auth.group': {

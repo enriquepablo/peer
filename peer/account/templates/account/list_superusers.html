@@ -9,7 +9,7 @@
       <li>
       <form class="list-users-form">
           {% csrf_token %}
-          <button type="button" id="{% url remove_superuser superuser.username %}"
+          <button type="button" id="{% url 'remove_superuser' superuser.username %}"
                   class="button remove-superuser-button">
             {% trans "Remove" %}
           </button>

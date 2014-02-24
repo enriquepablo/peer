@@ -19,13 +19,13 @@
     <h1>{% trans "Invite a friend to the site" %}</h1>
   </hgroup>
 
-  <form action="{% url invite_friend %}" method="post">{% csrf_token %}
+  <form action="{% url 'invite_friend' %}" method="post">{% csrf_token %}
     <fieldset>
     {{ form.as_p }}
     </fieldset>
     <fieldset class="actionRow">
       <input class="button" type="submit" value="{% trans "Send invitation" %}" />
-      {% trans "or" %} <a class="button" href="{% url account_profile %}">{% trans "Cancel" %}</a>
+      {% trans "or" %} <a class="button" href="{% url 'account_profile' %}">{% trans "Cancel" %}</a>
     </fieldset>
   </form>
 

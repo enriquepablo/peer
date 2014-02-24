@@ -21,7 +21,7 @@
     </form>
 
     <p>
-      <a href="{% url auth_password_reset %}">{% trans "Forgot Password?" %}</a>
+      <a href="{% url 'auth_password_reset' %}">{% trans "Forgot Password?" %}</a>
     </p>
   </div>
 
@@ -30,7 +30,7 @@
 
   <div class="right block">
     <h2>{% trans "Federated sign in" %}</h2>
-    <form id="federated-login" action="{% url saml2_login %}" method="get">{% csrf_token %}
+    <form id="federated-login" action="{% url 'saml2_login' %}" method="get">{% csrf_token %}
       {% idplist as idps %}
       {% if idps|length_is:"0" %}
       <p>{% trans "There are no IdPs configured, please check the configuration" %}</p>
@@ -64,7 +64,7 @@
 
   <div class="right block">
     <h2>{% trans "Remote User sign in" %}</h2>
-    <form action="{% url remote_user_login %}" method="get">
+    <form action="{% url 'remote_user_login' %}" method="get">
       <fieldset>
         <p>{% trans "Sign in using your web server REMOTE_USER header" %}</p>
       </fieldset>

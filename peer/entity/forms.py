@@ -3,28 +3,28 @@
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-
+#
 #    1. Redistributions of source code must retain the above copyright notice,
 #       this list of conditions and the following disclaimer.
-
-#    2. Redistributions in binary form must reproduce the above copyright notice,
-#       this list of conditions and the following disclaimer in the documentation
-#        and/or other materials provided with the distribution.
-
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in the
+#       documentation and/or other materials provided with the distribution.
+#
 # THIS SOFTWARE IS PROVIDED BY TERENA ``AS IS'' AND ANY EXPRESS OR IMPLIED
 # WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 # MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
 # EVENT SHALL TERENA OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
 # INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-# The views and conclusions contained in the software and documentation are those
-# of the authors and should not be interpreted as representing official policies,
-# either expressed or implied, of Terena.
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+# OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+# EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# The views and conclusions contained in the software and documentation are
+# those of the authors and should not be interpreted as representing official
+# policies, either expressed or implied, of Terena.
 
 import difflib
 
@@ -90,17 +90,16 @@ class EntityGroupForm(forms.ModelForm):
         fields = ('name', 'query')
         widgets = {
             'query': forms.TextInput(attrs={'class': 'longInput'}),
-            }
+        }
 
 
-def commitMessageWidgetFactory(suffix):
+def commitMessageWidgetFactory():
     return forms.CharField(
-        'commit_msg_' + suffix,
         required=True,
         label=_('Commit message'),
         help_text=_('Short description of the commited changes'),
         widget=forms.TextInput(attrs={'class': 'commitMessage'}),
-        )
+    )
 
 
 def check_metadata_is_new(entity, new_metadata):
@@ -185,12 +184,11 @@ class MetadataTextEditForm(BaseMetadataEditForm):
     type = 'text'
 
     metadata_text = forms.CharField(
-        'metadata_text',
         label=_('Metadata'),
         help_text=_('Edit the metadata for this entity'),
         widget=forms.Textarea,
-        )
-    commit_msg_text = commitMessageWidgetFactory('text')
+    )
+    commit_msg_text = commitMessageWidgetFactory()
 
     def clean_metadata_text(self):
         return self._clean_metadata_field('metadata_text')
@@ -201,11 +199,10 @@ class MetadataFileEditForm(BaseMetadataEditForm):
     type = 'file'
 
     metadata_file = forms.FileField(
-        'metadata_file',
         label=_('Metadata'),
         help_text=_('Upload a file with the metadata for this entity'),
-        )
-    commit_msg_file = commitMessageWidgetFactory('file')
+    )
+    commit_msg_file = commitMessageWidgetFactory()
     tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))
 
     def clean_metadata_file(self):
@@ -222,13 +219,12 @@ class MetadataRemoteEditForm(BaseMetadataEditForm):
     type = 'remote'
 
     metadata_url = forms.URLField(
-        'metadata_url',
         required=True,
         label=_('Metadata'),
         help_text=_('Enter the URL of an XML document'
                     ' with the metadata for this entity'),
-        )
-    commit_msg_remote = commitMessageWidgetFactory('remote')
+    )
+    commit_msg_remote = commitMessageWidgetFactory()
     tou = TermsOfUseField(readtou('METADATA_IMPORT_TERMS_OF_USE'))
 
     def clean_metadata_url(self):
@@ -266,4 +262,4 @@ class EditMonitoringPreferencesForm(forms.Form):
     want_alerts = forms.BooleanField(
         label=_('Receive email alerts when any endpoint of this entity is down'),
         required=False,  # to allow falsy values
-        )
+    )
