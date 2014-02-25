@@ -167,7 +167,7 @@
               <td>{{ forloop.revcounter }}</td>
             <td>
               <a class="rev-link"
-                  href="{% url 'get_revision' entity.id,rev.versionid %}"
+                  href="{% url 'get_revision' entity.id rev.versionid %}"
                   title="{% trans "Revision" %} {{ rev.versionid }}">
                    @{{ rev.versionid|slice:"-5:" }}
               </a>
@@ -175,7 +175,7 @@
             {% if rev.previous %}
             <td>
               <a class="diff-link"
-                  href="{% url 'get_diff'  entity.id,rev.previous,rev.versionid %}"
+                  href="{% url 'get_diff'  entity.id rev.previous rev.versionid %}"
                   title="{% trans "Diff from rev" %} {{ rev.previous }} {% trans " to rev" %} {{ rev.versionid }}">
                    Prev diff
               </a>

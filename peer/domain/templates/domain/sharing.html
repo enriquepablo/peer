@@ -46,7 +46,7 @@
 (function($) {
     $(document).ready(function () {
         var search_url = '{% url "search_users_auto" %}';
-        var add_superuser_url_template = '{% url "add_domain_delegate" domain.id,"__user__" %}';
+        var add_superuser_url_template = '{% url "add_domain_delegate" domain.id "__user__" %}';
         var load_superusers_url = "{% url 'list_domain_delegates' domain.id %}";
         $.fn.superusers.load_superusers(load_superusers_url);
         $('#q').autocomplete({source: search_url,
