@@ -198,6 +198,12 @@ INSTALLED_APPS = (
 ACCOUNT_ACTIVATION_DAYS = 2
 LOGIN_REDIRECT_URL = '/'
 
+AUTHENTICATION_BACKENDS = (
+    'djangosaml2.backends.Saml2Backend',
+    'django.contrib.auth.backends.RemoteUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 # Email settings. Commented by security, but should be rewrite on a local or
 # production settings
 # EMAIL_HOST = 'smtp.example.com'
@@ -318,6 +324,8 @@ SAML_ATTRIBUTE_MAPPING = {
 
 SAML_ONE_IDP_SIGN_IN_BUTTON = _('Federated sign in')
 SAML_SEVERAL_IDPS_SIGN_IN_BUTTON = _('Federated sign in')
+
+SAML_CONFIG = {}  # YOU MUST OVERWRITE THIS IN THE LOCAL SETTINGS
 
 # Remote user auth
 REMOTE_USER_ENABLED = False
