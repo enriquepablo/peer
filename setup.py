@@ -83,7 +83,7 @@ setup(
         'Pygments==1.4',
         'dnspython==1.11.0',
         'gitdb==0.5.4',
-        'djangosaml2==0.10.0',
+        'djangosaml2-dj16==0.10.0',
         'python-whois==0.2'
     ],
     dependency_links=[
