@@ -48,7 +48,7 @@ from django.utils.translation import ugettext as _
 
 from djangosaml2.views import logout as saml2_logout
 
-from registration.views import RegistrationView
+from registration.backends.default.views import RegistrationView
 
 from peer.account.forms import PersonalInformationForm
 from peer.account.forms import FriendInvitationForm
