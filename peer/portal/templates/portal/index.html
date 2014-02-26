@@ -23,6 +23,7 @@
   {% include "portal/menu.html" %}
 
   <section id="home-content" class="mainContent">
+    <h1>{% trans "Latest Entities" %}</h1>
     <ul class="entityList">
       {% for entity in entities %}
       {% render_entity_as_list_item entity %}

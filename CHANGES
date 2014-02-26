@@ -11,6 +11,7 @@ CHANGES
 - Adapt urls.py
 - Adapt url tag in templates
 - Fix license header (80 char length)
+- Upgrade django-recaptcha to 0.0.9
 - Add swig dependence.
 - Bugfix in 0007 migration.
 - Display validation errors and warnings in a more useful way, with only

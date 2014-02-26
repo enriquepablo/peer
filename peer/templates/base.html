@@ -69,7 +69,17 @@
             <li><a class="button" href="{% url 'registration_register' %}">{% trans "Sign up" %}</a></li>
             <li><a class="button" href="{% url 'auth_login' %}">{% trans "Sign in" %}</a></li>
           {% else %}
-            <li><a class="button" href="{% url 'account_profile' %}">{{ user }}</a></li>
+            <li>
+                <div>
+                    <a id="user-profile" href="{% url 'account_profile' %}">{{ user }}</a>
+                    <button id="user-menu">Select an action</button>
+                </div>
+                <ul>
+                    <li><a href="#">Open...</a></li>
+                    <li><a href="#">Save</a></li>
+                    <li><a href="#">Delete</a></li>
+                </ul>
+            </li>
             <li><a class="button" href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
           {% endif %}
         {% endblock %}
@@ -99,7 +109,32 @@
     <script type="text/javascript">
       (function ($) {
           $(document).ready(function () {
-              $(".button").button();
+            var menuCB = function (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                var $menu = $(evt.target).parents(".ui-buttonset").first().next();
+                $menu.show().position({
+                    my: "left top",
+                    at: "left bottom",
+                    of: this
+                });
+                $(document).one( "click", function (evt) {
+                    evt.preventDefault();
+                    $menu.hide();
+                });
+            };
+
+            $(".button").button();
+            $("#user-profile").button()
+                .next().button({
+                    text: false,
+                    icons: {
+                        primary: "ui-icon-triangle-1-s"
+                    }
+                })
+                .click(menuCB)
+                .parent().buttonset()
+                .next().hide().menu();
           });
       }(jQuery));
     </script>
