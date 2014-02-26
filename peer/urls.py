@@ -32,9 +32,6 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from peer.account.forms import RegistrationFormCaptchaTOU
-from registration import urls as registration_urls
-
 admin.autodiscover()
 
 
@@ -47,9 +44,6 @@ urlpatterns = patterns(
         name='account_profile'),
     url(r'^accounts/profile/edit/$', 'peer.account.views.profile_edit',
         name='account_profile_edit'),
-    url(r'^accounts/register/$', 'registration.views.RegistrationView', {
-        'form_class': RegistrationFormCaptchaTOU
-        }, name='registration_register'),
     url(r'^accounts/password_change/$',
         'django.contrib.auth.views.password_change', name='password_change'),
     url(r'^accounts/invite_friend/$',
@@ -66,7 +60,7 @@ urlpatterns = patterns(
         'peer.account.views.add_superuser', name='add_superuser'),
     url(r'^accounts/remove_superuser/(?P<username>.+)$',
         'peer.account.views.remove_superuser', name='remove_superuser'),
-    (r'^accounts/', include(registration_urls)),
+    url(r'^accounts/', include('peer.account.urls')),
 
     url(r'^saml2/ls/$', 'djangosaml2.views.logout_service', {
         'next_page': '/accounts/logout/',

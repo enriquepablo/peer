@@ -48,8 +48,11 @@ from django.utils.translation import ugettext as _
 
 from djangosaml2.views import logout as saml2_logout
 
+from registration.views import RegistrationView
+
 from peer.account.forms import PersonalInformationForm
 from peer.account.forms import FriendInvitationForm
+from peer.account.forms import RegistrationFormCaptchaTOU
 from peer.account.templatetags.account import safefullname
 from peer.domain.models import Domain
 from peer.entity.models import Entity
@@ -201,3 +204,7 @@ def remove_superuser(request, username):
         else:
             return HttpResponse('notsuperuser')
     return list_superusers(request)
+
+
+class RegistrationCaptchaView(RegistrationView):
+    form_class = RegistrationFormCaptchaTOU
