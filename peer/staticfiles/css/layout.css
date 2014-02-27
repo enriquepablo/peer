@@ -789,11 +789,11 @@ div#searchusers-box {
 
 input.button,
 .ui-button-text-only .ui-button-text,
-#user-menu > .ui-button-text {
+#user-menu-btn > .ui-button-text {
     padding: 0.1em 0.6em;
 }
 
-#user-menu {
+#user-menu-btn {
     margin: 0;
 }
 

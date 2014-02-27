@@ -72,13 +72,8 @@
             <li>
                 <div>
                     <a id="user-profile" href="{% url 'account_profile' %}">{{ user }}</a>
-                    <button id="user-menu">Select an action</button>
+                    <button id="user-menu-btn">Select an action</button>
                 </div>
-                <ul>
-                    <li><a href="#">Open...</a></li>
-                    <li><a href="#">Save</a></li>
-                    <li><a href="#">Delete</a></li>
-                </ul>
             </li>
             <li><a class="button" href="{% url 'auth_logout' %}">{% trans "Logout" %}</a></li>
           {% endif %}
@@ -104,15 +99,29 @@
       </hgroup>
     </footer>
 
+    {% if not user.is_anonymous %}
+    <ul id="user-menu">
+        <li><a href="{% url 'entities_list' %}">{% trans "Full list of entities" %}</a></li>
+        <li><a href="{% url 'account_profile' %}">{% trans "My domains and entities" %}</a></li>
+        <li><a href="{% url 'domain_add' %}">{% trans "Add domain" %}</a></li>
+        <li><a href="{% url 'entity_add' %}">{% trans "Add entity" %}</a></li>
+        <li><a href="{% url 'entity_group_add' %}">{% trans "Add entity group" %}</a></li>
+        <li><a href="{% url 'account_profile_edit' %}">{% trans "Change personal information" %}</a></li>
+        <li><a href="{% url 'password_change' %}">{% trans "Change password" %}</a></li>
+        <li><a href="{% url 'invite_friend' %}">{% trans "Invite friend" %}</a></li>
+    </ul>
+    {% endif %}
+
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.6.3.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui-1.8.13.custom.min.js"></script>
     <script type="text/javascript">
       (function ($) {
           $(document).ready(function () {
+            {% if not user.is_anonymous %}
             var menuCB = function (evt) {
                 evt.preventDefault();
                 evt.stopPropagation();
-                var $menu = $(evt.target).parents(".ui-buttonset").first().next();
+                var $menu = $("#user-menu");
                 $menu.show().position({
                     my: "left top",
                     at: "left bottom",
@@ -124,7 +133,6 @@
                 });
             };
 
-            $(".button").button();
             $("#user-profile").button()
                 .next().button({
                     text: false,
@@ -133,8 +141,16 @@
                     }
                 })
                 .click(menuCB)
-                .parent().buttonset()
-                .next().hide().menu();
+                .parent().buttonset();
+
+            $("#user-menu").hide().menu()
+                .find("a").click(function (evt) {
+                    evt.preventDefault();
+                    window.location = $(evt.target).attr("href");
+                });
+            {% endif %}
+
+            $(".button").button();
           });
       }(jQuery));
     </script>
