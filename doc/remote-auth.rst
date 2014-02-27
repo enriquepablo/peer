@@ -94,8 +94,9 @@ configuration options in a file and initialize PySAML2 with the path to
 that file.
 
 With djangosaml2 you just put the same information in the Django
-local_settings.py file under the SAML_CONFIG option. Following is a typical
-configuration for protecting a PEER instance:
+local_settings.py file under the SAML_CONFIG option. Check out the
+``local_settings.example`` file in the root of the project. Following is a
+typical configuration for protecting a PEER instance:
 
 .. code-block:: python
 
@@ -264,8 +265,8 @@ the users credentials. So it need to be created:
 .. code-block:: bash
 
   $ htpasswd -c /tmp/passwords.htpasswd lgs@yaco.es
-  New password: 
-  Re-type new password: 
+  New password:
+  Re-type new password:
   Adding password for user lgs@yaco.es
 
 As you can see, emails are used as identifiers for PEER users.

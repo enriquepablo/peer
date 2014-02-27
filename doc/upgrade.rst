@@ -22,7 +22,7 @@ now we can just upgrade the PEER package:
   $ easy_install --upgrade peer
 
 If there is a newer version of PEER, easy_install will download and install
-it in the lib/python2.6/site-packages directory of your virtualenv. This will
+it in the lib/python2.7/site-packages directory of your virtualenv. This will
 not overwrite your old peer version, which is convenient since we will need
 to copy the *local_settings.py* file from that old directory.
 
@@ -81,12 +81,12 @@ For example, if you had this configuration in Apache:
 
 .. code-block:: none
 
- WSGIScriptAlias / /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/peer.wsgi
- Alias /static/ /vaw/www/peer/lib/python2.6/site-packages/peer-0.4.0-py2.6.egg/peer/static/
+ WSGIScriptAlias / /vaw/www/peer/lib/python2.7/site-packages/peer-0.4.0-py2.6.egg/peer/peer.wsgi
+ Alias /static/ /vaw/www/peer/lib/python2.7/site-packages/peer-0.4.0-py2.6.egg/peer/static/
 
 And you are upgrading to version 0.5.0, you need to change it to this:
 
 .. code-block:: none
 
- WSGIScriptAlias / /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0-py2.6.egg/peer/peer.wsgi
- Alias /static/ /vaw/www/peer/lib/python2.6/site-packages/peer-0.5.0-py2.6.egg/peer/static/
+ WSGIScriptAlias / /vaw/www/peer/lib/python2.7/site-packages/peer-0.5.0-py2.6.egg/peer/peer.wsgi
+ Alias /static/ /vaw/www/peer/lib/python2.7/site-packages/peer-0.5.0-py2.6.egg/peer/static/

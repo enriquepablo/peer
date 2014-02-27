@@ -54,7 +54,7 @@ The `PEER project web site <https://github.com/Yaco-Sistemas/peer/>`_ is the
 main online source of PEER support and development information.
 
 To report bugs, use the
-`issue tracker <https://github.com/Yaco-Sistemas/peer/>`_.
+`issue tracker <https://github.com/Yaco-Sistemas/peer/issues>`_.
 
 If you've got questions that aren't answered by this documentation,
 contact the `PEER mailing list

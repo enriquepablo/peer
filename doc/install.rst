@@ -13,7 +13,8 @@ right after this one.
 Common prerequisites
 --------------------
 
-The minimum version of Python needed to run PEER is 2.6.
+The minimum version of Python needed to run PEER is 2.6, but Python 2.7 is
+highly recommended.
 
 In the process of installing PEER, both in the standard installation and
 the development installation, it is necessary that some libraries already
@@ -114,7 +115,7 @@ Now we can install the PEER software:
   $ easy_install peer
 
 After a while you will have a bunch of new packages inside
-*/var/www/peer/lib/python2.6/site-packages/*
+*/var/www/peer/lib/python2.7/site-packages/*
 
 Creating the database
 ~~~~~~~~~~~~~~~~~~~~~
@@ -218,7 +219,7 @@ database. This will be described with more deails in the :doc:`configuration`
 chapter.
 
 Add the following information into the
-*/var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/local_settings.py* file:
+*/var/www/peer/lib/python2.7/site-packages/peer-X.Y.Z-py2.6.egg/peer/local_settings.py* file:
 
 .. code-block:: python
 
@@ -295,8 +296,8 @@ following configuration into your specific virtual host section:
 
 .. code-block:: none
 
- WSGIScriptAlias / /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/peer.wsgi
- Alias /static/ /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/static/
+ WSGIScriptAlias / /var/www/peer/lib/python2.7/site-packages/peer-X.Y.Z-py2.6.egg/peer/peer.wsgi
+ Alias /static/ /var/www/peer/lib/python2.7/site-packages/peer-X.Y.Z-py2.6.egg/peer/static/
 
 
 .. note::
@@ -327,10 +328,10 @@ the Git repository for the entities' metadata is created and maintained.
 .. code-block:: bash
 
   # Fedora example:
-  $ chown apache:apache /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/media
+  $ chown apache:apache /var/www/peer/lib/python2.7/site-packages/peer-X.Y.Z-py2.6.egg/peer/media
 
   # Debian/Ubuntu example:
-  $ chown www-data:www-data /var/www/peer/lib/python2.6/site-packages/peer-X.Y.Z-py2.6.egg/peer/media
+  $ chown www-data:www-data /var/www/peer/lib/python2.7/site-packages/peer-X.Y.Z-py2.6.egg/peer/media
 
 .. note::
   As mentioned before, the exact path may be different in your case, specially

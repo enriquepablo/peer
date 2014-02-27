@@ -7,6 +7,76 @@ ADMINS = (
     ('John Doe', 'johndoe@example.com'),
 )
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'peer',
+        'USER': 'peer',
+        'PASSWORD': 'peer',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
+DEFAULT_FROM_EMAIL = 'no-reply@example.com'
+EMAIL_HOST = 'smtp.example.com'
+EMAIL_PORT = 25
+
+# do not use these keys: they are invalid
+RECAPTCHA_PUBLIC_KEY = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+RECAPTCHA_PRIVATE_KEY = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
+
+# do not use this key: create your own
+SECRET_KEY = '0123456789qwertyuiopasdfghjklzxcvbnm'
+
+MEDIA_ROOT = '/var/peer-media'
+
+USER_REGISTER_TERMS_OF_USE = '/etc/peer/user_register_terms_of_use.txt'
+METADATA_IMPORT_TERMS_OF_USE = '/etc/peer/metadata_import_terms_of_use.txt'
+
+PEER_THEME = {
+    'LINK_COLOR': '#5669CE',
+    'LINK_HOVER': '#1631BC',
+    'HEADING_COLOR': '#1631BC',
+    'INDEX_HEADING_COLOR': '#ff7b33',
+    'HEADER_BACKGROUND': '',
+    'CONTENT_BACKGROUND': '',
+    'FOOTER_BACKGROUND': '',
+    'HOME_TITLE': 'Nice to meet you!!',
+    'HOME_SUBTITLE': 'Say hello to federated worldwide services',
+    'JQUERY_UI_THEME': 'default-theme',
+}
+
+METADATA_VALIDATORS = (
+    'peer.entity.validation.validate_xml_syntax',
+    'peer.entity.validation.validate_domain_in_endpoints',
+    'peer.entity.validation.validate_domain_in_entityid',
+)
+
+
+METADATA_PERMISSIONS = (
+    ('.//md:ServiceDescription', 'service_descriptor', 'Service Description'),
+    ('.//mdui:Description', 'description', 'Description'),
+    ('.//md:OrganizationName', 'organization_name', 'Organization Name'),
+)
+
+SAML_META_JS_PLUGINS = ('info', 'org', 'contact', 'saml2sp', 'certs')
+
+MAX_FEED_ENTRIES = 100
+ENTITIES_PER_PAGE = 10
+
+EXPIRATION_WARNING_TIMEDELTA = datetime.timedelta(hours=2)
+
+# Entities modificated nagios notification command (watch man send_nsca)
+NSCA_COMMAND = '/usr/sbin/send_nsca -H nagios.fqdn'
+
+# Nagios accept 0, 1, 2, 3 as 0=OK, 1=WARNING, 2=CRITICAL, 3=UNKNOWN
+NSCA_NOTIFICATION_LEVEL = 3
+
+# Nagios service name
+NSCA_SERVICE = 'peer'
+
+# SAML configuration
 PEER_BASE_URL = 'https://peer.example.com'
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm

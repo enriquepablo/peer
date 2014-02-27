@@ -54,7 +54,7 @@ setup(
     url='https://github.com/Yaco-Sistemas/peer',
     license='BSD',
     description=('Public Endpoint Entities Registry'),
-    long_description=(read('README') + '\n\n' + read('CHANGES')),
+    long_description=(read('README.rst') + '\n\n' + read('CHANGES.rst')),
     author='Terena',
     classifiers=[
         'Development Status :: 4 - Beta',

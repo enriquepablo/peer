@@ -2,19 +2,20 @@ Configuration
 =============
 
 In this section you will learn how to configure your PEER instance. As any
-Django project all configuration options are stored in a *settings.py* file,
+Django project all configuration options are stored in a ``settings.py`` file,
 which is located inside the main PEER directory.
 
-However it is not recommended to change the *settings.py* file directly since
+However it is not recommended to change the ``settings.py`` file directly since
 that would make upgrades more difficult for you. You should see this file
 as the file with the **default** configuration settings. You should put
-your own settings in a file called *local_settings.py*. The options you
-put there will override the same options located in the *settings.py* file.
+your own settings in a file called ``local_settings.py``. The options you
+put there will override the same options located in the ``settings.py`` file.
 
 First we will cover the options that you **must** change in order to run
 the PEER instance correctly. Then we will see other optional settings that
 you may want to change but that are ok with their default values. At the
-end of this section you will see *local_settings.py* example.
+end of this section you will see ``local_settings.py`` example, also you can
+find at the root of the project a ``local_settings.example`` file.
 
 If you change any setting you must restart your web server in order to
 see your new settings applied.
@@ -101,7 +102,7 @@ Recaptcha keys and the Django SECRET_KEY
 PEER uses the Recaptcha service to prevent spammers to register into your
 PEER instance. In order to use such service you should register your PEER
 site into Recaptcha and they will give you a public and a private key. You
-have to write these keys in your *local_settings.py* file:
+have to write these keys in your ``local_settings.py`` file:
 
 .. code-block:: python
 
