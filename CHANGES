@@ -1,17 +1,20 @@
 CHANGES
 =======
 
-0.12.0 (2013-10-29)
+0.13.0 (2014-02-27)
 -------------------
-
 - Upgrade to Django 1.6.2
 - Upgrade djangosaml to 0.10.0
 - Upgrade django-registration to 1.0
-- Adapt form fields
-- Adapt urls.py
-- Adapt url tag in templates
-- Fix license header (80 char length)
 - Upgrade django-recaptcha to 0.0.9
+- Adapt form fields to Django 1.6.2
+- Adapt urls.py to Django 1.6.2
+- Adapt url tag in templates to Django 1.6.2
+- Fix license headers (80 char length)
+- Add navigation menu to the header, for logged users
+
+0.12.0 (2013-10-29)
+-------------------
 - Add swig dependence.
 - Bugfix in 0007 migration.
 - Display validation errors and warnings in a more useful way, with only
@@ -208,6 +211,6 @@ CHANGES
 
 0.1.0 (2011-06-15)
 ------------------
- - Initial version which includes user registration, domain ownership proof,
-   domain creation, entities creation, basic metadata edition
-   and user invitation.
+- Initial version which includes user registration, domain ownership proof,
+  domain creation, entities creation, basic metadata edition
+  and user invitation.
