@@ -20,7 +20,7 @@ There is a demo running on http://beta.terena-peer.yaco.es/
 Legal
 -----
 
-.. code-block::
+::
 
     Copyright 2011 Terena. All rights reserved.
 
