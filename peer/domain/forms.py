@@ -30,12 +30,14 @@ from django.forms import ModelForm
 from django.utils.translation import ugettext as _
 
 from peer.domain.models import Domain
+from peer.domain.validation import validate_non_public_suffix
 
 
 class DomainForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(DomainForm, self).__init__(*args, **kwargs)
+        self.fields['name'].validators.append(validate_non_public_suffix)
         self.fields['owner'].widget = self.fields['owner'].hidden_widget()
         self.fields['name'].label = _(u"Domain name you own")
 

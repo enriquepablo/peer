@@ -36,13 +36,11 @@ from django.utils.translation import ugettext_lazy as _
 
 from peer.customfields import SafeCharField
 from peer.domain.utils import generate_validation_key
-from peer.domain.validation import validate_non_public_suffix
 
 
 class Domain(models.Model):
 
-    name = SafeCharField(_(u'Domain name'), max_length=100, unique=True,
-                         validators=[validate_non_public_suffix])
+    name = SafeCharField(_(u'Domain name'), max_length=100, unique=True)
     owner = models.ForeignKey(User, verbose_name=_('Identified domain owner'),
                               blank=True, null=True)
     validated = models.BooleanField(
