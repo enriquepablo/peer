@@ -29,6 +29,8 @@
 
 import httplib
 import urllib2
+import whois
+from whois.parser import PywhoisError
 import dns.resolver
 from dns.resolver import NXDOMAIN
 from dns.exception import DNSException, Timeout
@@ -159,3 +161,14 @@ def validate_non_public_suffix(value):
     psl = PublicSuffixList()
     if psl.get_public_suffix(value) != psl.get_public_suffix('x.' + value):
         raise ValidationError(_('You cannot register public suffixes'))
+
+
+def whois_validate_domain(value):
+    '''
+    Check that this is a domain according to whois
+    '''
+    try:
+        whois.whois(value)
+    except PywhoisError:
+        msg = _('%(domain)s does not seem to be a valid domain name')
+        raise ValidationError(msg % {'domain': value})
